@@ -9,7 +9,6 @@ body {
 .alert {
     padding: 15px;
     margin-bottom: 20px;
-    border: 1px solid transparent;
     border-radius: 4px;
     font-size: 14px;
 }
@@ -26,6 +25,10 @@ body {
 }
 
 .label-table {
+    color: #ffffff;
+}
+
+.label-table-coordinates {
     color: #ffffff;
 }
 
@@ -66,7 +69,11 @@ body {
     text-align: left;
     background-color: #25aae1;
     height: 100%;
-    padding-bottom: 20px;
+    padding-bottom: 10px;
+}
+
+.form-control {
+  width: 110%;
 }
 
 .form-control-input {
