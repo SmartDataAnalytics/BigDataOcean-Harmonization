@@ -97,7 +97,7 @@ then
   REPO="$BASEDIR"/lib
 fi
 
-CLASSPATH="$BASEDIR"/etc:"$REPO"/jsoup-1.10.3.jar:"$REPO"/gson-2.3.1.jar:"$REPO"/bdodatasets-0.1-SNAPSHOT.jar
+CLASSPATH="$BASEDIR"/etc:"$REPO"/jsoup-1.10.3.jar:"$REPO"/gson-2.8.1.jar:"$REPO"/bdodatasets-0.1-SNAPSHOT.jar
 
 ENDORSED_DIR=
 if [ -n "$ENDORSED_DIR" ] ; then

@@ -72,7 +72,7 @@ if "%JAVACMD%"=="" set JAVACMD=java
 
 if "%REPO%"=="" set REPO=%BASEDIR%\lib
 
-set CLASSPATH="%BASEDIR%"\etc;"%REPO%"\jsoup-1.10.3.jar;"%REPO%"\gson-2.3.1.jar;"%REPO%"\bdodatasets-0.1-SNAPSHOT.jar
+set CLASSPATH="%BASEDIR%"\etc;"%REPO%"\jsoup-1.10.3.jar;"%REPO%"\gson-2.8.1.jar;"%REPO%"\bdodatasets-0.1-SNAPSHOT.jar
 
 set ENDORSED_DIR=
 if NOT "%ENDORSED_DIR%" == "" set CLASSPATH="%BASEDIR%"\%ENDORSED_DIR%\*;%CLASSPATH%

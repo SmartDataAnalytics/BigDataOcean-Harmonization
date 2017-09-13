@@ -19,6 +19,9 @@ public class BdoDatasetAnalyser {
 
 	public static DatasetSuggest analyseDatasetURI(String datasetURI) throws IOException {
 		DatasetSuggest result = new DatasetSuggest();
+		
+		String delims; //Delimiters for extracting some part of the text
+		String[] tokens; //list of pieces of information
 		String title;
 		String description;
 		String identifier;
@@ -46,8 +49,8 @@ public class BdoDatasetAnalyser {
 		title = item.getElementsByTag("gmd:title").first().text();
 		String totaldescription = item.getElementsByTag("gmd:abstract").first().text();
     	
-    	String delims = "'''";
-    	String[] tokens = totaldescription.split(delims);
+    	delims = "'''";
+    	tokens = totaldescription.split(delims);
     	description = tokens[2];
     	
     	identifier = item.getElementsByTag("gmd:alternateTitle").first().text();
@@ -62,13 +65,17 @@ public class BdoDatasetAnalyser {
 		String endPosition = item2.getElementsByTag("gml:endPosition").first().text();
 		
 		if(endPosition.length()>0){
-    		temporal = beginPosition + " to " + endPosition;
+    		temporal = "from " + beginPosition + " to " + endPosition;
     	}else {
-    		temporal = beginPosition + " to Present";
+    		temporal = "from " + beginPosition + " to Present";
     	}
     	
     	accuralPeriodicity = item.getElementsByTag("gmd:maintenanceNote").first().text();
     	verticalCoverage = item.getElementsByTag("gmd:EX_VerticalExtent").text();
+    	
+    	delims = " ";
+    	tokens = verticalCoverage.split(delims);
+    	verticalCoverage = "from " + tokens[0] + " to " + tokens[1];
     	
     	Element item3 = doc.getElementsByTag("gmd:referenceSystemInfo").first();
     	conformsTo = item3.getElementsByTag("gmd:code").text();
@@ -76,12 +83,25 @@ public class BdoDatasetAnalyser {
     	Element item4 = doc.getElementsByTag("gmd:spatialRepresentationInfo").first();
         gridResolution = item4.getElementsByTag("gmd:axisDimensionProperties").text();
         
+        delims = " ";
+    	tokens = gridResolution.split(delims);
+    	gridResolution = tokens[0] + "degree x " + tokens[1] + "degree";
+        
         Element item5 = doc.getElementsByTag("gmd:contact").first();
         publisher = item5.getElementsByTag("gmd:organisationName").text();
         
         Element item6 = doc.getElementsByTag("gmd:contentInfo").first();
         tempResolution = item6.getElementsByTag("gmd:dimension").first().text();
+        
+        delims = ": ";
+    	tokens = tempResolution.split(delims);
+    	tempResolution = tokens[1];
+        
         verticalLevel = item6.getElementsByTag("gmd:dimension").next().text();
+        
+        delims = ": ";
+    	tokens = verticalLevel.split(delims);
+    	verticalLevel = tokens[1];
         
         result.setTitle(title);
         result.setDescription(description);
