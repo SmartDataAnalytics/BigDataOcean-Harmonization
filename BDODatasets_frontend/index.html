@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
-    <title>BDO Harmnisation</title>
+    <title>BDO Harmonization</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="css/bootstrap.css">
@@ -15,21 +15,30 @@
             crossorigin="anonymous"></script>
 </head>
 <body>
-<nav class="navbar navbar-bdo">
+<nav class="navbar navbar-bdo navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
             <div class="icon">
-                <a id="logo" title="BigDataOcean Repository" href="">
-                    <img itemprop="image" alt="BigDataOcean Repository" src="img/BIG-DATA-OCEAN_LOGO.png" height="86"
-                         width="200">
-                </a>
+                <table class="container">
+                    <tr>
+                        <td>
+                            <a id="logo" title="BigDataOcean Repository" href="">
+                                <img itemprop="image" alt="BigDataOcean Repository" src="img/BIG-DATA-OCEAN_LOGO.png" height="86"
+                                     width="200">
+                            </a>
+                        </td>
+                        <td class="label-table">
+                            <h1>Big Data Ocean - Dataset Harmonization</h1>
+                        </td>
+                    </tr>
+                </table>
             </div>
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
         </div>
     </div>
 </nav>
-<div class="container text-center">
+<div class="container text-center" style="margin-top:90px">
     <div class="row content">
         <div class="col-md-1">
         </div>
@@ -38,10 +47,10 @@
                 <div class="col-md-2">
                     <label class="label-table" for="uri">URI:</label>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-8">
                     <input type="url" class="form-control" id="uri" name="uri" required>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-2" style="padding-left: 60px">
                     <button type="submit" class="btn btn-default" onclick="submitUriButton()">Submit</button>
                 </div>
             </form>
@@ -63,7 +72,7 @@
                         <td>
                             <label class="label-table" for="title">Title:</label>
                         </td>
-                        <td colspan="4">
+                        <td colspan="8">
                             <input type="text" class="form-control" id="title" required>
                         </td>
                     </tr>
@@ -71,7 +80,7 @@
                         <td>
                             <label class="label-table" for="description">Description:</label>
                         </td>
-                        <td colspan="4">
+                        <td colspan="8">
                             <textarea class="form-control" rows="2" id="description" required></textarea>
                         </td>
                     </tr>
@@ -79,7 +88,7 @@
                         <td>
                             <label class="label-table" for="type">Type:</label>
                         </td>
-                        <td colspan="4">
+                        <td colspan="8">
                             <input type="text" class="form-control" id="type" required>
                         </td>
                     </tr>
@@ -87,7 +96,7 @@
                         <td>
                             <label class="label-table" for="homepage">Homepage:</label>
                         </td>
-                        <td colspan="4">
+                        <td colspan="8">
                             <input type="url" class="form-control" id="homepage">
                         </td>
                     </tr>
@@ -95,7 +104,7 @@
                         <td>
                             <label class="label-table" for="identifier">Identifier:</label>
                         </td>
-                        <td colspan="4">
+                        <td colspan="8">
                             <input type="text" class="form-control" id="identifier">
                         </td>
                     </tr>
@@ -103,7 +112,7 @@
                         <td>
                             <label class="label-table" for="language">Language:</label>
                         </td>
-                        <td colspan="4">
+                        <td colspan="8">
                             <input type="text" class="form-control" id="language">
                         </td>
                     </tr>
@@ -111,7 +120,7 @@
                         <td>
                             <label class="label-table" for="subject">Subject:</label>
                         </td>
-                        <td colspan="4">
+                        <td colspan="8">
                             <input type="text" class="form-control" id="subject">
                         </td>
                     </tr>
@@ -119,7 +128,7 @@
                         <td>
                             <label class="label-table" for="keywords">Keywords:</label>
                         </td>
-                        <td colspan="4">
+                        <td colspan="8">
                             <input type="text" class="form-control" id="keywords">
                         </td>
                     </tr>
@@ -128,23 +137,35 @@
                             <label class="label-table">Geographical coverage:</label>
                         </td>
                         <td class="col-xs">
-                            <input type="number" class="form-control-input" id="geo_coverageW" placeholder="W">
+                            <label class="label-table-coordinates" for="geo_coverageW">W:</label>
                         </td>
-                        <td>
-                            <input type="number" class="form-control-input" id="geo_coverageE" placeholder="E">
+                        <td class="col-xs">
+                            <input type="number" class="form-control-input" id="geo_coverageW">
                         </td>
-                        <td>
-                            <input type="number" class="form-control-input" id="geo_coverageS" placeholder="S">
+                        <td class="col-xs">
+                            <label class="label-table-coordinates" for="geo_coverageE">E:</label>
                         </td>
-                        <td>
-                            <input type="number" class="form-control-input" id="geo_coverageN" placeholder="N">
+                        <td class="col-xs">
+                            <input type="number" class="form-control-input" id="geo_coverageE">
+                        </td>
+                        <td class="col-xs">
+                            <label class="label-table-coordinates" for="geo_coverageS">S:</label>
+                        </td>
+                        <td class="col-xs">
+                            <input type="number" class="form-control-input" id="geo_coverageS">
+                        </td>
+                        <td class="col-xs">
+                            <label class="label-table-coordinates" for="geo_coverageN">N:</label>
+                        </td>
+                        <td class="col-xs">
+                            <input type="number" class="form-control-input" id="geo_coverageN">
                         </td>
                     </tr>
                     <tr>
                         <td>
                             <label class="label-table " for="temp_coverage">Temporal coverage:</label>
                         </td>
-                        <td colspan="4">
+                        <td colspan="8">
                             <input type="text" class="form-control" id="temp_coverage">
                         </td>
                     </tr>
@@ -152,7 +173,7 @@
                         <td>
                             <label class="label-table " for="issued_date">Issued date:</label>
                         </td>
-                        <td colspan="4">
+                        <td colspan="8">
                             <input type="date" class="form-control" id="issued_date">
                         </td>
                     </tr>
@@ -160,7 +181,7 @@
                         <td>
                             <label class="label-table " for="modified_date">Modified date:</label>
                         </td>
-                        <td colspan="4">
+                        <td colspan="8">
                             <input type="date" class="form-control" id="modified_date">
                         </td>
                     </tr>
@@ -168,7 +189,7 @@
                         <td>
                             <label class="label-table" for="provenance">Provenance:</label>
                         </td>
-                        <td colspan="4">
+                        <td colspan="8">
                             <input type="text" class="form-control" id="provenance">
                         </td>
                     </tr>
@@ -176,7 +197,7 @@
                         <td>
                             <label class="label-table " for="coordinate_sys">Coordinate reference system:</label>
                         </td>
-                        <td colspan="4">
+                        <td colspan="8">
                             <input type="text" class="form-control" id="coordinate_sys">
                         </td>
                     </tr>
@@ -184,7 +205,7 @@
                         <td>
                             <label class="label-table" for="license">License:</label>
                         </td>
-                        <td colspan="4">
+                        <td colspan="8">
                             <input type="text" class="form-control" id="license">
                         </td>
                     </tr>
@@ -192,7 +213,7 @@
                         <td>
                             <label class="label-table " for="access_rights">Access rights:</label>
                         </td>
-                        <td colspan="4">
+                        <td colspan="8">
                             <input type="text" class="form-control" id="access_rights">
                         </td>
                     </tr>
@@ -200,7 +221,7 @@
                         <td>
                             <label class="label-table" for="publisher">Publisher:</label>
                         </td>
-                        <td colspan="4">
+                        <td colspan="8">
                             <input type="text" class="form-control" id="publisher">
                         </td>
                     </tr>
@@ -208,7 +229,7 @@
                         <td>
                             <label class="label-table " for="encode_format">Encoding format:</label>
                         </td>
-                        <td colspan="4">
+                        <td colspan="8">
                             <input type="text" class="form-control" id="encode_format">
                         </td>
                     </tr>
@@ -216,7 +237,7 @@
                         <td>
                             <label class="label-table " for="char_encoding">Character encoding:</label>
                         </td>
-                        <td colspan="4">
+                        <td colspan="8">
                             <input type="text" class="form-control" id="char_encoding">
                         </td>
                     </tr>
@@ -224,7 +245,7 @@
                         <td>
                             <label class="label-table " for="update_freq">Update frequency:</label>
                         </td>
-                        <td colspan="4">
+                        <td colspan="8">
                             <input type="text" class="form-control" id="update_freq">
                         </td>
                     </tr>
@@ -232,7 +253,7 @@
                         <td>
                             <label class="label-table" for="comment">Comment:</label>
                         </td>
-                        <td colspan="4">
+                        <td colspan="8">
                             <input type="text" class="form-control" id="comment">
                         </td>
                     </tr>
@@ -241,7 +262,7 @@
                             <label class="label-table " for="spatial_representation">Spatial
                                 representation:</label>
                         </td>
-                        <td colspan="4">
+                        <td colspan="8">
                             <input type="text" class="form-control" id="spatial_representation">
                         </td>
                     </tr>
@@ -249,7 +270,7 @@
                         <td>
                             <label class="label-table" for="vertical_coverage">Vertical coverage:</label>
                         </td>
-                        <td colspan="4">
+                        <td colspan="8">
                             <input type="text" class="form-control" id="vertical_coverage">
                         </td>
                     </tr>
@@ -257,7 +278,7 @@
                         <td>
                             <label class="label-table" for="vertical_level"># Vertical level:</label>
                         </td>
-                        <td colspan="4">
+                        <td colspan="8">
                             <input type="number" class="form-control" id="vertical_level" onkeypress="isNumberKey(event)">
                         </td>
                     </tr>
@@ -266,7 +287,7 @@
                         <td>
                             <label class="label-table " for="temp_resolution">Temporal resolution:</label>
                         </td>
-                        <td colspan="4">
+                        <td colspan="8">
                             <input type="text" class="form-control" id="temp_resolution">
                         </td>
                     </tr>
@@ -274,7 +295,7 @@
                         <td>
                             <label class="label-table " for="spatial_resolution">Spatial resolution:</label>
                         </td>
-                        <td colspan="4">
+                        <td colspan="8">
                             <input type="text" class="form-control" id="spatial_resolution">
                         </td>
                     </tr>
@@ -298,7 +319,6 @@
     </div>
 </div>
 <footer class="container-fluid text-center">
-    <p>Footer Text</p>
 </footer>
 </body>
 </html>
