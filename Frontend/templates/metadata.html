@@ -4,8 +4,7 @@
 {% block title %} BigDataOcean Harmonization {% endblock %}
 {% block styles %}
 {{super()}}
-<link rel="stylesheet"
-      href="static/css/style.css">
+<link rel="stylesheet" href="static/css/style.css">
 {% endblock %}
 {% block navbar %}
 <nav class="navbar navbar-bdo navbar-fixed-top">
@@ -16,8 +15,7 @@
                     <tr>
                         <td>
                             <a id="logo" title="BigDataOcean Repository" href="">
-                                <img itemprop="image" alt="BigDataOcean Repository" src="static/img/BIG-DATA-OCEAN_LOGO.png" height="86"
-                                     width="200">
+                                <img itemprop="image" alt="BigDataOcean Repository" src="static/img/BIG-DATA-OCEAN_LOGO.png" height="86" width="200">
                             </a>
                         </td>
                         <td class="label-table">
@@ -43,7 +41,7 @@
                     <label class="label-table" for="uri">URI:</label>
                 </div>
                 <div class="col-md-8">
-                    <input type="url" class="form-control" id="uri" name="uri" required value={{ dataset.homepage }}>
+                    <input type="url" class="form-control" id="uri" name="uri" required value="{{dataset.homepage}}">
                 </div>
                 <div class="col-md-2" style="padding-left: 60px">
                     <input type="submit" class="btn btn-default"></input>
@@ -68,7 +66,7 @@
                             <label class="label-table" for="title">Title:</label>
                         </td>
                         <td colspan="8">
-                            <input type="text" class="form-control" id="title" required value={{ dataset.title }}>
+                            <input type="text" class="form-control" id="title" required value="{{ dataset.title }}">
                         </td>
                     </tr>
                     <tr>
@@ -76,7 +74,7 @@
                             <label class="label-table" for="description">Description:</label>
                         </td>
                         <td colspan="8">
-                            <textarea class="form-control" rows="2" id="description" required value={{ dataset.description }}></textarea>
+                            <textarea class="form-control" rows="2" id="description" required>{{dataset.description}}</textarea>
                         </td>
                     </tr>
                     <tr>
@@ -92,7 +90,7 @@
                             <label class="label-table" for="homepage">Homepage:</label>
                         </td>
                         <td colspan="8">
-                            <input type="url" class="form-control" id="homepage" value={{ dataset.homepage }}>
+                            <input type="url" class="form-control" id="homepage" value="{{dataset.homepage}}">
                         </td>
                     </tr>
                     <tr>
@@ -100,7 +98,7 @@
                             <label class="label-table" for="identifier">Identifier:</label>
                         </td>
                         <td colspan="8">
-                            <input type="text" class="form-control" id="identifier" value={{ dataset.identifier }}>
+                            <input type="text" class="form-control" id="identifier" value="{{dataset.identifier}}">
                         </td>
                     </tr>
                     <tr>
@@ -108,7 +106,7 @@
                             <label class="label-table" for="language">Language:</label>
                         </td>
                         <td colspan="8">
-                            <input type="text" class="form-control" id="language" value={{ dataset.language }}>
+                            <input type="text" class="form-control" id="language" value="{{dataset.language}}">
                         </td>
                     </tr>
                     <tr>
@@ -116,7 +114,7 @@
                             <label class="label-table" for="subject">Subject:</label>
                         </td>
                         <td colspan="8">
-                            <input type="text" class="form-control" id="subject">
+                            <input type="text" class="form-control" id="subject}}">
                         </td>
                     </tr>
                     <tr>
@@ -124,7 +122,7 @@
                             <label class="label-table" for="keywords">Keywords:</label>
                         </td>
                         <td colspan="8">
-                            <input type="text" class="form-control" id="keywords">
+                            <input type="text" class="form-control" id="keywords}}">
                         </td>
                     </tr>
                     <tr>
@@ -135,25 +133,25 @@
                             <label class="label-table-coordinates" for="geo_coverageW">W:</label>
                         </td>
                         <td class="col-xs">
-                            <input type="number" class="form-control-input" id="geo_coverageW" value={{ dataset.spatialWest }}>
+                            <input type="number" class="form-control-input" id="geo_coverageW" value="{{dataset.spatialWest}}">
                         </td>
                         <td class="col-xs">
                             <label class="label-table-coordinates" for="geo_coverageE">E:</label>
                         </td>
                         <td class="col-xs">
-                            <input type="number" class="form-control-input" id="geo_coverageE" value={{ dataset.spatialEast }}>
+                            <input type="number" class="form-control-input" id="geo_coverageE" value="{{dataset.spatialEast}}">
                         </td>
                         <td class="col-xs">
                             <label class="label-table-coordinates" for="geo_coverageS">S:</label>
                         </td>
                         <td class="col-xs">
-                            <input type="number" class="form-control-input" id="geo_coverageS" value={{ dataset.spatialSouth }}>
+                            <input type="number" class="form-control-input" id="geo_coverageS" value="{{dataset.spatialSouth}}">
                         </td>
                         <td class="col-xs">
                             <label class="label-table-coordinates" for="geo_coverageN">N:</label>
                         </td>
                         <td class="col-xs">
-                            <input type="number" class="form-control-input" id="geo_coverageN" value={{ dataset.spatialNorth }}>
+                            <input type="number" class="form-control-input" id="geo_coverageN" value="{{dataset.spatialNorth}}">
                         </td>
                     </tr>
                     <tr>
@@ -161,7 +159,7 @@
                             <label class="label-table " for="temp_coverage">Temporal coverage:</label>
                         </td>
                         <td colspan="8">
-                            <input type="text" class="form-control" id="temp_coverage" value={{ dataset.temporal }}>
+                            <input type="text" class="form-control" id="temp_coverage" value="{{dataset.temporal}}">
                         </td>
                     </tr>
                     <tr>
@@ -169,7 +167,7 @@
                             <label class="label-table " for="issued_date">Issued date:</label>
                         </td>
                         <td colspan="8">
-                            <input type="date" class="form-control" id="issued_date">
+                            <input type="date" class="form-control" id="issued_date}}">
                         </td>
                     </tr>
                     <tr>
@@ -177,7 +175,7 @@
                             <label class="label-table " for="modified_date">Modified date:</label>
                         </td>
                         <td colspan="8">
-                            <input type="date" class="form-control" id="modified_date">
+                            <input type="date" class="form-control" id="modified_date}}">
                         </td>
                     </tr>
                     <tr>
@@ -185,7 +183,7 @@
                             <label class="label-table" for="provenance">Provenance:</label>
                         </td>
                         <td colspan="8">
-                            <input type="text" class="form-control" id="provenance">
+                            <input type="text" class="form-control" id="provenance}}">
                         </td>
                     </tr>
                     <tr>
@@ -193,7 +191,7 @@
                             <label class="label-table " for="coordinate_sys">Coordinate reference system:</label>
                         </td>
                         <td colspan="8">
-                            <input type="text" class="form-control" id="coordinate_sys" value={{ dataset.conformsTo }}>
+                            <input type="text" class="form-control" id="coordinate_sys" value="{{dataset.conformsTo}}">
                         </td>
                     </tr>
                     <tr>
@@ -201,7 +199,7 @@
                             <label class="label-table" for="license">License:</label>
                         </td>
                         <td colspan="8">
-                            <input type="text" class="form-control" id="license">
+                            <input type="text" class="form-control" id="license}}">
                         </td>
                     </tr>
                     <tr>
@@ -209,7 +207,7 @@
                             <label class="label-table " for="access_rights">Access rights:</label>
                         </td>
                         <td colspan="8">
-                            <input type="text" class="form-control" id="access_rights">
+                            <input type="text" class="form-control" id="access_rights}}">
                         </td>
                     </tr>
                     <tr>
@@ -217,7 +215,7 @@
                             <label class="label-table" for="publisher">Publisher:</label>
                         </td>
                         <td colspan="8">
-                            <input type="text" class="form-control" id="publisher" value={{ dataset.publisher }}>
+                            <input type="text" class="form-control" id="publisher" value="{{dataset.publisher}}">
                         </td>
                     </tr>
                     <tr>
@@ -225,7 +223,7 @@
                             <label class="label-table " for="encode_format">Encoding format:</label>
                         </td>
                         <td colspan="8">
-                            <input type="text" class="form-control" id="encode_format">
+                            <input type="text" class="form-control" id="encode_format}}">
                         </td>
                     </tr>
                     <tr>
@@ -233,7 +231,7 @@
                             <label class="label-table " for="char_encoding">Character encoding:</label>
                         </td>
                         <td colspan="8">
-                            <input type="text" class="form-control" id="char_encoding">
+                            <input type="text" class="form-control" id="char_encoding}}">
                         </td>
                     </tr>
                     <tr>
@@ -241,7 +239,7 @@
                             <label class="label-table " for="update_freq">Update frequency:</label>
                         </td>
                         <td colspan="8">
-                            <input type="text" class="form-control" id="update_freq" value={{ dataset.accuralPeriodicity }}>
+                            <input type="text" class="form-control" id="update_freq" value="{{dataset.accuralPeriodicity}}">
                         </td>
                     </tr>
                     <tr>
@@ -249,7 +247,7 @@
                             <label class="label-table" for="comment">Comment:</label>
                         </td>
                         <td colspan="8">
-                            <input type="text" class="form-control" id="comment">
+                            <input type="text" class="form-control" id="comment}}">
                         </td>
                     </tr>
                     <tr>
@@ -258,7 +256,7 @@
                                 representation:</label>
                         </td>
                         <td colspan="8">
-                            <input type="text" class="form-control" id="spatial_representation">
+                            <input type="text" class="form-control" id="spatial_representation}}">
                         </td>
                     </tr>
                     <tr>
@@ -266,7 +264,7 @@
                             <label class="label-table" for="vertical_coverage">Vertical coverage:</label>
                         </td>
                         <td colspan="8">
-                            <input type="text" class="form-control" id="vertical_coverage" value={{ dataset.verticalCoverage }}>
+                            <input type="text" class="form-control" id="vertical_coverage" value="{{dataset.verticalCoverage}}">
                         </td>
                     </tr>
                     <tr>
@@ -274,7 +272,7 @@
                             <label class="label-table" for="vertical_level"># Vertical level:</label>
                         </td>
                         <td colspan="8">
-                            <input type="number" class="form-control" id="vertical_level" onkeypress="isNumberKey(event)" value={{ dataset.verticalLevel }}>
+                            <input type="number" class="form-control" id="vertical_level" onkeypress="isNumberKey(event)" value="{{dataset.verticalLevel}}">
                         </td>
                     </tr>
 
@@ -283,7 +281,7 @@
                             <label class="label-table " for="temp_resolution">Temporal resolution:</label>
                         </td>
                         <td colspan="8">
-                            <input type="text" class="form-control" id="temp_resolution" value={{ dataset.temporalResolution }}>
+                            <input type="text" class="form-control" id="temp_resolution" value="{{dataset.temporalResolution}}">
                         </td>
                     </tr>
                     <tr>
@@ -291,7 +289,7 @@
                             <label class="label-table " for="spatial_resolution">Spatial resolution:</label>
                         </td>
                         <td colspan="8">
-                            <input type="text" class="form-control" id="spatial_resolution" value={{ dataset.gridResolution }}>
+                            <input type="text" class="form-control" id="spatial_resolution" value="{{dataset.gridResolution}}">
                         </td>
                     </tr>
                     <tr>
