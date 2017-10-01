@@ -6,6 +6,13 @@
 {{super()}}
 <link rel="stylesheet"
       href="static/css/style.css">
+<script src="static/js/jquery-3.2.1.min.js"></script>
+<script src="static/js/bootbox.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs/dt-1.10.16/datatables.min.js"></script>
+<script src="static/js/script.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs/dt-1.10.16/datatables.min.css"/>
 {% endblock %}
 {% block navbar %}
 <nav class="navbar navbar-bdo navbar-fixed-top">
@@ -46,271 +53,38 @@
                     <input type="url" class="form-control" id="uri" name="uri" required>
                 </div>
                 <div class="col-md-2" style="padding-left: 60px">
-                    <input type="submit" class="btn btn-default"></input>
+                    <button type="submit" class="btn btn-default">Add</button>
                 </div>
             </form>
+            <!--<div class="col-md-2">
+                <button type="submit" class="btn btn-primary add-button">Add URI</button>
+            </div> -->
         </div>
         <div class="col-md-1">
         </div>
     </div>
-    <!-- <div class="row content metadata-row" id="metadata">
+    <div class="row content metadata-row" id="metadata">
         <div class="col-md-1">
         </div>
         <div class="col-md-10 metadata-info">
-            <form id="metadataForm" name="form-metadata" class="form-style" action="">
-                <div class="alert alert-danger alert-dismissable">
-                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                    <strong>Mandatory fields!</strong> Title, Description and Type are mandatory fields.
-                </div>
-                <table class="tableMetadata">
+            <table class="table table-striped" id='datasetTable'>
+                <thead>
                     <tr>
-                        <td>
-                            <label class="label-table" for="title">Title:</label>
-                        </td>
-                        <td colspan="8">
-                            <input type="text" class="form-control" id="title" required>
-                        </td>
+                        <th>URI</th>
+                        <th>Title</th>
                     </tr>
-                    <tr>
-                        <td>
-                            <label class="label-table" for="description">Description:</label>
-                        </td>
-                        <td colspan="8">
-                            <textarea class="form-control" rows="2" id="description" required></textarea>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label class="label-table" for="type">Type:</label>
-                        </td>
-                        <td colspan="8">
-                            <input type="text" class="form-control" id="type" required>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label class="label-table" for="homepage">Homepage:</label>
-                        </td>
-                        <td colspan="8">
-                            <input type="url" class="form-control" id="homepage">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label class="label-table" for="identifier">Identifier:</label>
-                        </td>
-                        <td colspan="8">
-                            <input type="text" class="form-control" id="identifier">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label class="label-table" for="language">Language:</label>
-                        </td>
-                        <td colspan="8">
-                            <input type="text" class="form-control" id="language">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label class="label-table" for="subject">Subject:</label>
-                        </td>
-                        <td colspan="8">
-                            <input type="text" class="form-control" id="subject">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label class="label-table" for="keywords">Keywords:</label>
-                        </td>
-                        <td colspan="8">
-                            <input type="text" class="form-control" id="keywords">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label class="label-table">Geographical coverage:</label>
-                        </td>
-                        <td class="col-xs">
-                            <label class="label-table-coordinates" for="geo_coverageW">W:</label>
-                        </td>
-                        <td class="col-xs">
-                            <input type="number" class="form-control-input" id="geo_coverageW">
-                        </td>
-                        <td class="col-xs">
-                            <label class="label-table-coordinates" for="geo_coverageE">E:</label>
-                        </td>
-                        <td class="col-xs">
-                            <input type="number" class="form-control-input" id="geo_coverageE">
-                        </td>
-                        <td class="col-xs">
-                            <label class="label-table-coordinates" for="geo_coverageS">S:</label>
-                        </td>
-                        <td class="col-xs">
-                            <input type="number" class="form-control-input" id="geo_coverageS">
-                        </td>
-                        <td class="col-xs">
-                            <label class="label-table-coordinates" for="geo_coverageN">N:</label>
-                        </td>
-                        <td class="col-xs">
-                            <input type="number" class="form-control-input" id="geo_coverageN">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label class="label-table " for="temp_coverage">Temporal coverage:</label>
-                        </td>
-                        <td colspan="8">
-                            <input type="text" class="form-control" id="temp_coverage">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label class="label-table " for="issued_date">Issued date:</label>
-                        </td>
-                        <td colspan="8">
-                            <input type="date" class="form-control" id="issued_date">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label class="label-table " for="modified_date">Modified date:</label>
-                        </td>
-                        <td colspan="8">
-                            <input type="date" class="form-control" id="modified_date">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label class="label-table" for="provenance">Provenance:</label>
-                        </td>
-                        <td colspan="8">
-                            <input type="text" class="form-control" id="provenance">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label class="label-table " for="coordinate_sys">Coordinate reference system:</label>
-                        </td>
-                        <td colspan="8">
-                            <input type="text" class="form-control" id="coordinate_sys">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label class="label-table" for="license">License:</label>
-                        </td>
-                        <td colspan="8">
-                            <input type="text" class="form-control" id="license">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label class="label-table " for="access_rights">Access rights:</label>
-                        </td>
-                        <td colspan="8">
-                            <input type="text" class="form-control" id="access_rights">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label class="label-table" for="publisher">Publisher:</label>
-                        </td>
-                        <td colspan="8">
-                            <input type="text" class="form-control" id="publisher">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label class="label-table " for="encode_format">Encoding format:</label>
-                        </td>
-                        <td colspan="8">
-                            <input type="text" class="form-control" id="encode_format">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label class="label-table " for="char_encoding">Character encoding:</label>
-                        </td>
-                        <td colspan="8">
-                            <input type="text" class="form-control" id="char_encoding">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label class="label-table " for="update_freq">Update frequency:</label>
-                        </td>
-                        <td colspan="8">
-                            <input type="text" class="form-control" id="update_freq">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label class="label-table" for="comment">Comment:</label>
-                        </td>
-                        <td colspan="8">
-                            <input type="text" class="form-control" id="comment">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label class="label-table " for="spatial_representation">Spatial
-                                representation:</label>
-                        </td>
-                        <td colspan="8">
-                            <input type="text" class="form-control" id="spatial_representation">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label class="label-table" for="vertical_coverage">Vertical coverage:</label>
-                        </td>
-                        <td colspan="8">
-                            <input type="text" class="form-control" id="vertical_coverage">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label class="label-table" for="vertical_level"># Vertical level:</label>
-                        </td>
-                        <td colspan="8">
-                            <input type="number" class="form-control" id="vertical_level" onkeypress="isNumberKey(event)">
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            <label class="label-table " for="temp_resolution">Temporal resolution:</label>
-                        </td>
-                        <td colspan="8">
-                            <input type="text" class="form-control" id="temp_resolution">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label class="label-table " for="spatial_resolution">Spatial resolution:</label>
-                        </td>
-                        <td colspan="8">
-                            <input type="text" class="form-control" id="spatial_resolution">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                        </td>
-                        <td>
-                            <button type="submit" class="btn btn-default">Save</button>
-                        </td>
-                        <td>
-                            <button type="button" class="btn btn-default" onclick="cancelButton()">Cancel</button>
-                        </td>
-                    </tr>
-                </table>
-            </form>
+                </thead>
+            </table>
         </div>
         <div class="col-md-1">
         </div>
-    </div> -->
+    </div>
+    
     <div class="row content">
     </div>
 </div>
+
+<footer class="container-fluid text-center">
+  <p>Footer Text</p>
+</footer>
 {% endblock %}
