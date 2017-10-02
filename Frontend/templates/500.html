@@ -1,0 +1,58 @@
+{% extends "bootstrap/base.html" %}
+{% block html_attribs %} lang="en"{% endblock %}
+
+{% block title %} BigDataOcean Harmonization {% endblock %}
+{% block styles %}
+{{super()}}
+<link rel="stylesheet"
+      href="static/css/style.css">
+<script src="static/js/jquery-3.2.1.min.js"></script>
+<script src="static/js/bootbox.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs/dt-1.10.16/datatables.min.js"></script>
+<script src="static/js/script.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs/dt-1.10.16/datatables.min.css"/>
+{% endblock %}
+{% block navbar %}
+<nav class="navbar navbar-bdo navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <div class="icon">
+                <table class="container">
+                    <tr>
+                        <td>
+                            <a id="logo" title="BigDataOcean Repository" href="">
+                                <img itemprop="image" alt="BigDataOcean Repository" src="static/img/BIG-DATA-OCEAN_LOGO.png" height="86"
+                                     width="200">
+                            </a>
+                        </td>
+                        <td class="label-table">
+                            <h1>Big Data Ocean - Dataset Harmonization</h1>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+        </div>
+    </div>
+</nav>
+{% endblock %}
+{% block content %}
+<div class="container text-center" style="margin-top:90px">
+    <div class="row content">
+        <div class="col-md-1">
+        </div>
+        <div class="col-md-10 metadata-info">
+            <p style="font-size:36px;color:white">An error occurred while processing your request!</p>
+        </div>
+        <div class="row content">
+        </div>
+    </div>
+</div>
+
+<footer class="container-fluid text-center">
+  <p>Footer Text</p>
+</footer>
+{% endblock %}

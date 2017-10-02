@@ -21,11 +21,16 @@ def parse():
 		try:
 			process = subprocess.check_output([command], shell="True")
 		except subprocess.CalledProcessError as e:
-			return "An error occurred while trying to fetch task status updates."
+			return render_template('500.html')
 
 		parsed_output = json.loads(process.decode('utf-8'))
 		dataset = datasetSuggest(**parsed_output)
 		return render_template('metadataInfo.html', dataset=dataset)
+
+@app.route('/edit', methods=['GET', 'POST'])
+def edit(dataset):
+	if request.method == 'POST':
+		return render_template('metadata.html')
 
 @app.route('/metadataInfo', methods=['GET', 'POST'])
 def metadataInfo(dataset):
