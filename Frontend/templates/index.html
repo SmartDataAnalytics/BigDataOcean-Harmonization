@@ -19,19 +19,12 @@
     <div class="container">
         <div class="navbar-header">
             <div class="icon">
-                <table class="container">
-                    <tr>
-                        <td>
-                            <a id="logo" title="BigDataOcean Repository" href="">
-                                <img itemprop="image" alt="BigDataOcean Repository" src="static/img/BIG-DATA-OCEAN_LOGO.png" height="86"
-                                     width="200">
-                            </a>
-                        </td>
-                        <td class="label-table">
-                            <h1>Big Data Ocean - Dataset Harmonization</h1>
-                        </td>
-                    </tr>
-                </table>
+                <a id="logo" title="BigDataOcean Repository" href="http://localhost:5000/">
+                    <img itemprop="image" alt="BigDataOcean Repository" src="static/img/BIG-DATA-OCEAN_LOGO.png" height="86" width="200">
+                </a>
+            </div>
+            <div class="bdotitle label-table">
+                <h1>Big Data Ocean - Dataset Harmonization</h1>
             </div>
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
@@ -67,13 +60,29 @@
         <div class="col-md-1">
         </div>
         <div class="col-md-10 metadata-info">
-            <table class="table table-striped" id='datasetTable'>
+            <table class="table table-hover" id='datasetTable'>
                 <thead>
                     <tr>
                         <th>URI</th>
                         <th>Title</th>
                     </tr>
                 </thead>
+                <tr>
+                    <td>
+                        <p class="uritext">http://marine.copernicus.eu/services-portfolio/access-to-products/?option=com_csw&view=details&product_id=MEDSEA_ANALYSIS_FORECAST_PHYS_006_001<p>
+                    </td>
+                    <td>
+                        Mediterranean Sea Physics Analysis and Forecast
+                    </td>
+                </tr>
+                 <tr>
+                    <td>
+                        <p class="uritext">http://marine.copernicus.eu/services-portfolio/access-to-products/?option=com_csw&view=details&product_id=MEDSEA_ANALYSIS_FORECAST_WAV_006_011</p>
+                    </td>
+                    <td>
+                        Mediterranean Sea Waves Hindcast and Forecast
+                    </td>
+                </tr>
             </table>
         </div>
         <div class="col-md-1">
@@ -85,6 +94,6 @@
 </div>
 
 <footer class="container-fluid text-center">
-  <p>Footer Text</p>
+  <a class="footer" href="http://www.bigdataocean.eu/site/">Big Data Ocean</a>
 </footer>
 {% endblock %}

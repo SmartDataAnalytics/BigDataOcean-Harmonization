@@ -11,21 +11,15 @@
 <nav class="navbar navbar-bdo navbar-fixed-top">
 	<div class="container">
 		<div class="navbar-header">
-			<div class="icon">
-				<table class="container">
-					<tr>
-						<td>
-							<a id="logo" title="BigDataOcean Repository" href="">
-								<img itemprop="image" alt="BigDataOcean Repository" src="static/img/BIG-DATA-OCEAN_LOGO.png" height="86" width="200">
-							</a>
-						</td>
-						<td class="label-table">
-							<h1>BigDataOcean - Dataset Harmonization</h1>
-						</td>
-					</tr>
-				</table>
-			</div>
-		</div>
+            <div class="icon">
+                <a id="logo" title="BigDataOcean Repository" href="http://localhost:5000/">
+                    <img itemprop="image" alt="BigDataOcean Repository" src="static/img/BIG-DATA-OCEAN_LOGO.png" height="86" width="200">
+                </a>
+            </div>
+            <div class="bdotitle label-table">
+                <h1>Big Data Ocean - Dataset Harmonization</h1>
+            </div>
+        </div>
 		<div class="collapse navbar-collapse" id="myNavbar">
 		</div>
 	</div>
@@ -33,224 +27,228 @@
 {% endblock %}
 {% block content %}
 <div class="container text-center" style="margin-top:90px">
+	<div class="row content">
+        <div class="col-md-1">
+        </div>
+        <div class="col-md-10 field-title">
+           {{dataset.title}}
+        </div>
+        <div class="col-md-1">
+        </div>
+    </div>
 	<div class="row content" id="metadata">
 		<div class="col-md-1">
 		</div>
 		<div class="col-md-10 metadata-info">
-			<div>
+			<div class="buttonForm">
 				<!-- <form id="metadataForm" name="form-metadata" class="form-style" action="http://localhost:5000/edit"> -->
-					<button type="submit" class="btn btn-default" style="margin-left: 200px;">Modifiy</button>
+					<button type="submit" class="btn btn-default" style="margin: 10px 0px 10px 0px;"><span class="glyphicon glyphicon-edit"></span> Edit</button>
 				<!-- </form>
 				<form id="metadataForm" name="form-metadata" class="form-style" action="http://localhost:5000/deleteDataset"> -->
-					<button type="button" class="btn btn-danger" style="float: right; margin-right: 200px;" onclick="deleteButton()">Delete</button>
+					<button type="button" class="btn btn-danger" onclick="deleteButton()"><span class="glyphicon glyphicon-trash"></span> Delete</button>
 				<!-- </form> -->
 			</div>
-			<table class="tableMetadata">
-				<tr>
-					<td class="col-md-4">
-						<label class="label-table" for="title">Title:</label>
-					</td>
-					<td class="col-md-6">
-						{{dataset.title}}
-					</td>
-				</tr>
-				<tr>
-					<td class="col-md-4">
-						<label class="label-table" for="description">Description:</label>
-					</td>
-					<td class="col-md-6">
-						{{dataset.description}}
-					</td>
-				</tr>
-				<tr>
-					<td class="col-md-4">
-						<label class="label-table" for="type">Type:</label>
-					</td>
-					<td class="col-md-6">
-						{{dataset.type}}
-					</td>
-				</tr>
-				<tr>
-					<td class="col-md-4">
-						<label class="label-table" for="homepage">Homepage:</label>
-					</td>
-					<td class="col-md-6">
-						{{dataset.homepage}}
-					</td>
-				</tr>
-				<tr>
-					<td class="col-md-4">
-						<label class="label-table" for="identifier">Identifier:</label>
-					</td>
-					<td class="col-md-6">
-						{{dataset.identifier}}
-					</td>
-				</tr>
-				<tr>
-					<td class="col-md-4">
-						<label class="label-table" for="language">Language:</label>
-					</td>
-					<td class="col-md-6">
-						{{dataset.language}}
-					</td>
-				</tr>
-				<tr>
-					<td class="col-md-4">
-						<label class="label-table" for="subject">Subject:</label>
-					</td>
-					<td class="col-md-6">
-						{{dataset.subject}}
-					</td>
-				</tr>
-				<tr>
-					<td class="col-md-4">
-						<label class="label-table" for="keywords">Keywords:</label>
-					</td>
-					<td class="col-md-6">
-						{{dataset.keywords}}
-					</td>
-				</tr>
-				<tr>
-					<td class="col-md-4">
-						<label class="label-table">Geographical coverage:</label>
-					</td>
-					<td class="col-md-6">
-						W: {{dataset.spatialWest}} E: {{dataset.spatialEast}} S: {{dataset.spatialSouth}} N: {{dataset.spatialNorth}}
-					</td>
-				</tr>
-				<tr>
-					<td class="col-md-4">
-						<label class="label-table " for="temp_coverage">Temporal coverage:</label>
-					</td>
-					<td class="col-md-6">
-						{{dataset.temporal}}
-					</td>
-				</tr>
-				<tr>
-					<td class="col-md-4">
-						<label class="label-table " for="issued_date">Issued date:</label>
-					</td>
-					<td class="col-md-6">
-						{{dataset.issuedDate}}
-					</td>
-				</tr>
-				<tr>
-					<td class="col-md-4">
-						<label class="label-table " for="modified_date">Modified date:</label>
-					</td>
-					<td class="col-md-6">
-						{{dataset.modifiedDate}}
-					</td>
-				</tr>
-				<tr>
-					<td class="col-md-4">
-						<label class="label-table" for="provenance">Provenance:</label>
-					</td>
-					<td class="col-md-6">
-						{{dataset.provenance}}
-					</td>
-				</tr>
-				<tr>
-					<td class="col-md-4">
-						<label class="label-table " for="coordinate_sys">Coordinate reference system:</label>
-					</td>
-					<td class="col-md-6">
-						{{dataset.conformsTo}}
-					</td>
-				</tr>
-				<tr>
-					<td class="col-md-4">
-						<label class="label-table" for="license">License:</label>
-					</td>
-					<td class="col-md-6">
-						{{dataset.license}}
-					</td>
-				</tr>
-				<tr>
-					<td class="col-md-4">
-						<label class="label-table " for="access_rights">Access rights:</label>
-					</td>
-					<td class="col-md-6">
-						{{dataset.accessRights}}
-					</td>
-				</tr>
-				<tr>
-					<td class="col-md-4">
-						<label class="label-table" for="publisher">Publisher:</label>
-					</td>
-					<td class="col-md-6">
-						{{dataset.publisher}}
-					</td>
-				</tr>
-				<tr>
-					<td class="col-md-4">
-						<label class="label-table " for="encode_format">Encoding format:</label>
-					</td>
-					<td class="col-md-6">
-						{{dataset.format}}
-					</td>
-				</tr>
-				<tr>
-					<td class="col-md-4">
-						<label class="label-table " for="char_encoding">Character encoding:</label>
-					</td>
-					<td class="col-md-6">
-						{{dataset.characterEncoding}}
-					</td>
-				</tr>
-				<tr>
-					<td class="col-md-4">
-						<label class="label-table " for="update_freq">Update frequency:</label>
-					</td>
-					<td class="col-md-6">
-						{{dataset.accuralPeriodicity}}
-					</td>
-				</tr>
-				<tr>
-					<td class="col-md-4">
-						<label class="label-table" for="comment">Comment:</label>
-					</td>
-					<td class="col-md-6">
-						{{dataset.comment}}
-					</td>
-				</tr>
-				<tr>
-					<td class="col-md-4">
-						<label class="label-table " for="spatial_representation">Spatial
-						representation:</label>
-					</td>
-					<td class="col-md-6">
-						{{dataset.representationTecnique}}
-					</td>
-				</tr>
-				<tr>
-					<td class="col-md-4">
-						<label class="label-table" for="vertical_coverage">Vertical coverage (Number of vertical level):</label>
-					</td>
-					<td class="col-md-6">
-						{{dataset.verticalCoverage}} ({{dataset.verticalLevel}})
-					</td>
-				</tr>
-				<tr>
-					<td class="col-md-4">
-						<label class="label-table " for="temp_resolution">Temporal resolution:</label>
-					</td>
-					<td class="col-md-6">
-						{{dataset.temporalResolution}}
-					</td>
-				</tr>
-				<tr>
-					<td class="col-md-4">
-						<label class="label-table " for="spatial_resolution">Spatial resolution:</label>
-					</td>
-					<td class="col-md-6">
-						{{dataset.gridResolution}}
-					</td>
-				</tr>
-			</table>
-			<div>
-				<button type="submit" class="btn btn-default" style="margin-left: 200px;">Modifiy</button>
-				<button type="button" class="btn btn-danger" style="float: right; margin-right: 200px;" onclick="deleteButton()">Delete</button>
+			<h2 class="titleContainer">Metadata</h2>
+			<div class="container col-md-10">
+				<table class="tableMetadataInfo">
+					<tr>
+						<td class="col-md-4">
+							<label class="label-tableInfo" for="description">Description:</label>
+						</td>
+						<td class="col-md-6">
+							{{dataset.description}}
+						</td>
+					</tr>
+					<tr>
+						<td class="col-md-4">
+							<label class="label-tableInfo" for="type">Type:</label>
+						</td>
+						<td class="col-md-6">
+							{{dataset.type}}
+						</td>
+					</tr>
+					<tr>
+						<td class="col-md-4">
+							<label class="label-tableInfo" for="homepage">Homepage:</label>
+						</td>
+						<td class="col-md-6">
+							{{dataset.homepage}}
+						</td>
+					</tr>
+					<tr>
+						<td class="col-md-4">
+							<label class="label-tableInfo" for="identifier">Identifier:</label>
+						</td>
+						<td class="col-md-6">
+							{{dataset.identifier}}
+						</td>
+					</tr>
+					<tr>
+						<td class="col-md-4">
+							<label class="label-tableInfo" for="language">Language:</label>
+						</td>
+						<td class="col-md-6">
+							<div class="AgentThumb">
+								<div class="agentThumbInnerBodylanguage">
+	                            	<div class="agentThumbName">{{dataset.language}}</div>
+	                            </div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td class="col-md-4">
+							<label class="label-tableInfo" for="subject">Subject:</label>
+						</td>
+						<td class="col-md-6">
+							{{dataset.subject}}
+						</td>
+					</tr>
+					<tr>
+						<td class="col-md-4">
+							<label class="label-tableInfo" for="keywords">Keywords:</label>
+						</td>
+						<td class="col-md-6">
+							{{dataset.keywords}}
+						</td>
+					</tr>
+					<tr>
+						<td class="col-md-4">
+							<label class="label-tableInfo">Geographical coverage:</label>
+						</td>
+						<td class="col-md-6">
+							W: {{dataset.spatialWest}} E: {{dataset.spatialEast}} S: {{dataset.spatialSouth}} N: {{dataset.spatialNorth}}
+						</td>
+					</tr>
+					<tr>
+						<td class="col-md-4">
+							<label class="label-tableInfo " for="temp_coverage">Temporal coverage:</label>
+						</td>
+						<td class="col-md-6">
+							{{dataset.temporal}}
+						</td>
+					</tr>
+					<tr>
+						<td class="col-md-4">
+							<label class="label-tableInfo " for="issued_date">Issued date:</label>
+						</td>
+						<td class="col-md-6">
+							{{dataset.issuedDate}}
+						</td>
+					</tr>
+					<tr>
+						<td class="col-md-4">
+							<label class="label-tableInfo " for="modified_date">Modified date:</label>
+						</td>
+						<td class="col-md-6">
+							{{dataset.modifiedDate}}
+						</td>
+					</tr>
+					<tr>
+						<td class="col-md-4">
+							<label class="label-tableInfo" for="provenance">Provenance:</label>
+						</td>
+						<td class="col-md-6">
+							{{dataset.provenance}}
+						</td>
+					</tr>
+					<tr>
+						<td class="col-md-4">
+							<label class="label-tableInfo " for="coordinate_sys">Coordinate reference system:</label>
+						</td>
+						<td class="col-md-6">
+							{{dataset.conformsTo}}
+						</td>
+					</tr>
+					<tr>
+						<td class="col-md-4">
+							<label class="label-tableInfo" for="license">License:</label>
+						</td>
+						<td class="col-md-6">
+							{{dataset.license}}
+						</td>
+					</tr>
+					<tr>
+						<td class="col-md-4">
+							<label class="label-tableInfo " for="access_rights">Access rights:</label>
+						</td>
+						<td class="col-md-6">
+							{{dataset.accessRights}}
+						</td>
+					</tr>
+					<tr>
+						<td class="col-md-4">
+							<label class="label-tableInfo" for="publisher">Publisher:</label>
+						</td>
+						<td class="col-md-6">
+							{{dataset.publisher}}
+						</td>
+					</tr>
+					<tr>
+						<td class="col-md-4">
+							<label class="label-tableInfo " for="encode_format">Encoding format:</label>
+						</td>
+						<td class="col-md-6">
+							{{dataset.format}}
+						</td>
+					</tr>
+					<tr>
+						<td class="col-md-4">
+							<label class="label-tableInfo " for="char_encoding">Character encoding:</label>
+						</td>
+						<td class="col-md-6">
+							{{dataset.characterEncoding}}
+						</td>
+					</tr>
+					<tr>
+						<td class="col-md-4">
+							<label class="label-tableInfo " for="update_freq">Update frequency:</label>
+						</td>
+						<td class="col-md-6">
+							{{dataset.accuralPeriodicity}}
+						</td>
+					</tr>
+					<tr>
+						<td class="col-md-4">
+							<label class="label-tableInfo" for="comment">Comment:</label>
+						</td>
+						<td class="col-md-6">
+							{{dataset.comment}}
+						</td>
+					</tr>
+					<tr>
+						<td class="col-md-4">
+							<label class="label-tableInfo " for="spatial_representation">Spatial
+							representation:</label>
+						</td>
+						<td class="col-md-6">
+							{{dataset.representationTecnique}}
+						</td>
+					</tr>
+					<tr>
+						<td class="col-md-4">
+							<label class="label-tableInfo" for="vertical_coverage">Vertical coverage (Number of vertical level):</label>
+						</td>
+						<td class="col-md-6">
+							{{dataset.verticalCoverage}} ({{dataset.verticalLevel}})
+						</td>
+					</tr>
+					<tr>
+						<td class="col-md-4">
+							<label class="label-tableInfo " for="temp_resolution">Temporal resolution:</label>
+						</td>
+						<td class="col-md-6">
+							{{dataset.temporalResolution}}
+						</td>
+					</tr>
+					<tr>
+						<td class="col-md-4">
+							<label class="label-tableInfo " for="spatial_resolution">Spatial resolution:</label>
+						</td>
+						<td class="col-md-6">
+							{{dataset.gridResolution}}
+						</td>
+					</tr>
+				</table>
 			</div>
 		</div>
 		<div class="col-md-1">
@@ -261,6 +259,6 @@
 </div>
 
 <footer class="container-fluid text-center">
-	<p>Footer Text</p>
+	<a class="footer" href="http://www.bigdataocean.eu/site/">Big Data Ocean</a>
 </footer>
 {% endblock %}

@@ -12,18 +12,12 @@
     <div class="container">
         <div class="navbar-header">
             <div class="icon">
-                <table class="container">
-                    <tr>
-                        <td>
-                            <a id="logo" title="BigDataOcean Repository" href="">
-                                <img itemprop="image" alt="BigDataOcean Repository" src="static/img/BIG-DATA-OCEAN_LOGO.png" height="86" width="200">
-                            </a>
-                        </td>
-                        <td class="label-table">
-                            <h1>BigDataOcean - Dataset Harmonization</h1>
-                        </td>
-                    </tr>
-                </table>
+                <a id="logo" title="BigDataOcean Repository" href="http://localhost:5000/">
+                    <img itemprop="image" alt="BigDataOcean Repository" src="static/img/BIG-DATA-OCEAN_LOGO.png" height="86" width="200">
+                </a>
+            </div>
+            <div class="bdotitle label-table">
+                <h1>Big Data Ocean - Dataset Harmonization</h1>
             </div>
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
@@ -274,17 +268,12 @@
                             <input type="text" class="form-control" id="spatial_resolution" value="{{dataset.gridResolution}}">
                         </td>
                     </tr>
-                    <tr>
-                        <td>
-                        </td>
-                        <td>
-                            <button type="submit" class="btn btn-default">Save</button>
-                        </td>
-                        <td colspan="8">
-                            <button type="button" class="btn btn-danger" style="float: right;" onclick="cancelButton()">Cancel</button>
-                        </td>
                     </tr>
                 </table>
+                <div class="buttonForm">
+                    <button type="submit" class="btn btn-default">Save</button>
+                    <button type="button" class="btn btn-danger" onclick="cancelButton()">Cancel</button>
+                </div>
             </form>
         </div>
         <div class="col-md-1">
@@ -295,6 +284,6 @@
 </div>
 
 <footer class="container-fluid text-center">
-  <p>Footer Text</p>
+  <a class="footer" href="http://www.bigdataocean.eu/site/">Big Data Ocean</a>
 </footer>
 {% endblock %}

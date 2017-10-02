@@ -17,6 +17,12 @@ body {
     height: 87px;
     width: 200px;
     background-color: #ffffff;
+    float: left;
+}
+
+.bdotitle {
+    float: right;
+    padding: 10px 10px 10px 30px;
 }
 
 .form-style {
@@ -26,6 +32,11 @@ body {
 
 .label-table {
     color: #ffffff;
+    font-size: 18px;
+}
+
+.label-tableInfo {
+    font-size: 18px;
 }
 
 .label-table-coordinates {
@@ -38,7 +49,17 @@ body {
     border-radius: 3px;
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
-    
+    width: 90%;
+}
+
+.tableMetadataInfo {
+    border-collapse:collapse;
+    border:none;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    background-color: #F6F6F6;
+    padding: .4em;
 }
 
 .tableMetadata td{
@@ -63,6 +84,15 @@ body {
     background-color: #25aae1;
     height: 100%;
     padding-bottom: 10px;
+}
+
+.field-title {
+    font-size: 40px;
+    color: #3c3c3c;
+    background-color: #25aae1;
+    font-weight: bold;
+    padding: 10px 10px 10px 10px;
+    text-align: inherit;
 }
 
 .metadata-info {
@@ -130,6 +160,12 @@ footer {
     padding: 15px;
 }
 
+.footer {
+    color: #ffffff;
+    font-size: 15px;
+    text-decoration: none;    
+}
+
 /* On small screens, set height to 'auto' for sidenav and grid */
 @media screen and (max-width: 767px) {
     .sidenav {
@@ -149,4 +185,71 @@ footer {
     top: -2px;
     right: -21px;
     color: inherit;
+}
+
+
+.tableMetadataInfo td {
+    border-bottom: 1px solid #ddd;
+    padding: 0.7em 1em 0.7em 1.15em;
+}
+
+.container {
+    min-width: 540px;
+}
+
+.titleContainer {
+    padding: 0em .5em 0em;
+    color: #FFFFFF;
+    font-size: 24px;
+    text-shadow: 1px 1px 5px #646464;
+    font-weight: bold;
+}
+
+.AgentThumb {
+    float: left;
+    border-radius: 4px;
+    padding: .5em;
+    padding-right: 1.5em;
+    margin: 0 .4em .4em 0;
+    background-color: #444747;
+    color: #fbfbfb;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3) inset;
+    -o-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3) inset;
+    -moz-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3) inset;
+    -webkit-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3) inset;
+}
+
+.agentThumbInnerBodylanguage {
+    position: relative;
+    border-left: 6px solid #A2DAD2;
+    padding-left: .3em;
+}
+
+.agentThumbPrefUri {
+    color: #888888;
+    max-width: 400px;
+    white-space: pre;
+    white-space: pre-wrap;
+    white-space: pre-line;
+    white-space: -pre-wrap;
+    white-space: -o-pre-wrap;
+    white-space: -moz-pre-wrap;
+    white-space: -hp-pre-wrap;
+    word-wrap: break-word;
+}
+
+.buttonForm{
+    float: right;
+    margin: 10px 10px 10px 10px;
+}
+
+.uritext{
+    width: 480px;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
 }
