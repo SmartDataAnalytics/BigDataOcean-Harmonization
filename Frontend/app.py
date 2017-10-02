@@ -17,15 +17,20 @@ def index():
 def parse():
 	if request.method == 'POST':
 		uri = request.form['uri']
-		command = '/home/jaimetrillos/Documents/BDO/BigDataOcean-Harmonization/Backend/bdodatasets/target/BDODatsets-bdodatasets/BDODatsets/bin/suggest "%s"' %uri
+		command = '/home/anatrillos/Documents/BigDataOcean-Harmonization/Backend/bdodatasets/target/BDODatsets-bdodatasets/BDODatsets/bin/suggest "%s"' %uri
 		try:
 			process = subprocess.check_output([command], shell="True")
 		except subprocess.CalledProcessError as e:
 			return "An error occurred while trying to fetch task status updates."
 
-		parsed_output = json.loads(process)
+		parsed_output = json.loads(process.decode('utf-8'))
 		dataset = datasetSuggest(**parsed_output)
-		return render_template('metadata.html', dataset=dataset)
+		return render_template('metadataInfo.html', dataset=dataset)
+
+@app.route('/metadataInfo', methods=['GET', 'POST'])
+def metadataInfo(dataset):
+	if request.method == 'GET':
+		return render_template('metadataInfo.html', dataset=dataset)
 
 class datasetSuggest(object):
 	def __init__(self, title, description, homepage, identifier, language, spatialWest, spatialEast, spatialSouth, spatialNorth, 
