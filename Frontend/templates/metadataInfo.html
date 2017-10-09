@@ -3,9 +3,15 @@
 
 {% block title %} BigDataOcean Harmonization {% endblock %}
 {% block styles %}
-{{super()}}
+{{super()}}<link rel='icon' href='/static/img/BIG-DATA-OCEAN_LOGO.ico'>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="static/css/bootstrap-tagsinput.css">
 <link rel="stylesheet" href="static/css/style.css">
-<link rel="stylesheet" href="static/css/bootstrap.css">
+<script src="static/js/jquery-3.2.1.min.js"></script>
+<script src="static/js/script.js"></script>
+<script src="static/js/bootstrap-tagsinput.js"></script>
+<script src="static/js/Bloodhound.js"></script>
 {% endblock %}
 {% block navbar %}
 <nav class="navbar navbar-bdo navbar-fixed-top">

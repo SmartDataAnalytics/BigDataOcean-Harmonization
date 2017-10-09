@@ -1,0 +1,5 @@
+[
+	{"value":"http://inspire.ec.europa.eu/metadata-codelist/ResourceType/series", "text":"Series"},
+	{"value":"http://inspire.ec.europa.eu/metadata-codelist/ResourceType/dataset", "text":"Dataset"},
+	{"value":"http://inspire.ec.europa.eu/metadata-codelist/ResourceType/services", "text":"Services"}
+]
