@@ -64,6 +64,7 @@ RawBlameHistory
 .bootstrap-tagsinput .tag {
   margin-right: 2px;
   color: white;
+  font-size: 12px;
 }
 .bootstrap-tagsinput .tag [data-role="remove"] {
   margin-left: 8px;

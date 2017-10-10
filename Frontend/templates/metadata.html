@@ -10,9 +10,11 @@
 <link rel="stylesheet" href="static/css/bootstrap-tagsinput.css">
 <link rel="stylesheet" href="static/css/style.css">
 <script src="static/js/jquery-3.2.1.min.js"></script>
-<script src="static/js/script.js"></script>
 <script src="static/js/bootstrap-tagsinput.js"></script>
+<script src="static/js/bootstrap-tokenfield.js"></script>
 <script src="static/js/Bloodhound.js"></script>
+<script src="static/js/typeahead.bundle.js"></script>
+<script src="static/js/script.js"></script>
 {% endblock %}
 {% block navbar %}
 <nav class="navbar navbar-bdo navbar-fixed-top">
@@ -62,10 +64,10 @@
                     </tr>
                     <tr>
                         <td>
-                            <label class="label-table" for="type">Type:</label>
+                            <label class="label-table" for="Type">Type:</label>
                         </td>
                         <td colspan="8">                            
-                            <input type="text" class="bootstrap-tagsinput form-control" id="type" required>
+                            <input type="text" class="bootstrap-tagsinput form-control" id="Type" data-role="tagsinput" required>
                         </td>
                     </tr>
                     <tr>
