@@ -1,0 +1,5 @@
+[
+	{"value":"http://inspire.ec.europa.eu/media-types/application", "text":"application"},
+	{"value":"http://inspire.ec.europa.eu/media-types/image", "text":"image"},
+	{"value":"http://inspire.ec.europa.eu/media-types/text", "text":"text"}
+]

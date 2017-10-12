@@ -5,16 +5,23 @@
 {% block styles %}
 {{super()}}
 <link rel='icon' href='/static/img/BIG-DATA-OCEAN_LOGO.ico'>
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
 <link rel="stylesheet" href="static/css/bootstrap-tagsinput.css">
+<link rel="stylesheet" href="static/css/bootstrap-tokenfield.css">
+<link rel="stylesheet" href="static/css/tokenfield-typeahead.css">
 <link rel="stylesheet" href="static/css/style.css">
+
 <script src="static/js/jquery-3.2.1.min.js"></script>
+<script src="http://code.jquery.com/ui/1.12.1/jquery-ui.js" ></script>
+<script src="static/js/Bloodhound.js"></script>
 <script src="static/js/bootstrap-tagsinput.js"></script>
 <script src="static/js/bootstrap-tokenfield.js"></script>
-<script src="static/js/Bloodhound.js"></script>
 <script src="static/js/typeahead.bundle.js"></script>
-<script src="static/js/script.js"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='script.js') }}"></script>
+
 {% endblock %}
 {% block navbar %}
 <nav class="navbar navbar-bdo navbar-fixed-top">
@@ -67,7 +74,7 @@
                             <label class="label-table" for="Type">Type:</label>
                         </td>
                         <td colspan="8">                            
-                            <input type="text" class="bootstrap-tagsinput form-control" id="Type" data-role="tagsinput" required>
+                            <input type="text" class="form-control" id="tokenfield" required />
                         </td>
                     </tr>
                     <tr>
@@ -295,4 +302,16 @@
 <footer class="container-fluid text-center">
   <a class="footer" href="http://www.bigdataocean.eu/site/">Big Data Ocean</a>
 </footer>
+<!--
+<script type="text/javascript">
+    $('#tokenfield').tokenfield({
+      autocomplete: {
+        source: ['red','blue','green','yellow','violet','brown','purple','black','white'],
+        delay: 100
+      },
+      showAutocompleteOnFocus: true
+    });
+
+</script>
+-->
 {% endblock %}
