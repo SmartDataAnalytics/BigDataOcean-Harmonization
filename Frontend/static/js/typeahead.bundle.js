@@ -1068,7 +1068,7 @@
         "use strict";
         var defaultClassNames = {
             wrapper: "twitter-typeahead",
-            input: "tt-input",
+            input: "tt-hint",
             hint: "tt-hint",
             menu: "tt-menu",
             dataset: "tt-dataset",

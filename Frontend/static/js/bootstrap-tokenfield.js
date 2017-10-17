@@ -237,7 +237,7 @@
             .data('attrs', attrs)
 
       // Insert token into HTML
-      if (this.$input.hasClass('tt-input')) {
+      if (this.$input.hasClass('tt-hint')) {
         // If the input has typeahead enabled, insert token before it's parent
         this.$input.parent().before( $token )
       } else {
@@ -385,7 +385,7 @@
   }
       
   , setInput: function (val) {
-      if (this.$input.hasClass('tt-input')) {
+      if (this.$input.hasClass('tt-hint')) {
           // Typeahead acts weird when simply setting input value to empty,
           // so we set the query to empty instead
           this.$input.typeahead('val', val)
@@ -498,8 +498,8 @@
           if (this.$input.data('ui-autocomplete') && this.$input.data('ui-autocomplete').menu.element.find("li:has(a.ui-state-focus), li.ui-state-focus").length) break
 
           // We will handle creating tokens from typeahead in typeahead events
-          if (this.$input.hasClass('tt-input') && this.$wrapper.find('.tt-cursor').length ) break
-          if (this.$input.hasClass('tt-input') && this.$wrapper.find('.tt-hint').val() && this.$wrapper.find('.tt-hint').val().length) break
+          if (this.$input.hasClass('tt-hint') && this.$wrapper.find('.tt-cursor').length ) break
+          if (this.$input.hasClass('tt-hint') && this.$wrapper.find('.tt-hint').val() && this.$wrapper.find('.tt-hint').val().length) break
 
           // Create token
           if (this.$input.is(document.activeElement) && this.$input.val().length || this.$input.data('edit')) {
@@ -519,7 +519,7 @@
           if (_self.$input.val().length > 0) return
 
           direction += 'All'
-          var $token = _self.$input.hasClass('tt-input') ? _self.$input.parent()[direction]('.token:first') : _self.$input[direction]('.token:first')
+          var $token = _self.$input.hasClass('tt-hint') ? _self.$input.parent()[direction]('.token:first') : _self.$input[direction]('.token:first')
           if (!$token.length) return
 
           _self.preventInputFocus = true
@@ -540,7 +540,7 @@
         if (_self.$input.is(document.activeElement)) {
           if (_self.$input.val().length > 0) return
 
-          var $token = _self.$input.hasClass('tt-input') ? _self.$input.parent()[direction + 'All']('.token:first') : _self.$input[direction + 'All']('.token:first')
+          var $token = _self.$input.hasClass('tt-hint') ? _self.$input.parent()[direction + 'All']('.token:first') : _self.$input[direction + 'All']('.token:first')
           if (!$token.length) return
 
           _self.activate( $token )
@@ -582,7 +582,7 @@
             if (this.$input.val().length || this.lastInputValue.length && this.lastKeyDown === 8) break
 
             this.preventDeactivation = true
-            var $prevToken = this.$input.hasClass('tt-input') ? this.$input.parent().prevAll('.token:first') : this.$input.prevAll('.token:first')
+            var $prevToken = this.$input.hasClass('tt-hint') ? this.$input.parent().prevAll('.token:first') : this.$input.prevAll('.token:first')
 
             if (!$prevToken.length) break
 
@@ -783,7 +783,7 @@
       $token.find('.token-label').text(attrs.value)
       var tokenWidth = $token.outerWidth()
 
-      var $_input = this.$input.hasClass('tt-input') ? this.$input.parent() : this.$input
+      var $_input = this.$input.hasClass('tt-hint') ? this.$input.parent() : this.$input
 
       $token.replaceWith( $_input )
 
@@ -801,7 +801,7 @@
     }
 
   , unedit: function (focus) {
-      var $_input = this.$input.hasClass('tt-input') ? this.$input.parent() : this.$input
+      var $_input = this.$input.hasClass('tt-hint') ? this.$input.parent() : this.$input
       $_input.appendTo( this.$wrapper )
 
       this.$input.data('edit', false)

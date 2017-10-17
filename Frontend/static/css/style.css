@@ -1,6 +1,6 @@
 body {
     font-family: sans-serif;
-    font-size: 18px;
+    font-size: 14px;
     line-height: 1.42857143;
     color: #333;
     background-color: #fff;
@@ -32,11 +32,11 @@ body {
 
 .label-table {
     color: #ffffff;
-    font-size: 18px;
+    font-size: 16px;
 }
 
 .label-tableInfo {
-    font-size: 18px;
+    font-size: 16px;
 }
 
 .label-table-coordinates {
@@ -104,6 +104,7 @@ body {
 
 .form-control {
   width: 110%;
+  font-size: 14px;
 }
 
 .form-control-input {
@@ -269,4 +270,32 @@ footer {
     -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
     -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
     transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+
+.tt-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    display: none;
+    float: left;
+    min-width: 160px;
+    padding: 0px 0;
+    margin: 2px 0 0;
+    list-style: none;
+    font-size: 14px;
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    background-clip: padding-box;
+    cursor: pointer;
+}
+
+.tokenfield {
+    height: 0px;
+    min-height: 34px;
+    padding-bottom: 0px;
 }
