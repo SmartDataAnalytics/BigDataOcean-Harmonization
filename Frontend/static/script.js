@@ -27,28 +27,6 @@ jQuery(document).ready(function($) {
   });
   resourceLanguages.initialize();
 
-/*
-  var elt = $('#tokenfield');
-  elt.tagsinput({
-    itemValue: 'value',
-    itemText: 'text',
-    typeaheadjs: {
-      name: 'resourceType',
-      displayKey: 'text',
-      source: resourceTypes.ttAdapter()
-    }
-  });
- */  
-
-  $('#tokenfield_type').tokenfield({
-    autocomplete: {
-      source: resourceTypes.ttAdapter(),
-      delay: 100
-    },
-    showAutocompleteOnFocus: true
-  }) 
-
-/*
   $('#tokenfield_type').tokenfield({
     typeahead: [null, {
       source: resourceTypes.ttAdapter(),
@@ -56,7 +34,7 @@ jQuery(document).ready(function($) {
     }],
     showAutocompleteOnFocus: true
   });
-*/
+
   $('.token-variables-field').tokenfield();
 
   $('#tokenfield_subject').tokenfield({
