@@ -103,7 +103,7 @@ body {
 }
 
 .form-control {
-  width: 110%;
+  /*width: 110%;*/
   font-size: 14px;
 }
 
@@ -295,7 +295,7 @@ footer {
 }
 
 .tokenfield {
-    height: 0px;
+    /*height: 0px;*/
     min-height: 34px;
     padding-bottom: 0px;
 }

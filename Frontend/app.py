@@ -17,7 +17,7 @@ def index():
 def parse():
 	if request.method == 'POST':
 		uri = request.form['uri']
-		command = '/home/anatrillos/Documents/BigDataOcean-Harmonization/Backend/bdodatasets/target/BDODatsets-bdodatasets/BDODatsets/bin/suggest "%s"' %uri
+		command = '/home/jaimetrillos/Documents/BDO/BigDataOcean-Harmonization/Backend/bdodatasets/target/BDODatsets-bdodatasets/BDODatsets/bin/suggest "%s"' %uri
 		try:
 			process = subprocess.check_output([command], shell="True")
 		except subprocess.CalledProcessError as e:
@@ -39,7 +39,7 @@ def metadataInfo(dataset):
 
 class datasetSuggest(object):
 	def __init__(self, title, description, homepage, identifier, language, spatialWest, spatialEast, spatialSouth, spatialNorth, 
-		temporal, conformsTo, publisher, accuralPeriodicity, verticalCoverage, verticalLevel, temporalResolution, gridResolution):
+		temporal, conformsTo, publisher, accuralPeriodicity, verticalCoverage, verticalLevel, temporalResolution, gridResolution, variables):
 		self.title = title
 		self.description = description
 		#self.type = type
@@ -69,6 +69,7 @@ class datasetSuggest(object):
 		self.verticalLevel = verticalLevel
 		self.temporalResolution = temporalResolution
 		self.gridResolution = gridResolution
+		self.variables = variables
 
 
 if __name__ == '__main__':

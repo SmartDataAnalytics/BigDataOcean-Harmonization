@@ -38,6 +38,7 @@ public class DatasetSuggest {
 	private String verticalLevel; //Vertical level of water covered by the Dataset
 	private String temporalResolution; //Granularity of measurements
 	private String gridResolution; //Horizontal/spatial grid resolution
+	private String variables; //variables
 	
 	public String getTitle() {
 		return title;
@@ -212,6 +213,12 @@ public class DatasetSuggest {
 	}
 	public void setGridResolution(String gridResolution) {
 		this.gridResolution = gridResolution;
+	}
+	public String getVariables() {
+		return variables;
+	}
+	public void setVariables(String variables) {
+		this.variables = variables;
 	}
 
 }

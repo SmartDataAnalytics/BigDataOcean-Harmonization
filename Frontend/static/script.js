@@ -5,6 +5,28 @@ jQuery(document).ready(function($) {
     prefetch: 'static/json/resourceType.json'
   });
   resourceTypes.initialize();
+
+  var resourceSubjects = new Bloodhound({
+    datumTokenizer: Bloodhound.tokenizers.obj.whitespace('text'),
+    queryTokenizer: Bloodhound.tokenizers.whitespace,
+    prefetch: 'static/json/subject.json'
+  });
+  resourceSubjects.initialize(); 
+
+  var resourceFormats = new Bloodhound({
+    datumTokenizer: Bloodhound.tokenizers.obj.whitespace('text'),
+    queryTokenizer: Bloodhound.tokenizers.whitespace,
+    prefetch: 'static/json/encodingFormat.json'
+  });
+  resourceFormats.initialize();
+
+  var resourceLanguages = new Bloodhound({
+    datumTokenizer: Bloodhound.tokenizers.obj.whitespace('text'),
+    queryTokenizer: Bloodhound.tokenizers.whitespace,
+    prefetch: 'static/json/language.json'
+  });
+  resourceLanguages.initialize();
+
 /*
   var elt = $('#tokenfield');
   elt.tagsinput({
@@ -16,101 +38,48 @@ jQuery(document).ready(function($) {
       source: resourceTypes.ttAdapter()
     }
   });
- */   
+ */  
 
+  $('#tokenfield_type').tokenfield({
+    autocomplete: {
+      source: resourceTypes.ttAdapter(),
+      delay: 100
+    },
+    showAutocompleteOnFocus: true
+  }) 
+
+/*
   $('#tokenfield_type').tokenfield({
     typeahead: [null, {
       source: resourceTypes.ttAdapter(),
       displayKey: 'text'
     }],
     showAutocompleteOnFocus: true
-  }); 
-
-/*
-
-  $('#tokenfield').tokenfield({
-    autocomplete: {
-      source: ['red','blue','green','yellow','violet','brown','purple','black','white'],
-      delay: 100
-    },
-    showAutocompleteOnFocus: true
-  });*/
-});
-
-jQuery(document).ready(function($) {
-  var resourceTypes = new Bloodhound({
-    datumTokenizer: Bloodhound.tokenizers.obj.whitespace('text'),
-    queryTokenizer: Bloodhound.tokenizers.whitespace,
-    prefetch: 'static/json/subject.json'
   });
-  resourceTypes.initialize();
-/*
-  var elt = $('#tokenfield');
-  elt.tagsinput({
-    itemValue: 'value',
-    itemText: 'text',
-    typeaheadjs: {
-      name: 'resourceType',
-      displayKey: 'text',
-      source: resourceTypes.ttAdapter()
-    }
-  });
- */   
+*/
 
   $('#tokenfield_subject').tokenfield({
     typeahead: [null, {
-      source: resourceTypes.ttAdapter(),
+      source: resourceSubjects.ttAdapter(),
       displayKey: 'text'
     }],
     showAutocompleteOnFocus: true
   }); 
-
-/*
-
-  $('#tokenfield').tokenfield({
-    autocomplete: {
-      source: ['red','blue','green','yellow','violet','brown','purple','black','white'],
-      delay: 100
-    },
-    showAutocompleteOnFocus: true
-  });*/
-});
-
-jQuery(document).ready(function($) {
-  var resourceTypes = new Bloodhound({
-    datumTokenizer: Bloodhound.tokenizers.obj.whitespace('text'),
-    queryTokenizer: Bloodhound.tokenizers.whitespace,
-    prefetch: 'static/json/encodingFormat.json'
-  });
-  resourceTypes.initialize();
-/*
-  var elt = $('#tokenfield');
-  elt.tagsinput({
-    itemValue: 'value',
-    itemText: 'text',
-    typeaheadjs: {
-      name: 'resourceType',
-      displayKey: 'text',
-      source: resourceTypes.ttAdapter()
-    }
-  });
- */   
 
   $('#tokenfield_format').tokenfield({
     typeahead: [null, {
-      source: resourceTypes.ttAdapter(),
+      source: resourceFormats.ttAdapter(),
       displayKey: 'text'
     }],
     showAutocompleteOnFocus: true
   }); 
 
-/*
-
-  $('#tokenfield').tokenfield({
-    autocomplete: {
-      source: ['red','blue','green','yellow','violet','brown','purple','black','white'],
-      delay: 100
-    },
+  $('#tokenfield_language').tokenfield({
+    typeahead: [null, {
+      source: resourceLanguages.ttAdapter(),
+      displayKey: 'text'
+    }],
     showAutocompleteOnFocus: true
-  });*/
+  }); 
+
 });

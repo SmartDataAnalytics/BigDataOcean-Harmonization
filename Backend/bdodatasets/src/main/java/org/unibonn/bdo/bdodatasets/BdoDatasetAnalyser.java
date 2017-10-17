@@ -6,6 +6,7 @@ import java.io.IOException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.unibonn.bdo.objects.DatasetSuggest;
 
 /**
@@ -38,6 +39,8 @@ public class BdoDatasetAnalyser {
 		String verticalLevel;
 		String tempResolution;
 		String gridResolution;
+		Elements variablesElements;
+		String variables;
 		
 		//Read the URI and return the HTML/XML document
 		Document doc = Jsoup.connect(datasetURI).get();
@@ -102,6 +105,16 @@ public class BdoDatasetAnalyser {
         delims = ": ";
     	tokens = verticalLevel.split(delims);
     	verticalLevel = tokens[1];
+    	
+    	Element item7 = doc.getElementsByTag("gmd:descriptiveKeywords").get(2);
+        variablesElements = item7.getElementsByTag("gmx:Anchor");
+        
+        delims = variablesElements.text().replaceAll(" ", ", ");
+    	variables = delims;
+    	
+    	delims = ", geonetwork.thesaurus.external.parameter.myocean.ocean-variables";
+    	tokens = variables.split(delims);
+    	variables = tokens[0];
         
         result.setTitle(title);
         result.setDescription(description);
@@ -120,6 +133,7 @@ public class BdoDatasetAnalyser {
         result.setVerticalLevel(verticalLevel);
         result.setTemporalResolution(tempResolution);
         result.setGridResolution(gridResolution);
+        result.setVariables(variables);
         
         return result;
 	}

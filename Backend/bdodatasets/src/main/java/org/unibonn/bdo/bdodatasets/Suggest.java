@@ -17,8 +17,8 @@ public class Suggest {
 
 	public static void main(String[] args) throws IOException {
 		//System.out.println( args[0] );   
-		String uri = args[0];
-		//String uri = "http://cmems-resources.cls.fr/?option=com_csw&view=details&tab=info&product_id=MEDSEA_ANALYSIS_FORECAST_PHYS_006_001&format=xml";
+		//String uri = args[0];
+		String uri = "http://cmems-resources.cls.fr/?option=com_csw&view=details&tab=info&product_id=MEDSEA_ANALYSIS_FORECAST_WAV_006_011&format=xml";
 		exec(uri);
 	}
 	
