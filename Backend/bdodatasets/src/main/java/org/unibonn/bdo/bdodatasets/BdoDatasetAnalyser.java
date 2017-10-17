@@ -109,10 +109,10 @@ public class BdoDatasetAnalyser {
     	Element item7 = doc.getElementsByTag("gmd:descriptiveKeywords").get(2);
         variablesElements = item7.getElementsByTag("gmx:Anchor");
         
-        delims = variablesElements.text().replaceAll(" ", ", ");
+        delims = variablesElements.text().replaceAll(" ", ",");
     	variables = delims;
     	
-    	delims = ", geonetwork.thesaurus.external.parameter.myocean.ocean-variables";
+    	delims = ",geonetwork.thesaurus.external.parameter.myocean.ocean-variables";
     	tokens = variables.split(delims);
     	variables = tokens[0];
         

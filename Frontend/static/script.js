@@ -57,6 +57,7 @@ jQuery(document).ready(function($) {
     showAutocompleteOnFocus: true
   });
 */
+  $('.token-variables-field').tokenfield();
 
   $('#tokenfield_subject').tokenfield({
     typeahead: [null, {
