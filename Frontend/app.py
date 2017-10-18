@@ -17,7 +17,8 @@ def index():
 def parse():
 	if request.method == 'POST':
 		uri = request.form['uri']
-		command = '/home/jaimetrillos/Documents/BDO/BigDataOcean-Harmonization/Backend/bdodatasets/target/BDODatsets-bdodatasets/BDODatsets/bin/suggest "%s"' %uri
+		# command = '/home/jaimetrillos/Documents/BDO/BigDataOcean-Harmonization/Backend/bdodatasets/target/BDODatsets-bdodatasets/BDODatsets/bin/suggest "%s"' %uri
+		command = '/home/anatrillos/Documents/BigDataOcean-Harmonization/Backend/bdodatasets/target/BDODatsets-bdodatasets/BDODatsets/bin/suggest "%s"' %uri
 		try:
 			process = subprocess.check_output([command], shell="True")
 		except subprocess.CalledProcessError as e:

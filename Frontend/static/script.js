@@ -27,6 +27,13 @@ jQuery(document).ready(function($) {
   });
   resourceLanguages.initialize();
 
+  var resourceKeywords = new Bloodhound({
+    datumTokenizer: Bloodhound.tokenizers.obj.whitespace('text'),
+    queryTokenizer: Bloodhound.tokenizers.whitespace,
+    prefetch: 'static/json/keywords.json'
+  });
+  resourceLanguages.initialize();
+
   $('#tokenfield_type').tokenfield({
     typeahead: [null, {
       source: resourceTypes.ttAdapter(),
@@ -60,5 +67,13 @@ jQuery(document).ready(function($) {
     }],
     showAutocompleteOnFocus: true
   }); 
+
+  $('#tokenfield_keywords').tokenfield({
+    typeahead: [null, {
+      source: resourceKeywords.ttAdapter(),
+      displayKey: 'text'
+    }],
+    showAutocompleteOnFocus: true
+  });
 
 });

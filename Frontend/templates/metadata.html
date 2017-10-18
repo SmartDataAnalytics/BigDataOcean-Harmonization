@@ -113,8 +113,8 @@
                         <td>
                             <label class="label-table" for="keywords">Keywords:</label>
                         </td>
-                        <td colspan="8">
-                            <input type="text" class="form-control" id="keywords">
+                        <td colspan="8">                            
+                            <input type="text" class="form-control" id="tokenfield_keywords" required />
                         </td>
                     </tr>
                     <tr>
@@ -289,7 +289,7 @@
                             <label class="label-table " for="variables">Variables:</label>
                         </td>
                         <td colspan="8">
-                            <input type="text" class="form-control token-variables-field" id="variables" value="{{dataset.variables}}">
+                            <input type="text" class="form-control token-variables-field" id="variables" value="{{dataset.variables}}" disabled="true">
                         </td>
                     </tr>
                 </tr>
