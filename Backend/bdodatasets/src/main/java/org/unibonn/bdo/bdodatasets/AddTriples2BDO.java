@@ -15,7 +15,7 @@ import com.hp.hpl.jena.rdf.model.Statement;
 public class AddTriples2BDO {
 	
 	public static TDBConnection tdb = null;
-	public static String graph = "BDO_Harmonization";
+	public static String model = "BDO_Harmonization";
 	public static String uri = "http://bigdataocean.eu/bdo/";
 
 	public static void main(String[] args) throws IOException {
@@ -27,8 +27,13 @@ public class AddTriples2BDO {
 		String property = "rdf:type";
 		String object = "dct:Dataset";
 		
-		List<Statement> result = tdb.getStatements( graph, uri, null, null);
-		System.out.println( graph + " size: " + result.size() + "\n\t" + result );
+		tdb.loadModel(model, "/home/anatrillos/Documents/BigDataOcean-Harmonization/TripleStore/bdo_harmonization.ttl");
+		//tdb.addStatement( graph, subject, property, object );
+		
+		List<Statement> result = tdb.getStatements( model, null, "http://industrialdataspace/information-model/latitude", null);
+		System.out.println( model + " size: " + result.size() + "\n\t" + result );
+		
+		
 		
 		tdb.close();
 	}

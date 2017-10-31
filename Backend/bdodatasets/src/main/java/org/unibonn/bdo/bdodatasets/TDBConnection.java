@@ -3,6 +3,10 @@ package org.unibonn.bdo.bdodatasets;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.jena.riot.RDFDataMgr;
+import org.apache.jena.riot.RDFFormat;
+import org.apache.jena.riot.RDFLanguages;
+
 import com.hp.hpl.jena.query.Dataset;
 import com.hp.hpl.jena.query.ReadWrite;
 import com.hp.hpl.jena.rdf.model.Model;
@@ -13,8 +17,12 @@ import com.hp.hpl.jena.rdf.model.Selector;
 import com.hp.hpl.jena.rdf.model.SimpleSelector;
 import com.hp.hpl.jena.rdf.model.Statement;
 import com.hp.hpl.jena.rdf.model.StmtIterator;
+import com.hp.hpl.jena.sparql.core.DatasetGraph;
 import com.hp.hpl.jena.tdb.TDBFactory;
 import com.hp.hpl.jena.util.FileManager;
+
+import arq.cmd.CmdException;
+import arq.cmdline.ModLangOutput;
 
 /**
  *  
@@ -26,6 +34,7 @@ import com.hp.hpl.jena.util.FileManager;
 public class TDBConnection {
 	
 	private Dataset bdo_harmonization;
+	static ModLangOutput modLangOutput = new ModLangOutput() ;
 	
 	public TDBConnection (){
 		bdo_harmonization = TDBFactory.createDataset( "/home/anatrillos/Documents/BigDataOcean-Harmonization/TripleStore/" );

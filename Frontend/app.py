@@ -28,6 +28,27 @@ def parse():
 		dataset = datasetSuggest(**parsed_output)
 		return render_template('metadata.html', dataset=dataset)
 
+@app.route('/save', methods=['POST'])
+def save():
+	if request.method == 'POST':
+		print ("hola")
+		file = open("/home/anatrillos/Documents/BigDataOcean-Harmonization/TripleStore/addNewDataset.ttl", "w+") 		 
+		file.write("@prefix dct: <http://purl.org/dc/terms/> . \n")
+		file.write("@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\n")
+		file.write("@prefix owl: <http://www.w3.org/2002/07/owl#> . \n")
+		file.write("@prefix xsd: <http://www.w3.org/2001/XMLSchema#> . \n")
+		file.write("@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> . \n")
+		file.write("@prefix foaf: <http://xmlns.com/foaf/0.1/> . \n")
+		file.write("@prefix disco: <http://rdf-vocabulary.ddialliance.org/discovery> . \n")
+		file.write("@prefix dcat: <https://www.w3.org/TR/vocab-dcat/> . \n")
+		file.write("@prefix bdo: <http://bigdataocean.eu/bdo/> . \n")
+		file.write("@prefix ids: <http://industrialdataspace/information-model/> . \n")
+		file.write("@prefix qudt: <http://qudt.org/schema/qudt/> . \n")
+		file.write("@prefix unit: <http://qudt.org/vocab/unit/> . \n") 
+		file.write("bdo:"+request.form['identifier']+" a "+request.form['tokenfield_type']) 		 
+		file.close()
+
+
 @app.route('/edit', methods=['GET', 'POST'])
 def edit(dataset):
 	if request.method == 'POST':
