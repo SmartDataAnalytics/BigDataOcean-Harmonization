@@ -32,7 +32,6 @@ def parse():
 @app.route('/save', methods=['POST'])
 def save():
 	if request.method == 'POST':
-		print ("hola")
 		with open('/home/anatrillos/Documents/BigDataOcean-Harmonization/TripleStore/addNewDataset.ttl','w') as file:
 			file.write("@prefix adms: <http://www.w3.org/ns/adms#> . \n")
 			file.write("@prefix cnt: <http://www.w3.org/2011/content#> . \n")
@@ -71,7 +70,11 @@ def save():
 			file.write("bdo:verticalCoverage bdo:"+request.form['identifier']+"_VC ;\n")
 			file.write("bdo:temporalResolution bdo:"+request.form['identifier']+"_TR ;\n")
 			file.write("bdo:gridResolution bdo:"+request.form['identifier']+"_GR .\n")
-		return 'pass'
+		update_fuseki = 's-put http://localhost:3030/bdoHarmonization/data default /home/anatrillos/Documents/BigDataOcean-Harmonization/AddDatasets/addNewDataset.ttl'
+		try:
+			process = subprocess.check_output([update_fuseki], shell="True")
+		except subprocess.CalledProcessError as e:
+			return 'passed'
 			
 
 

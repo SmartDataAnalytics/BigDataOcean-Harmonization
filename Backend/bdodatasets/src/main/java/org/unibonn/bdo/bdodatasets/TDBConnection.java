@@ -47,7 +47,7 @@ public class TDBConnection {
 		bdo_harmonization.begin( ReadWrite.WRITE );
 		try
 		{
-			model = bdo_harmonization.getNamedModel( modelName );
+			model = bdo_harmonization.getDefaultModel();
 			FileManager.get().readModel( model, path );
 			bdo_harmonization.commit();
 		}
