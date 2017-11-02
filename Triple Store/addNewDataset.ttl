@@ -1,0 +1,38 @@
+@prefix adms: <http://www.w3.org/ns/adms#> . 
+@prefix cnt: <http://www.w3.org/2011/content#> . 
+@prefix dct: <http://purl.org/dc/terms/> . 
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> . 
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> . 
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> . 
+@prefix foaf: <http://xmlns.com/foaf/0.1/> . 
+@prefix disco: <http://rdf-vocabulary.ddialliance.org/discovery> . 
+@prefix dcat: <https://www.w3.org/TR/vocab-dcat/> . 
+@prefix bdo: <http://bigdataocean.eu/bdo/> . 
+@prefix ids: <http://industrialdataspace/information-model/> . 
+@prefix qudt: <http://qudt.org/schema/qudt/> . 
+@prefix unit: <http://qudt.org/vocab/unit/> . 
+ 
+bdo:MEDSEA_ANALYSIS_FORECAST_WAV_006_011 a <http://inspire.ec.europa.eu/metadata-codelist/ResourceType/dataset> ;
+dct:title "Mediterranean Sea Waves Hindcast and Forecast" ;
+dct:description " MEDSEA_ANALYSIS_FORECAST_WAVES_006_011 is the nominal product of the Mediterranean Sea Waves Forecasting system, composed by hourly wave parameters at 1/24º horizontal resolution covering the Mediterranean Sea and extending up to -18.125W into the Atlantic Ocean. The Mediterranean Forecasting System, waves forecast component, is a wave model based on WAM Cycle 4.5.4, a state of the art third generation wave model successfully used for the last 20 years for wave hindcasting and forecasting. In the wave model the continuous wave spectrum is approximated by means of step functions which are constant in a frequency-direction bin. The Med-waves modelling system resolves the prognostic part of the wave spectrum with 24 directional and 32 logarithmically distributed frequency bins. The Med-waves set up includes a coarse grid domain with a resolution of 1/6° covering the North Atlantic Ocean from 75° W to 10° E and from 70° N to 10° S and a nested fine grid domain with a resolution of 1/24° covering the Mediterranean Sea from 18.125° W to 36.2917° E and from 30.1875° N to 45.9792° S. " ;
+foaf:homepage "http://cmems-resources.cls.fr/?option=com_csw&view=details&tab=info&product_id=MEDSEA_ANALYSIS_FORECAST_WAV_006_011&format=xml" ;
+dct:identifier "MEDSEA_ANALYSIS_FORECAST_WAV_006_011" ;
+dct:language "eng" ;
+dct:subject <http://inspire.ec.europa.eu/metadata-codelist/TopicCategory/oceans> ;
+dcat:theme <http://www.eionet.europa.eu/concept/14844, http://www.eionet.europa.eu/concept/5145> ;
+dct:spatial bdo:MEDSEA_ANALYSIS_FORECAST_WAV_006_011_SC ;
+dct:temporal "from 2016-08-01 to Present" ;
+dct:provenance "" ;
+dct:conformsTo "WGS 84 (EPSG 4326)" ;
+dct:license "" ;
+dct:accessRights "" ;
+dct:publisher "CMEMS" ;
+dct:format <http://inspire.ec.europa.eu/media-types/text> ;
+cnt:characterEncoding "" ;
+dct:accuralPeriodicity "daily at 03:00 UTC" ;
+rdfs:comment "" ;
+adms:representationTechnique "" ;
+bdo:verticalCoverage bdo:MEDSEA_ANALYSIS_FORECAST_WAV_006_011_VC ;
+bdo:temporalResolution bdo:MEDSEA_ANALYSIS_FORECAST_WAV_006_011_TR ;
+bdo:gridResolution bdo:MEDSEA_ANALYSIS_FORECAST_WAV_006_011_GR .

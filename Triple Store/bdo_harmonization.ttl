@@ -1,0 +1,79 @@
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix disco: <http://rdf-vocabulary.ddialliance.org/discovery> .
+@prefix dcat: <https://www.w3.org/TR/vocab-dcat/> .
+@prefix bdo: <http://bigdataocean.eu/bdo/> .
+@prefix ids: <http://industrialdataspace/information-model/> .
+@prefix qudt: <http://qudt.org/schema/qudt/> .
+@prefix unit: <http://qudt.org/vocab/unit/> .
+
+
+# Define new bdo properties
+bdo:TemporalResolution a owl:Class .
+bdo:GridResolution a owl:Class .
+
+
+bdo:value a owl:Datatypeproperty .
+bdo:unit a owl:ObjectProperty .
+bdo:verticalFrom a owl:ObjectProperty .
+bdo:verticalTo a owl:ObjectProperty .
+
+bdo:temporalResolution a owl:ObjectProperty .
+bdo:gridResolution a owl:ObjectProperty .
+
+# Extend disco variable to include units
+bdo:BDOVariable rdfs:subclassof disco:Variable .
+
+
+# Vertical Coverage
+bdo:MO_201708_PR_PF_6903279_VC a bdo:VerticalCoverage ;
+                               bdo:unit unit:M ;
+                               bdo:verticalFrom "2.1"^^xsd:double ;
+                               bdo:verticalTo "602.6"^^xsd:double .
+
+# Temporal resolution
+bdo:MO_201708_PR_PF_6903279_TR a bdo:TemporalCoverage ;
+                               bdo:unit unit:DAY ;
+                               bdo:value "1"^^xsd:int .
+
+# Spatial coverage
+bdo:MO_201708_PR_PF_6903279_SC ids:geoPoint [ a ids:GeoPoint ;
+                                              ids:latitude "37.718"^^xsd:double ;
+                                              ids:longitude "25.2454"^^xsd:double ] ;
+                               ids:geoPoint [ a ids:GeoPoint ;
+                                              ids:latitude "38.1936"^^xsd:double ;
+                                              ids:longitude "25.2454"^^xsd:double ] ;
+                               ids:geoPoint [ a ids:GeoPoint ;
+                                              ids:latitude "38.1936"^^xsd:double ;
+                                              ids:longitude "25.2454"^^xsd:double ] ;
+                               ids:geoPoint [ a ids:GeoPoint ;
+                                              ids:latitude "38.1936"^^xsd:double ;
+                                              ids:longitude "25.4214"^^xsd:double ] .
+
+
+
+# All dataset metadata
+bdo:MO_201708_PR_PF_6903279 a dcat:Dataset ;
+                            dct:title "Med Sea - NRT in situ Observations" ;
+	                    dct:identifier "MO_201708_PR_PF_6903279" ;
+	                    dct:language "en" ;
+	                    dct:publisher "HELLENIC CENTER FOR MARINE RESEARCH (HCMR)" ;
+	                    dct:modified "2017-09-01T05:46:37Z"^^xsd:dateTime ;
+	                    dct:issued "2017-09-01T05:46:37Z"^^xsd:dateTime ;
+	                    dct:conformsTo "CF-1.6 OceanSITES-Manual-1.2" ,
+                                           "Copernicus-InSituTAC-SRD-1.3" ,
+                                           "Copernicus-InSituTAC-ParametersList-3.0.0" ;
+	                    dct:format "netCDF" ;
+	                    dct:spatial <http://marineregions.org/mrgid/1905> ;
+                            dcat:subject <https://www.eionet.europa.eu/gemet/en/concept/14844> ,
+                                         <https://www.eionet.europa.eu/gemet/en/concept/10031> ;
+                            dct:accessRights "These data follow Copernicus standards; they are public and free of charge. User assumes all risk for use of data. User must display citation in any publication or product using data. User must contact PI prior to any commercial use of data." ;
+                            bdo:verticalCoverage bdo:MO_201708_PR_PF_6903279_VC ;
+                            bdo:timeCoverage [ids:beginning "2017-08-02T05:13:51Z"^^xsd:dateTime ;
+                                              ids:end "2017-08-27T05:12:03Z"^^xsd:dateTime] ;
+                            bdo:spatialCoverage bdo:MO_201708_PR_PF_6903279_SC ;.
+
