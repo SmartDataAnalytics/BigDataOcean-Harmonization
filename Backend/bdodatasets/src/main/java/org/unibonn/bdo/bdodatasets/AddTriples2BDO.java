@@ -23,14 +23,11 @@ public class AddTriples2BDO {
 		/*String subject = args[0];
 		String property = args[1];
 		String object = args[2];*/
-		String subject = uri+"prueba1";
-		String property = "rdf:type";
-		String object = "dct:Dataset";
 		
-		tdb.loadModel(model, "/home/anatrillos/Documents/BigDataOcean-Harmonization/TripleStore/bdo_harmonization.ttl");
+		tdb.loadModel(model, "/home/anatrillos/Documents/BigDataOcean-Harmonization/TripleStore/addNewDataset.ttl");
 		//tdb.addStatement( graph, subject, property, object );
 		
-		List<Statement> result = tdb.getStatements( model, null, "http://industrialdataspace/information-model/latitude", null);
+		List<Statement> result = tdb.getStatements( model, uri+"MEDSEA_ANALYSIS_FORECAST_WAV_006_011", "https://www.w3.org/TR/vocab-dcat/theme", null);
 		System.out.println( model + " size: " + result.size() + "\n\t" + result );
 		
 		

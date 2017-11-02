@@ -3,6 +3,7 @@ import json
 from flask import Flask, render_template, request
 from flask_bootstrap import Bootstrap
 from pprint import pprint
+import os
 
 app = Flask(__name__)
 bootstrap = Bootstrap(app)
@@ -32,21 +33,46 @@ def parse():
 def save():
 	if request.method == 'POST':
 		print ("hola")
-		file = open("/home/anatrillos/Documents/BigDataOcean-Harmonization/TripleStore/addNewDataset.ttl", "w+") 		 
-		file.write("@prefix dct: <http://purl.org/dc/terms/> . \n")
-		file.write("@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\n")
-		file.write("@prefix owl: <http://www.w3.org/2002/07/owl#> . \n")
-		file.write("@prefix xsd: <http://www.w3.org/2001/XMLSchema#> . \n")
-		file.write("@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> . \n")
-		file.write("@prefix foaf: <http://xmlns.com/foaf/0.1/> . \n")
-		file.write("@prefix disco: <http://rdf-vocabulary.ddialliance.org/discovery> . \n")
-		file.write("@prefix dcat: <https://www.w3.org/TR/vocab-dcat/> . \n")
-		file.write("@prefix bdo: <http://bigdataocean.eu/bdo/> . \n")
-		file.write("@prefix ids: <http://industrialdataspace/information-model/> . \n")
-		file.write("@prefix qudt: <http://qudt.org/schema/qudt/> . \n")
-		file.write("@prefix unit: <http://qudt.org/vocab/unit/> . \n") 
-		file.write("bdo:"+request.form['identifier']+" a "+request.form['tokenfield_type']) 		 
-		file.close()
+		with open('/home/anatrillos/Documents/BigDataOcean-Harmonization/TripleStore/addNewDataset.ttl','w') as file:
+			file.write("@prefix adms: <http://www.w3.org/ns/adms#> . \n")
+			file.write("@prefix cnt: <http://www.w3.org/2011/content#> . \n")
+			file.write("@prefix dct: <http://purl.org/dc/terms/> . \n")
+			file.write("@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\n")
+			file.write("@prefix owl: <http://www.w3.org/2002/07/owl#> . \n")
+			file.write("@prefix xsd: <http://www.w3.org/2001/XMLSchema#> . \n")
+			file.write("@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> . \n")
+			file.write("@prefix foaf: <http://xmlns.com/foaf/0.1/> . \n")
+			file.write("@prefix disco: <http://rdf-vocabulary.ddialliance.org/discovery> . \n")
+			file.write("@prefix dcat: <https://www.w3.org/TR/vocab-dcat/> . \n")
+			file.write("@prefix bdo: <http://bigdataocean.eu/bdo/> . \n")
+			file.write("@prefix ids: <http://industrialdataspace/information-model/> . \n")
+			file.write("@prefix qudt: <http://qudt.org/schema/qudt/> . \n")
+			file.write("@prefix unit: <http://qudt.org/vocab/unit/> . \n \n") 
+			file.write("bdo:"+request.form['identifier']+" a <"+request.form['tokenfield_type']+"> ;\n")
+			file.write("dct:title \""+request.form['title']+"\" ;\n")
+			file.write("dct:description \""+request.form['description']+"\" ;\n")
+			file.write("foaf:homepage \""+request.form['homepage']+"\" ;\n")
+			file.write("dct:identifier \""+request.form['identifier']+"\" ;\n")
+			file.write("dct:language \""+request.form['tokenfield_language']+"\" ;\n")
+			file.write("dct:subject <"+request.form['tokenfield_subject']+"> ;\n")
+			file.write("dcat:theme <"+request.form['tokenfield_keywords']+"> ;\n")
+			file.write("dct:spatial bdo:"+request.form['identifier']+"_SC ;\n")
+			file.write("dct:temporal \""+request.form['temp_coverage']+"\" ;\n")
+			file.write("dct:provenance \""+request.form['provenance']+"\" ;\n")
+			file.write("dct:conformsTo \""+request.form['coordinate_sys']+"\" ;\n")
+			file.write("dct:license \""+request.form['license']+"\" ;\n")
+			file.write("dct:accessRights \""+request.form['access_rights']+"\" ;\n")
+			file.write("dct:publisher \""+request.form['publisher']+"\" ;\n")
+			file.write("dct:format <"+request.form['tokenfield_format']+"> ;\n")
+			file.write("cnt:characterEncoding \""+request.form['char_encoding']+"\" ;\n")
+			file.write("dct:accuralPeriodicity \""+request.form['update_freq']+"\" ;\n")
+			file.write("rdfs:comment \""+request.form['comment']+"\" ;\n")
+			file.write("adms:representationTechnique \""+request.form['spatial_representation']+"\" ;\n")
+			file.write("bdo:verticalCoverage bdo:"+request.form['identifier']+"_VC ;\n")
+			file.write("bdo:temporalResolution bdo:"+request.form['identifier']+"_TR ;\n")
+			file.write("bdo:gridResolution bdo:"+request.form['identifier']+"_GR .\n")
+		return 'pass'
+			
 
 
 @app.route('/edit', methods=['GET', 'POST'])
