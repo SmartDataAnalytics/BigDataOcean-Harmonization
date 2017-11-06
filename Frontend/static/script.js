@@ -75,5 +75,4 @@ jQuery(document).ready(function($) {
     }],
     showAutocompleteOnFocus: true
   });
-
 });

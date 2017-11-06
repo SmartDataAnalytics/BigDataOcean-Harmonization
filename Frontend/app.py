@@ -8,18 +8,36 @@ import os
 app = Flask(__name__)
 bootstrap = Bootstrap(app)
 
+globalPath = "/home/jaimetrillos/Documents/BDO/BigDataOcean-Harmonization"
+#globalPath = "/home/anatrillos/Documents/BigDataOcean-Harmonization"
 
+data = [{
+  "title": "Hi",
+  "description": "Hi"
+}]
+# other column settings -> http://bootstrap-table.wenzhixin.net.cn/documentation/#column-options
+columns = [{
+    "field": "title", # which is the field's name of data key 
+    "title": "Title", # display as the table header's name
+    "sortable": True,
+  },
+  {
+    "field": "description",
+    "title": "Description",
+    "sortable": True,
+  }]
 
 @app.route('/')
 def index():
-	return render_template('index.html')
+	return render_template('index.html',
+      data=data,
+      columns=columns)
 
 @app.route('/metadata', methods=['GET', 'POST'])
 def parse():
 	if request.method == 'POST':
 		uri = request.form['uri']
-		# command = '/home/jaimetrillos/Documents/BDO/BigDataOcean-Harmonization/Backend/bdodatasets/target/BDODatsets-bdodatasets/BDODatsets/bin/suggest "%s"' %uri
-		command = '/home/anatrillos/Documents/BigDataOcean-Harmonization/Backend/bdodatasets/target/BDODatsets-bdodatasets/BDODatsets/bin/suggest "%s"' %uri
+		command = globalPath + '/Backend/bdodatasets/target/BDODatsets-bdodatasets/BDODatsets/bin/suggest "%s"' %uri
 		try:
 			process = subprocess.check_output([command], shell="True")
 		except subprocess.CalledProcessError as e:
@@ -33,7 +51,7 @@ def parse():
 def save():
 	if request.method == 'POST':
 		uri = "<http://bigdataocean.eu/bdo/"+request.form['identifier']+">"
-		with open('/home/anatrillos/Documents/BigDataOcean-Harmonization/AddDatasets/addNewDataset.ttl','w') as file:
+		with open(globalPath + '/AddDatasets/addNewDataset.ttl','w') as file:
 			file.write("PREFIX dct: <http://purl.org/dc/terms/>")
 			file.write("PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>")
 			file.write("PREFIX owl: <http://www.w3.org/2002/07/owl#>")
@@ -71,8 +89,8 @@ def save():
 			#.file.write("		disco:variable .")
 			file.write("}")
 			file.close()
-		path2TTL = "/home/anatrillos/Documents/BigDataOcean-Harmonization/AddDatasets/addNewDataset.ttl"
-		command = '/home/anatrillos/Documents/BigDataOcean-Harmonization/Backend/bdodatasets/target/BDODatsets-bdodatasets/BDODatsets/bin/addDataset2bdo "%s" "%s"' %(uri, path2TTL)
+		path2TTL = globalPath + "/AddDatasets/addNewDataset.ttl"
+		command = globalPath + '/Backend/bdodatasets/target/BDODatsets-bdodatasets/BDODatsets/bin/addDataset2bdo "%s" "%s"' %(uri, path2TTL)
 		try:
 			process = subprocess.check_output([command], shell="True")
 		except subprocess.CalledProcessError as e:

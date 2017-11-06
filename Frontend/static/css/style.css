@@ -299,3 +299,15 @@ footer {
     min-height: 34px;
     padding-bottom: 0px;
 }
+
+.bootstrap-table{
+    background: white;
+    padding: inherit;
+    border-radius: 3px;
+    margin-top: 20px;
+}
+
+.row-index {
+    width: 50px;
+    display: inline-block;
+}
