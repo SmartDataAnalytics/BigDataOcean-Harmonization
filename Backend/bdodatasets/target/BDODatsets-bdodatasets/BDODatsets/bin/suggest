@@ -97,7 +97,7 @@ then
   REPO="$BASEDIR"/lib
 fi
 
-CLASSPATH="$BASEDIR"/etc:"$REPO"/jsoup-1.10.3.jar:"$REPO"/gson-2.8.1.jar:"$REPO"/jena-rdfconnection-3.4.0.jar:"$REPO"/slf4j-api-1.7.25.jar:"$REPO"/jena-tdb-3.4.0.jar:"$REPO"/jena-arq-3.4.0.jar:"$REPO"/jena-core-3.4.0.jar:"$REPO"/jena-iri-3.4.0.jar:"$REPO"/xercesImpl-2.11.0.jar:"$REPO"/xml-apis-1.4.01.jar:"$REPO"/commons-cli-1.4.jar:"$REPO"/jena-base-3.4.0.jar:"$REPO"/collection-0.7.jar:"$REPO"/jena-shaded-guava-3.4.0.jar:"$REPO"/httpclient-4.5.3.jar:"$REPO"/httpcore-4.4.6.jar:"$REPO"/commons-codec-1.9.jar:"$REPO"/jsonld-java-0.10.0.jar:"$REPO"/jackson-core-2.8.6.jar:"$REPO"/jackson-databind-2.8.6.jar:"$REPO"/jackson-annotations-2.8.0.jar:"$REPO"/commons-io-2.5.jar:"$REPO"/httpclient-cache-4.5.3.jar:"$REPO"/libthrift-0.9.3.jar:"$REPO"/jcl-over-slf4j-1.7.25.jar:"$REPO"/commons-csv-1.4.jar:"$REPO"/commons-lang3-3.4.jar:"$REPO"/bdodatasets-0.1-SNAPSHOT.jar
+CLASSPATH="$BASEDIR"/etc:"$REPO"/jsoup-1.10.3.jar:"$REPO"/gson-2.8.1.jar:"$REPO"/jena-tdb-1.1.2.jar:"$REPO"/jena-arq-2.13.0.jar:"$REPO"/httpclient-4.2.6.jar:"$REPO"/httpcore-4.2.5.jar:"$REPO"/commons-codec-1.6.jar:"$REPO"/jsonld-java-0.5.1.jar:"$REPO"/jackson-core-2.3.3.jar:"$REPO"/jackson-databind-2.3.3.jar:"$REPO"/jackson-annotations-2.3.0.jar:"$REPO"/httpclient-cache-4.2.6.jar:"$REPO"/libthrift-0.9.2.jar:"$REPO"/jcl-over-slf4j-1.7.6.jar:"$REPO"/commons-csv-1.0.jar:"$REPO"/commons-lang3-3.3.2.jar:"$REPO"/jena-core-2.13.0.jar:"$REPO"/jena-iri-1.1.2.jar:"$REPO"/xercesImpl-2.11.0.jar:"$REPO"/xml-apis-1.4.01.jar:"$REPO"/slf4j-api-1.7.6.jar:"$REPO"/slf4j-log4j12-1.7.6.jar:"$REPO"/log4j-1.2.17.jar:"$REPO"/bdodatasets-0.1-SNAPSHOT.jar
 
 ENDORSED_DIR=
 if [ -n "$ENDORSED_DIR" ] ; then

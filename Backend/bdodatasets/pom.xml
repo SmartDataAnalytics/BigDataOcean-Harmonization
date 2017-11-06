@@ -99,6 +99,13 @@
                 <maxMemorySize>512m</maxMemorySize>
               </jvmSettings>
             </program>
+            <program>
+              <mainClass>org.unibonn.bdo.bdodatasets.AddDataset2BDO</mainClass>
+              <name>addDataset2bdo</name>
+              <jvmSettings>
+                <maxMemorySize>512m</maxMemorySize>
+              </jvmSettings>
+            </program>
           </programs>
         </configuration>
         <executions>

@@ -1,3 +1,7 @@
+/home/anatrillos/Documents/BigDataOcean-Harmonization/Backend/bdodatasets/src/main/java/org/unibonn/bdo/bdodatasets/AddDataset2BDO.java
 /home/anatrillos/Documents/BigDataOcean-Harmonization/Backend/bdodatasets/src/main/java/org/unibonn/bdo/objects/DatasetSuggest.java
+/home/anatrillos/Documents/BigDataOcean-Harmonization/Backend/bdodatasets/src/main/java/org/unibonn/bdo/bdodatasets/TDBConnection.java
+/home/anatrillos/Documents/BigDataOcean-Harmonization/Backend/bdodatasets/src/main/java/org/unibonn/bdo/bdodatasets/AddTriples2BDO.java
+/home/anatrillos/Documents/BigDataOcean-Harmonization/Backend/bdodatasets/src/main/java/org/unibonn/bdo/bdodatasets/FusekiTest.java
 /home/anatrillos/Documents/BigDataOcean-Harmonization/Backend/bdodatasets/src/main/java/org/unibonn/bdo/bdodatasets/Suggest.java
 /home/anatrillos/Documents/BigDataOcean-Harmonization/Backend/bdodatasets/src/main/java/org/unibonn/bdo/bdodatasets/BdoDatasetAnalyser.java
