@@ -4,37 +4,6 @@
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <title>BigDataOcean Harmonization </title>
   <link rel='icon' href='/static/img/BIG-DATA-OCEAN_LOGO.ico'>
-  <script
-  src="https://code.jquery.com/jquery-2.2.4.min.js"
-  integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
-  crossorigin="anonymous"></script>
-  <script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <link rel="stylesheet" href="static/css/style.css">
-  <link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.css">
-  <script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
-  <script type='text/javascript'>
-    $(window).load(function(){
-      var data = {{data|tojson}};
-      var columns = {{columns|tojson}};
-
-      $(function() {
-        $('#tableDatasets').bootstrapTable({ 
-          data: data,
-          columns: columns,
-        });
-
-      });
-    });
-    function selectType() {
-      var value = document.getElementById("sel1").value;
-      if (value == "Copernicus Dataset") {
-        document.getElementById("demo").innerHTML = "You selected: " + value;
-      }else {
-        document.getElementById("demo").innerHTML = "You selected: " + value;
-      }
-  }
-  </script>
 </head>
 
 <body>
@@ -58,8 +27,8 @@
     <div class="row content">
         <div class="col-md-1">
         </div>
-        <div class="col-md-10 field-uri">
-            <form id="uriForm" name="uriForm" class="form-style" method='post' action="http://localhost:5000/metadata">
+        <div class="col-md-10 field-uri" id='div_typeuri' style='display: none;'>
+            <form id="uriForm" name="uriForm" class="form-style" method='post' action="http://localhost:5000/metadata" onsubmit="return requireUri()">
                 <div class="col-md-12">
                   <label class="label-table" for="sel1">Select the type of dataset you want to add:</label>
                 </div>
@@ -70,13 +39,19 @@
                     <option>Other</option>
                   </select>
                 </div>
-                <div class="col-md-2">
-                    <label class="label-table" for="uri">URI:</label>
+                <div id='urifield' style='display: none;'>
+                  <div class="col-md-2">
+                      <label class="label-table" for="uri">URI:</label>
+                  </div>
+                  <div class="col-md-10">
+                      <input type="url" class="form-control" id="uri" name="uri">
+                  </div>
+                  <div class="col-md-12" style="padding-right: auto;">
+                    <button type="submit" class="btn btn-default"><i class="glyphicon glyphicon-plus"></i> Add
+                    </button>
                 </div>
-                <div class="col-md-10">
-                    <input type="url" class="form-control" id="uri" name="uri">
                 </div>
-                <div class="col-md-12" style="padding-right: auto">
+                <div id='addbutton' class="col-md-12" style="padding-right: auto; display: none;">
                     <button type="submit" class="btn btn-default"><i class="glyphicon glyphicon-plus"></i> Add
                     </button>
                 </div>
@@ -93,7 +68,7 @@
         </div>
         <div class="col-md-10 metadata-info">
           <div id="toolbar">
-            <button id="remove" class="btn btn">
+            <button id="showDiv" class="btn btn" onclick="this.disabled=true; toggleLayer( 'div_typeuri' )" >
               <i class="glyphicon glyphicon-plus"></i> Add
             </button>
           </div>
@@ -116,4 +91,29 @@
     <a class="footer" href="http://www.bigdataocean.eu/site/">Big Data Ocean</a>
   </footer>
 </body>
+<script
+  src="https://code.jquery.com/jquery-2.2.4.min.js"
+  integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+  crossorigin="anonymous"></script>
+<script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="static/css/style.css">
+<link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.css">
+<script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
+<script type='text/javascript' src="static/js/indexScript.js"></script>
+<script type='text/javascript'>
+  //Show the data in the tableDatasets
+  $(window).load(function(){
+    var data = {{data|tojson}};
+    var columns = {{columns|tojson}};
+
+    $(function() {
+      $('#tableDatasets').bootstrapTable({ 
+        data: data,
+        columns: columns,
+      });
+    });
+  });
+</script>
+
 </html>

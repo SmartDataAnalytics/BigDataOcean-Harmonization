@@ -37,15 +37,19 @@ def index():
 def parse():
 	if request.method == 'POST':
 		uri = request.form['uri']
-		command = globalPath + '/Backend/bdodatasets/target/BDODatsets-bdodatasets/BDODatsets/bin/suggest "%s"' %uri
-		try:
-			process = subprocess.check_output([command], shell="True")
-		except subprocess.CalledProcessError as e:
-			return render_template('500.html')
+		if uri != "":
+			command = globalPath + '/Backend/bdodatasets/target/BDODatsets-bdodatasets/BDODatsets/bin/suggest "%s"' %uri
+			try:
+				process = subprocess.check_output([command], shell="True")
+			except subprocess.CalledProcessError as e:
+				return render_template('500.html')
 
-		parsed_output = json.loads(process.decode('utf-8'))
-		dataset = datasetSuggest(**parsed_output)
-		return render_template('metadata.html', dataset=dataset)
+			parsed_output = json.loads(process.decode('utf-8'))
+			dataset = datasetSuggest(**parsed_output)
+			return render_template('metadata.html', dataset=dataset)
+		else :
+			return render_template('metadata.html', dataset="")
+		
 
 @app.route('/save', methods=['POST'])
 def save():
