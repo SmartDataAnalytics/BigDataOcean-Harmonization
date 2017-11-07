@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>BigDataOcean Harmonization </title>
+  <link rel='icon' href='/static/img/BIG-DATA-OCEAN_LOGO.ico'>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+  <link rel="stylesheet" href="static/css/bootstrap-tagsinput.css">
+  <link rel="stylesheet" href="static/css/bootstrap-tokenfield.css">
+  <link rel="stylesheet" href="static/css/tokenfield-typeahead.css">
+  <link rel="stylesheet" href="static/css/style.css">
+
+  <script src="static/js/jquery-3.2.1.min.js"></script>
+  <script src="http://code.jquery.com/ui/1.12.1/jquery-ui.js" ></script>
+  <script src="static/js/Bloodhound.js"></script>
+  <script src="static/js/bootstrap-tagsinput.js"></script>
+  <script src="static/js/bootstrap-tokenfield.js"></script>
+  <script src="static/js/typeahead.bundle.js"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='script.js') }}"></script>
+  <script type="text/javascript">
+    function validateForm() {
+        var x = document.forms["metadataForm"]["fname"].value;
+        if (document.forms["metadataForm"]["title"].value == "") {
+            alert("Name must be filled out");
+            return false;
+        }
+    }
+  </script>
+</head>
+<body>
+  <nav class="navbar navbar-bdo navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <div class="icon">
+          <a id="logo" title="BigDataOcean Repository" href="http://localhost:5000/">
+            <img itemprop="image" alt="BigDataOcean Repository" src="static/img/BIG-DATA-OCEAN_LOGO.png" height="86" width="200">
+          </a>
+        </div>
+        <div class="bdotitle label-table">
+          <h1>Big Data Ocean - Dataset Harmonization</h1>
+        </div>
+      </div>
+      <div class="collapse navbar-collapse" id="myNavbar">
+      </div>
+    </div>
+  </nav>
+  <div class="container text-center" style="margin-top:90px">
+    <form data-toogle="validator" id="metadataForm" name="metadataForm" class="form-style" method="post" action="http://localhost:5000/save">
+      <div class="row content">
+        <div class="col-md-1">
+        </div>
+        <div class="col-md-10 metadata-info">
+          <div class="alert alert-danger alert-dismissable" id="alert-fieldsEmpty">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Mandatory fields!</strong> Title, Description and Type are mandatory fields.
+          </div>
+          <table class="tableMetadata">
+            <tr>
+              <td>
+                <label class="label-table" for="identifier">Identifier:</label>
+              </td>
+              <td colspan="8">
+                <input type="text" class="form-control" id="identifier" name="identifier" value="{{dataset.identifier}}">
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-table" for="title">Title:</label>
+              </td>
+              <td colspan="8">
+                <input type="text" class="form-control" id="title" name="title" required value="{{ dataset.title }}"/>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-table" for="description">Description:</label>
+              </td>
+              <td colspan="8">
+                <textarea class="form-control" rows="2" id="description" name="description" required>{{dataset.description}}</textarea>
+              </td>
+            </tr>
+            <!-- <tr>
+              <td>
+                  <label class="label-table" for="Type">Type:</label>
+              </td>
+              <td colspan="8">                            
+                  <input type="text" class="form-control" id="tokenfield_type" name="tokenfield_type" required />
+              </td>
+            </tr> -->
+            <tr>
+              <td>
+                <label class="label-table" for="subject">Subject:</label>
+              </td>
+              <td colspan="8">                            
+                <input type="text" class="form-control" id="tokenfield_subject" name="tokenfield_subject" required />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-table" for="keywords">Keywords:</label>
+              </td>
+              <td colspan="8">                            
+                <input type="text" class="form-control" id="tokenfield_keywords" name="tokenfield_keywords" required />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-table" for="keywords">Standards:</label>
+              </td>
+              <td colspan="8">                            
+                <input type="text" class="form-control" id="standards" name="standards" />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-table " for="encode_format">Data Format:</label>
+              </td>
+              <td colspan="8">                            
+                <input type="text" class="form-control" id="tokenfield_format" name="tokenfield_format" />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-table" for="language">Language:</label>
+              </td>
+              <td colspan="8">
+                <input type="text" class="form-control" id="tokenfield_language" name="tokenfield_language" required value="{{dataset.language}}"/>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-table" for="homepage">Homepage:</label>
+              </td>
+              <td colspan="8">
+                <input type="url" class="form-control" id="homepage" name="homepage" value="{{dataset.homepage}}"/>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-table" for="publisher">Publisher:</label>
+              </td>
+              <td colspan="8">
+                <input type="text" class="form-control" id="publisher" name="publisher" required value="{{dataset.publisher}}"/>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-table " for="access_rights">Access rights:</label>
+              </td>
+              <td colspan="8">
+                <input type="text" class="form-control" id="access_rights" name="access_rights"/>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-table " for="issued_date">Issued date:</label>
+              </td>
+              <td colspan="8">
+                <input type="date" class="form-control" id="issued_date" name="issued_date" required/>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-table " for="modified_date">Modified date:</label>
+              </td>
+              <td colspan="8">
+                <input type="date" class="form-control" id="modified_date" name="modified_date" required/>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="col-md-1">
+        </div>
+      </div>
+      <div class="row content">
+        <div class="col-md-1">
+        </div>
+        <div class="col-md-10 metadata-spatial">
+          <table class="tableMetadata">
+            <tr>
+              <td>
+                <label class="label-table " for="temp_coverage">Geographic Location:</label>
+              </td>
+              <td colspan="8">
+                <input type="text" class="form-control" id="tokenfield_geo_loc" name="tokenfield_geo_loc">
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-table">Geographical Coverage:</label>
+              </td>
+              <td class="col-xs">
+                <label class="label-table-coordinates" for="geo_coverageW">W:</label>
+              </td>
+              <td class="col-xs">
+                <input type="number" class="form-control-input" id="geo_coverageW" name="geo_coverageW" value="{{dataset.spatialWest}}"/>
+              </td>
+              <td class="col-xs">
+                <label class="label-table-coordinates" for="geo_coverageE">E:</label>
+              </td>
+              <td class="col-xs">
+                <input type="number" class="form-control-input" id="geo_coverageE" name="geo_coverageE" value="{{dataset.spatialEast}}"/>
+              </td>
+              <td class="col-xs">
+                <label class="label-table-coordinates" for="geo_coverageS">S:</label>
+              </td>
+              <td class="col-xs">
+                <input type="number" class="form-control-input" id="geo_coverageS" name="geo_coverageS" value="{{dataset.spatialSouth}}"/>
+              </td>
+              <td class="col-xs">
+                <label class="label-table-coordinates" for="geo_coverageN">N:</label>
+              </td>
+              <td class="col-xs">
+                <input type="number" class="form-control-input" id="geo_coverageN" name="geo_coverageN" value="{{dataset.spatialNorth}}"/>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-table " for="coordinate_sys">Coordinate reference system:</label>
+              </td>
+              <td colspan="8">
+                <input type="text" class="form-control" id="coordinate_sys" name="coordinate_sys" value="{{dataset.conformsTo}}"/>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-table" for="vertical_coverage">Vertical Coverage:</label>
+              </td>
+              <td colspan="8">
+                <input type="text" class="form-control" id="vertical_coverage" name="vertical_coverage" value="{{dataset.verticalCoverage}}"/>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-table" for="vertical_level">Vertical Level:</label>
+              </td>
+              <td colspan="8">
+                <input type="number" class="form-control" id="vertical_level" name="vertical_level" value="{{dataset.verticalLevel}}"/>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-table " for="temp_coverage">Temporal Coverage:</label>
+              </td>
+              <td colspan="8">
+                <input type="text" class="form-control" id="temp_coverage" name="temp_coverage" value="{{dataset.temporal}}"/>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-table " for="time_resolution">Time Resolution:</label>
+              </td>
+              <td colspan="8">
+                <input type="text" class="form-control" id="time_reso" name="time_reso" required/>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="col-md-1">
+        </div>
+      </div>
+      <div class="row content">
+      </div>
+      <div class="buttonForm">
+        <button type="submit" class="btn btn-default">Save</button>
+        <button type="button" class="btn btn-danger" onclick="cancelButton()">Cancel</button>
+      </div>
+    </form>
+  </div>
+  <footer class="container-fluid text-center">
+    <a class="footer" href="http://www.bigdataocean.eu/site/">Big Data Ocean</a>
+  </footer>
+</body>
+</html>

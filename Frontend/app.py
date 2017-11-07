@@ -8,8 +8,8 @@ import os
 app = Flask(__name__)
 bootstrap = Bootstrap(app)
 
-globalPath = "/home/jaimetrillos/Documents/BDO/BigDataOcean-Harmonization"
-#globalPath = "/home/anatrillos/Documents/BigDataOcean-Harmonization"
+# globalPath = "/home/jaimetrillos/Documents/BDO/BigDataOcean-Harmonization"
+globalPath = "/home/anatrillos/Dropbox/Documentos/BigDataOcean-Harmonization"
 
 data = [{
   "title": "Hi",
@@ -33,7 +33,7 @@ def index():
       data=data,
       columns=columns)
 
-@app.route('/metadata', methods=['GET', 'POST'])
+@app.route('/addMetadata', methods=['GET', 'POST'])
 def parse():
 	if request.method == 'POST':
 		uri = request.form['uri']
@@ -46,10 +46,9 @@ def parse():
 
 			parsed_output = json.loads(process.decode('utf-8'))
 			dataset = datasetSuggest(**parsed_output)
-			return render_template('metadata.html', dataset=dataset)
+			return render_template('addMetadata.html', dataset=dataset)
 		else :
-			return render_template('metadata.html', dataset="")
-		
+			return render_template('addMetadata.html', dataset=dataset)
 
 @app.route('/save', methods=['POST'])
 def save():
