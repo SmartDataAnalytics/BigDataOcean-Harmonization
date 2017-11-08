@@ -8,8 +8,8 @@ import os
 app = Flask(__name__)
 bootstrap = Bootstrap(app)
 
-# globalPath = "/home/jaimetrillos/Documents/BDO/BigDataOcean-Harmonization"
-globalPath = "/home/anatrillos/Dropbox/Documentos/BigDataOcean-Harmonization"
+globalPath = "/home/jaimetrillos/Dropbox/BDO/BigDataOcean-Harmonization"
+#globalPath = "/home/anatrillos/Dropbox/Documentos/BigDataOcean-Harmonization"
 
 data = [{
   "title": "Hi",
@@ -114,39 +114,34 @@ def metadataInfo(dataset):
 		return render_template('metadataInfo.html', dataset=dataset)
 
 class datasetSuggest(object):
-	def __init__(self, title, description, homepage, identifier, language, spatialWest, spatialEast, spatialSouth, spatialNorth, 
-		temporal, conformsTo, publisher, accuralPeriodicity, verticalCoverage, verticalLevel, temporalResolution, gridResolution, variables):
+	def __init__(self, identifier, title, description, language, homepage, publisher, spatialWest, spatialEast, 
+		spatialSouth, spatialNorth, coordinateSystem, verticalCoverage, verticalLevel, temporalCoverageBegin, 
+		temporalCoverageEnd, timeResolution, variables):
+		self.identifier = identifier
 		self.title = title
 		self.description = description
-		#self.type = type
-		self.homepage = homepage
-		self.identifier = identifier
-		self.language = language
 		#self.subject = subject
-		#self.theme = theme
+		#self.keywords= keywords
+		#self.standards = standards
+		#self.format = format
+		self.language = language
+		self.homepage = homepage
+		self.publisher = publisher
+		#self.accessRights = accessRights
+		#self.issuedDate = issuedDate
+		#self.modifiedDate = modifiedDate
+		#self.geoLocation = geoLocation
 		self.spatialWest = spatialWest
 		self.spatialEast = spatialEast
 		self.spatialSouth = spatialSouth
 		self.spatialNorth = spatialNorth
-		self.temporal = temporal
-		#self.issuedDate = issuedDate
-		#self.modifiedDate = modifiedDate
-		#self.provenance = provenance
-		self.conformsTo = conformsTo
-		#self.license = license
-		#self.accessRights = accessRights
-		self.publisher = publisher
-		#self.format = format
-		#self.characterEncoding = characterEncoding
-		self.accuralPeriodicity = accuralPeriodicity
-		#self.comment = comment
-		#self.representationTecnique = representationTecnique
+		self.coordinateSystem = coordinateSystem
 		self.verticalCoverage = verticalCoverage
 		self.verticalLevel = verticalLevel
-		self.temporalResolution = temporalResolution
-		self.gridResolution = gridResolution
+		self.temporalCoverageBegin = temporalCoverageBegin
+		self.temporalCoverageEnd = temporalCoverageEnd
+		self.timeResolution = timeResolution
 		self.variables = variables
-
 
 if __name__ == '__main__':
 	app.run(debug=True)

@@ -27,18 +27,17 @@ public class BdoDatasetAnalyser {
 		String description;
 		String identifier;
 		String language;
+		String coordinateSystem;
 		String spatialWestBoundLongitude;
 		String spatialEastBoundLongitude;
 		String spatialSouthBoundLatitude;
 		String spatialNorthBoundLatitude;
-		String temporal;
-		String conformsTo;
+		String temporalCoverageBegin;
+		String temporalCoverageEnd;
 		String publisher;
-		String accuralPeriodicity;
 		String verticalCoverage;
 		String verticalLevel;
-		String tempResolution;
-		String gridResolution;
+		String timeResolution;
 		Elements variablesElements;
 		String variables;
 		
@@ -64,16 +63,13 @@ public class BdoDatasetAnalyser {
     	spatialNorthBoundLatitude = item.getElementsByTag("gmd:northBoundLatitude").first().text();
     	
     	Element item2 = item.getElementsByTag("gml:timePeriod").first();
-    	String beginPosition = item2.getElementsByTag("gml:beginPosition").first().text();
-		String endPosition = item2.getElementsByTag("gml:endPosition").first().text();
-		
-		if(endPosition.length()>0){
-    		temporal = "from " + beginPosition + " to " + endPosition;
-    	}else {
-    		temporal = "from " + beginPosition + " to Present";
+    	temporalCoverageBegin = item2.getElementsByTag("gml:beginPosition").first().text();
+    	temporalCoverageBegin += "T00:00:00";
+    	temporalCoverageEnd = item2.getElementsByTag("gml:endPosition").first().text();
+    	if(temporalCoverageEnd.length()>0) {
+    		temporalCoverageEnd += "T00:00:00";
     	}
     	
-    	accuralPeriodicity = item.getElementsByTag("gmd:maintenanceNote").first().text();
     	verticalCoverage = item.getElementsByTag("gmd:EX_VerticalExtent").text();
     	
     	delims = " ";
@@ -81,24 +77,17 @@ public class BdoDatasetAnalyser {
     	verticalCoverage = "from " + tokens[0] + " to " + tokens[1];
     	
     	Element item3 = doc.getElementsByTag("gmd:referenceSystemInfo").first();
-    	conformsTo = item3.getElementsByTag("gmd:code").text();
-    	
-    	Element item4 = doc.getElementsByTag("gmd:spatialRepresentationInfo").first();
-        gridResolution = item4.getElementsByTag("gmd:axisDimensionProperties").text();
-        
-        delims = " ";
-    	tokens = gridResolution.split(delims);
-    	gridResolution = tokens[0] + "degree x " + tokens[1] + "degree";
+    	coordinateSystem = item3.getElementsByTag("gmd:code").text();
         
         Element item5 = doc.getElementsByTag("gmd:contact").first();
         publisher = item5.getElementsByTag("gmd:organisationName").text();
         
         Element item6 = doc.getElementsByTag("gmd:contentInfo").first();
-        tempResolution = item6.getElementsByTag("gmd:dimension").first().text();
+        timeResolution = item6.getElementsByTag("gmd:dimension").first().text();
         
         delims = ": ";
-    	tokens = tempResolution.split(delims);
-    	tempResolution = tokens[1];
+    	tokens = timeResolution.split(delims);
+    	timeResolution = tokens[1];
         
         verticalLevel = item6.getElementsByTag("gmd:dimension").next().text();
         
@@ -121,18 +110,17 @@ public class BdoDatasetAnalyser {
         result.setHomepage(datasetURI);
         result.setIdentifier(identifier);
         result.setLanguage(language);
+        result.setCoordinateSystem(coordinateSystem);
         result.setSpatialWest(spatialWestBoundLongitude);
         result.setSpatialEast(spatialEastBoundLongitude);
         result.setSpatialSouth(spatialSouthBoundLatitude);
         result.setSpatialNorth(spatialNorthBoundLatitude);
-        result.setTemporal(temporal);
-        result.setConformsTo(conformsTo);
         result.setPublisher(publisher);
-        result.setAccuralPeriodicity(accuralPeriodicity);
+        result.setTemporalCoverageBegin(temporalCoverageBegin);
+        result.setTemporalCoverageEnd(temporalCoverageEnd);
         result.setVerticalCoverage(verticalCoverage);
+        result.setTimeResolution(timeResolution);
         result.setVerticalLevel(verticalLevel);
-        result.setTemporalResolution(tempResolution);
-        result.setGridResolution(gridResolution);
         result.setVariables(variables);
         
         return result;

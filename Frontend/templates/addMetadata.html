@@ -3,32 +3,6 @@
 <head>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <title>BigDataOcean Harmonization </title>
-  <link rel='icon' href='/static/img/BIG-DATA-OCEAN_LOGO.ico'>
-
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap-theme.min.css">
-  <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
-  <link rel="stylesheet" href="static/css/bootstrap-tagsinput.css">
-  <link rel="stylesheet" href="static/css/bootstrap-tokenfield.css">
-  <link rel="stylesheet" href="static/css/tokenfield-typeahead.css">
-  <link rel="stylesheet" href="static/css/style.css">
-
-  <script src="static/js/jquery-3.2.1.min.js"></script>
-  <script src="http://code.jquery.com/ui/1.12.1/jquery-ui.js" ></script>
-  <script src="static/js/Bloodhound.js"></script>
-  <script src="static/js/bootstrap-tagsinput.js"></script>
-  <script src="static/js/bootstrap-tokenfield.js"></script>
-  <script src="static/js/typeahead.bundle.js"></script>
-  <script type="text/javascript" src="{{ url_for('static', filename='script.js') }}"></script>
-  <script type="text/javascript">
-    function validateForm() {
-        var x = document.forms["metadataForm"]["fname"].value;
-        if (document.forms["metadataForm"]["title"].value == "") {
-            alert("Name must be filled out");
-            return false;
-        }
-    }
-  </script>
 </head>
 <body>
   <nav class="navbar navbar-bdo navbar-fixed-top">
@@ -160,7 +134,7 @@
                 <label class="label-table " for="issued_date">Issued date:</label>
               </td>
               <td colspan="8">
-                <input type="date" class="form-control" id="issued_date" name="issued_date" required value="{{ dataset.issued }}"/>
+                <input type="datetime-local" step="1" class="form-control" id="issued_date" name="issued_date" required value="{{ dataset.issued }}"/>
               </td>
             </tr>
             <tr>
@@ -168,13 +142,13 @@
                 <label class="label-table " for="modified_date">Modified date:</label>
               </td>
               <td colspan="8">
-                <input type="date" class="form-control" id="modified_date" name="modified_date" required value="{{ dataset.modified }}"/>
+                <input type="datetime-local" step="1" class="form-control" id="modified_date" name="modified_date" required value="{{ dataset.modified }}"/>
               </td>
             </tr>
           </table>
           {%else:%}
           <table class="tableMetadata">
-            <tr>
+            <tr style='display: none;'>
               <td>
                 <label class="label-table" for="identifier">Identifier:</label>
               </td>
@@ -275,7 +249,7 @@
                 <label class="label-table " for="issued_date">Issued date:</label>
               </td>
               <td colspan="8">
-                <input type="date" class="form-control" id="issued_date" name="issued_date" required/>
+                <input type="datetime-local" step="1" class="form-control" id="issued_date" name="issued_date" required/>
               </td>
             </tr>
             <tr>
@@ -283,7 +257,7 @@
                 <label class="label-table " for="modified_date">Modified date:</label>
               </td>
               <td colspan="8">
-                <input type="date" class="form-control" id="modified_date" name="modified_date" required/>
+                <input type="datetime-local" step="1" class="form-control" id="modified_date" name="modified_date" required/>
               </td>
             </tr>
           </table>
@@ -361,10 +335,18 @@
             </tr>
             <tr>
               <td>
-                <label class="label-table " for="temp_coverage">Temporal Coverage:</label>
+                <label class="label-table " for="temp_coverage_begin">Temporal Coverage:</label>
               </td>
-              <td colspan="8">
-                <input type="text" class="form-control" id="temp_coverage" name="temp_coverage" value="{{dataset.temporalCoverage}}"/>
+              <td colspan="3">
+                <input type="datetime-local" step="1" class="form-control" id="temp_coverage_begin" name="temp_coverage_begin" value="{{dataset.temporalCoverageBegin}}"/>
+              </td>
+              <td colspan="2">
+                <center>
+                  <label class="label-table" for="temp_coverage_end">to</label>
+                </center>
+              </td>
+              <td colspan="3">
+                <input type="datetime-local" step="1" class="form-control" id="temp_coverage_end" name="temp_coverage_end" value="{{dataset.temporalCoverageEnd}}"/>
               </td>
             </tr>
             <tr>
@@ -439,12 +421,20 @@
                 <input type="number" class="form-control" id="vertical_level" name="vertical_level"/>
               </td>
             </tr>
-            <tr>
+             <tr>
               <td>
-                <label class="label-table " for="temp_coverage">Temporal Coverage:</label>
+                <label class="label-table " for="temp_coverage_begin">Temporal Coverage:</label>
               </td>
-              <td colspan="8">
-                <input type="text" class="form-control" id="temp_coverage" name="temp_coverage"/>
+              <td colspan="3">
+                <input type="datetime-local" step="1" class="form-control" id="temp_coverage_begin" name="temp_coverage_begin"/>
+              </td>
+              <td colspan="2">
+                <center>
+                  <label class="label-table" for="temp_coverage_end">to</label>
+                </center>
+              </td>
+              <td colspan="3">
+                <input type="datetime-local" step="1" class="form-control" id="temp_coverage_end" name="temp_coverage_end"/>
               </td>
             </tr>
             <tr>
@@ -473,4 +463,30 @@
     <a class="footer" href="http://www.bigdataocean.eu/site/">Big Data Ocean</a>
   </footer>
 </body>
+<link rel='icon' href='/static/img/BIG-DATA-OCEAN_LOGO.ico'>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+<link rel="stylesheet" href="static/css/bootstrap-tagsinput.css">
+<link rel="stylesheet" href="static/css/bootstrap-tokenfield.css">
+<link rel="stylesheet" href="static/css/tokenfield-typeahead.css">
+<link rel="stylesheet" href="static/css/style.css">
+
+<script src="static/js/jquery-3.2.1.min.js"></script>
+<script src="http://code.jquery.com/ui/1.12.1/jquery-ui.js" ></script>
+<script src="static/js/Bloodhound.js"></script>
+<script src="static/js/bootstrap-tagsinput.js"></script>
+<script src="static/js/bootstrap-tokenfield.js"></script>
+<script src="static/js/typeahead.bundle.js"></script>
+<script type="text/javascript" src="static/js/metadatascript.js"></script>
+<script type="text/javascript">
+  function validateForm() {
+    var x = document.forms["metadataForm"]["fname"].value;
+    if (document.forms["metadataForm"]["title"].value == "") {
+      alert("Name must be filled out");
+      return false;
+    }
+  }
+</script>
 </html>

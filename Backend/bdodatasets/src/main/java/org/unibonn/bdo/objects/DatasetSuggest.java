@@ -9,37 +9,38 @@ package org.unibonn.bdo.objects;
  */
 public class DatasetSuggest {
 	
-	private String title; //Dataset Title
-	private String description; //Abstract of Dataset
-	private String type; //Data resource type
-	private String homepage; //URI
-	private String identifier; //Unique source identifier
-	private String language; //Data source language
-	private String subject; //Topics related to the Dataset
-	private String theme; //Keywords related to the Dataset
-	private String spatialWest; //Geographic location covered by Dataset (West Coordinate)
-	private String spatialEast; //Geographic location covered by Dataset (East Coordinate)
-	private String spatialSouth; //Geographic location covered by Dataset (South Coordinate)
-	private String spatialNorth; //Geographic location covered by Dataset (North Coordinate)
-	private String temporal; //Temporal coverage of Dataset
-	private String issuedDate; //Date of publication of the Dataset
-	private String modifiedDate; //Date of last review of the Dataset
-	private String provenance; //Provenance of Dataset
-	private String conformsTo; //Coordinate reference system, Temporal reference system
-	private String license; //Conditions for access and use
-	private String accessRights; //Limitations on public access
-	private String publisher; //Responsible party
-	private String format; // Encoding
-	private String characterEncoding; //Character encoding used in the Dataset
-	private String accuralPeriodicity; //Denotes encoding used in the Dataset 
-	private String comment; //Spatial resolution of the Dataset
-	private String representationTecnique; //Spatial representation type
-	private String verticalCoverage; //Water covered by the Dataset
-	private String verticalLevel; //Vertical level of water covered by the Dataset
-	private String temporalResolution; //Granularity of measurements
-	private String gridResolution; //Horizontal/spatial grid resolution
+	private String identifier; //identifier of Dataset
+	private String title; //title of Dataset
+	private String description; //description of Dataset
+	private String subject; //tokenField_subject
+	private String keywords; //tokenField_keywords
+	private String standards; //standards
+	private String format; //tokenField_format
+	private String language; //tokenField_language
+	private String homepage; //URI of Dataset
+	private String publisher; //publisher of Dataset
+	private String accessRights; //access_rights 
+	private String issuedDate; //issued_Date (AAAA-MM-DDThh:mm:ssZ)
+	private String modifiedDate; //modifierd_Data (AAAA-MM-DDThh:mm:ssZ)
+	private String geoLocation; //tokenField_geoLocation
+	private String spatialWest; //geo_coverageW
+	private String spatialEast; //geo_coverageE
+	private String spatialSouth; //geo_coverageS
+	private String spatialNorth; //geo_coverageN
+	private String coordinateSystem; //coordinate_sys
+	private String verticalCoverage; //vertical_coverage
+	private String verticalLevel; //vertical_level
+	private String temporalCoverageBegin; //temp_coverage_begin
+	private String temporalCoverageEnd; //temp_coverage_end
+	private String timeResolution; //time_reso
 	private String variables; //variables
 	
+	public String getIdentifier() {
+		return identifier;
+	}
+	public void setIdentifier(String identifier) {
+		this.identifier = identifier;
+	}
 	public String getTitle() {
 		return title;
 	}
@@ -52,23 +53,29 @@ public class DatasetSuggest {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public String getType() {
-		return type;
+	public String getSubject() {
+		return subject;
 	}
-	public void setType(String type) {
-		this.type = type;
+	public void setSubject(String subject) {
+		this.subject = subject;
 	}
-	public String getHomepage() {
-		return homepage;
+	public String getKeywords() {
+		return keywords;
 	}
-	public void setHomepage(String homepage) {
-		this.homepage = homepage;
+	public void setKeywords(String keywords) {
+		this.keywords = keywords;
 	}
-	public String getIdentifier() {
-		return identifier;
+	public String getStandards() {
+		return standards;
 	}
-	public void setIdentifier(String identifier) {
-		this.identifier = identifier;
+	public void setStandards(String standards) {
+		this.standards = standards;
+	}
+	public String getFormat() {
+		return format;
+	}
+	public void setFormat(String format) {
+		this.format = format;
 	}
 	public String getLanguage() {
 		return language;
@@ -76,17 +83,41 @@ public class DatasetSuggest {
 	public void setLanguage(String language) {
 		this.language = language;
 	}
-	public String getSubject() {
-		return subject;
+	public String getHomepage() {
+		return homepage;
 	}
-	public void setSubject(String subject) {
-		this.subject = subject;
+	public void setHomepage(String homepage) {
+		this.homepage = homepage;
 	}
-	public String getTheme() {
-		return theme;
+	public String getPublisher() {
+		return publisher;
 	}
-	public void setTheme(String theme) {
-		this.theme = theme;
+	public void setPublisher(String publisher) {
+		this.publisher = publisher;
+	}
+	public String getAccessRights() {
+		return accessRights;
+	}
+	public void setAccessRights(String accessRights) {
+		this.accessRights = accessRights;
+	}
+	public String getIssuedDate() {
+		return issuedDate;
+	}
+	public void setIssuedDate(String issuedDate) {
+		this.issuedDate = issuedDate;
+	}
+	public String getModifiedDate() {
+		return modifiedDate;
+	}
+	public void setModifiedDate(String modifiedDate) {
+		this.modifiedDate = modifiedDate;
+	}
+	public String getGeoLocation() {
+		return geoLocation;
+	}
+	public void setGeoLocation(String geoLocation) {
+		this.geoLocation = geoLocation;
 	}
 	public String getSpatialWest() {
 		return spatialWest;
@@ -112,83 +143,11 @@ public class DatasetSuggest {
 	public void setSpatialNorth(String spatialNorth) {
 		this.spatialNorth = spatialNorth;
 	}
-	public String getTemporal() {
-		return temporal;
+	public String getCoordinateSystem() {
+		return coordinateSystem;
 	}
-	public void setTemporal(String temporal) {
-		this.temporal = temporal;
-	}
-	public String getIssuedDate() {
-		return issuedDate;
-	}
-	public void setIssuedDate(String issuedDate) {
-		this.issuedDate = issuedDate;
-	}
-	public String getModifiedDate() {
-		return modifiedDate;
-	}
-	public void setModifiedDate(String modifiedDate) {
-		this.modifiedDate = modifiedDate;
-	}
-	public String getProvenance() {
-		return provenance;
-	}
-	public void setProvenance(String provenance) {
-		this.provenance = provenance;
-	}
-	public String getConformsTo() {
-		return conformsTo;
-	}
-	public void setConformsTo(String conformsTo) {
-		this.conformsTo = conformsTo;
-	}
-	public String getLicense() {
-		return license;
-	}
-	public void setLicense(String license) {
-		this.license = license;
-	}
-	public String getAccessRights() {
-		return accessRights;
-	}
-	public void setAccessRights(String accessRights) {
-		this.accessRights = accessRights;
-	}
-	public String getPublisher() {
-		return publisher;
-	}
-	public void setPublisher(String publisher) {
-		this.publisher = publisher;
-	}
-	public String getFormat() {
-		return format;
-	}
-	public void setFormat(String format) {
-		this.format = format;
-	}
-	public String getCharacterEncoding() {
-		return characterEncoding;
-	}
-	public void setCharacterEncoding(String characterEncoding) {
-		this.characterEncoding = characterEncoding;
-	}
-	public String getAccuralPeriodicity() {
-		return accuralPeriodicity;
-	}
-	public void setAccuralPeriodicity(String accuralPeriodicity) {
-		this.accuralPeriodicity = accuralPeriodicity;
-	}
-	public String getComment() {
-		return comment;
-	}
-	public void setComment(String comment) {
-		this.comment = comment;
-	}
-	public String getRepresentationTecnique() {
-		return representationTecnique;
-	}
-	public void setRepresentationTecnique(String representationTecnique) {
-		this.representationTecnique = representationTecnique;
+	public void setCoordinateSystem(String coordinateSystem) {
+		this.coordinateSystem = coordinateSystem;
 	}
 	public String getVerticalCoverage() {
 		return verticalCoverage;
@@ -202,17 +161,23 @@ public class DatasetSuggest {
 	public void setVerticalLevel(String verticalLevel) {
 		this.verticalLevel = verticalLevel;
 	}
-	public String getTemporalResolution() {
-		return temporalResolution;
+	public String getTemporalCoverageBegin() {
+		return temporalCoverageBegin;
 	}
-	public void setTemporalResolution(String temporalResolution) {
-		this.temporalResolution = temporalResolution;
+	public void setTemporalCoverageBegin(String temporalCoverageBegin) {
+		this.temporalCoverageBegin = temporalCoverageBegin;
 	}
-	public String getGridResolution() {
-		return gridResolution;
+	public String getTemporalCoverageEnd() {
+		return temporalCoverageEnd;
 	}
-	public void setGridResolution(String gridResolution) {
-		this.gridResolution = gridResolution;
+	public void setTemporalCoverageEnd(String temporalCoverageEnd) {
+		this.temporalCoverageEnd = temporalCoverageEnd;
+	}
+	public String getTimeResolution() {
+		return timeResolution;
+	}
+	public void setTimeResolution(String timeResolution) {
+		this.timeResolution = timeResolution;
 	}
 	public String getVariables() {
 		return variables;
@@ -220,5 +185,4 @@ public class DatasetSuggest {
 	public void setVariables(String variables) {
 		this.variables = variables;
 	}
-
 }
