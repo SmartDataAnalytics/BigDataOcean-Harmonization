@@ -46,7 +46,7 @@ def parse():
 
 			parsed_output = json.loads(process.decode('utf-8'))
 			dataset = datasetSuggest(**parsed_output)
-			return render_template('metadataInfo.html', dataset=dataset)
+			return render_template('addMetadata.html', dataset=dataset)
 		else :
 			return render_template('addMetadata.html', dataset="")
 
