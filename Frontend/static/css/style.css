@@ -100,6 +100,20 @@ body {
     background-color: #25aae1;
     height: 100%;
     padding-bottom: 10px;
+    padding-top: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+
+.metadata-spatial {
+    text-align: left;
+    background-color: #25aae1;
+    height: 100%;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
 }
 
 .form-control {

@@ -57,13 +57,14 @@
             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
             <strong>Mandatory fields!</strong> Title, Description and Type are mandatory fields.
           </div>
+          {%if dataset!="":%}
           <table class="tableMetadata">
             <tr>
               <td>
                 <label class="label-table" for="identifier">Identifier:</label>
               </td>
               <td colspan="8">
-                <input type="text" class="form-control" id="identifier" name="identifier" value="{{dataset.identifier}}">
+                <input type="text" class="form-control" id="identifier" name="identifier" value="{{dataset.identifier}}" disabled="true"/>
               </td>
             </tr>
             <tr>
@@ -72,6 +73,121 @@
               </td>
               <td colspan="8">
                 <input type="text" class="form-control" id="title" name="title" required value="{{ dataset.title }}"/>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-table" for="description">Description:</label>
+              </td>
+              <td colspan="8">
+                <textarea class="form-control" rows="2" id="description" name="description" required>{{dataset.description}}</textarea>
+              </td>
+            </tr>
+            <!-- <tr>
+              <td>
+                  <label class="label-table" for="Type">Type:</label>
+              </td>
+              <td colspan="8">                            
+                  <input type="text" class="form-control" id="tokenfield_type" name="tokenfield_type" required />
+              </td>
+            </tr> -->
+            <tr>
+              <td>
+                <label class="label-table" for="subject">Subject:</label>
+              </td>
+              <td colspan="8">                            
+                <input type="text" class="form-control" id="tokenfield_subject" name="tokenfield_subject" required value="{{ dataset.subject }}"/>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-table" for="keywords">Keywords:</label>
+              </td>
+              <td colspan="8">                            
+                <input type="text" class="form-control" id="tokenfield_keywords" name="tokenfield_keywords" required value="{{ dataset.keywords }}"/>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-table" for="keywords">Standards:</label>
+              </td>
+              <td colspan="8">                            
+                <input type="text" class="form-control" id="standards" name="standards" value="{{ dataset.standards }}"/>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-table " for="encode_format">Data Format:</label>
+              </td>
+              <td colspan="8">                            
+                <input type="text" class="form-control" id="tokenfield_format" name="tokenfield_format" value="{{ dataset.format }}"/>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-table" for="language">Language:</label>
+              </td>
+              <td colspan="8">
+                <input type="text" class="form-control" id="tokenfield_language" name="tokenfield_language" required value="{{dataset.language}}"/>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-table" for="homepage">Homepage:</label>
+              </td>
+              <td colspan="8">
+                <input type="url" class="form-control" id="homepage" name="homepage" value="{{dataset.homepage}}"/>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-table" for="publisher">Publisher:</label>
+              </td>
+              <td colspan="8">
+                <input type="text" class="form-control" id="publisher" name="publisher" required value="{{dataset.publisher}}"/>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-table " for="access_rights">Access rights:</label>
+              </td>
+              <td colspan="8">
+                <input type="text" class="form-control" id="access_rights" name="access_rights" value="{{ dataset.access_rights }}"/>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-table " for="issued_date">Issued date:</label>
+              </td>
+              <td colspan="8">
+                <input type="date" class="form-control" id="issued_date" name="issued_date" required value="{{ dataset.issued }}"/>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-table " for="modified_date">Modified date:</label>
+              </td>
+              <td colspan="8">
+                <input type="date" class="form-control" id="modified_date" name="modified_date" required value="{{ dataset.modified }}"/>
+              </td>
+            </tr>
+          </table>
+          {%else:%}
+          <table class="tableMetadata">
+            <tr>
+              <td>
+                <label class="label-table" for="identifier">Identifier:</label>
+              </td>
+              <td colspan="8">
+                <input type="text" class="form-control" id="identifier" name="identifier" disabled="true">
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-table" for="title">Title:</label>
+              </td>
+              <td colspan="8">
+                <input type="text" class="form-control" id="title" name="title" required/>
               </td>
             </tr>
             <tr>
@@ -127,7 +243,7 @@
                 <label class="label-table" for="language">Language:</label>
               </td>
               <td colspan="8">
-                <input type="text" class="form-control" id="tokenfield_language" name="tokenfield_language" required value="{{dataset.language}}"/>
+                <input type="text" class="form-control" id="tokenfield_language" name="tokenfield_language" required/>
               </td>
             </tr>
             <tr>
@@ -135,7 +251,7 @@
                 <label class="label-table" for="homepage">Homepage:</label>
               </td>
               <td colspan="8">
-                <input type="url" class="form-control" id="homepage" name="homepage" value="{{dataset.homepage}}"/>
+                <input type="url" class="form-control" id="homepage" name="homepage"/>
               </td>
             </tr>
             <tr>
@@ -143,7 +259,7 @@
                 <label class="label-table" for="publisher">Publisher:</label>
               </td>
               <td colspan="8">
-                <input type="text" class="form-control" id="publisher" name="publisher" required value="{{dataset.publisher}}"/>
+                <input type="text" class="form-control" id="publisher" name="publisher" required/>
               </td>
             </tr>
             <tr>
@@ -171,6 +287,7 @@
               </td>
             </tr>
           </table>
+          {%endif%}
         </div>
         <div class="col-md-1">
         </div>

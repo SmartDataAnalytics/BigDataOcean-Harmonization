@@ -48,7 +48,7 @@ def parse():
 			dataset = datasetSuggest(**parsed_output)
 			return render_template('addMetadata.html', dataset=dataset)
 		else :
-			return render_template('addMetadata.html', dataset=dataset)
+			return render_template('addMetadata.html', dataset="")
 
 @app.route('/save', methods=['POST'])
 def save():
