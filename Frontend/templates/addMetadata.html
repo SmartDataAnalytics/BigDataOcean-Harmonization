@@ -109,7 +109,7 @@
             </tr>
             <tr>
               <td>
-                <label class="label-table" for="keywords">Standards:</label>
+                <label class="label-table" for="standards">Standards:</label>
               </td>
               <td colspan="8">                            
                 <input type="text" class="form-control" id="standards" name="standards" value="{{ dataset.standards }}"/>
@@ -117,7 +117,7 @@
             </tr>
             <tr>
               <td>
-                <label class="label-table " for="encode_format">Data Format:</label>
+                <label class="label-table " for="data_format">Data Format:</label>
               </td>
               <td colspan="8">                            
                 <input type="text" class="form-control" id="tokenfield_format" name="tokenfield_format" value="{{ dataset.format }}"/>
@@ -195,7 +195,7 @@
                 <label class="label-table" for="description">Description:</label>
               </td>
               <td colspan="8">
-                <textarea class="form-control" rows="2" id="description" name="description" required>{{dataset.description}}</textarea>
+                <textarea class="form-control" rows="2" id="description" name="description" required></textarea>
               </td>
             </tr>
             <!-- <tr>
@@ -224,7 +224,7 @@
             </tr>
             <tr>
               <td>
-                <label class="label-table" for="keywords">Standards:</label>
+                <label class="label-table" for="standards">Standards:</label>
               </td>
               <td colspan="8">                            
                 <input type="text" class="form-control" id="standards" name="standards" />
@@ -232,7 +232,7 @@
             </tr>
             <tr>
               <td>
-                <label class="label-table " for="encode_format">Data Format:</label>
+                <label class="label-table " for="data_format">Data Format:</label>
               </td>
               <td colspan="8">                            
                 <input type="text" class="form-control" id="tokenfield_format" name="tokenfield_format" />
@@ -296,13 +296,14 @@
         <div class="col-md-1">
         </div>
         <div class="col-md-10 metadata-spatial">
+          {%if dataset!="":%}
           <table class="tableMetadata">
             <tr>
               <td>
-                <label class="label-table " for="temp_coverage">Geographic Location:</label>
+                <label class="label-table" for="geoLocation">Geographic Location:</label>
               </td>
               <td colspan="8">
-                <input type="text" class="form-control" id="tokenfield_geo_loc" name="tokenfield_geo_loc">
+                <input type="text" class="form-control" id="tokenfield_geo_loc" name="tokenfield_geo_loc" value="{{dataset.geo_location}}"/>
               </td>
             </tr>
             <tr>
@@ -339,7 +340,7 @@
                 <label class="label-table " for="coordinate_sys">Coordinate reference system:</label>
               </td>
               <td colspan="8">
-                <input type="text" class="form-control" id="coordinate_sys" name="coordinate_sys" value="{{dataset.conformsTo}}"/>
+                <input type="text" class="form-control" id="coordinate_sys" name="coordinate_sys" value="{{dataset.coordinate_sys}}"/>
               </td>
             </tr>
             <tr>
@@ -363,7 +364,87 @@
                 <label class="label-table " for="temp_coverage">Temporal Coverage:</label>
               </td>
               <td colspan="8">
-                <input type="text" class="form-control" id="temp_coverage" name="temp_coverage" value="{{dataset.temporal}}"/>
+                <input type="text" class="form-control" id="temp_coverage" name="temp_coverage" value="{{dataset.temporalCoverage}}"/>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-table " for="time_resolution">Time Resolution:</label>
+              </td>
+              <td colspan="8">
+                <input type="text" class="form-control" id="time_reso" name="time_reso" required value="{{dataset.timeResolution}}"/>
+              </td>
+            </tr>
+          </table>
+          {%else:%}
+          <table class="tableMetadata">
+            <tr>
+              <td>
+                <label class="label-table " for="temp_coverage">Geographic Location:</label>
+              </td>
+              <td colspan="8">
+                <input type="text" class="form-control" id="tokenfield_geo_loc" name="tokenfield_geo_loc">
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-table">Geographical Coverage:</label>
+              </td>
+              <td class="col-xs">
+                <label class="label-table-coordinates" for="geo_coverageW">W:</label>
+              </td>
+              <td class="col-xs">
+                <input type="number" class="form-control-input" id="geo_coverageW" name="geo_coverageW"/>
+              </td>
+              <td class="col-xs">
+                <label class="label-table-coordinates" for="geo_coverageE">E:</label>
+              </td>
+              <td class="col-xs">
+                <input type="number" class="form-control-input" id="geo_coverageE" name="geo_coverageE"/>
+              </td>
+              <td class="col-xs">
+                <label class="label-table-coordinates" for="geo_coverageS">S:</label>
+              </td>
+              <td class="col-xs">
+                <input type="number" class="form-control-input" id="geo_coverageS" name="geo_coverageS"/>
+              </td>
+              <td class="col-xs">
+                <label class="label-table-coordinates" for="geo_coverageN">N:</label>
+              </td>
+              <td class="col-xs">
+                <input type="number" class="form-control-input" id="geo_coverageN" name="geo_coverageN"/>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-table " for="coordinate_sys">Coordinate reference system:</label>
+              </td>
+              <td colspan="8">
+                <input type="text" class="form-control" id="coordinate_sys" name="coordinate_sys"/>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-table" for="vertical_coverage">Vertical Coverage:</label>
+              </td>
+              <td colspan="8">
+                <input type="text" class="form-control" id="vertical_coverage" name="vertical_coverage"/>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-table" for="vertical_level">Vertical Level:</label>
+              </td>
+              <td colspan="8">
+                <input type="number" class="form-control" id="vertical_level" name="vertical_level"/>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-table " for="temp_coverage">Temporal Coverage:</label>
+              </td>
+              <td colspan="8">
+                <input type="text" class="form-control" id="temp_coverage" name="temp_coverage"/>
               </td>
             </tr>
             <tr>
@@ -375,6 +456,7 @@
               </td>
             </tr>
           </table>
+          {%endif%}
         </div>
         <div class="col-md-1">
         </div>

@@ -46,7 +46,7 @@ def parse():
 
 			parsed_output = json.loads(process.decode('utf-8'))
 			dataset = datasetSuggest(**parsed_output)
-			return render_template('addMetadata.html', dataset=dataset)
+			return render_template('metadataInfo.html', dataset=dataset)
 		else :
 			return render_template('addMetadata.html', dataset="")
 
@@ -54,7 +54,7 @@ def parse():
 def save():
 	if request.method == 'POST':
 		uri = "<http://bigdataocean.eu/bdo/"+request.form['identifier']+">"
-		with open(globalPath + '/AddDatasets/addNewDataset.ttl','w') as file:
+		with open(globalPath + '/Backend/AddDatasets/addNewDataset.ttl','w') as file:
 			file.write("PREFIX dct: <http://purl.org/dc/terms/>")
 			file.write("PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>")
 			file.write("PREFIX owl: <http://www.w3.org/2002/07/owl#>")
@@ -92,7 +92,7 @@ def save():
 			#.file.write("		disco:variable .")
 			file.write("}")
 			file.close()
-		path2TTL = globalPath + "/AddDatasets/addNewDataset.ttl"
+		path2TTL = globalPath + "/Backend/AddDatasets/addNewDataset.ttl"
 		command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/addDataset2bdo "%s" "%s"' %(uri, path2TTL)
 		try:
 			process = subprocess.check_output([command], shell="True")

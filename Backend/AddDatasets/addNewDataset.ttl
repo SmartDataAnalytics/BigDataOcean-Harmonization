@@ -1,0 +1,39 @@
+PREFIX adms: <http://www.w3.org/ns/adms#>
+PREFIX cnt: <http://www.w3.org/2011/content#>
+PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX disco: <http://rdf-vocabulary.ddialliance.org/discovery>
+PREFIX dcat: <https://www.w3.org/TR/vocab-dcat/>
+PREFIX bdo: <http://bigdataocean.eu/bdo/>
+PREFIX ids: <http://industrialdataspace/information-model/>
+PREFIX qudt: <http://qudt.org/schema/qudt/>
+PREFIX unit: <http://qudt.org/vocab/unit/>
+INSERT DATA {
+bdo:MEDSEA_ANALYSIS_FORECAST_BIO_006_014 a <http://inspire.ec.europa.eu/metadata-codelist/ResourceType/dataset> ;
+dct:title "Mediterranean Sea Biogeochemistry Analysis and Forecast" ;
+dct:description " The biogeochemical analysis and forecasts for the Mediterranean Sea at 1/24 degree are produced by means of the MedBFM model system (i.e. the physical-biogeochemical OGSTM-BFM model coupled with the 3DVARBIO assimilation scheme). MedBFM model is run by OGS and uses as physical forcing the outputs of the Med-currents products (managed by INGV). Seven days of analysis/hindcast and ten days of forecast are bi-weekly produced on Wednesday and on Saturday, with the assimilation of surface chlorophyll concentration from satellite observations (provided by the CMEMS-OCTAC). " ;
+foaf:homepage "http://cmems-resources.cls.fr/?option=com_csw&view=details&tab=info&product_id=MEDSEA_ANALYSIS_FORECAST_BIO_006_014&format=xml" ;
+dct:identifier "MEDSEA_ANALYSIS_FORECAST_BIO_006_014" ;
+dct:language "eng" ;
+dct:subject <http://inspire.ec.europa.eu/metadata-codelist/TopicCategory/oceans> ;
+dcat:theme <http://www.eionet.europa.eu/concept/14844> ;
+dct:spatial bdo:MEDSEA_ANALYSIS_FORECAST_BIO_006_014_SC ;
+dct:temporal "from 2015-01-01 to Present" ;
+dct:provenance "" ;
+dct:conformsTo "Spherical 3D CS (EPSG 6404)" ;
+dct:license "" ;
+dct:accessRights "" ;
+dct:publisher "CMEMS" ;
+dct:format <http://inspire.ec.europa.eu/media-types/text> ;
+cnt:characterEncoding "" ;
+dct:accuralPeriodicity "Wednesdays and Saturdays at 17:00 UTC" ;
+rdfs:comment "" ;
+adms:representationTechnique "" ;
+bdo:verticalCoverage bdo:MEDSEA_ANALYSIS_FORECAST_BIO_006_014_VC ;
+bdo:temporalResolution bdo:MEDSEA_ANALYSIS_FORECAST_BIO_006_014_TR ;
+bdo:gridResolution bdo:MEDSEA_ANALYSIS_FORECAST_BIO_006_014_GR .
+}

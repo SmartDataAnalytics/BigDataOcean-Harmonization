@@ -1,6 +1,6 @@
-/home/jaimetrillos/Dropbox/BDO/BigDataOcean-Harmonization/Backend/bdodatasets/src/main/java/org/unibonn/bdo/bdodatasets/Suggest.java
-/home/jaimetrillos/Dropbox/BDO/BigDataOcean-Harmonization/Backend/bdodatasets/src/main/java/org/unibonn/bdo/bdodatasets/TDBConnection.java
-/home/jaimetrillos/Dropbox/BDO/BigDataOcean-Harmonization/Backend/bdodatasets/src/main/java/org/unibonn/bdo/bdodatasets/BdoDatasetAnalyser.java
-/home/jaimetrillos/Dropbox/BDO/BigDataOcean-Harmonization/Backend/bdodatasets/src/main/java/org/unibonn/bdo/bdodatasets/AddTriples2BDO.java
-/home/jaimetrillos/Dropbox/BDO/BigDataOcean-Harmonization/Backend/bdodatasets/src/main/java/org/unibonn/bdo/objects/DatasetSuggest.java
-/home/jaimetrillos/Dropbox/BDO/BigDataOcean-Harmonization/Backend/bdodatasets/src/main/java/org/unibonn/bdo/bdodatasets/AddDataset2BDO.java
+/home/anatrillos/Dropbox/Documentos/BigDataOcean-Harmonization/Backend/bdodatasets/src/main/java/org/unibonn/bdo/bdodatasets/AddTriples2BDO.java
+/home/anatrillos/Dropbox/Documentos/BigDataOcean-Harmonization/Backend/bdodatasets/src/main/java/org/unibonn/bdo/bdodatasets/Suggest.java
+/home/anatrillos/Dropbox/Documentos/BigDataOcean-Harmonization/Backend/bdodatasets/src/main/java/org/unibonn/bdo/bdodatasets/BdoDatasetAnalyser.java
+/home/anatrillos/Dropbox/Documentos/BigDataOcean-Harmonization/Backend/bdodatasets/src/main/java/org/unibonn/bdo/bdodatasets/AddDataset2BDO.java
+/home/anatrillos/Dropbox/Documentos/BigDataOcean-Harmonization/Backend/bdodatasets/src/main/java/org/unibonn/bdo/objects/DatasetSuggest.java
+/home/anatrillos/Dropbox/Documentos/BigDataOcean-Harmonization/Backend/bdodatasets/src/main/java/org/unibonn/bdo/bdodatasets/TDBConnection.java

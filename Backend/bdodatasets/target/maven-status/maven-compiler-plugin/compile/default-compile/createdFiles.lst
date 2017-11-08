@@ -1,6 +1,6 @@
 org/unibonn/bdo/bdodatasets/TDBConnection.class
-org/unibonn/bdo/bdodatasets/AddTriples2BDO.class
 org/unibonn/bdo/bdodatasets/AddDataset2BDO.class
+org/unibonn/bdo/bdodatasets/AddTriples2BDO.class
 org/unibonn/bdo/bdodatasets/BdoDatasetAnalyser.class
 org/unibonn/bdo/objects/DatasetSuggest.class
 org/unibonn/bdo/bdodatasets/Suggest.class

@@ -1,0 +1,38 @@
+@prefix adms: <http://www.w3.org/ns/adms#> . 
+@prefix cnt: <http://www.w3.org/2011/content#> . 
+@prefix dct: <http://purl.org/dc/terms/> . 
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> . 
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> . 
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> . 
+@prefix foaf: <http://xmlns.com/foaf/0.1/> . 
+@prefix disco: <http://rdf-vocabulary.ddialliance.org/discovery> . 
+@prefix dcat: <https://www.w3.org/TR/vocab-dcat/> . 
+@prefix bdo: <http://bigdataocean.eu/bdo/> . 
+@prefix ids: <http://industrialdataspace/information-model/> . 
+@prefix qudt: <http://qudt.org/schema/qudt/> . 
+@prefix unit: <http://qudt.org/vocab/unit/> . 
+ 
+bdo:GLOBAL_ANALYSIS_FORECAST_PHY_001_024 a <http://inspire.ec.europa.eu/metadata-codelist/ResourceType/dataset> ;
+dct:title "Global Ocean 1/12° Physics Analysis and Forecast updated Daily" ;
+dct:description " The Operational Mercator global ocean analysis and forecast system at 1/12 degree is providing 10 days of 3D global ocean forecasts updated daily. The time series start on December 27, 2006 and is aggregated in time in order to reach a two full year’s time series sliding window. This product includes daily mean files of temperature, salinity, currents, sea level, mixed layer depth and ice parameters from the top to the bottom over the global ocean. It also includes hourly mean surface fields for sea level height, temperature and currents. " ;
+foaf:homepage "http://cmems-resources.cls.fr/?option=com_csw&view=details&tab=info&product_id=GLOBAL_ANALYSIS_FORECAST_PHY_001_024&format=xml" ;
+dct:identifier "GLOBAL_ANALYSIS_FORECAST_PHY_001_024" ;
+dct:language "eng" ;
+dct:subject <http://inspire.ec.europa.eu/metadata-codelist/TopicCategory/oceans> ;
+dcat:theme <http://www.eionet.europa.eu/concept/9195> ;
+dct:spatial bdo:GLOBAL_ANALYSIS_FORECAST_PHY_001_024_SC ;
+dct:temporal "from 2006-12-27 to Present" ;
+dct:provenance "" ;
+dct:conformsTo "WGS 84 (EPSG 4326)" ;
+dct:license "" ;
+dct:accessRights "" ;
+dct:publisher "CMEMS" ;
+dct:format <http://inspire.ec.europa.eu/media-types/text> ;
+cnt:characterEncoding "" ;
+dct:accuralPeriodicity "daily at 12:00 UTC" ;
+rdfs:comment "" ;
+adms:representationTechnique "" ;
+bdo:verticalCoverage bdo:GLOBAL_ANALYSIS_FORECAST_PHY_001_024_VC ;
+bdo:temporalResolution bdo:GLOBAL_ANALYSIS_FORECAST_PHY_001_024_TR ;
+bdo:gridResolution bdo:GLOBAL_ANALYSIS_FORECAST_PHY_001_024_GR .
