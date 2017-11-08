@@ -38,7 +38,7 @@ def parse():
 	if request.method == 'POST':
 		uri = request.form['uri']
 		if uri != "":
-			command = globalPath + '/Backend/bdodatasets/target/BDODatsets-bdodatasets/BDODatsets/bin/suggest "%s"' %uri
+			command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/suggest "%s"' %uri
 			try:
 				process = subprocess.check_output([command], shell="True")
 			except subprocess.CalledProcessError as e:
@@ -93,7 +93,7 @@ def save():
 			file.write("}")
 			file.close()
 		path2TTL = globalPath + "/AddDatasets/addNewDataset.ttl"
-		command = globalPath + '/Backend/bdodatasets/target/BDODatsets-bdodatasets/BDODatsets/bin/addDataset2bdo "%s" "%s"' %(uri, path2TTL)
+		command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/addDataset2bdo "%s" "%s"' %(uri, path2TTL)
 		try:
 			process = subprocess.check_output([command], shell="True")
 		except subprocess.CalledProcessError as e:
