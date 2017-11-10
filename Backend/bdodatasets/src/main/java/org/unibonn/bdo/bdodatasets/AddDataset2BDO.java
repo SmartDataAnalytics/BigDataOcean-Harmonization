@@ -30,8 +30,8 @@ public class AddDataset2BDO {
 	public static void main(String[] args) {
 		String uri = args[0];
 		String path2File = args[1];
-//		String uri = "<http://bigdataocean.eu/bdo/MEDSEA_REANALYSIS_PHYS_006_004>";
-//		String path2File = "/home/anatrillos/Documents/BigDataOcean-Harmonization/AddDatasets/addNewDataset.ttl";
+		/*String uri = "<http://bigdataocean.eu/bdo/MEDSEA_ANALYSIS_FORECAST_WAV_006_011>";
+		String path2File = "/home/anatrillos/Dropbox/Documentos/BigDataOcean-Harmonization/Backend/AddDatasets/addNewDataset.ttl";*/
 		exec(uri, path2File);
 
 	}
@@ -45,6 +45,13 @@ public class AddDataset2BDO {
 				"http://localhost:3030/bdoHarmonization/query", "ASK {"+Uri+" ?p ?o}");
 		boolean results = qe.execAsk();
 		qe.close();
+		
+		//Query the collection, dump output
+		QueryExecution qu = QueryExecutionFactory.sparqlService(
+	                "http://localhost:3030/bdoHarmonization/query", "SELECT * WHERE {"+Uri+" ?p ?o}");
+        ResultSet resultados = qu.execSelect();
+        ResultSetFormatter.out(System.out, resultados);
+        qe.close();
 
 		if(results == false){
 			try {
@@ -81,9 +88,9 @@ public class AddDataset2BDO {
 					UpdateFactory.create(String.format(dataset)), 
 					"http://localhost:3030/bdoHarmonization/update");
 			upp.execute();
-			System.out.println(String.format("Successful"));
+			System.out.print("Successful");
 		}else{
-			System.out.println("Error!   URI already exists.");
+			System.out.print(String.format("Error!   URI already exists."));
 		}
 		
 		//Query the collection, dump output

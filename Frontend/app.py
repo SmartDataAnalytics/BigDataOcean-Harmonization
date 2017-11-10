@@ -54,7 +54,6 @@ def parse():
 def save():
 	if request.method == 'POST':
 		uri = "<http://bigdataocean.eu/bdo/"+request.form['identifier']+">\n"
-		print (uri)
 		with open(globalPath+'/Backend/AddDatasets/addNewDataset.ttl','w') as file:
 		 	file.write("PREFIX dct: <http://purl.org/dc/terms/>\n")
 		 	file.write("PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n")
@@ -100,11 +99,9 @@ def save():
 			process = subprocess.check_output([command], shell="True")
 		except subprocess.CalledProcessError as e:
 			return render_template('500.html')
-		if process == "Successful\n":
-			print (process)
-			return render_template('index.html')
+		if b'Successful' in process:
+			return render_template('index.html',data=data,columns=columns)
 		else:
-			print (process)
 			return render_template('500.html')
 
 @app.route('/edit', methods=['GET', 'POST'])
