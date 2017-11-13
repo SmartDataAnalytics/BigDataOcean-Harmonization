@@ -45,13 +45,6 @@ public class AddDataset2BDO {
 				"http://localhost:3030/bdoHarmonization/query", "ASK {"+Uri+" ?p ?o}");
 		boolean results = qe.execAsk();
 		qe.close();
-		
-		//Query the collection, dump output
-		QueryExecution qu = QueryExecutionFactory.sparqlService(
-	                "http://localhost:3030/bdoHarmonization/query", "SELECT * WHERE {"+Uri+" ?p ?o}");
-        ResultSet resultados = qu.execSelect();
-        ResultSetFormatter.out(System.out, resultados);
-        qe.close();
 
 		if(results == false){
 			try {

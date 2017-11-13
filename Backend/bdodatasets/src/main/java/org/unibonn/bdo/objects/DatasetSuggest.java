@@ -28,7 +28,8 @@ public class DatasetSuggest {
 	private String spatialSouth; //geo_coverageS
 	private String spatialNorth; //geo_coverageN
 	private String coordinateSystem; //coordinate_sys
-	private String verticalCoverage; //vertical_coverage
+	private String verticalCoverageFrom; //vertical_coverage
+	private String verticalCoverageTo; //vertical_coverage
 	private String verticalLevel; //vertical_level
 	private String temporalCoverageBegin; //temp_coverage_begin
 	private String temporalCoverageEnd; //temp_coverage_end
@@ -149,11 +150,17 @@ public class DatasetSuggest {
 	public void setCoordinateSystem(String coordinateSystem) {
 		this.coordinateSystem = coordinateSystem;
 	}
-	public String getVerticalCoverage() {
-		return verticalCoverage;
+	public String getVerticalCoverageFrom() {
+		return verticalCoverageFrom;
 	}
-	public void setVerticalCoverage(String verticalCoverage) {
-		this.verticalCoverage = verticalCoverage;
+	public void setVerticalCoverageFrom(String verticalCoverageFrom) {
+		this.verticalCoverageFrom = verticalCoverageFrom;
+	}
+	public String getVerticalCoverageTo() {
+		return verticalCoverageTo;
+	}
+	public void setVerticalCoverageTo(String verticalCoverageTo) {
+		this.verticalCoverageTo = verticalCoverageTo;
 	}
 	public String getVerticalLevel() {
 		return verticalLevel;

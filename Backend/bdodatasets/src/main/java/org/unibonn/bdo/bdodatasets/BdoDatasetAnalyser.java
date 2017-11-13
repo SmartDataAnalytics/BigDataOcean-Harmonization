@@ -36,6 +36,8 @@ public class BdoDatasetAnalyser {
 		String temporalCoverageEnd;
 		String publisher;
 		String verticalCoverage;
+		String verticalCoverageFrom;
+		String verticalCoverageTo;
 		String verticalLevel;
 		String timeResolution;
 		Elements variablesElements;
@@ -74,7 +76,8 @@ public class BdoDatasetAnalyser {
     	
     	delims = " ";
     	tokens = verticalCoverage.split(delims);
-    	verticalCoverage = "from " + tokens[0] + " to " + tokens[1];
+    	verticalCoverageFrom = tokens[0];
+        verticalCoverageTo = tokens[1];
     	
     	Element item3 = doc.getElementsByTag("gmd:referenceSystemInfo").first();
     	coordinateSystem = item3.getElementsByTag("gmd:code").text();
@@ -118,7 +121,8 @@ public class BdoDatasetAnalyser {
         result.setPublisher(publisher);
         result.setTemporalCoverageBegin(temporalCoverageBegin);
         result.setTemporalCoverageEnd(temporalCoverageEnd);
-        result.setVerticalCoverage(verticalCoverage);
+        result.setVerticalCoverageFrom(verticalCoverageFrom);
+        result.setVerticalCoverageTo(verticalCoverageTo);
         result.setTimeResolution(timeResolution);
         result.setVerticalLevel(verticalLevel);
         result.setVariables(variables);
