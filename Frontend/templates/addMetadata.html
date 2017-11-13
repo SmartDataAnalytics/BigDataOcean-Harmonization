@@ -21,6 +21,7 @@
       </div>
     </div>
   </nav>
+  {%if dataset!="":%}
   <div class="container text-center" style="margin-top:90px">
     <form id="metadataForm" name="metadataForm" class="form-style" method="POST" action="http://localhost:5000/save">
       <div class="row content">
@@ -31,7 +32,6 @@
             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
             <strong>Mandatory fields!</strong> Title, Description and Type are mandatory fields.
           </div>
-          {%if dataset!="":%}
           <table class="tableMetadata">
             <tr style='display: none;'>
               <td>
@@ -57,14 +57,6 @@
                 <textarea class="form-control" rows="2" id="description" name="description" required>{{dataset.description}}</textarea>
               </td>
             </tr>
-            <!-- <tr>
-              <td>
-                  <label class="label-table" for="Type">Type:</label>
-              </td>
-              <td colspan="8">                            
-                  <input type="text" class="form-control" id="tokenfield_type" name="tokenfield_type" required >
-              </td>
-            </tr> -->
             <tr>
               <td>
                 <label class="label-table" for="subject">Subject:</label>
@@ -146,14 +138,167 @@
               </td>
             </tr>
           </table>
-          {%else:%}
+        </div>
+        <div class="col-md-1">
+        </div>
+      </div>
+      <div class="row content">
+        <div class="col-md-1">
+        </div>
+        <div class="col-md-10 metadata-spatial">
+          <table class="tableMetadata">
+            <tr>
+              <td>
+                <label class="label-table" for="geoLocation">Geographic Location:</label>
+              </td>
+              <td colspan="8">
+                <input type="text" class="form-control" id="tokenfield_geo_loc" name="tokenfield_geo_loc" value="{{dataset.geo_location}}">
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-table">Geographical Coverage:</label>
+              </td>
+              <td class="col-xs">
+                <label class="label-table-coordinates" for="geo_coverageW">W:</label>
+              </td>
+              <td class="col-xs">
+                <input type="number" class="form-control-input" id="geo_coverageW" name="geo_coverageW" value="{{dataset.spatialWest}}">
+              </td>
+              <td class="col-xs">
+                <label class="label-table-coordinates" for="geo_coverageE">E:</label>
+              </td>
+              <td class="col-xs">
+                <input type="number" class="form-control-input" id="geo_coverageE" name="geo_coverageE" value="{{dataset.spatialEast}}">
+              </td>
+              <td class="col-xs">
+                <label class="label-table-coordinates" for="geo_coverageS">S:</label>
+              </td>
+              <td class="col-xs">
+                <input type="number" class="form-control-input" id="geo_coverageS" name="geo_coverageS" value="{{dataset.spatialSouth}}">
+              </td>
+              <td class="col-xs">
+                <label class="label-table-coordinates" for="geo_coverageN">N:</label>
+              </td>
+              <td class="col-xs">
+                <input type="number" class="form-control-input" id="geo_coverageN" name="geo_coverageN" value="{{dataset.spatialNorth}}">
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-table " for="coordinate_sys">Coordinate reference system:</label>
+              </td>
+              <td colspan="8">
+                <input type="text" class="form-control" id="coordinate_sys" name="coordinate_sys" value="{{dataset.coordinate_sys}}">
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-table">Vertical Coverage:</label>
+              </td>
+              <td colspan="1">
+                <center>
+                  <label class="label-table" for="vert_coverage_from">from</label>
+                </center>
+              </td>
+              <td colspan="3">
+                <input type="number" step="1" class="form-control" id="vert_coverage_from" name="vert_coverage_from" value="{{dataset.vertical_coverageFrom}}">
+              </td>
+              <td colspan="1">
+                <center>
+                  <label class="label-table" for="vert_coverage_to">to</label>
+                </center>
+              </td>
+              <td colspan="3">
+                <input type="number" step="1" class="form-control" id="vert_coverage_to" name="vert_coverage_to" value="{{dataset.vertical_coverageTo}}">
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-table" for="vertical_level">Vertical Level:</label>
+              </td>
+              <td colspan="8">
+                <input type="number" class="form-control" id="vertical_level" name="vertical_level" value="{{dataset.verticalLevel}}">
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-table " for="temp_coverage_begin">Temporal Coverage:</label>
+              </td>
+              <td colspan="3">
+                <input type="datetime-local" step="1" class="form-control" id="temp_coverage_begin" name="temp_coverage_begin" value="{{dataset.temporalCoverageBegin}}">
+              </td>
+              <td colspan="2">
+                <center>
+                  <label class="label-table" for="temp_coverage_end">to</label>
+                </center>
+              </td>
+              <td colspan="3">
+                <input type="datetime-local" step="1" class="form-control" id="temp_coverage_end" name="temp_coverage_end" value="{{dataset.temporalCoverageEnd}}">
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-table " for="time_resolution">Time Resolution:</label>
+              </td>
+              <td colspan="8">
+                <input type="text" class="form-control" id="time_reso" name="time_reso" required value="{{dataset.timeResolution}}">
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="col-md-1">
+        </div>
+      </div>
+      <div class="row content">
+        <div class="col-md-1">
+        </div>
+        <div class="col-md-10 metadata-variables">
+          <div class="well clearfix">
+            <a class="btn btn pull-right add-record" data-added="0"><i class="glyphicon glyphicon-plus"></i> Add Row</a>
+          </div>
+          <table class="table table-bordered" id="tbl_posts">
+            <thead>
+              <tr>
+                <th>Dataset Variable</th>
+                <th>BDO Connection</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="tbl_posts_body">
+              
+            </tbody>
+          </table>
+        </div>
+        <div class="col-md-1">
+        </div>
+      </div>
+      <div class="row content">
+      </div>
+      <div class="buttonForm">
+        <button type="submit" class="btn btn-default">Save</button>
+        <button type="button" class="btn btn-danger" onclick="cancelButton()">Cancel</button>
+      </div>
+    </form>
+  </div>
+  {%else:%}
+  <div class="container text-center" style="margin-top:90px">
+    <form id="metadataForm" name="metadataForm" class="form-style" method="POST" action="http://localhost:5000/save">
+      <div class="row content">
+        <div class="col-md-1">
+        </div>
+        <div class="col-md-10 metadata-info">
+          <div class="alert alert-danger alert-dismissable" id="alert-fieldsEmpty">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Mandatory fields!</strong> Title, Description and Type are mandatory fields.
+          </div>
           <table class="tableMetadata">
             <tr style='display: none;'>
               <td>
                 <label class="label-table" for="identifier">Identifier:</label>
               </td>
               <td colspan="8">
-                <input type="text" class="form-control" id="identifier" name="identifier" disabled="true">
+                <input type="text" class="form-control" id="identifier" name="identifier">
               </td>
             </tr>
             <tr>
@@ -172,20 +317,12 @@
                 <textarea class="form-control" rows="2" id="description" name="description" required></textarea>
               </td>
             </tr>
-            <!-- <tr>
-              <td>
-                  <label class="label-table" for="Type">Type:</label>
-              </td>
-              <td colspan="8">                            
-                  <input type="text" class="form-control" id="tokenfield_type" name="tokenfield_type" required >
-              </td>
-            </tr> -->
             <tr>
               <td>
                 <label class="label-table" for="subject">Subject:</label>
               </td>
               <td colspan="8">                            
-                <input type="text" class="form-control" id="tokenfield_subject" name="tokenfield_subject" required >
+                <input type="text" class="form-control" id="tokenfield_subject" name="tokenfield_subject" required>
               </td>
             </tr>
             <tr>
@@ -193,7 +330,7 @@
                 <label class="label-table" for="keywords">Keywords:</label>
               </td>
               <td colspan="8">                            
-                <input type="text" class="form-control" id="tokenfield_keywords" name="tokenfield_keywords" required >
+                <input type="text" class="form-control" id="tokenfield_keywords" name="tokenfield_keywords" required>
               </td>
             </tr>
             <tr>
@@ -201,7 +338,7 @@
                 <label class="label-table" for="standards">Standards:</label>
               </td>
               <td colspan="8">                            
-                <input type="text" class="form-control" id="standards" name="standards" >
+                <input type="text" class="form-control" id="standards" name="standards">
               </td>
             </tr>
             <tr>
@@ -209,7 +346,7 @@
                 <label class="label-table " for="data_format">Data Format:</label>
               </td>
               <td colspan="8">                            
-                <input type="text" class="form-control" id="tokenfield_format" name="tokenfield_format" >
+                <input type="text" class="form-control" id="tokenfield_format" name="tokenfield_format">
               </td>
             </tr>
             <tr>
@@ -261,7 +398,6 @@
               </td>
             </tr>
           </table>
-          {%endif%}
         </div>
         <div class="col-md-1">
         </div>
@@ -270,99 +406,10 @@
         <div class="col-md-1">
         </div>
         <div class="col-md-10 metadata-spatial">
-          {%if dataset!="":%}
           <table class="tableMetadata">
             <tr>
               <td>
                 <label class="label-table" for="geoLocation">Geographic Location:</label>
-              </td>
-              <td colspan="8">
-                <input type="text" class="form-control" id="tokenfield_geo_loc" name="tokenfield_geo_loc" value="{{dataset.geo_location}}">
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label class="label-table">Geographical Coverage:</label>
-              </td>
-              <td class="col-xs">
-                <label class="label-table-coordinates" for="geo_coverageW">W:</label>
-              </td>
-              <td class="col-xs">
-                <input type="number" class="form-control-input" id="geo_coverageW" name="geo_coverageW" value="{{dataset.spatialWest}}">
-              </td>
-              <td class="col-xs">
-                <label class="label-table-coordinates" for="geo_coverageE">E:</label>
-              </td>
-              <td class="col-xs">
-                <input type="number" class="form-control-input" id="geo_coverageE" name="geo_coverageE" value="{{dataset.spatialEast}}">
-              </td>
-              <td class="col-xs">
-                <label class="label-table-coordinates" for="geo_coverageS">S:</label>
-              </td>
-              <td class="col-xs">
-                <input type="number" class="form-control-input" id="geo_coverageS" name="geo_coverageS" value="{{dataset.spatialSouth}}">
-              </td>
-              <td class="col-xs">
-                <label class="label-table-coordinates" for="geo_coverageN">N:</label>
-              </td>
-              <td class="col-xs">
-                <input type="number" class="form-control-input" id="geo_coverageN" name="geo_coverageN" value="{{dataset.spatialNorth}}">
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label class="label-table " for="coordinate_sys">Coordinate reference system:</label>
-              </td>
-              <td colspan="8">
-                <input type="text" class="form-control" id="coordinate_sys" name="coordinate_sys" value="{{dataset.coordinate_sys}}">
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label class="label-table" for="vertical_coverage">Vertical Coverage:</label>
-              </td>
-              <td colspan="8">
-                <input type="text" class="form-control" id="vertical_coverage" name="vertical_coverage" value="{{dataset.verticalCoverage}}">
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label class="label-table" for="vertical_level">Vertical Level:</label>
-              </td>
-              <td colspan="8">
-                <input type="number" class="form-control" id="vertical_level" name="vertical_level" value="{{dataset.verticalLevel}}">
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label class="label-table " for="temp_coverage_begin">Temporal Coverage:</label>
-              </td>
-              <td colspan="3">
-                <input type="datetime-local" step="1" class="form-control" id="temp_coverage_begin" name="temp_coverage_begin" value="{{dataset.temporalCoverageBegin}}">
-              </td>
-              <td colspan="2">
-                <center>
-                  <label class="label-table" for="temp_coverage_end">to</label>
-                </center>
-              </td>
-              <td colspan="3">
-                <input type="datetime-local" step="1" class="form-control" id="temp_coverage_end" name="temp_coverage_end" value="{{dataset.temporalCoverageEnd}}">
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label class="label-table " for="time_resolution">Time Resolution:</label>
-              </td>
-              <td colspan="8">
-                <input type="text" class="form-control" id="time_reso" name="time_reso" required value="{{dataset.timeResolution}}">
-              </td>
-            </tr>
-          </table>
-          {%else:%}
-          <table class="tableMetadata">
-            <tr>
-              <td>
-                <label class="label-table " for="temp_coverage">Geographic Location:</label>
               </td>
               <td colspan="8">
                 <input type="text" class="form-control" id="tokenfield_geo_loc" name="tokenfield_geo_loc">
@@ -407,10 +454,23 @@
             </tr>
             <tr>
               <td>
-                <label class="label-table" for="vertical_coverage">Vertical Coverage:</label>
+                <label class="label-table">Vertical Coverage:</label>
               </td>
-              <td colspan="8">
-                <input type="text" class="form-control" id="vertical_coverage" name="vertical_coverage">
+              <td colspan="1">
+                <center>
+                  <label class="label-table" for="vert_coverage_from">from</label>
+                </center>
+              </td>
+              <td colspan="3">
+                <input type="number" step="1" class="form-control" id="vert_coverage_from" name="vert_coverage_from">
+              </td>
+              <td colspan="1">
+                <center>
+                  <label class="label-table" for="vert_coverage_to">to</label>
+                </center>
+              </td>
+              <td colspan="3">
+                <input type="number" step="1" class="form-control" id="vert_coverage_to" name="vert_coverage_to">
               </td>
             </tr>
             <tr>
@@ -421,7 +481,7 @@
                 <input type="number" class="form-control" id="vertical_level" name="vertical_level">
               </td>
             </tr>
-             <tr>
+            <tr>
               <td>
                 <label class="label-table " for="temp_coverage_begin">Temporal Coverage:</label>
               </td>
@@ -446,7 +506,6 @@
               </td>
             </tr>
           </table>
-          {%endif%}
         </div>
         <div class="col-md-1">
         </div>
@@ -459,6 +518,7 @@
       </div>
     </form>
   </div>
+  {%endif%}
   <footer class="container-fluid text-center">
     <a class="footer" href="http://www.bigdataocean.eu/site/">Big Data Ocean</a>
   </footer>
