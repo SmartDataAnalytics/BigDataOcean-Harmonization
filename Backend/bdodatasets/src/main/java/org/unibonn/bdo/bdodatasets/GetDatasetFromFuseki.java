@@ -1,12 +1,14 @@
 package org.unibonn.bdo.bdodatasets;
 
+import java.util.ArrayList;
 
-import org.apache.jena.riot.Lang;
-import org.apache.jena.riot.RDFDataMgr;
+import org.unibonn.bdo.objects.Dataset;
 
 import com.hp.hpl.jena.query.QueryExecution;
 import com.hp.hpl.jena.query.QueryExecutionFactory;
-import com.hp.hpl.jena.rdf.model.Model;
+import com.hp.hpl.jena.query.ResultSet;
+import com.hp.hpl.jena.rdf.model.RDFNode;
+import com.hp.hpl.jena.rdf.model.Resource;
 
 /**
  *  
@@ -28,11 +30,22 @@ public class GetDatasetFromFuseki {
 	}
 
 	public static void exec(String Uri) {
-		String string = null;
+
+		String property = "p";
+		String object = "o";
+		ArrayList<Resource> result = new ArrayList<Resource>();
+		Dataset datasetMetadata = new Dataset();
 		QueryExecution qe = QueryExecutionFactory.sparqlService(
-					"http://localhost:3030/bdoHarmonization/query","CONSTRUCT WHERE{"+Uri+" ?p ?o}");
-		Model model = qe.execConstruct();
-		
+					"http://localhost:3030/bdoHarmonization/query","SELECT ?p ?o WHERE{"+Uri+" ?p ?o}");
+		ResultSet model = qe.execSelect();
+		while(model.hasNext()){
+			RDFNode n = model.next().get(property);
+			if(n == null || !n.isResource()) continue;
+			result.add(n.asResource());
+		}
+		for(int i=0; i<result.size(); i++){
+		}
+		System.out.println(result);
 		qe.close();
 		
 
