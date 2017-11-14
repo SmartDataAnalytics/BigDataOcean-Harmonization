@@ -1,3 +1,4 @@
+//Creation of tokenfields 
 jQuery(document).ready(function($) {
   var resourceTypes = new Bloodhound({
     datumTokenizer: Bloodhound.tokenizers.obj.whitespace('text'),
@@ -32,7 +33,14 @@ jQuery(document).ready(function($) {
     queryTokenizer: Bloodhound.tokenizers.whitespace,
     prefetch: 'static/json/keywords.json'
   });
-  resourceLanguages.initialize();
+  resourceKeywords.initialize();
+
+  var resourceVariablesCF = new Bloodhound({
+    datumTokenizer: Bloodhound.tokenizers.obj.whitespace('text'),
+    queryTokenizer: Bloodhound.tokenizers.whitespace,
+    prefetch: 'static/json/variablesCF.json'
+  });
+  resourceVariablesCF.initialize();
 
   $('#tokenfield_type').tokenfield({
     typeahead: [null, {
@@ -41,8 +49,6 @@ jQuery(document).ready(function($) {
     }],
     showAutocompleteOnFocus: true
   });
-
-  $('.token-variables-field').tokenfield();
 
   $('#tokenfield_subject').tokenfield({
     typeahead: [null, {
@@ -75,4 +81,45 @@ jQuery(document).ready(function($) {
     }],
     showAutocompleteOnFocus: true
   });
+
+  $('#tokenfield_json_variable').tokenfield({
+    typeahead: [null, {
+      source: resourceVariablesCF.ttAdapter(),
+      displayKey: 'value'
+    }],
+    showAutocompleteOnFocus: true
+  });
+});
+
+//Creation of dynamic rows for the table variables
+jQuery(document).delegate('a.add-record', 'click', function(e) {
+  e.preventDefault();    
+  var content = jQuery('#sample_table tr'),
+  size = jQuery('#tbl_posts >tbody >tr').length + 1,
+  element = null,    
+  element = content.clone();
+  element.attr('id', 'rec-'+size);
+  element.find('.delete-record').attr('data-id', size);
+  element.appendTo('#tbl_posts_body');
+  element.find('.sn').html(size);
+});
+
+//Deletion of rows for the table variables
+jQuery(document).delegate('a.delete-record', 'click', function(e) {
+     e.preventDefault();    
+     var didConfirm = confirm("Are you sure You want to delete?");
+     if (didConfirm == true) {
+      var id = jQuery(this).attr('data-id');
+      var targetDiv = jQuery(this).attr('targetDiv');
+      jQuery('#rec-' + id).remove();
+      
+    //regnerate index number on table
+    $('#tbl_posts_body tr').each(function(index) {
+      //alert(index);
+      $(this).find('span.sn').html(index+1);
+    });
+    return true;
+  } else {
+    return false;
+  }
 });

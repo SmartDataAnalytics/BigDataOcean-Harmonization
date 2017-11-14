@@ -3,6 +3,7 @@
 <head>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <title>BigDataOcean Harmonization </title>
+  <link rel='icon' href='/static/img/BIG-DATA-OCEAN_LOGO.ico'>
 </head>
 <body>
   <nav class="navbar navbar-bdo navbar-fixed-top">
@@ -254,21 +255,52 @@
         <div class="col-md-1">
         </div>
         <div class="col-md-10 metadata-variables">
-          <div class="well clearfix">
-            <a class="btn btn pull-right add-record" data-added="0"><i class="glyphicon glyphicon-plus"></i> Add Row</a>
+          <div class="buttonBar clearfix">
+            <a class="btn btn-primary pull-right add-record" data-added="0"><i class="glyphicon glyphicon-plus"></i> Add Row</a>
           </div>
           <table class="table table-bordered" id="tbl_posts">
             <thead>
               <tr>
                 <th>Dataset Variable</th>
                 <th>BDO Connection</th>
-                <th>Action</th>
+                <th style="width: 1px;">Action</th>
               </tr>
             </thead>
             <tbody id="tbl_posts_body">
-              
+              {% for x in dataset.variables.split(","): %}
+                <tr id="">
+                 <td>
+                  <input type="text" class="form-control" id="parser_variable" name="parser_variable" value="{{x}}">
+                 </td>
+                 <td>
+                  <input type="text" class="form-control" id="json_variable" name="json_variable" value="{{var['value']}}">
+                 </td>
+                 <td>
+                  <center>
+                    <a class="btn btn-xs delete-record" data-id="0"><i class="glyphicon glyphicon-remove glyphiconRemove"></i></a>
+                  </center>
+                </td>
+               </tr>
+              {% endfor %}
             </tbody>
           </table>
+          <div style="display:none;">
+            <table id="sample_table">
+              <tr id="">
+               <td>
+                <input type="text" class="form-control" id="parser_variable" name="parser_variable">
+               </td>
+               <td>
+                <input type="text" class="form-control" id="json_variable" name="json_variable">
+               </td>
+               <td>
+                <center>
+                  <a class="btn btn-xs delete-record" data-id="0"><i class="glyphicon glyphicon-remove glyphiconRemove"></i></a>
+                </center>
+              </td>
+             </tr>
+           </table>
+         </div>
         </div>
         <div class="col-md-1">
         </div>
@@ -511,6 +543,45 @@
         </div>
       </div>
       <div class="row content">
+        <div class="col-md-1">
+        </div>
+        <div class="col-md-10 metadata-variables">
+          <div class="buttonBar clearfix">
+            <a class="btn btn-primary pull-right add-record" data-added="0"><i class="glyphicon glyphicon-plus"></i> Add Row</a>
+          </div>
+          <table class="table table-bordered" id="tbl_posts">
+            <thead>
+              <tr>
+                <th>Dataset Variable</th>
+                <th>BDO Connection</th>
+                <th style="width: 1px;">Action</th>
+              </tr>
+            </thead>
+            <tbody id="tbl_posts_body">
+            </tbody>
+          </table>
+          <div style="display:none;">
+            <table id="sample_table">
+              <tr id="">
+               <td>
+                <input type="text" class="form-control" id="parser_variable" name="parser_variable">
+               </td>
+               <td>
+                <input type="text" class="form-control" id="json_variable" name="json_variable">
+               </td>
+               <td>
+                <center>
+                  <a class="btn btn-xs delete-record" data-id="0"><i class="glyphicon glyphicon-remove glyphiconRemove"></i></a>
+                </center>
+              </td>
+             </tr>
+           </table>
+         </div>
+        </div>
+        <div class="col-md-1">
+        </div>
+      </div>
+      <div class="row content">
       </div>
       <div class="buttonForm">
         <button type="submit" class="btn btn-default">Save</button>
@@ -523,7 +594,6 @@
     <a class="footer" href="http://www.bigdataocean.eu/site/">Big Data Ocean</a>
   </footer>
 </body>
-<link rel='icon' href='/static/img/BIG-DATA-OCEAN_LOGO.ico'>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap-theme.min.css">

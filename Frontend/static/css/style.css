@@ -117,6 +117,16 @@ body {
     padding-right: 15px;
 }
 
+.metadata-variables {
+    text-align: left;
+    background-color: #25aae1;
+    height: 100%;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
 .form-control {
   /*width: 110%;*/
   font-size: 14px;
@@ -325,4 +335,51 @@ footer {
 .row-index {
     width: 50px;
     display: inline-block;
+}
+
+.fixed-table-container td, .fixed-table-container th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.fixed-table-container tr:nth-child(even){background-color: #f2f2f2;}
+
+.fixed-table-container tr:hover {background-color: #ddd;}
+
+.fixed-table-container th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #3c9bed;
+    color: white;
+}
+
+.table-bordered td, .table-bordered th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.table-bordered {
+    background-color: white;
+}
+
+.table-bordered tr:nth-child(even){background-color: #f2f2f2;}
+
+.table-bordered tr:hover {background-color: #ddd;}
+
+.table-bordered th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #3c9bed;
+    color: white;
+}
+
+.glyphiconRemove {
+    top: 7px;
+}
+
+.buttonBar {
+  min-height: 20px;
+  margin-bottom: 9px;
 }

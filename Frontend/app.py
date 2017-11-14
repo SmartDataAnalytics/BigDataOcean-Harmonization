@@ -8,8 +8,8 @@ import os
 app = Flask(__name__)
 bootstrap = Bootstrap(app)
 
-# globalPath = "/home/jaimetrillos/Dropbox/BDO/BigDataOcean-Harmonization"
-globalPath = "/home/anatrillos/Dropbox/Documentos/BigDataOcean-Harmonization"
+globalPath = "/home/jaimetrillos/Dropbox/BDO/BigDataOcean-Harmonization"
+# globalPath = "/home/anatrillos/Dropbox/Documentos/BigDataOcean-Harmonization"
 
 data = [{
 "title": "Hi",
@@ -37,6 +37,12 @@ def index():
 def parse():
 	if request.method == 'POST':
 		uri = request.form['uri']
+
+		file = open(globalPath + '/Frontend/static/json/variablesCF.json', 'r')
+		variablesCF = json.load(file)
+
+		#pprint (variablesCF[0]["text"])
+
 		if uri != "":
 			command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/suggest "%s"' %uri
 			try:
@@ -46,9 +52,10 @@ def parse():
 
 			parsed_output = json.loads(process.decode('utf-8'))
 			dataset = datasetSuggest(**parsed_output)
-			return render_template('addMetadata.html', dataset=dataset)
+
+			return render_template('addMetadata.html', dataset=dataset, variablesCF=variablesCF)
 		else :
-			return render_template('addMetadata.html', dataset="")
+			return render_template('addMetadata.html', dataset="", variablesCF=variablesCF)
 
 @app.route('/save', methods=['GET','POST'])
 def save():
