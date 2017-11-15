@@ -99,8 +99,6 @@ jQuery(document).delegate('a.add-record', 'click', function(e) {
   element = null,    
   element = content.clone();
   element.attr('id', 'rec-'+size);
-  element.find('#parser_variable').attr('id', 'parser_variable_'+size);
-  element.find('#json_variable').attr('id', 'json_variable_'+size);
   element.find('.delete-record').attr('data-id', size);
   element.appendTo('#tbl_posts_body');
   element.find('.sn').html(size);

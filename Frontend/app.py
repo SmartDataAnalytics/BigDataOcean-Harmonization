@@ -113,6 +113,9 @@ def save():
 			file.write("bdo:timeCoverage [ids:beginning \""+request.form['temp_coverage_begin']+"\"^^xsd:dateTime ; \n")
 			file.write("ids:end \""+request.form['temp_coverage_end']+"\"^^xsd:dateTime] ; \n")
 			file.write("bdo:timeResolution \""+request.form['time_reso']+"\" . \n")
+			#parservariable = request.form.getlist('parser_variable')
+			#print (parservariable)
+		
 			file.write("}")
 			file.close()
 			path2TTL = globalPath + "/Backend/AddDatasets/addNewDataset.ttl"

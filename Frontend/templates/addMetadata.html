@@ -268,16 +268,20 @@
             </thead>
             <tbody id="tbl_posts_body">
               {% for x in dataset.variables.split(","): %}
-                <tr id="">
+                <tr id="rec-{{ loop.index0 +1 }}">
                  <td>
                   <input type="text" class="form-control" id="parser_variable" name="parser_variable" value="{{x}}">
                  </td>
+                 {%for var in variablesCF:%}
+                 {%if var["text"] == x:%}
                  <td>
-                  <input type="text" class="form-control" id="json_variable" name="json_variable" value="">
+                  <input type="text" class="form-control" id="json_variable" name="json_variable" value="{{var['value']}}">
                  </td>
                  <td>
+                 {%endif%}
+                 {%endfor%}
                   <center>
-                    <a class="btn btn-xs delete-record" data-id="0"><i class="glyphicon glyphicon-remove glyphiconRemove"></i></a>
+                    <a class="btn btn-xs delete-record" data-id="{{ loop.index0 +1 }}"><i class="glyphicon glyphicon-remove glyphiconRemove"></i></a>
                   </center>
                 </td>
                </tr>
