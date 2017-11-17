@@ -8,8 +8,8 @@ import os
 app = Flask(__name__)
 bootstrap = Bootstrap(app)
 
-globalPath = "/home/jaimetrillos/Dropbox/BDO/BigDataOcean-Harmonization"
-# globalPath = "/home/anatrillos/Dropbox/Documentos/BigDataOcean-Harmonization"
+# globalPath = "/home/jaimetrillos/Dropbox/BDO/BigDataOcean-Harmonization"
+globalPath = "/home/anatrillos/Dropbox/Documentos/BigDataOcean-Harmonization"
 
 data = [{
 "title": "Hi",
@@ -125,7 +125,14 @@ def save():
 			except subprocess.CalledProcessError as e:
 				return render_template('500.html')
 			if b'Successful' in process:
-				return render_template('index.html',data=data,columns=columns)
+				comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/getDataset "%s"' %uri
+				try:
+					process = subprocess.check_output([comm], shell="True")
+				except subprocess.CalledProcessError as e:
+					return render_template('500.html')
+				parsed_output = json.loads(process.decode('utf-8'))
+				dataset = datasetSuggest(**parsed_output)
+				return render_template('metadataInfo.html',dataset=dataset)
 			else:
 				return render_template('500.html')
 
@@ -140,23 +147,24 @@ def metadataInfo(dataset):
 		return render_template('metadataInfo.html', dataset=dataset)
 
 class datasetSuggest(object):
-	def __init__(self, identifier, title, description, language, homepage, publisher, spatialWest, spatialEast, 
-		spatialSouth, spatialNorth, coordinateSystem, verticalCoverageFrom, verticalCoverageTo, verticalLevel, temporalCoverageBegin, 
-		temporalCoverageEnd, timeResolution, variables):
+	def __init__(self, identifier, title, description, subject, keywords, standards, format, language, homepage, publisher, 
+		accessRights, issuedDate, modifiedDate, geoLocation, spatialWest, spatialEast, spatialSouth, spatialNorth, 
+		coordinateSystem, verticalCoverageFrom, verticalCoverageTo, verticalLevel, temporalCoverageBegin, temporalCoverageEnd, 
+		timeResolution, variables):
 		self.identifier = identifier
 		self.title = title
 		self.description = description
-		#self.subject = subject
-		#self.keywords= keywords
-		#self.standards = standards
-		#self.format = format
+		self.subject = subject
+		self.keywords= keywords
+		self.standards = standards
+		self.format = format
 		self.language = language
 		self.homepage = homepage
 		self.publisher = publisher
-		#self.accessRights = accessRights
-		#self.issuedDate = issuedDate
-		#self.modifiedDate = modifiedDate
-		#self.geoLocation = geoLocation
+		self.accessRights = accessRights
+		self.issuedDate = issuedDate
+		self.modifiedDate = modifiedDate
+		self.geoLocation = geoLocation
 		self.spatialWest = spatialWest
 		self.spatialEast = spatialEast
 		self.spatialSouth = spatialSouth

@@ -128,12 +128,12 @@
                 {{ dataset.access_rights }}
               </td>
             </tr>
-            <tr>
+            <!-- <tr>
               <td>
                 <label class="label-tableInfo " for="issued_date">Issued date:</label>
               </td>
               <td colspan="8">
-                {{ dataset.issued }}
+                {{ dataset.issuedDate }}
               </td>
             </tr>
             <tr>
@@ -141,8 +141,8 @@
                 <label class="label-tableInfo " for="modified_date">Modified date:</label>
               </td>
               <td colspan="8">
-                {{ dataset.modified }}
-              </td>
+                {{ dataset.modifiedDate }}
+              </td> -->
             </tr>
           </table>
         </div>
@@ -180,10 +180,23 @@
             </tr>
             <tr>
               <td>
-                <label class="label-tableInfo" for="vertical_coverage">Vertical Coverage:</label>
+                <label class="label-table">Vertical Coverage:</label>
               </td>
-              <td colspan="8">
-                {{dataset.verticalCoverage}}
+              <td colspan="1">
+                <center>
+                  <label class="label-table" for="vert_coverage_from">from</label>
+                </center>
+              </td>
+              <td colspan="3">
+                {{dataset.verticalCoverageFrom}}
+              </td>
+              <td colspan="1">
+                <center>
+                  <label class="label-table" for="vert_coverage_to">to</label>
+                </center>
+              </td>
+              <td colspan="3">
+                {{dataset.verticalCoverageTo}}
               </td>
             </tr>
             <tr>
@@ -196,10 +209,18 @@
             </tr>
             <tr>
               <td>
-                <label class="label-tableInfo " for="temp_coverage">Temporal Coverage:</label>
+                <label class="label-table " for="temp_coverage_begin">Temporal Coverage:</label>
               </td>
-              <td colspan="8">
-                {{dataset.temporalCoverage}}
+              <td colspan="3">
+                {{dataset.temporalCoverageBegin}}
+              </td>
+              <td colspan="2">
+                <center>
+                  <label class="label-table" for="temp_coverage_end">to</label>
+                </center>
+              </td>
+              <td colspan="3">
+                {{dataset.temporalCoverageEnd}}
               </td>
             </tr>
             <tr>
