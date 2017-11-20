@@ -131,7 +131,7 @@ def save():
 				except subprocess.CalledProcessError as e:
 					return render_template('500.html')
 				parsed_output = json.loads(process.decode('utf-8'))
-				dataset = datasetSuggest(**parsed_output)
+				dataset = datasetInfo(**parsed_output)
 				return render_template('metadataInfo.html',dataset=dataset)
 			else:
 				return render_template('500.html')
@@ -172,9 +172,11 @@ class datasetSuggest(object):
 
 class datasetInfo(object):
 	def __init__(self, identifier, title, description, subject, keywords, standards, format, language, homepage, publisher, 
-		accessRights, issuedDate, modifiedDate, geoLocation, spatialWest, spatialEast, spatialSouth, spatialNorth, 
-		coordinateSystem, verticalCoverageFrom, verticalCoverageTo, verticalLevel, temporalCoverageBegin, temporalCoverageEnd, 
-		timeResolution, variables):
+		accessRights, issuedDate, modifiedDate, geoLocation, #spatialWest, spatialEast, spatialSouth, spatialNorth, 
+		#coordinateSystem, 
+		verticalCoverageFrom, verticalCoverageTo#, verticalLevel, temporalCoverageBegin, temporalCoverageEnd, 
+		#timeResolution, variables
+		):
 		self.identifier = identifier
 		self.title = title
 		self.description = description
@@ -189,17 +191,18 @@ class datasetInfo(object):
 		self.issuedDate = issuedDate
 		self.modifiedDate = modifiedDate
 		self.geoLocation = geoLocation
-		self.spatialWest = spatialWest
-		self.spatialEast = spatialEast
-		self.spatialSouth = spatialSouth
-		self.spatialNorth = spatialNorth
-		self.coordinateSystem = coordinateSystem
+		# self.spatialWest = spatialWest
+		# self.spatialEast = spatialEast
+		# self.spatialSouth = spatialSouth
+		# self.spatialNorth = spatialNorth
+		# self.coordinateSystem = coordinateSystem
 		self.verticalCoverageFrom = verticalCoverageFrom
 		self.verticalCoverageTo = verticalCoverageTo
-		self.verticalLevel = verticalLevel
-		self.temporalCoverageBegin = temporalCoverageBegin
-		self.temporalCoverageEnd = temporalCoverageEnd
-		self.timeResolution = timeResolution
-		self.variables = variables
+		#self.verticalLevel = verticalLevel
+		# self.temporalCoverageBegin = temporalCoverageBegin
+		# self.temporalCoverageEnd = temporalCoverageEnd
+		# self.timeResolution = timeResolution
+		# self.variables = variables
+
 if __name__ == '__main__':
 	app.run(debug=True)
