@@ -147,6 +147,30 @@ def metadataInfo(dataset):
 		return render_template('metadataInfo.html', dataset=dataset)
 
 class datasetSuggest(object):
+	def __init__(self, identifier, title, description, language, homepage, publisher, 
+		spatialWest, spatialEast, spatialSouth, spatialNorth, 
+		coordinateSystem, verticalCoverageFrom, verticalCoverageTo, verticalLevel, temporalCoverageBegin, temporalCoverageEnd, 
+		timeResolution, variables):
+		self.identifier = identifier
+		self.title = title
+		self.description = description
+		self.language = language
+		self.homepage = homepage
+		self.publisher = publisher
+		self.spatialWest = spatialWest
+		self.spatialEast = spatialEast
+		self.spatialSouth = spatialSouth
+		self.spatialNorth = spatialNorth
+		self.coordinateSystem = coordinateSystem
+		self.verticalCoverageFrom = verticalCoverageFrom
+		self.verticalCoverageTo = verticalCoverageTo
+		self.verticalLevel = verticalLevel
+		self.temporalCoverageBegin = temporalCoverageBegin
+		self.temporalCoverageEnd = temporalCoverageEnd
+		self.timeResolution = timeResolution
+		self.variables = variables
+
+class datasetInfo(object):
 	def __init__(self, identifier, title, description, subject, keywords, standards, format, language, homepage, publisher, 
 		accessRights, issuedDate, modifiedDate, geoLocation, spatialWest, spatialEast, spatialSouth, spatialNorth, 
 		coordinateSystem, verticalCoverageFrom, verticalCoverageTo, verticalLevel, temporalCoverageBegin, temporalCoverageEnd, 
@@ -177,6 +201,5 @@ class datasetSuggest(object):
 		self.temporalCoverageEnd = temporalCoverageEnd
 		self.timeResolution = timeResolution
 		self.variables = variables
-
 if __name__ == '__main__':
 	app.run(debug=True)
