@@ -22,7 +22,7 @@ public class GetMetadata {
 	public static void main(String[] args) {
 		String uri = args[0];
 		//String path2File = args[1];
-		//String uri = "<http://bigdataocean.eu/bdo/MEDSEA_ANALYSIS_FORECAST_WAV_006_011>";
+		//String uri = "bdo:MEDSEA_ANALYSIS_FORECAST_WAV_006_011";
 		//String path2File = "/home/anatrillos/Dropbox/Documentos/BigDataOcean-Harmonization/Backend/AddDatasets/addNewDataset.ttl";
 		exec(uri);
 
@@ -32,27 +32,37 @@ public class GetMetadata {
 		
 		String query = "PREFIX dct: <http://purl.org/dc/terms/>\n";
 		query += "PREFIX dcat: <https://www.w3.org/TR/vocab-dcat/>\n";
-		query += "select ?uri ?ident ?title ?desc ?sub ?keyw ?standard ?format ?lang ?homep ?publi ?rights ?issued ?modified ?geoLoc ?timeReso ?vFrom ?vTo\n";
-		query += "where{\n";
+		query += "PREFIX ignf: <http://data.ign.fr/def/ignf#>\n";
+		query += "PREFIX foaf: <http://xmlns.com/foaf/0.1/>\n";
+		query += "PREFIX bdo: <http://bigdataocean.eu/bdo/>\n";
+		query += "SELECT ?uri ?ident ?title ?desc ?sub ?keyw ?standard ?format ?lang ?homep ?publi ?rights (STR(?issued) AS ?issuedDate) (STR(?modified) AS ?modifiedDate) ?geoLoc ?timeReso (STR(?verFrom) AS ?vFrom) (STR(?verTo) AS ?vTo) (STR(?west) AS ?spatialWest) (STR(?east) AS ?spatialEast) (STR(?south) AS ?spatialSouth) (STR(?north) AS ?spatialNorth)\n";
+		query += "WHERE{\n";
 		query += Uri+" a dcat:Dataset;\n";
-		query += "<http://purl.org/dc/terms/identifier> ?ident;\n";
-		query += "<http://purl.org/dc/terms/title> ?title;\n";
-		query += "<http://purl.org/dc/terms/description> ?desc;\n";
-		query += "<https://www.w3.org/TR/vocab-dcat/subject> ?sub;\n";
-		query += "<http://bigdataocean.eu/bdo/verticalCoverage> ?vCov;\n";
-		query += "<https://www.w3.org/TR/vocab-dcat/theme> ?keyw;\n";
-		query += "<http://purl.org/dc/terms/conformsTo> ?standard;\n";
-		query += "<http://purl.org/dc/terms/format> ?format;\n";
-		query += "<http://purl.org/dc/terms/language> ?lang;\n";
-		query += "<http://xmlns.com/foaf/0.1/homepage> ?homep;\n";
-		query += "<http://purl.org/dc/terms/publisher> ?publi;\n";
-		query += "<http://purl.org/dc/terms/accessRights> ?rights;\n";
-		query += "<http://purl.org/dc/terms/issued> ?issued;\n";
-		query += "<http://purl.org/dc/terms/modified> ?modified;\n";
-		query += "<http://purl.org/dc/terms/spatial> ?geoLoc.\n";
-		query += "?vCov a  <http://bigdataocean.eu/bdo/VerticalCoverage>;\n";
-		query += "<http://bigdataocean.eu/bdo/verticalFrom> ?vFrom;\n";
-		query += "<http://bigdataocean.eu/bdo/verticalTo> ?vTo.\n";
+		query += "dct:identifier ?ident;\n";
+		query += "dct:title ?title;\n";
+		query += "dct:description ?desc;\n";
+		query += "dcat:subject ?sub;\n";
+		query += "bdo:verticalCoverage ?vCov;\n";
+		query += "dcat:theme ?keyw;\n";
+		query += "dct:conformsTo ?standard;\n";
+		query += "dct:format ?format;\n";
+		query += "dct:language ?lang;\n";
+		query += "foaf:homepage ?homep;\n";
+		query += "dct:publisher ?publi;\n";
+		query += "dct:accessRights ?rights;\n";
+		query += "dct:issued ?issued;\n";
+		query += "dct:modified ?modified;\n";
+		query += "dct:spatial ?geoLoc;\n";
+		query += "bdo:timeResolution ?timeReso;\n";
+		query += "bdo:GeographicalCoverage ?spatial.\n";		
+		query += "?spatial a ignf:GeographicBoundingBox;\n";
+		query += "ignf:westBoundLongitude ?west;\n";
+		query += "ignf:eastBoundLongitude ?east;\n";
+		query += "ignf:southBoundLatitude ?south;\n";
+		query += "ignf:northBoundLatitude ?north.\n";
+		query += "?vCov a  bdo:VerticalCoverage;\n";
+		query += "bdo:verticalFrom ?verFrom;\n";
+		query += "bdo:verticalTo ?verTo.\n";
 		query += "} LIMIT 1\n";
 		
 		Dataset dataset = new Dataset();
@@ -86,9 +96,9 @@ public class GetMetadata {
 			dataset.setPublisher(node.toString());
 			node = solution.get("rights");
 			dataset.setAccessRights(node.toString());
-			node = solution.get("issued");
+			node = solution.get("issuedDate");
 			dataset.setIssuedDate(node.toString());
-			node = solution.get("modified");
+			node = solution.get("modifiedDate");
 			dataset.setModifiedDate(node.toString());
 			node = solution.get("geoLoc");
 			dataset.setGeoLocation(node.toString());
@@ -96,10 +106,20 @@ public class GetMetadata {
 			dataset.setVerticalCoverageFrom(node.toString());
 			node = solution.get("vTo");
 			dataset.setVerticalCoverageTo(node.toString());
+			node = solution.get("timeReso");
+			dataset.setTimeResolution(node.toString());
+			node = solution.get("spatialWest");
+			dataset.setSpatialWest(node.toString());
+			node = solution.get("spatialEast");
+			dataset.setSpatialEast(node.toString());
+			node = solution.get("spatialNorth");
+			dataset.setSpatialNorth(node.toString());
+			node = solution.get("spatialSouth");
+			dataset.setSpatialSouth(node.toString());
 		}
 		
 		try {
-			Gson gson  =new Gson();
+			Gson gson  = new Gson();
 			System.out.println(gson.toJson(dataset));
 		} catch (Exception e) {
 			e.printStackTrace();

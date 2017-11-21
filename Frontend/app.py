@@ -1,6 +1,6 @@
 import subprocess
 import json
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 from flask_bootstrap import Bootstrap
 from pprint import pprint
 import os
@@ -61,7 +61,8 @@ def parse():
 def save():
 	print("save")
 	if request.method == 'POST':
-		uri = "<http://bigdataocean.eu/bdo/"+request.form['identifier']+"> \n"
+		identifier = request.form['identifier']
+		uri = "<http://bigdataocean.eu/bdo/"+identifier+"> \n"
 		with open(globalPath+'/Backend/AddDatasets/addNewDataset.ttl','w') as file:
 			file.write("PREFIX dct: <http://purl.org/dc/terms/> \n")
 			file.write("PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> \n")
@@ -125,14 +126,7 @@ def save():
 			except subprocess.CalledProcessError as e:
 				return render_template('500.html')
 			if b'Successful' in process:
-				comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/getDataset "%s"' %uri
-				try:
-					process = subprocess.check_output([comm], shell="True")
-				except subprocess.CalledProcessError as e:
-					return render_template('500.html')
-				parsed_output = json.loads(process.decode('utf-8'))
-				dataset = datasetInfo(**parsed_output)
-				return render_template('metadataInfo.html',dataset=dataset)
+				return redirect(url_for('metadataInfo',identifier=identifier))
 			else:
 				return render_template('500.html')
 
@@ -141,9 +135,17 @@ def edit(dataset):
 	if request.method == 'POST':
 		return render_template('metadata.html')
 
-@app.route('/metadataInfo', methods=['GET', 'POST'])
-def metadataInfo(dataset):
+@app.route('/metadataInfo/<identifier>', methods=['GET', 'POST'])
+def metadataInfo(identifier):
 	if request.method == 'GET':
+		uri = "<http://bigdataocean.eu/bdo/"+identifier+"> \n"
+		comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/getDataset "%s"' %uri
+		try:
+			process = subprocess.check_output([comm], shell="True")
+		except subprocess.CalledProcessError as e:
+			return render_template('500.html')
+		parsed_output = json.loads(process.decode('utf-8'))
+		dataset = datasetInfo(**parsed_output)
 		return render_template('metadataInfo.html', dataset=dataset)
 
 class datasetSuggest(object):
@@ -172,10 +174,10 @@ class datasetSuggest(object):
 
 class datasetInfo(object):
 	def __init__(self, identifier, title, description, subject, keywords, standards, format, language, homepage, publisher, 
-		accessRights, issuedDate, modifiedDate, geoLocation, #spatialWest, spatialEast, spatialSouth, spatialNorth, 
+		accessRights, issuedDate, modifiedDate, geoLocation, spatialWest, spatialEast, spatialSouth, spatialNorth, 
 		#coordinateSystem, 
-		verticalCoverageFrom, verticalCoverageTo#, verticalLevel, temporalCoverageBegin, temporalCoverageEnd, 
-		#timeResolution, variables
+		verticalCoverageFrom, verticalCoverageTo,# verticalLevel, temporalCoverageBegin, temporalCoverageEnd, 
+		timeResolution#, variables
 		):
 		self.identifier = identifier
 		self.title = title
@@ -191,17 +193,17 @@ class datasetInfo(object):
 		self.issuedDate = issuedDate
 		self.modifiedDate = modifiedDate
 		self.geoLocation = geoLocation
-		# self.spatialWest = spatialWest
-		# self.spatialEast = spatialEast
-		# self.spatialSouth = spatialSouth
-		# self.spatialNorth = spatialNorth
-		# self.coordinateSystem = coordinateSystem
+		self.spatialWest = spatialWest
+		self.spatialEast = spatialEast
+		self.spatialSouth = spatialSouth
+		self.spatialNorth = spatialNorth
+		#self.coordinateSystem = coordinateSystem
 		self.verticalCoverageFrom = verticalCoverageFrom
 		self.verticalCoverageTo = verticalCoverageTo
 		#self.verticalLevel = verticalLevel
 		# self.temporalCoverageBegin = temporalCoverageBegin
 		# self.temporalCoverageEnd = temporalCoverageEnd
-		# self.timeResolution = timeResolution
+		self.timeResolution = timeResolution
 		# self.variables = variables
 
 if __name__ == '__main__':
