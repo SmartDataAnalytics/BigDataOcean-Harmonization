@@ -5,9 +5,11 @@ function selectType() {
     document.getElementById('urifield').style.display = 'block';
     document.getElementById('addbutton').style.display = 'none';
   }else if (value == "Other"){
+    document.getElementById('uri').value = "";
     document.getElementById('urifield').style.display = 'none';
     document.getElementById('addbutton').style.display = 'block';
   }else {
+    document.getElementById('uri').value = "";
     document.getElementById('urifield').style.display = 'none';
     document.getElementById('addbutton').style.display = 'none';
   }
