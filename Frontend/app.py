@@ -8,8 +8,8 @@ import os
 app = Flask(__name__)
 bootstrap = Bootstrap(app)
 
-globalPath = "/home/jaimetrillos/Dropbox/BDO/BigDataOcean-Harmonization"
-# globalPath = "/home/anatrillos/Dropbox/Documentos/BigDataOcean-Harmonization"
+# globalPath = "/home/jaimetrillos/Dropbox/BDO/BigDataOcean-Harmonization"
+globalPath = "/home/anatrillos/Dropbox/Documentos/BigDataOcean-Harmonization"
 
 data = [{
 "title": "Hi",
@@ -175,9 +175,8 @@ class datasetSuggest(object):
 class datasetInfo(object):
 	def __init__(self, identifier, title, description, subject, keywords, standards, format, language, homepage, publisher, 
 		accessRights, issuedDate, modifiedDate, geoLocation, spatialWest, spatialEast, spatialSouth, spatialNorth, 
-		#coordinateSystem, 
-		verticalCoverageFrom, verticalCoverageTo,# verticalLevel, temporalCoverageBegin, temporalCoverageEnd, 
-		timeResolution#, variables
+		coordinateSystem, verticalCoverageFrom, verticalCoverageTo,temporalCoverageBegin, temporalCoverageEnd, 
+		verticalLevel, timeResolution#, variables
 		):
 		self.identifier = identifier
 		self.title = title
@@ -197,12 +196,12 @@ class datasetInfo(object):
 		self.spatialEast = spatialEast
 		self.spatialSouth = spatialSouth
 		self.spatialNorth = spatialNorth
-		#self.coordinateSystem = coordinateSystem
+		self.coordinateSystem = coordinateSystem
 		self.verticalCoverageFrom = verticalCoverageFrom
 		self.verticalCoverageTo = verticalCoverageTo
-		#self.verticalLevel = verticalLevel
-		# self.temporalCoverageBegin = temporalCoverageBegin
-		# self.temporalCoverageEnd = temporalCoverageEnd
+		self.verticalLevel = verticalLevel
+		self.temporalCoverageBegin = temporalCoverageBegin
+		self.temporalCoverageEnd = temporalCoverageEnd
 		self.timeResolution = timeResolution
 		# self.variables = variables
 

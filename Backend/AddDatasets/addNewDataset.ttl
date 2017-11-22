@@ -18,34 +18,34 @@ bdo:timeCoverage a owl:ObjectProperty.
 bdo:verticalLevel a owl:Datatypeproperty. 
 bdo:timeResolution a owl:Datatypeproperty. 
 bdo:verticalFrom a owl:ObjectProperty . 
-bdo:MEDSEA_ANALYSIS_FORECAST_PHY_006_013_VC a bdo:VerticalCoverage ; 
-bdo:verticalFrom "-5500.0"^^xsd:double ; 
-bdo:verticalTo "0.0"^^xsd:double . 
-bdo:MEDSEA_ANALYSIS_FORECAST_PHY_006_013_GC a ignf:GeographicBoundingBox ; 
-ignf:westBoundLongitude "-17.2917"^^xsd:double ; 
-ignf:eastBoundLongitude "36.29167"^^xsd:double ; 
-ignf:southBoundLatitude "30.1875"^^xsd:double ; 
-ignf:northBoundLatitude "45.97917"^^xsd:double . 
-bdo:MEDSEA_ANALYSIS_FORECAST_PHY_006_013 a dcat:Dataset ; 
-dct:identifier "MEDSEA_ANALYSIS_FORECAST_PHY_006_013" ; 
-dct:title "Mediterranean Sea Physics Analysis and Forecast" ; 
-dct:description " The physical component of the Mediterranean Forecasting System (Med-currents) is a hydrodynamic model implemented over the whole Mediterranean Basin. The model horizontal grid resolution is 1/24˚ (ca. 4 km) and has 141 unevenly spaced vertical levels. The hydrodynamics are supplied by the Nucleous for European Modelling of the Ocean (NEMO v3.6) and the model solutions are corrected by a variational data assimilation scheme (3DVAR) of temperature and salinity vertical profiles and along track satellite Sea Level Anomaly observations. " ; 
+bdo:MEDSEA_ANALYSIS_FORECAST_WAV_006_011_VC a bdo:VerticalCoverage ; 
+bdo:verticalFrom "0"^^xsd:double ; 
+bdo:verticalTo "0"^^xsd:double . 
+bdo:MEDSEA_ANALYSIS_FORECAST_WAV_006_011_GC a ignf:GeographicBoundingBox ; 
+ignf:westBoundLongitude "-18.12"^^xsd:double ; 
+ignf:eastBoundLongitude "36.30"^^xsd:double ; 
+ignf:southBoundLatitude "30.17"^^xsd:double ; 
+ignf:northBoundLatitude "45.98"^^xsd:double . 
+bdo:MEDSEA_ANALYSIS_FORECAST_WAV_006_011 a dcat:Dataset ; 
+dct:identifier "MEDSEA_ANALYSIS_FORECAST_WAV_006_011" ; 
+dct:title "Mediterranean Sea Waves Hindcast and Forecast" ; 
+dct:description " MEDSEA_ANALYSIS_FORECAST_WAVES_006_011 is the nominal product of the Mediterranean Sea Waves Forecasting system, composed by hourly wave parameters at 1/24º horizontal resolution covering the Mediterranean Sea and extending up to -18.125W into the Atlantic Ocean. The Mediterranean Forecasting System, waves forecast component, is a wave model based on WAM Cycle 4.5.4, a state of the art third generation wave model successfully used for the last 20 years for wave hindcasting and forecasting. In the wave model the continuous wave spectrum is approximated by means of step functions which are constant in a frequency-direction bin. The Med-waves modelling system resolves the prognostic part of the wave spectrum with 24 directional and 32 logarithmically distributed frequency bins. The Med-waves set up includes a coarse grid domain with a resolution of 1/6° covering the North Atlantic Ocean from 75° W to 10° E and from 70° N to 10° S and a nested fine grid domain with a resolution of 1/24° covering the Mediterranean Sea from 18.125° W to 36.2917° E and from 30.1875° N to 45.9792° S. " ; 
 dcat:subject <http://inspire.ec.europa.eu/metadata-codelist/TopicCategory/oceans> ; 
-dcat:theme <http://www.eionet.europa.eu/concept/5145> ; 
+dcat:theme <http://www.eionet.europa.eu/concept/14844> ; 
 dct:Standard "" ; 
 dct:format "" ; 
 dct:language "eng" ; 
-foaf:homepage "http://cmems-resources.cls.fr/?option=com_csw&view=details&tab=info&product_id=MEDSEA_ANALYSIS_FORECAST_PHY_006_013&format=xml" ; 
+foaf:homepage "http://cmems-resources.cls.fr/?option=com_csw&view=details&tab=info&product_id=MEDSEA_ANALYSIS_FORECAST_WAV_006_011&format=xml" ; 
 dct:publisher "CMEMS" ; 
 dct:accessRights "" ; 
-dct:issued "2015-01-01T00:00"^^xsd:dateTime ; 
-dct:modified "2017-11-17T10:10:10"^^xsd:dateTime ; 
+dct:issued "2002-03-31T03:33:33"^^xsd:dateTime ; 
+dct:modified "2005-03-31T14:22:22"^^xsd:dateTime ; 
 dct:spatial "" ; 
-bdo:GeographicalCoverage bdo:MEDSEA_ANALYSIS_FORECAST_PHY_006_013_GC; 
+bdo:GeographicalCoverage bdo:MEDSEA_ANALYSIS_FORECAST_WAV_006_011_GC; 
 dct:conformsTo "WGS 84 (EPSG 4326)" ; 
-bdo:verticalCoverage bdo:MEDSEA_ANALYSIS_FORECAST_PHY_006_013_VC ; 
-bdo:verticalLevel "141"; 
-bdo:timeCoverage [ids:beginning "2015-01-01T00:00"^^xsd:dateTime ; 
+bdo:verticalCoverage bdo:MEDSEA_ANALYSIS_FORECAST_WAV_006_011_VC ; 
+bdo:verticalLevel "1"; 
+bdo:timeCoverage [ids:beginning "2016-08-01T00:00:00"^^xsd:dateTime ; 
 ids:end ""^^xsd:dateTime] ; 
-bdo:timeResolution "daily mean, hourly mean" . 
+bdo:timeResolution "hourly instantaneous" . 
 }

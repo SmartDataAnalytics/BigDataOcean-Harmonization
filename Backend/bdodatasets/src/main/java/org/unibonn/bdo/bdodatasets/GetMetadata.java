@@ -30,40 +30,50 @@ public class GetMetadata {
 
 	public static void exec(String Uri) {
 		
-		String query = "PREFIX dct: <http://purl.org/dc/terms/>\n";
-		query += "PREFIX dcat: <https://www.w3.org/TR/vocab-dcat/>\n";
-		query += "PREFIX ignf: <http://data.ign.fr/def/ignf#>\n";
-		query += "PREFIX foaf: <http://xmlns.com/foaf/0.1/>\n";
-		query += "PREFIX bdo: <http://bigdataocean.eu/bdo/>\n";
-		query += "SELECT ?uri ?ident ?title ?desc ?sub ?keyw ?standard ?format ?lang ?homep ?publi ?rights (STR(?issued) AS ?issuedDate) (STR(?modified) AS ?modifiedDate) ?geoLoc ?timeReso (STR(?verFrom) AS ?vFrom) (STR(?verTo) AS ?vTo) (STR(?west) AS ?spatialWest) (STR(?east) AS ?spatialEast) (STR(?south) AS ?spatialSouth) (STR(?north) AS ?spatialNorth)\n";
-		query += "WHERE{\n";
-		query += Uri+" a dcat:Dataset;\n";
-		query += "dct:identifier ?ident;\n";
-		query += "dct:title ?title;\n";
-		query += "dct:description ?desc;\n";
-		query += "dcat:subject ?sub;\n";
-		query += "bdo:verticalCoverage ?vCov;\n";
-		query += "dcat:theme ?keyw;\n";
-		query += "dct:conformsTo ?standard;\n";
-		query += "dct:format ?format;\n";
-		query += "dct:language ?lang;\n";
-		query += "foaf:homepage ?homep;\n";
-		query += "dct:publisher ?publi;\n";
-		query += "dct:accessRights ?rights;\n";
-		query += "dct:issued ?issued;\n";
-		query += "dct:modified ?modified;\n";
-		query += "dct:spatial ?geoLoc;\n";
-		query += "bdo:timeResolution ?timeReso;\n";
-		query += "bdo:GeographicalCoverage ?spatial.\n";		
-		query += "?spatial a ignf:GeographicBoundingBox;\n";
-		query += "ignf:westBoundLongitude ?west;\n";
-		query += "ignf:eastBoundLongitude ?east;\n";
-		query += "ignf:southBoundLatitude ?south;\n";
-		query += "ignf:northBoundLatitude ?north.\n";
-		query += "?vCov a  bdo:VerticalCoverage;\n";
-		query += "bdo:verticalFrom ?verFrom;\n";
-		query += "bdo:verticalTo ?verTo.\n";
-		query += "} LIMIT 1\n";
+		String query = "PREFIX dct: <http://purl.org/dc/terms/>\n" +
+		"PREFIX dcat: <https://www.w3.org/TR/vocab-dcat/>\n" +
+		"PREFIX ignf: <http://data.ign.fr/def/ignf#>\n" +
+		"PREFIX foaf: <http://xmlns.com/foaf/0.1/>\n" +
+		"PREFIX bdo: <http://bigdataocean.eu/bdo/>\n" +
+		"SELECT ?uri ?ident ?title ?desc ?sub ?keyw ?standard " +
+		"?format ?lang ?homep ?publi ?rights (STR(?issued) AS ?issuedDate) " +
+		"(STR(?modified) AS ?modifiedDate) ?geoLoc ?timeReso (STR(?verFrom) AS ?vFrom) " +
+		"(STR(?verTo) AS ?vTo) (STR(?west) AS ?spatialWest) (STR(?east) AS ?spatialEast) " +
+		"(STR(?south) AS ?spatialSouth) (STR(?north) AS ?spatialNorth) (STR(?tempCovB) AS ?timeCovBeg) " +
+		"(STR(?tempCovE) AS ?timeCovEnd) ?vLevel \n" +
+		"WHERE{\n" +
+		Uri+" a dcat:Dataset ;\n" +
+		"dct:identifier ?ident ;\n" +
+		"dct:title ?title ;\n" +
+		"dct:description ?desc ;\n" +
+		"dcat:subject ?sub ;\n" +
+		"bdo:verticalCoverage ?vCov ;\n" +
+		"dcat:theme ?keyw ;\n" +
+		"dct:conformsTo ?standard ;\n" +
+		"dct:format ?format ;\n" +
+		"dct:language ?lang ;\n" +
+		"foaf:homepage ?homep ;\n" +
+		"dct:publisher ?publi ;\n" +
+		"dct:accessRights ?rights ;\n" +
+		"dct:issued ?issued ;\n" +
+		"dct:modified ?modified ;\n" +
+		"dct:spatial ?geoLoc ;\n" +
+		"bdo:timeResolution ?timeReso ;\n" +
+		"bdo:GeographicalCoverage ?spatial ;\n" +
+		"bdo:verticalLevel ?vLevel ;\n" +
+		"bdo:timeCoverage ?temp .\n" +		
+		"?temp ids:beginning ?tempCovB ;\n" + 
+		"dct:conformsTo ?coorSys ; \n" +
+		"ids:end ?tempCovE ." +				
+		"?spatial a ignf:GeographicBoundingBox ;\n" +
+		"ignf:westBoundLongitude ?west ;\n" +
+		"ignf:eastBoundLongitude ?east ;\n" +
+		"ignf:southBoundLatitude ?south ;\n" +
+		"ignf:northBoundLatitude ?north .\n" +
+		"?vCov a  bdo:VerticalCoverage ;\n" +
+		"bdo:verticalFrom ?verFrom ;\n" +
+		"bdo:verticalTo ?verTo .\n" +
+		"} LIMIT 1\n";
 		
 		Dataset dataset = new Dataset();
 		RDFNode node;
@@ -116,6 +126,14 @@ public class GetMetadata {
 			dataset.setSpatialNorth(node.toString());
 			node = solution.get("spatialSouth");
 			dataset.setSpatialSouth(node.toString());
+			node = solution.get("timeCovBeg");
+			dataset.setTemporalCoverageBegin(node.toString());
+			node = solution.get("timeCovEnd");
+			dataset.setTemporalCoverageEnd(node.toString());
+			node = solution.get("vLevel");
+			dataset.setVerticalLevel(node.toString());
+			node = solution.get("coorSys");
+			dataset.setCoordinateSystem(node.toString());
 		}
 		
 		try {
