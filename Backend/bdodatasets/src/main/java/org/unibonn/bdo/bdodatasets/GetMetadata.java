@@ -35,12 +35,13 @@ public class GetMetadata {
 		"PREFIX ignf: <http://data.ign.fr/def/ignf#>\n" +
 		"PREFIX foaf: <http://xmlns.com/foaf/0.1/>\n" +
 		"PREFIX bdo: <http://bigdataocean.eu/bdo/>\n" +
+		"PREFIX ids: <http://industrialdataspace/information-model/> \n" +
 		"SELECT ?uri ?ident ?title ?desc ?sub ?keyw ?standard " +
 		"?format ?lang ?homep ?publi ?rights (STR(?issued) AS ?issuedDate) " +
 		"(STR(?modified) AS ?modifiedDate) ?geoLoc ?timeReso (STR(?verFrom) AS ?vFrom) " +
 		"(STR(?verTo) AS ?vTo) (STR(?west) AS ?spatialWest) (STR(?east) AS ?spatialEast) " +
 		"(STR(?south) AS ?spatialSouth) (STR(?north) AS ?spatialNorth) (STR(?tempCovB) AS ?timeCovBeg) " +
-		"(STR(?tempCovE) AS ?timeCovEnd) ?vLevel \n" +
+		"(STR(?tempCovE) AS ?timeCovEnd) ?vLevel ?coorSys \n" +
 		"WHERE{\n" +
 		Uri+" a dcat:Dataset ;\n" +
 		"dct:identifier ?ident ;\n" +
@@ -49,7 +50,7 @@ public class GetMetadata {
 		"dcat:subject ?sub ;\n" +
 		"bdo:verticalCoverage ?vCov ;\n" +
 		"dcat:theme ?keyw ;\n" +
-		"dct:conformsTo ?standard ;\n" +
+		"dct:Standard ?standard ;\n" +
 		"dct:format ?format ;\n" +
 		"dct:language ?lang ;\n" +
 		"foaf:homepage ?homep ;\n" +
@@ -61,10 +62,10 @@ public class GetMetadata {
 		"bdo:timeResolution ?timeReso ;\n" +
 		"bdo:GeographicalCoverage ?spatial ;\n" +
 		"bdo:verticalLevel ?vLevel ;\n" +
-		"bdo:timeCoverage ?temp .\n" +		
-		"?temp ids:beginning ?tempCovB ;\n" + 
 		"dct:conformsTo ?coorSys ; \n" +
-		"ids:end ?tempCovE ." +				
+		"bdo:timeCoverage ?temp .\n" +		
+		"?temp ids:beginning ?tempCovB ;\n" +
+		"ids:end ?tempCovE .\n" +						
 		"?spatial a ignf:GeographicBoundingBox ;\n" +
 		"ignf:westBoundLongitude ?west ;\n" +
 		"ignf:eastBoundLongitude ?east ;\n" +
