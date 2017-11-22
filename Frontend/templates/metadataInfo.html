@@ -27,6 +27,18 @@
       <div class="row content">
         <div class="col-md-1">
         </div>
+        <div class="buttonForm">
+          <button type="submit" class="btn btn-default">
+            <i class="glyphicon glyphicon-edit"></i> Modify
+          </button>
+          <button type="button" class="btn btn-danger" onclick="deleteButton()">
+            <i class="glyphicon glyphicon-trash"></i> Delete
+          </button>
+        </div>
+      </div>
+      <div class="row content">
+        <div class="col-md-1">
+        </div>
         <div class="col-md-10 metadata-info">
           <div class="alert alert-danger alert-dismissable" id="alert-fieldsEmpty">
             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
@@ -126,7 +138,7 @@
                 <label class="label-tableInfo" for="issued_date">Issued date:</label>
               </td>
               <td colspan="8">
-                {{ dataset.issued }}
+                {{ dataset.issuedDate }}
               </td>
             </tr>
             <tr>
@@ -134,7 +146,7 @@
                 <label class="label-tableInfo" for="modified_date">Modified date:</label>
               </td>
               <td colspan="8">
-                {{ dataset.modified }}
+                {{ dataset.modifiedDate }}
               </td>
             </tr>
           </table>
@@ -251,14 +263,16 @@
         </div>
       </div>
       <div class="row content">
-      </div>
-      <div class="buttonForm">
-        <button type="submit" class="btn btn-default">
-          <i class="glyphicon glyphicon-edit"></i> Modify
-        </button>
-        <button type="button" class="btn btn-danger" onclick="deleteButton()">
-          <i class="glyphicon glyphicon-trash"></i> Delete
-        </button>
+        <div class="col-md-1">
+        </div>
+        <div class="buttonForm">
+          <button type="submit" class="btn btn-default">
+            <i class="glyphicon glyphicon-edit"></i> Modify
+          </button>
+          <button type="button" class="btn btn-danger" onclick="deleteButton()">
+            <i class="glyphicon glyphicon-trash"></i> Delete
+          </button>
+        </div>
       </div>
     </form>
   </div>

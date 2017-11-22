@@ -28,11 +28,17 @@
       <div class="row content">
         <div class="col-md-1">
         </div>
+        <div class="buttonForm">
+          <button type="submit" class="btn btn-default">Save</button>
+          <button type="button" class="btn btn-danger" onclick="cancelButton()">Cancel</button>
+        </div>
+        <div class="col-md-1">
+        </div>
+      </div>
+      <div class="row content">
+        <div class="col-md-1">
+        </div>
         <div class="col-md-10 metadata-info">
-          <div class="alert alert-danger alert-dismissable" id="alert-fieldsEmpty">
-            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-            <strong>Mandatory fields!</strong> Title, Description and Type are mandatory fields.
-          </div>
           <table class="tableMetadata">
             <tr style='display: none;'>
               <td>
@@ -44,6 +50,7 @@
             </tr>
             <tr>
               <td>
+                <label class="label-table-mandatory">* </label>
                 <label class="label-table" for="title">Title:</label>
               </td>
               <td colspan="8">
@@ -52,6 +59,7 @@
             </tr>
             <tr>
               <td>
+                <label class="label-table-mandatory">* </label>
                 <label class="label-table" for="description">Description:</label>
               </td>
               <td colspan="8">
@@ -60,6 +68,7 @@
             </tr>
             <tr>
               <td>
+                <label class="label-table-mandatory">* </label>
                 <label class="label-table" for="subject">Subject:</label>
               </td>
               <td colspan="8">                            
@@ -68,6 +77,7 @@
             </tr>
             <tr>
               <td>
+                <label class="label-table-mandatory">* </label>
                 <label class="label-table" for="keywords">Keywords:</label>
               </td>
               <td colspan="8">                            
@@ -92,6 +102,7 @@
             </tr>
             <tr>
               <td>
+                <label class="label-table-mandatory">* </label>
                 <label class="label-table" for="language">Language:</label>
               </td>
               <td colspan="8">
@@ -108,6 +119,7 @@
             </tr>
             <tr>
               <td>
+                <label class="label-table-mandatory">* </label>
                 <label class="label-table" for="publisher">Publisher:</label>
               </td>
               <td colspan="8">
@@ -124,6 +136,7 @@
             </tr>
             <tr>
               <td>
+                <label class="label-table-mandatory">* </label>
                 <label class="label-table " for="issued_date">Issued date:</label>
               </td>
               <td colspan="8">
@@ -132,6 +145,7 @@
             </tr>
             <tr>
               <td>
+                <label class="label-table-mandatory">* </label>
                 <label class="label-table " for="modified_date">Modified date:</label>
               </td>
               <td colspan="8">
@@ -240,6 +254,7 @@
             </tr>
             <tr>
               <td>
+                <label class="label-table-mandatory">* </label>
                 <label class="label-table " for="time_resolution">Time Resolution:</label>
               </td>
               <td colspan="8">
@@ -261,8 +276,8 @@
           <table class="table table-bordered" id="tbl_posts">
             <thead>
               <tr>
-                <th>Dataset Variable</th>
-                <th>BDO Connection</th>
+                <th><label class="label-table-mandatory">* </label>Dataset Variable</th>
+                <th><label class="label-table-mandatory">* </label>BDO Variable</th>
                 <th style="width: 1px;">Action</th>
               </tr>
             </thead>
@@ -272,14 +287,10 @@
                  <td>
                   <input type="text" class="form-control" id="parser_variable" name="parser_variable" value="{{x}}">
                  </td>
-                 {%for var in variablesCF:%}
-                 {%if var["text"] == x:%}
                  <td>
-                  <input type="text" class="form-control" id="json_variable" name="json_variable" value="{{var['value']}}">
+                  <input type="text" class="form-control" id="json_variable" name="json_variable" value="">
                  </td>
                  <td>
-                 {%endif%}
-                 {%endfor%}
                   <center>
                     <a class="btn btn-xs delete-record" data-id="{{ loop.index0 +1 }}"><i class="glyphicon glyphicon-remove glyphiconRemove"></i></a>
                   </center>
@@ -313,16 +324,30 @@
         </div>
       </div>
       <div class="row content">
-      </div>
-      <div class="buttonForm">
-        <button type="submit" class="btn btn-default">Save</button>
-        <button type="button" class="btn btn-danger" onclick="cancelButton()">Cancel</button>
+        <div class="col-md-1">
+        </div>
+        <div class="buttonForm">
+          <button type="submit" class="btn btn-default">Save</button>
+          <button type="button" class="btn btn-danger" onclick="cancelButton()">Cancel</button>
+        </div>
+        <div class="col-md-1">
+        </div>
       </div>
     </form>
   </div>
   {%else:%}
   <div class="container text-center" style="margin-top:90px">
     <form id="metadataForm" name="metadataForm" class="form-style" method="POST" action="http://localhost:5000/save">
+      <div class="row content">
+        <div class="col-md-1">
+        </div>
+        <div class="buttonForm">
+          <button type="submit" class="btn btn-default">Save</button>
+          <button type="button" class="btn btn-danger" onclick="cancelButton()">Cancel</button>
+        </div>
+        <div class="col-md-1">
+        </div>
+      </div>
       <div class="row content">
         <div class="col-md-1">
         </div>
@@ -342,6 +367,7 @@
             </tr>
             <tr>
               <td>
+                <label class="label-table-mandatory">* </label>
                 <label class="label-table" for="title">Title:</label>
               </td>
               <td colspan="8">
@@ -350,6 +376,7 @@
             </tr>
             <tr>
               <td>
+                <label class="label-table-mandatory">* </label>
                 <label class="label-table" for="description">Description:</label>
               </td>
               <td colspan="8">
@@ -358,6 +385,7 @@
             </tr>
             <tr>
               <td>
+                <label class="label-table-mandatory">* </label>
                 <label class="label-table" for="subject">Subject:</label>
               </td>
               <td colspan="8">                            
@@ -366,6 +394,7 @@
             </tr>
             <tr>
               <td>
+                <label class="label-table-mandatory">* </label>
                 <label class="label-table" for="keywords">Keywords:</label>
               </td>
               <td colspan="8">                            
@@ -390,6 +419,7 @@
             </tr>
             <tr>
               <td>
+                <label class="label-table-mandatory">* </label>
                 <label class="label-table" for="language">Language:</label>
               </td>
               <td colspan="8">
@@ -422,6 +452,7 @@
             </tr>
             <tr>
               <td>
+                <label class="label-table-mandatory">* </label>
                 <label class="label-table " for="issued_date">Issued date:</label>
               </td>
               <td colspan="8">
@@ -430,6 +461,7 @@
             </tr>
             <tr>
               <td>
+                <label class="label-table-mandatory">* </label>
                 <label class="label-table " for="modified_date">Modified date:</label>
               </td>
               <td colspan="8">
@@ -538,6 +570,7 @@
             </tr>
             <tr>
               <td>
+                <label class="label-table-mandatory">* </label>
                 <label class="label-table " for="time_resolution">Time Resolution:</label>
               </td>
               <td colspan="8">
@@ -559,8 +592,8 @@
           <table class="table table-bordered" id="tbl_posts">
             <thead>
               <tr>
-                <th>Dataset Variable</th>
-                <th>BDO Connection</th>
+                <th><label class="label-table-mandatory">* </label>Dataset Variable</th>
+                <th><label class="label-table-mandatory">* </label>BDO Variable</th>
                 <th style="width: 1px;">Action</th>
               </tr>
             </thead>
@@ -605,10 +638,14 @@
         </div>
       </div>
       <div class="row content">
-      </div>
-      <div class="buttonForm">
-        <button type="submit" class="btn btn-default">Save</button>
-        <button type="button" class="btn btn-danger" onclick="cancelButton()">Cancel</button>
+        <div class="col-md-1">
+        </div>
+        <div class="buttonForm">
+          <button type="submit" class="btn btn-default">Save</button>
+          <button type="button" class="btn btn-danger" onclick="cancelButton()">Cancel</button>
+        </div>
+        <div class="col-md-1">
+        </div>
       </div>
     </form>
   </div>

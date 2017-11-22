@@ -35,6 +35,11 @@ body {
     font-size: 16px;
 }
 
+.label-table-mandatory {
+    color:  #FF0000;
+    font-size: 16px;
+}
+
 .label-tableInfo {
     font-size: 16px;
 }
