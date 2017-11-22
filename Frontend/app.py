@@ -11,10 +11,10 @@ bootstrap = Bootstrap(app)
 # globalPath = "/home/jaimetrillos/Dropbox/BDO/BigDataOcean-Harmonization"
 globalPath = "/home/anatrillos/Dropbox/Documentos/BigDataOcean-Harmonization"
 
-data = [{
-"title": "Hi",
-"description": "Hi"
-}]
+# data = [{
+# "title": "Hi",
+# "description": "Hi"
+# }]
 # other column settings -> http://bootstrap-table.wenzhixin.net.cn/documentation/#column-options
 columns = [{
 "field": "title", # which is the field's name of data key 
@@ -29,6 +29,14 @@ columns = [{
 
 @app.route('/')
 def index():
+	command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/listDatasets'
+	try:
+		process = subprocess.check_output([command], shell="True")
+	except subprocess.CalledProcessError as e:
+		return render_template('500.html')
+
+	parsed_output = json.loads(process.decode('utf-8'))
+	data = parsed_output
 	return render_template('index.html',
 		data=data,
 		columns=columns)
