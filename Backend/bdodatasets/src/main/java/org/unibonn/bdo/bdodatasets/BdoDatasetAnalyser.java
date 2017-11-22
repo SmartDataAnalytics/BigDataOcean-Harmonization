@@ -26,6 +26,7 @@ public class BdoDatasetAnalyser {
 		String title;
 		String description;
 		String identifier;
+		String issued;
 		String language;
 		String coordinateSystem;
 		String spatialWestBoundLongitude;
@@ -58,6 +59,7 @@ public class BdoDatasetAnalyser {
     	description = tokens[2];
     	
     	identifier = item.getElementsByTag("gmd:alternateTitle").first().text();
+    	issued = item.getElementsByTag("gmd:date").first().text()+"T00:00:00";
     	language = item.getElementsByTag("gmd:language").first().text();
     	spatialWestBoundLongitude = item.getElementsByTag("gmd:westBoundLongitude").first().text();
     	spatialEastBoundLongitude = item.getElementsByTag("gmd:eastBoundLongitude").first().text();
@@ -112,6 +114,8 @@ public class BdoDatasetAnalyser {
         result.setDescription(description);
         result.setHomepage(datasetURI);
         result.setIdentifier(identifier);
+        result.setIssuedDate(issued);
+        result.setModifiedDate(issued);
         result.setLanguage(language);
         result.setCoordinateSystem(coordinateSystem);
         result.setSpatialWest(spatialWestBoundLongitude);

@@ -45,7 +45,7 @@ public class ListDatasets {
 			node = solution.get("title");
 			list.setTitle("<a href=/metadataInfo/"+ident+">"+node.toString()+"</a>");
 			node = solution.get("description");
-			list.setDescription(node.toString());
+			list.setDescription(node.toString().substring(0, 300)+"...");
 			listDatasets.add(list);
 		}
 		
