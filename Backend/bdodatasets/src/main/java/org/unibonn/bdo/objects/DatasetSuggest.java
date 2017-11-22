@@ -1,11 +1,11 @@
 package org.unibonn.bdo.objects;
 
 /**
- * Represents an Dataset: contains the metadata obtained by Jsoup
- * 
  * @author Jaime M Trillos
  * @author Ana C Trillos
  *
+ * Represents an Dataset: contains the metadata obtained by Jsoup
+ * 
  */
 public class DatasetSuggest {
 	

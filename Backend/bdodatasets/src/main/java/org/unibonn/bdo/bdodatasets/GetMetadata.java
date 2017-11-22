@@ -14,6 +14,8 @@ import com.hp.hpl.jena.rdf.model.RDFNode;
  * @author Jaime M Trillos
  * @author Ana C Trillos
  *
+ * Receives 1 parameter, the URI of the Dataset to get all metadata from Jena Fuseki
+ *
  */
 
 public class GetMetadata {
@@ -21,9 +23,6 @@ public class GetMetadata {
 
 	public static void main(String[] args) {
 		String uri = args[0];
-		//String path2File = args[1];
-		//String uri = "bdo:MEDSEA_ANALYSIS_FORECAST_WAV_006_011";
-		//String path2File = "/home/anatrillos/Dropbox/Documentos/BigDataOcean-Harmonization/Backend/AddDatasets/addNewDataset.ttl";
 		exec(uri);
 
 	}
@@ -78,7 +77,7 @@ public class GetMetadata {
 		
 		Dataset dataset = new Dataset();
 		RDFNode node;
-
+		// executes query on Jena Fueski to get Metadata
 		QueryExecution qe = QueryExecutionFactory.sparqlService(
 					"http://localhost:3030/bdoHarmonization/query",query);
 		ResultSet results = qe.execSelect();
@@ -138,6 +137,7 @@ public class GetMetadata {
 		}
 		
 		try {
+			// Parse into JSON the Dataset instance with all metadata from a dataset
 			Gson gson  = new Gson();
 			System.out.println(gson.toJson(dataset));
 		} catch (Exception e) {

@@ -11,10 +11,6 @@ bootstrap = Bootstrap(app)
 # globalPath = "/home/jaimetrillos/Dropbox/BDO/BigDataOcean-Harmonization"
 globalPath = "/home/anatrillos/Dropbox/Documentos/BigDataOcean-Harmonization"
 
-# data = [{
-# "title": "Hi",
-# "description": "Hi"
-# }]
 # other column settings -> http://bootstrap-table.wenzhixin.net.cn/documentation/#column-options
 columns = [{
 "field": "title", # which is the field's name of data key 
@@ -27,8 +23,10 @@ columns = [{
 "sortable": True,
 }]
 
+# Routing to index
 @app.route('/')
 def index():
+	# Calls shell listDatasets to get all the datasets stored on jena fuseki
 	command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/listDatasets'
 	try:
 		process = subprocess.check_output([command], shell="True")
@@ -41,6 +39,7 @@ def index():
 		data=data,
 		columns=columns)
 
+# Routing to addMetadata form
 @app.route('/addMetadata', methods=['GET', 'POST'])
 def parse():
 	if request.method == 'POST':
@@ -52,12 +51,13 @@ def parse():
 		#pprint (variablesCF[0]["text"])
 
 		if uri != "":
+			# if adding a Copernicus dataset, the shell suggest is called to parse the xml file and get metadata
 			command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/suggest "%s"' %uri
 			try:
 				process = subprocess.check_output([command], shell="True")
 			except subprocess.CalledProcessError as e:
 				return render_template('500.html')
-
+			# metadata parsed is converted into json class datasetSuggest to be used inside the html form
 			parsed_output = json.loads(process.decode('utf-8'))
 			dataset = datasetSuggest(**parsed_output)
 
@@ -65,10 +65,11 @@ def parse():
 		else :
 			return render_template('addMetadata.html', dataset="", variablesCF=variablesCF)
 
+# Routing to save new dataset
 @app.route('/save', methods=['GET','POST'])
 def save():
-	print("save")
 	if request.method == 'POST':
+		# TTL file is written with data from the addMetadata form to be added to jena fuseki
 		identifier = request.form['identifier']
 		uri = "<http://bigdataocean.eu/bdo/"+identifier+"> \n"
 		with open(globalPath+'/Backend/AddDatasets/addNewDataset.ttl','w') as file:
@@ -124,27 +125,24 @@ def save():
 			file.write("bdo:timeResolution \""+request.form['time_reso']+"\" . \n")
 			#parservariable = request.form.getlist('parser_variable')
 			#print (parservariable)
-		
 			file.write("}")
 			file.close()
 			path2TTL = globalPath + "/Backend/AddDatasets/addNewDataset.ttl"
+			# Calls shell addDataset2bdo to connect to jena fuseki and add dataset via sparql query
 			command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/addDataset2bdo "%s" "%s"' %(uri, path2TTL)
 			try:
 				process = subprocess.check_output([command], shell="True")
 			except subprocess.CalledProcessError as e:
 				return render_template('500.html')
+			# when the dataset is added to jena fuseki, redirects to the metadataInfo web page corresponding to the identifier
 			if b'Successful' in process:
 				return redirect(url_for('metadataInfo',identifier=identifier))
 			else:
 				return render_template('500.html')
 
-@app.route('/edit', methods=['GET', 'POST'])
-def edit(dataset):
-	if request.method == 'POST':
-		return render_template('metadata.html')
-
-@app.route('/metadataInfo/<identifier>', methods=['GET', 'POST'])
-def metadataInfo(identifier):
+# Routing to modify a corresponding dataset
+@app.route('/modify/<identifier>', methods=['GET', 'POST'])
+def edit(identifier):
 	if request.method == 'GET':
 		uri = "<http://bigdataocean.eu/bdo/"+identifier+"> \n"
 		comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/getDataset "%s"' %uri
@@ -152,13 +150,31 @@ def metadataInfo(identifier):
 			process = subprocess.check_output([comm], shell="True")
 		except subprocess.CalledProcessError as e:
 			return render_template('500.html')
+		# metadata parsed is converted into json class datasetInfo to be used inside the html form
+		parsed_output = json.loads(process.decode('utf-8'))
+		dataset = datasetInfo(**parsed_output)
+		return render_template('addMetadata.html', dataset=dataset)
+
+# Routing to see metadata of an specific dataset
+@app.route('/metadataInfo/<identifier>', methods=['GET', 'POST'])
+def metadataInfo(identifier):
+	if request.method == 'GET':
+		uri = "<http://bigdataocean.eu/bdo/"+identifier+"> \n"
+		# Calls shel getDataset to obtain all metadata of a dataset from jena fuseki
+		comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/getDataset "%s"' %uri
+		try:
+			process = subprocess.check_output([comm], shell="True")
+		except subprocess.CalledProcessError as e:
+			return render_template('500.html')
+		# metadata parsed is converted into json class datasetInfo to be used inside the html form
 		parsed_output = json.loads(process.decode('utf-8'))
 		dataset = datasetInfo(**parsed_output)
 		return render_template('metadataInfo.html', dataset=dataset)
 
+# Class for datasets parsed on shell suggest
 class datasetSuggest(object):
 	def __init__(self, identifier, title, description, language, homepage, publisher, 
-		spatialWest, spatialEast, spatialSouth, spatialNorth, 
+		spatialWest, spatialEast, spatialSouth, spatialNorth, issuedDate, modifiedDate,
 		coordinateSystem, verticalCoverageFrom, verticalCoverageTo, verticalLevel, temporalCoverageBegin, temporalCoverageEnd, 
 		timeResolution, variables):
 		self.identifier = identifier
@@ -166,6 +182,8 @@ class datasetSuggest(object):
 		self.description = description
 		self.language = language
 		self.homepage = homepage
+		self.issuedDate = issuedDate
+		self.modifiedDate = modifiedDate
 		self.publisher = publisher
 		self.spatialWest = spatialWest
 		self.spatialEast = spatialEast
@@ -180,6 +198,7 @@ class datasetSuggest(object):
 		self.timeResolution = timeResolution
 		self.variables = variables
 
+# Class for all dataset metadata
 class datasetInfo(object):
 	def __init__(self, identifier, title, description, subject, keywords, standards, format, language, homepage, publisher, 
 		accessRights, issuedDate, modifiedDate, geoLocation, spatialWest, spatialEast, spatialSouth, spatialNorth, 

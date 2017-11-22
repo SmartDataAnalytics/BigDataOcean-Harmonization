@@ -1,11 +1,18 @@
 package org.unibonn.bdo.objects;
 
+/**
+ *  
+ * @author Jaime M Trillos
+ * @author Ana C Trillos
+ *
+ * Object of the List of datasets
+ *
+ */
+
 public class DatasetList {
 	
 	String title;
 	String description;
-	
-	
 	
 	public DatasetList() {
 	}

@@ -11,6 +11,8 @@ import com.google.gson.Gson;
  * @author Jaime M Trillos
  * @author Ana C Trillos
  *
+ * Receives 1 parameter, the URI/homepage of the dataset to be parsed (only Copernicus dataset)
+ *
  */
 
 public class Suggest {

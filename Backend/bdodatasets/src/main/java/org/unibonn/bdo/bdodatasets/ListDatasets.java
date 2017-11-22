@@ -12,6 +12,15 @@ import com.hp.hpl.jena.query.QuerySolution;
 import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.rdf.model.RDFNode;
 
+/**
+ *  
+ * @author Jaime M Trillos
+ * @author Ana C Trillos
+ *
+ * Does not receive any parameter, but querie Jena Fuseki to get a list of all datasets
+ *
+ */
+
 public class ListDatasets {
 	
 	public static void main(String[] args) {
@@ -31,7 +40,7 @@ public class ListDatasets {
 		
 		List<DatasetList> listDatasets = new ArrayList<>() ;
 		RDFNode node;
-
+		// executes query on Jena Fueski to get identifier, title and description of all datasets
 		QueryExecution qe = QueryExecutionFactory.sparqlService(
 					"http://localhost:3030/bdoHarmonization/query",query);
 		ResultSet results = qe.execSelect();
@@ -45,11 +54,13 @@ public class ListDatasets {
 			node = solution.get("title");
 			list.setTitle("<a href=/metadataInfo/"+ident+">"+node.toString()+"</a>");
 			node = solution.get("description");
+			// substring of only 300 characters of the description to avoid big table
 			list.setDescription(node.toString().substring(0, 300)+"...");
 			listDatasets.add(list);
 		}
 		
 		try {
+			// Parse into JSON the list of datasets
 			Gson gson  = new Gson();
 			System.out.println(gson.toJson(listDatasets));
 		} catch (Exception e) {

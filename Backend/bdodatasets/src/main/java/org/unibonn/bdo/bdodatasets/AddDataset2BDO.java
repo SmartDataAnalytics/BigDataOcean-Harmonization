@@ -23,6 +23,8 @@ import com.hp.hpl.jena.update.UpdateProcessor;
  * @author Jaime M Trillos
  * @author Ana C Trillos
  *
+ * Receives 2 parameters: uri and the path of the ttl file to be added on Jena Fueski
+ * 
  */
 
 public class AddDataset2BDO {
@@ -30,8 +32,6 @@ public class AddDataset2BDO {
 	public static void main(String[] args) {
 		String uri = args[0];
 		String path2File = args[1];
-		/*String uri = "<http://bigdataocean.eu/bdo/MEDSEA_ANALYSIS_FORECAST_WAV_006_011>";
-		String path2File = "/home/anatrillos/Dropbox/Documentos/BigDataOcean-Harmonization/Backend/AddDatasets/addNewDataset.ttl";*/
 		exec(uri, path2File);
 
 	}
@@ -40,12 +40,12 @@ public class AddDataset2BDO {
 		String dataset = null;
 		String line;
 		
-		//Query TDB to see if the URI to be added already exists
+		//Query Jena Fueski to see if the URI to be added already exists
 		QueryExecution qe = QueryExecutionFactory.sparqlService(
 				"http://localhost:3030/bdoHarmonization/query", "ASK {"+Uri+" ?p ?o}");
 		boolean results = qe.execAsk();
 		qe.close();
-
+		// if the URI does not exists
 		if(results == false){
 			try {
 				// FileReader reads text files in the default encoding.
@@ -62,7 +62,7 @@ public class AddDataset2BDO {
 					}
 				}   
 	
-				// Always close files.
+				// Close file.
 				bufferedReader.close();         
 			}
 			catch(FileNotFoundException ex) {
@@ -76,7 +76,7 @@ public class AddDataset2BDO {
 								+ path2File + "'");  
 			}
 
-			//Add a new book to the collection
+			//Add the dataset to Jena Fueski
 			UpdateProcessor upp = UpdateExecutionFactory.createRemote(
 					UpdateFactory.create(String.format(dataset)), 
 					"http://localhost:3030/bdoHarmonization/update");
@@ -85,13 +85,5 @@ public class AddDataset2BDO {
 		}else{
 			System.out.print(String.format("Error!   URI already exists."));
 		}
-		
-		//Query the collection, dump output
-		/*QueryExecution qe = QueryExecutionFactory.sparqlService(
-	                "http://localhost:3030/bdoHarmonization/query", "SELECT * WHERE {"+Uri+" ?p ?o}");
-        ResultSet results = qe.execSelect();
-        ResultSetFormatter.out(System.out, results);
-        qe.close();*/
-
 	}
 }

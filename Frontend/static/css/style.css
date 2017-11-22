@@ -392,3 +392,12 @@ footer {
   min-height: 20px;
   margin-bottom: 9px;
 }
+
+.label-identifier {
+    font-size: 30px;
+    color: #ffffff;
+    background-color: #25aae1;
+    font-weight: bold;
+    padding: 10px 10px 10px 10px;
+    text-align: inherit;
+}

@@ -124,4 +124,6 @@ jQuery(document).delegate('a.delete-record', 'click', function(e) {
   }
 });
 
-
+function cancelButton(){
+  window.location.href="/"
+}

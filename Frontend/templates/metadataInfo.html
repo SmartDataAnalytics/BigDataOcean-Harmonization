@@ -23,7 +23,7 @@
     </div>
   </nav>
   <div class="container text-center" style="margin-top:90px">
-    <form id="metadataInfoForm" name="metadataInfoForm" class="form-style" method="POST" action="http://localhost:5000/modify">
+    <form id="metadataInfoForm" name="metadataInfoForm" class="form-style" method="GET" action="http://localhost:5000/modify/{{ dataset.identifier }}">
       <div class="row content">
         <div class="col-md-1">
         </div>
@@ -38,7 +38,16 @@
       </div>
       <div class="row content">
         <div class="col-md-1">
+        </div>          
+        <div class="col-md-10 field-title">
+          {{dataset.title}} <label class="label-identifier" for="identifier">({{dataset.identifier}})</label>
         </div>
+        <div class="col-md-1">
+        </div>
+      </div>
+      <div class="row content">
+        <div class="col-md-1">
+        </div> 
         <div class="col-md-10 metadata-info">
           <table class="tableMetadataInfo">
             <tr style='display: none;'>
@@ -49,7 +58,7 @@
                 {{ dataset.identifier }}
               </td>
             </tr>
-            <tr>
+            <tr style='display: none;'>
               <td>
                 <label class="label-tableInfo" for="title">Title:</label>
               </td>

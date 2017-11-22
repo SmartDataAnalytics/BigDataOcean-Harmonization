@@ -1,5 +1,14 @@
 package org.unibonn.bdo.objects;
 
+/**
+ *  
+ * @author Jaime M Trillos
+ * @author Ana C Trillos
+ *
+ * Object of the Dataset Metadata
+ *
+ */
+
 public class Dataset {
 
 	private String identifier; //identifier of Dataset

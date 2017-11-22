@@ -14,6 +14,8 @@ import org.unibonn.bdo.objects.DatasetSuggest;
  * @author Jaime M Trillos
  * @author Ana C Trillos
  *
+ * Parse XML file from Copernicus dataset to get Metadata
+ *
  */
 
 public class BdoDatasetAnalyser {
