@@ -289,10 +289,10 @@
               {% for x in dataset.variables.split(","): %}
                 <tr id="rec-{{ loop.index0 +1 }}">
                  <td>
-                  <input type="text" class="form-control" id="parser_variable" name="parser_variable" value="{{x}}">
+                  <input type="text" class="form-control" id="parser_variable" name="parser_variable" value="{{x}}" required>
                  </td>
                  <td>
-                  <input type="text" class="form-control" id="json_variable" name="json_variable" value="">
+                  <input type="text" class="form-control" id="json_variable" name="json_variable" value="" required>
                  </td>
                  <td>
                   <center>
@@ -440,6 +440,7 @@
             </tr>
             <tr>
               <td>
+                <label class="label-table-mandatory">* </label>
                 <label class="label-table" for="publisher">Publisher:</label>
               </td>
               <td colspan="8">
@@ -604,10 +605,10 @@
             <tbody id="tbl_posts_body">
               <tr id="rec-1">
                <td>
-                <input type="text" class="form-control" id="parser_variable" name="parser_variable">
+                <input type="text" class="form-control" id="parser_variable" name="parser_variable" required>
                </td>
                <td>
-                <input type="text" class="form-control" id="json_variable" name="json_variable">
+                <input type="text" class="form-control" id="json_variable" name="json_variable" required>
                </td>
                <td>
                 <center>
