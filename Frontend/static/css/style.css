@@ -43,6 +43,10 @@ body {
     color: #ffffff;
 }
 
+.label-table-coordinatesInfo {
+    color: black;
+}
+
 .tableMetadata {
     border-collapse:collapse;
     border:none;
