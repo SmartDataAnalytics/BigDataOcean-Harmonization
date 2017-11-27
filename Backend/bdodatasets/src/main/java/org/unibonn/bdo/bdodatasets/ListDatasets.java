@@ -55,7 +55,11 @@ public class ListDatasets {
 			list.setTitle("<a href=/metadataInfo/"+ident+">"+node.toString()+"</a>");
 			node = solution.get("description");
 			// substring of only 300 characters of the description to avoid big table
-			list.setDescription(node.toString().substring(0, 300)+"...");
+			if (node.toString().length()>=300) {
+				list.setDescription(node.toString().substring(0, 300)+"...");
+			}else {
+				list.setDescription(node.toString());
+			}
 			listDatasets.add(list);
 		}
 		

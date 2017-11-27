@@ -9,8 +9,8 @@ import uuid
 app = Flask(__name__)
 bootstrap = Bootstrap(app)
 
-# globalPath = "/home/jaimetrillos/Dropbox/BDO/BigDataOcean-Harmonization"
-globalPath = "/home/anatrillos/Dropbox/Documentos/BigDataOcean-Harmonization"
+globalPath = "/home/jaimetrillos/Dropbox/BDO/BigDataOcean-Harmonization"
+# globalPath = "/home/anatrillos/Dropbox/Documentos/BigDataOcean-Harmonization"
 
 # other column settings -> http://bootstrap-table.wenzhixin.net.cn/documentation/#column-options
 columns = [{
@@ -45,12 +45,6 @@ def index():
 def parse():
 	if request.method == 'POST':
 		uri = request.form['uri']
-
-		file = open(globalPath + '/Frontend/static/json/variablesCF.json', 'r')
-		variablesCF = json.load(file)
-
-		#pprint (variablesCF[0]["text"])
-
 		if uri != "":
 			# if adding a Copernicus dataset, the shell suggest is called to parse the xml file and get metadata
 			command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/suggest "%s"' %uri
@@ -62,14 +56,17 @@ def parse():
 			parsed_output = json.loads(process.decode('utf-8'))
 			dataset = datasetSuggest(**parsed_output)
 
-			return render_template('addMetadata.html', dataset=dataset, variablesCF=variablesCF)
+			return render_template('addMetadata.html', dataset=dataset)
 		else :
-			return render_template('addMetadata.html', dataset="", variablesCF=variablesCF)
+			return render_template('addMetadata.html', dataset="")
 
 # Routing to save new dataset
 @app.route('/save', methods=['GET','POST'])
 def save():
 	if request.method == 'POST':
+		# Extracting variablesCF_BDO.json
+		file = open(globalPath + '/Frontend/static/json/variablesCF_BDO.json', 'r')
+		variablesCF = json.load(file)
 		# TTL file is written with data from the addMetadata form to be added to jena fuseki
 		identifier = request.form['identifier']
 		if identifier  != "":
@@ -88,6 +85,7 @@ def save():
 				file.write("PREFIX qudt: <http://qudt.org/schema/qudt/> \n")
 				file.write("PREFIX unit: <http://qudt.org/vocab/unit/> \n")
 				file.write("PREFIX ignf: <http://data.ign.fr/def/ignf#> \n")
+				file.write("PREFIX skos: <http://www.w3.org/2004/02/skos/core#> \n")
 				file.write("\n")
 				file.write("INSERT DATA {\n")
 				file.write("bdo:VerticalCoverage a owl:Class. \n")
@@ -124,9 +122,32 @@ def save():
 				file.write("bdo:verticalLevel \""+request.form['vertical_level']+"\"; \n")
 				file.write("bdo:timeCoverage [ids:beginning \""+request.form['temp_coverage_begin']+"\"^^xsd:dateTime ; \n")
 				file.write("ids:end \""+request.form['temp_coverage_end']+"\"^^xsd:dateTime] ; \n")
-				file.write("bdo:timeResolution \""+request.form['time_reso']+"\" . \n")
-				#parservariable = request.form.getlist('parser_variable')
-				#print (parservariable)
+				file.write("bdo:timeResolution \""+request.form['time_reso']+"\" ; \n")
+				# Adding variables to dataset
+				file.write("disco:variable ")
+				parservariables = request.form.getlist('parser_variable')
+				for i, parservariable in enumerate(parservariables):
+					if(i == len(parservariables)-2):
+						file.write("bdo:"+parservariable+" . \n")
+					elif (i < len(parservariables)-2):
+						file.write("bdo:"+parservariable+" , \n")
+				
+				# Creating each variable
+				jsonvariables = request.form.getlist('json_variable')
+				for i, jsonvariable in enumerate(jsonvariables):
+					if (i < len(parservariables)-1):
+						file.write("bdo:"+parservariables[i]+" a bdo:BDOVariable ; \n")
+						file.write("dct:identifier \""+parservariables[i]+"\" ; \n")
+						file.write("skos:prefLabel \""+jsonvariable+"\"@en ; \n")
+						# Searching for the URL of the jsonvariable
+						flag = False
+						for variableCF in variablesCF:
+						    if variableCF['text'] == jsonvariable:
+						        file.write("owl:sameAs <"+variableCF['value']+"> . \n")
+						        flag = True
+						        break
+						if (flag == False):
+							file.write("owl:sameAs <> . \n")
 				file.write("}")
 				file.close()
 			path2TTL = globalPath + "/Backend/AddDatasets/addNewDataset.ttl"
@@ -143,9 +164,7 @@ def save():
 				return render_template('500.html')
 		else:
 			identifier = str(uuid.uuid4())
-			print ('ojo '+identifier)
 			uri = "<http://bigdataocean.eu/bdo/"+identifier+"> \n"
-			print ("mm"+uri)
 			with open(globalPath+'/Backend/AddDatasets/addNewDataset.ttl','w') as file:
 				file.write("PREFIX dct: <http://purl.org/dc/terms/> \n")
 				file.write("PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> \n")
@@ -160,6 +179,7 @@ def save():
 				file.write("PREFIX qudt: <http://qudt.org/schema/qudt/> \n")
 				file.write("PREFIX unit: <http://qudt.org/vocab/unit/> \n")
 				file.write("PREFIX ignf: <http://data.ign.fr/def/ignf#> \n")
+				file.write("PREFIX skos: <http://www.w3.org/2004/02/skos/core#> \n")
 				file.write("\n")
 				file.write("INSERT DATA {\n")
 				file.write("bdo:VerticalCoverage a owl:Class. \n")
@@ -196,16 +216,38 @@ def save():
 				file.write("bdo:verticalLevel \""+request.form['vertical_level']+"\"; \n")
 				file.write("bdo:timeCoverage [ids:beginning \""+request.form['temp_coverage_begin']+"\"^^xsd:dateTime ; \n")
 				file.write("ids:end \""+request.form['temp_coverage_end']+"\"^^xsd:dateTime] ; \n")
-				file.write("bdo:timeResolution \""+request.form['time_reso']+"\" . \n")
-				#parservariable = request.form.getlist('parser_variable')
-				#print (parservariable)
+				file.write("bdo:timeResolution \""+request.form['time_reso']+"\" ; \n")
+				# Adding variables to dataset
+				file.write("disco:variable ")
+				parservariables = request.form.getlist('parser_variable')
+				for i, parservariable in enumerate(parservariables):
+					if(i == len(parservariables)-2):
+						file.write("bdo:"+parservariable+" . \n")
+					elif (i < len(parservariables)-2):
+						file.write("bdo:"+parservariable+" , \n")
+				
+				# Creating each variable
+				jsonvariables = request.form.getlist('json_variable')
+				for i, jsonvariable in enumerate(jsonvariables):
+					if (i < len(parservariables)-1):
+						file.write("bdo:"+parservariables[i]+" a bdo:BDOVariable ; \n")
+						file.write("dct:identifier \""+parservariables[i]+"\" ; \n")
+						file.write("skos:prefLabel \""+jsonvariable+"\"@en ; \n")
+						# Searching for the URL of the jsonvariable
+						flag = False
+						for variableCF in variablesCF:
+						    if variableCF['text'] == jsonvariable:
+						        file.write("owl:sameAs <"+variableCF['value']+"> . \n")
+						        flag = True
+						        break
+						if (flag == False):
+							file.write("owl:sameAs <> . \n")
 				file.write("}")
 				file.close()
 			check_existance = request.form['title']+">"+request.form['publisher']+">"+request.form['issued_date']
 			path2TTL = globalPath + "/Backend/AddDatasets/addNewDataset.ttl"
 			# Calls shell addDataset2bdo to connect to jena fuseki and add dataset via sparql query
 			command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/addDataset2bdo "%s" "%s"' %(check_existance, path2TTL)
-			print(command)
 			try:
 				process = subprocess.check_output([command], shell="True")
 			except subprocess.CalledProcessError as e:
