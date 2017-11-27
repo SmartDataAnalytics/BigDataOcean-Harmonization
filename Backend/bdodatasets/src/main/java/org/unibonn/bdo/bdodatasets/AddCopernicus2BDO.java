@@ -27,35 +27,25 @@ import com.hp.hpl.jena.update.UpdateProcessor;
  * 
  */
 
-public class AddDataset2BDO {
+public class AddCopernicus2BDO {
 
 	public static void main(String[] args) {
-		String parameters = args[0];
-		//String parameters = "aa>aa>2017-11-01T11:11:11";
+		String uri = args[0];
 		String path2File = args[1];
-		//String path2File = "/home/anatrillos/Dropbox/Documentos/BigDataOcean-Harmonization/Backend/AddDatasets/addNewDataset.ttl";
-		exec(parameters, path2File);
+		exec(uri, path2File);
 
 	}
 
-	public static void exec(String parameters, String path2File) {
-		String []param = parameters.split(">");
+	public static void exec(String Uri, String path2File) {
 		String dataset = null;
-		String line;		
-
-		String query = "PREFIX dct: <http://purl.org/dc/terms/>\n" +
-			"PREFIX bdo: <http://bigdataocean.eu/bdo/>\n" +
-			"PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n "+
-			"ASK {?uri dct:title \""+param[0]+"\" ;\n" +
-			"dct:publisher \""+param[1]+"\" ;\n" +
-			"dct:issued \""+param[2]+"\"^^xsd:dateTime }\n" ;
-
+		String line;
+		
 		//Query Jena Fueski to see if the URI to be added already exists
 		QueryExecution qe = QueryExecutionFactory.sparqlService(
-				"http://localhost:3030/bdoHarmonization/query", query);
+				"http://localhost:3030/bdoHarmonization/query", "ASK {"+Uri+" ?p ?o}");
 		boolean results = qe.execAsk();
 		qe.close();
-		// if the dataset does not exists
+		// if the URI does not exists
 		if(results == false){
 			try {
 				// FileReader reads text files in the default encoding.
