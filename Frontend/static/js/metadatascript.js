@@ -1,3 +1,22 @@
+//List of variables extracted from variablesCF_BDO.json
+var options = {
+  url: "static/json/variablesCF_BDO.json",
+
+  getValue: "text",
+
+  list: {
+    match: {
+      enabled: true
+    }
+  }  
+};
+
+//Enable easyautocomplete (List) to field json_variable-#
+size = jQuery('#tbl_posts >tbody >tr').length;
+for (i = 0; i <= size; i++) { 
+    $("#json_variable-"+i).easyAutocomplete(options);
+}
+
 //Creation of tokenfields 
 jQuery(document).ready(function($) {
   var resourceTypes = new Bloodhound({
@@ -89,6 +108,7 @@ jQuery(document).ready(function($) {
     }],
     showAutocompleteOnFocus: true
   });
+  
 });
 
 //Creation of dynamic rows for the table variables
@@ -99,8 +119,10 @@ jQuery(document).delegate('a.add-record', 'click', function(e) {
   element = null,    
   element = content.clone();
   element.attr('id', 'rec-'+size);
+  element.find('#json_variable').attr('id', 'json_variable-'+size);
   element.find('.delete-record').attr('data-id', size);
   element.appendTo('#tbl_posts_body');
+  $('#json_variable-'+size).easyAutocomplete(options);
   element.find('.sn').html(size);
 });
 

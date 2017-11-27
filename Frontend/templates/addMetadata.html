@@ -280,7 +280,7 @@
           <table class="table table-bordered" id="tbl_posts">
             <thead>
               <tr>
-                <th><label class="label-table-mandatory">* </label>Dataset Variable</th>
+                <th style="width: 500px;"><label class="label-table-mandatory">* </label>Dataset Variable</th>
                 <th><label class="label-table-mandatory">* </label>BDO Variable</th>
                 <th style="width: 1px;">Action</th>
               </tr>
@@ -292,7 +292,7 @@
                   <input type="text" class="form-control" id="parser_variable" name="parser_variable" value="{{x}}" required>
                  </td>
                  <td>
-                  <input type="text" class="form-control" id="json_variable" name="json_variable" value="" required>
+                  <input type="text" class="form-control-autocomplete" id="json_variable-{{ loop.index0 +1 }}" name="json_variable" value="" required>
                  </td>
                  <td>
                   <center>
@@ -313,7 +313,7 @@
                 <input type="text" class="form-control" id="parser_variable" name="parser_variable">
                </td>
                <td>
-                <input type="text" class="form-control" id="json_variable" name="json_variable">
+                <input type="text" class="form-control-autocomplete" id="json_variable" name="json_variable">
                </td>
                <td>
                 <center>
@@ -597,7 +597,7 @@
           <table class="table table-bordered" id="tbl_posts">
             <thead>
               <tr>
-                <th><label class="label-table-mandatory">* </label>Dataset Variable</th>
+                <th style="width: 500px;"><label class="label-table-mandatory">* </label>Dataset Variable</th>
                 <th><label class="label-table-mandatory">* </label>BDO Variable</th>
                 <th style="width: 1px;">Action</th>
               </tr>
@@ -608,7 +608,7 @@
                 <input type="text" class="form-control" id="parser_variable" name="parser_variable" required>
                </td>
                <td>
-                <input type="text" class="form-control" id="json_variable" name="json_variable" required>
+                <input type="text" class="form-control-autocomplete" id="json_variable-1" name="json_variable" required>
                </td>
                <td>
                 <center>
@@ -628,7 +628,7 @@
                 <input type="text" class="form-control" id="parser_variable" name="parser_variable">
                </td>
                <td>
-                <input type="text" class="form-control" id="json_variable" name="json_variable">
+                <input type="text" class="form-control-autocomplete" id="json_variable" name="json_variable">
                </td>
                <td>
                 <center>
@@ -666,6 +666,8 @@
 <link rel="stylesheet" href="static/css/bootstrap-tagsinput.css">
 <link rel="stylesheet" href="static/css/bootstrap-tokenfield.css">
 <link rel="stylesheet" href="static/css/tokenfield-typeahead.css">
+<link rel="stylesheet" href="static/css/easy-autocomplete.min.css"> 
+<link rel="stylesheet" href="static/css/easy-autocomplete.themes.min.css"> 
 <link rel="stylesheet" href="static/css/style.css">
 
 <script src="static/js/jquery-3.2.1.min.js"></script>
@@ -674,6 +676,7 @@
 <script src="static/js/bootstrap-tagsinput.js"></script>
 <script src="static/js/bootstrap-tokenfield.js"></script>
 <script src="static/js/typeahead.bundle.js"></script>
+<script src="static/js/jquery.easy-autocomplete.min.js"></script> 
 <script type="text/javascript" src="static/js/metadatascript.js"></script>
 <script type="text/javascript">
   function validateForm() {
