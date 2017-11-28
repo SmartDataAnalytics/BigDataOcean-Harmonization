@@ -33,11 +33,11 @@
       <version>2.8.1</version>
     </dependency>
     <dependency>
-     <groupId>org.apache.jena</groupId>
-     <artifactId>apache-jena-libs</artifactId>
-     <type>pom</type>
-     <version>2.13.0</version>
-  </dependency>
+      <groupId>org.apache.jena</groupId>
+      <artifactId>apache-jena-libs</artifactId>
+      <type>pom</type>
+      <version>2.13.0</version>
+    </dependency>
   </dependencies>
   
   <build>
@@ -95,6 +95,13 @@
             <program>
               <mainClass>org.unibonn.bdo.bdodatasets.Suggest</mainClass>
               <name>suggest</name>
+              <jvmSettings>
+                <maxMemorySize>512m</maxMemorySize>
+              </jvmSettings>
+            </program>
+            <program>
+              <mainClass>org.unibonn.bdo.bdodatasets.SuggestNetcdf</mainClass>
+              <name>suggestNetcdf</name>
               <jvmSettings>
                 <maxMemorySize>512m</maxMemorySize>
               </jvmSettings>

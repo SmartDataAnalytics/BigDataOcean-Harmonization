@@ -8,6 +8,9 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.unibonn.bdo.objects.DatasetSuggest;
+import ucar.netcdf.Attribute;
+import ucar.netcdf.Netcdf;
+import ucar.netcdf.NetcdfFile;
 
 /**
  * 
@@ -136,6 +139,92 @@ public class BdoDatasetAnalyser {
         return result;
 	}
 	
-	
+	public static DatasetSuggest analyseDatasetNetcdf(String filename) throws IOException {
+		DatasetSuggest result = new DatasetSuggest();
+		String title;
+		String description;
+		String identifier;
+		String issued;
+		String modified;
+		String keywords;
+		String homepage;
+		String standards;
+		String format;
+		String spatialWestBoundLongitude;
+		String spatialEastBoundLongitude;
+		String spatialSouthBoundLatitude;
+		String spatialNorthBoundLatitude;
+		String temporalCoverageBegin;
+		String temporalCoverageEnd;
+		String publisher;
+		String verticalCoverageFrom;
+		String verticalCoverageTo;
+		String timeResolution;
+		
+		//read the file
+		Netcdf nc = new NetcdfFile(filename, true);
+		
+		//find the attributes and export the information to create the DatasetSuggest
+	    Attribute attribute;
+	    attribute = nc.getAttribute("id");
+	    identifier = attribute.getStringValue();
+	    attribute = nc.getAttribute("title");
+	    title = attribute.getStringValue();
+	    attribute = nc.getAttribute("summary");
+	    description = attribute.getStringValue();
+	    attribute = nc.getAttribute("area");
+	    keywords = attribute.getStringValue();
+	    attribute = nc.getAttribute("Conventions");
+	    standards = attribute.getStringValue();
+	    format = "NetCDF";
+	    attribute = nc.getAttribute("institution_references");
+	    homepage = attribute.getStringValue();
+	    attribute = nc.getAttribute("naming_authority");
+	    publisher = attribute.getStringValue();
+	    attribute = nc.getAttribute("history");
+	    issued = attribute.getStringValue();
+	    attribute = nc.getAttribute("date_update");
+	    modified = attribute.getStringValue();
+	    attribute = nc.getAttribute("geospatial_lon_min");
+	    spatialWestBoundLongitude = attribute.getStringValue();
+	    attribute = nc.getAttribute("geospatial_lon_max");
+	    spatialEastBoundLongitude = attribute.getStringValue();
+	    attribute = nc.getAttribute("geospatial_lat_min");
+	    spatialSouthBoundLatitude = attribute.getStringValue();
+	    attribute = nc.getAttribute("geospatial_lat_max");
+	    spatialNorthBoundLatitude = attribute.getStringValue();
+	    attribute = nc.getAttribute("geospatial_vertical_min");
+	    verticalCoverageFrom = attribute.getStringValue();
+	    attribute = nc.getAttribute("geospatial_vertical_max");
+	    verticalCoverageTo = attribute.getStringValue();
+	    attribute = nc.getAttribute("time_coverage_start");
+	    temporalCoverageBegin = attribute.getStringValue();
+	    attribute = nc.getAttribute("time_coverage_end");
+	    temporalCoverageEnd = attribute.getStringValue();
+	    attribute = nc.getAttribute("update_interval");
+	    timeResolution = attribute.getStringValue();
 
+        result.setIdentifier(identifier);
+	    result.setTitle(title);
+        result.setDescription(description);
+        result.setKeywords(keywords);
+        result.setStandards(standards);
+        result.setFormat(format);
+        result.setHomepage(homepage);
+        result.setPublisher(publisher);
+        result.setIssuedDate(issued);
+        result.setModifiedDate(modified);
+        result.setSpatialWest(spatialWestBoundLongitude);
+        result.setSpatialEast(spatialEastBoundLongitude);
+        result.setSpatialSouth(spatialSouthBoundLatitude);
+        result.setSpatialNorth(spatialNorthBoundLatitude);
+        result.setVerticalCoverageFrom(verticalCoverageFrom);
+        result.setVerticalCoverageTo(verticalCoverageTo);
+        result.setTemporalCoverageBegin(temporalCoverageBegin);
+        result.setTemporalCoverageEnd(temporalCoverageEnd);
+        result.setTimeResolution(timeResolution);
+		
+		return result;
+	}
+	
 }
