@@ -19,8 +19,8 @@ public class SuggestNetcdf {
 
 	public static void main(String[] args) throws IOException {
 		//System.out.println( args[0] );   
-		String file = args[0];
-		//String file = "/home/jaimetrillos/Dropbox/BDO/BigDataOcean-Harmonization/Backend/AddDatasets/IR_TS_MO_6200192.nc";
+		//String file = args[0];
+		String file = "/home/jaimetrillos/Dropbox/BDO/BigDataOcean-Harmonization/Backend/AddDatasets/IR_TS_MO_6200192.nc";
 		exec(file);
 	}
 	

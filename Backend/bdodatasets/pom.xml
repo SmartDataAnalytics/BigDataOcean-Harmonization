@@ -13,6 +13,7 @@
   
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <netcdf.version>4.6.10</netcdf.version>
   </properties>
 
   <dependencies>
@@ -38,8 +39,68 @@
       <type>pom</type>
       <version>2.13.0</version>
     </dependency>
+     <dependency>
+      <groupId>edu.ucar</groupId>
+      <artifactId>cdm</artifactId> 
+      <version>${netcdf.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>edu.ucar</groupId>
+      <artifactId>bufr</artifactId>
+      <version>${netcdf.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>edu.ucar</groupId>
+      <artifactId>clcommon</artifactId>
+      <version>${netcdf.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>edu.ucar</groupId>
+      <artifactId>grib</artifactId>
+      <version>${netcdf.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>edu.ucar</groupId>
+      <artifactId>netcdf4</artifactId>
+      <version>${netcdf.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>edu.ucar</groupId>
+      <artifactId>opendap</artifactId>
+      <version>${netcdf.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>edu.ucar</groupId>
+      <artifactId>visadCdm</artifactId>
+      <version>${netcdf.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-log4j12</artifactId>
+      <version>1.6.4</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>log4j-over-slf4j</artifactId>
+      <version>1.6.4</version>
+    </dependency>
   </dependencies>
   
+  <repositories>
+    <repository>
+        <id>unidata-all</id>
+        <name>Unidata All</name>
+        <url>https://artifacts.unidata.ucar.edu/repository/unidata-all/</url>
+    </repository>
+  </repositories>
+
   <build>
     <finalName>BDODatasets</finalName>
     <plugins>

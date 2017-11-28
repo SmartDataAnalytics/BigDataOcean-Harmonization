@@ -36,6 +36,42 @@ public class DatasetSuggest {
 	private String timeResolution; //time_reso
 	private String variables; //variables
 	
+	public DatasetSuggest() {
+		super();
+	}
+	public DatasetSuggest(String identifier, String title, String description, String subject, String keywords,
+			String standards, String format, String language, String homepage, String publisher, String accessRights,
+			String issuedDate, String modifiedDate, String geoLocation, String spatialWest, String spatialEast,
+			String spatialSouth, String spatialNorth, String coordinateSystem, String verticalCoverageFrom,
+			String verticalCoverageTo, String verticalLevel, String temporalCoverageBegin, String temporalCoverageEnd,
+			String timeResolution, String variables) {
+		this.identifier = identifier;
+		this.title = title;
+		this.description = description;
+		this.subject = subject;
+		this.keywords = keywords;
+		this.standards = standards;
+		this.format = format;
+		this.language = language;
+		this.homepage = homepage;
+		this.publisher = publisher;
+		this.accessRights = accessRights;
+		this.issuedDate = issuedDate;
+		this.modifiedDate = modifiedDate;
+		this.geoLocation = geoLocation;
+		this.spatialWest = spatialWest;
+		this.spatialEast = spatialEast;
+		this.spatialSouth = spatialSouth;
+		this.spatialNorth = spatialNorth;
+		this.coordinateSystem = coordinateSystem;
+		this.verticalCoverageFrom = verticalCoverageFrom;
+		this.verticalCoverageTo = verticalCoverageTo;
+		this.verticalLevel = verticalLevel;
+		this.temporalCoverageBegin = temporalCoverageBegin;
+		this.temporalCoverageEnd = temporalCoverageEnd;
+		this.timeResolution = timeResolution;
+		this.variables = variables;
+	}
 	public String getIdentifier() {
 		return identifier;
 	}

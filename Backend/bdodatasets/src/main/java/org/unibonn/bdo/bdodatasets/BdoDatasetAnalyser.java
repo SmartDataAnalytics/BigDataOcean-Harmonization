@@ -1,6 +1,7 @@
 package org.unibonn.bdo.bdodatasets;
 
 
+import java.util.List;
 import java.io.IOException;
 
 import org.jsoup.Jsoup;
@@ -8,9 +9,15 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.unibonn.bdo.objects.DatasetSuggest;
-import ucar.netcdf.Attribute;
-import ucar.netcdf.Netcdf;
-import ucar.netcdf.NetcdfFile;
+
+import thredds.catalog.ThreddsMetadata.Variables;
+import ucar.nc2.Attribute;
+import ucar.nc2.NetcdfFile;
+import ucar.nc2.Variable;
+import ucar.nc2.dataset.NetcdfDataset;
+
+/*import ucar.netcdf.Attribute;
+import ucar.netcdf.NetcdfFile;*/
 
 /**
  * 
@@ -162,7 +169,35 @@ public class BdoDatasetAnalyser {
 		String timeResolution;
 		
 		//read the file
-		Netcdf nc = new NetcdfFile(filename, true);
+		 NetcdfFile nc = null;
+		  try {
+		    nc = NetcdfDataset.openFile(filename, null);
+		    
+		    List<Attribute> attribute;
+		    List<Variable> attribute1;
+		    attribute = nc.getGlobalAttributes();
+		    System.out.println(nc.findGlobalAttribute("naming_authority"));
+		    /*for (int i=0; i<attribute.size(); i++) {
+		    	System.out.println(attribute.get(i)+"\n");
+		    }*/
+		    attribute1 = nc.getVariables();
+		    /*for (int i=0; i<attribute1.size(); i++) {
+		    	System.out.println(attribute1.get(i)+"\n");
+		    }*/
+		    
+		    
+		    
+		  } catch (IOException ioe) {
+		    
+		  } finally { 
+		    if (null != nc) try {
+		      nc.close();
+		    } catch (IOException ioe) {
+		      
+		    }
+		  }
+		
+		/*NetcdfFile nc = new NetcdfFile(filename, true);
 		
 		//find the attributes and export the information to create the DatasetSuggest
 	    Attribute attribute;
@@ -222,7 +257,7 @@ public class BdoDatasetAnalyser {
         result.setVerticalCoverageTo(verticalCoverageTo);
         result.setTemporalCoverageBegin(temporalCoverageBegin);
         result.setTemporalCoverageEnd(temporalCoverageEnd);
-        result.setTimeResolution(timeResolution);
+        result.setTimeResolution(timeResolution);*/
 		
 		return result;
 	}
