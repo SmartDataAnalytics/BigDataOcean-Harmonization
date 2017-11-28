@@ -41,9 +41,7 @@ public class ListDatasets {
 		List<DatasetList> listDatasets = new ArrayList<>() ;
 		RDFNode node;
 		// executes query on Jena Fueski to get identifier, title and description of all datasets
-		QueryExecution qe = QueryExecutionFactory.sparqlService(
-					"http://localhost:3030/bdoHarmonization/query",query);
-		ResultSet results = qe.execSelect();
+		ResultSet results = QueryExecutor.selectQuery(query);
 		
 		while (results.hasNext()) {
 			DatasetList list = new DatasetList();
@@ -70,7 +68,6 @@ public class ListDatasets {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		qe.close();
 	}
 
 }

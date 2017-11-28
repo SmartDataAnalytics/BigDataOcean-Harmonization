@@ -1,6 +1,10 @@
 package org.unibonn.bdo.bdodatasets;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.unibonn.bdo.objects.Dataset;
+import org.unibonn.bdo.objects.DatasetList;
 
 import com.google.gson.Gson;
 import com.hp.hpl.jena.query.QueryExecution;
@@ -23,64 +27,61 @@ public class GetMetadata {
 
 	public static void main(String[] args) {
 		String uri = args[0];
+		//String uri = "<http://bigdataocean.eu/bdo/MEDSEA_ANALYSIS_FORECAST_WAV_006_011>";
 		exec(uri);
 
 	}
 
 	public static void exec(String Uri) {
 		
-		String query = "PREFIX dct: <http://purl.org/dc/terms/>\n" +
-			"PREFIX dcat: <https://www.w3.org/TR/vocab-dcat/>\n" +
-			"PREFIX ignf: <http://data.ign.fr/def/ignf#>\n" +
-			"PREFIX foaf: <http://xmlns.com/foaf/0.1/>\n" +
-			"PREFIX bdo: <http://bigdataocean.eu/bdo/>\n" +
-			"PREFIX ids: <http://industrialdataspace/information-model/> \n" +
-			"SELECT ?uri ?ident ?title ?desc ?sub ?keyw ?standard " +
-			"?format ?lang ?homep ?publi ?rights (STR(?issued) AS ?issuedDate) " +
-			"(STR(?modified) AS ?modifiedDate) ?geoLoc ?timeReso (STR(?verFrom) AS ?vFrom) " +
-			"(STR(?verTo) AS ?vTo) (STR(?west) AS ?spatialWest) (STR(?east) AS ?spatialEast) " +
-			"(STR(?south) AS ?spatialSouth) (STR(?north) AS ?spatialNorth) (STR(?tempCovB) AS ?timeCovBeg) " +
-			"(STR(?tempCovE) AS ?timeCovEnd) ?vLevel ?coorSys \n" +
-			"WHERE{\n" +
-			Uri+" a dcat:Dataset ;\n" +
-			"dct:identifier ?ident ;\n" +
-			"dct:title ?title ;\n" +
-			"dct:description ?desc ;\n" +
-			"dcat:subject ?sub ;\n" +
-			"bdo:verticalCoverage ?vCov ;\n" +
-			"dcat:theme ?keyw ;\n" +
-			"dct:Standard ?standard ;\n" +
-			"dct:format ?format ;\n" +
-			"dct:language ?lang ;\n" +
-			"foaf:homepage ?homep ;\n" +
-			"dct:publisher ?publi ;\n" +
-			"dct:accessRights ?rights ;\n" +
-			"dct:issued ?issued ;\n" +
-			"dct:modified ?modified ;\n" +
-			"dct:spatial ?geoLoc ;\n" +
-			"bdo:timeResolution ?timeReso ;\n" +
-			"bdo:GeographicalCoverage ?spatial ;\n" +
-			"bdo:verticalLevel ?vLevel ;\n" +
-			"dct:conformsTo ?coorSys ; \n" +
-			"bdo:timeCoverage ?temp .\n" +		
-			"?temp ids:beginning ?tempCovB ;\n" +
-			"ids:end ?tempCovE .\n" +						
-			"?spatial a ignf:GeographicBoundingBox ;\n" +
-			"ignf:westBoundLongitude ?west ;\n" +
-			"ignf:eastBoundLongitude ?east ;\n" +
-			"ignf:southBoundLatitude ?south ;\n" +
-			"ignf:northBoundLatitude ?north .\n" +
-			"?vCov a  bdo:VerticalCoverage ;\n" +
-			"bdo:verticalFrom ?verFrom ;\n" +
-			"bdo:verticalTo ?verTo .\n" +
-			"} LIMIT 1\n";
+		String queryMetadata = "PREFIX dct: <http://purl.org/dc/terms/>\n" + 
+				"PREFIX dcat: <https://www.w3.org/TR/vocab-dcat/>\n" + 
+				"PREFIX ignf: <http://data.ign.fr/def/ignf#>\n" + 
+				"PREFIX foaf: <http://xmlns.com/foaf/0.1/>\n" + 
+				"PREFIX bdo: <http://bigdataocean.eu/bdo/>\n" + 
+				"PREFIX ids: <http://industrialdataspace/information-model/>\n" + 
+				"SELECT ?uri ?ident ?title ?desc ?sub ?keyw ?standard ?format ?lang ?homep ?publi ?rights (STR(?issued) AS ?issuedDate)  (STR(?modified) AS ?modifiedDate) ?geoLoc ?timeReso (STR(?verFrom) AS ?vFrom) (STR(?verTo) AS ?vTo) (STR(?west) AS ?spatialWest) (STR(?east) AS ?spatialEast) (STR(?south) AS ?spatialSouth) (STR(?north) AS ?spatialNorth) (STR(?tempCovB) AS ?timeCovBeg) (STR(?tempCovE) AS ?timeCovEnd) ?vLevel ?coorSys\n" + 
+				"WHERE{ \n" + 
+				"  "+Uri+" a dcat:Dataset ;\n" + 
+				"       dct:identifier ?ident ;\n" + 
+				"       dct:title ?title ;\n" + 
+				"       dct:description ?desc ;\n" + 
+				"       dcat:subject ?sub ;\n" + 
+				"       bdo:verticalCoverage ?vCov ;\n" + 
+				"       dcat:theme ?keyw ;\n" + 
+				"       dct:Standard ?standard ;\n" + 
+				"       dct:format ?format ;\n" + 
+				"       dct:language ?lang ;\n" + 
+				"       foaf:homepage ?homep ;\n" + 
+				"       dct:publisher ?publi ;\n" + 
+				"       dct:accessRights ?rights ;\n" + 
+				"       dct:issued ?issued ;\n" + 
+				"       dct:modified ?modified ;\n" + 
+				"       dct:spatial ?geoLoc ;\n" + 
+				"       bdo:timeResolution ?timeReso ;\n" + 
+				"       bdo:GeographicalCoverage ?spatial ;\n" + 
+				"       bdo:verticalLevel ?vLevel ;\n" + 
+				"       dct:conformsTo ?coorSys ;\n" + 
+				"       bdo:timeCoverage ?temp .\n" + 
+				"  \n" + 
+				"  ?temp ids:beginning ?tempCovB ;\n" + 
+				"        ids:end ?tempCovE .\n" + 
+				"  \n" + 
+				"  ?spatial a ignf:GeographicBoundingBox ;\n" + 
+				"           ignf:westBoundLongitude ?west ;\n" + 
+				"           ignf:eastBoundLongitude ?east ;\n" + 
+				"           ignf:southBoundLatitude ?south ;\n" + 
+				"           ignf:northBoundLatitude ?north .\n" + 
+				"  \n" + 
+				"  ?vCov a  bdo:VerticalCoverage ;\n" + 
+				"        bdo:verticalFrom ?verFrom ;\n" + 
+				"        bdo:verticalTo ?verTo .\n" + 
+				"} LIMIT 1";
 		
 		Dataset dataset = new Dataset();
 		RDFNode node;
 		// executes query on Jena Fueski to get Metadata
-		QueryExecution qe = QueryExecutionFactory.sparqlService(
-					"http://localhost:3030/bdoHarmonization/query",query);
-		ResultSet results = qe.execSelect();
+		ResultSet results = QueryExecutor.selectQuery(queryMetadata);
 		
 		while(results.hasNext()){
 			QuerySolution solution = results.nextSolution();
@@ -136,6 +137,33 @@ public class GetMetadata {
 			dataset.setCoordinateSystem(node.toString());
 		}
 		
+		List<String> listVaraibles = new ArrayList<>() ;
+		List<String> listVaraiblesBDO = new ArrayList<>() ;
+		RDFNode node2;
+		
+		String queryVariables = "PREFIX dct: <http://purl.org/dc/terms/>\n" +
+				"PREFIX bdo: <http://bigdataocean.eu/bdo/>\n" +
+				"PREFIX skos: <http://www.w3.org/2004/02/skos/core#>\n" +
+				"SELECT ?uri ?identifierVariable (STR(?prefLabel) AS ?label)\n" + 
+				"WHERE {\n" + 
+				"  "+Uri+" ?predicate ?object .\n" + 
+				"  ?object a bdo:BDOVariable ;\n" + 
+				"        dct:identifier ?identifierVariable ;\n" + 
+				"        skos:prefLabel ?prefLabel .\n" + 
+				"  FILTER(lang(?prefLabel) = \"en\")\n" + 
+				"}";
+		
+		ResultSet rsVariables = QueryExecutor.selectQuery(queryVariables);
+		while(rsVariables.hasNext()){
+			QuerySolution solution = rsVariables.nextSolution();
+			node2 = solution.get("identifierVariable");
+			listVaraibles.add(node2.toString());
+			node2 = solution.get("label");
+			listVaraiblesBDO.add(node2.toString());
+		}
+		dataset.setVariables(listVaraibles);
+		dataset.setVariablesBDO(listVaraiblesBDO);
+		
 		try {
 			// Parse into JSON the Dataset instance with all metadata from a dataset
 			Gson gson  = new Gson();
@@ -143,6 +171,5 @@ public class GetMetadata {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		qe.close();
 	}
 }

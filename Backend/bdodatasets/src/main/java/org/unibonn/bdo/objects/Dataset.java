@@ -1,5 +1,7 @@
 package org.unibonn.bdo.objects;
 
+import java.util.List;
+
 /**
  *  
  * @author Jaime M Trillos
@@ -36,7 +38,8 @@ public class Dataset {
 	private String temporalCoverageBegin; //temp_coverage_begin
 	private String temporalCoverageEnd; //temp_coverage_end
 	private String timeResolution; //time_reso
-	private String variables; //variables
+	private List<String> variables; //variables
+	private List<String> variablesBDO; //variables
 	
 	public Dataset(){
 		
@@ -47,7 +50,7 @@ public class Dataset {
 			String issuedDate, String modifiedDate, String geoLocation, String spatialWest, String spatialEast,
 			String spatialSouth, String spatialNorth, String coordinateSystem, String verticalCoverageFrom,
 			String verticalCoverageTo, String verticalLevel, String temporalCoverageBegin, String temporalCoverageEnd,
-			String timeResolution, String variables) {
+			String timeResolution, List<String> variables, List<String> variablesBDO) {
 		this.identifier = identifier;
 		this.title = title;
 		this.description = description;
@@ -74,10 +77,9 @@ public class Dataset {
 		this.temporalCoverageEnd = temporalCoverageEnd;
 		this.timeResolution = timeResolution;
 		this.variables = variables;
+		this.variablesBDO = variablesBDO;
 	}
-
-
-
+	
 	public String getTitle() {
 		return title;
 	}
@@ -278,12 +280,22 @@ public class Dataset {
 		this.temporalCoverageEnd = temporalCoverageEnd;
 	}
 
-	public String getVariables() {
+	public List<String> getVariables() {
 		return variables;
 	}
 
-	public void setVariables(String variables) {
+	public void setVariables(List<String> variables) {
 		this.variables = variables;
 	}
+
+	public List<String> getVariablesBDO() {
+		return variablesBDO;
+	}
+
+	public void setVariablesBDO(List<String> variablesBDO) {
+		this.variablesBDO = variablesBDO;
+	}
+
+	
 	
 }

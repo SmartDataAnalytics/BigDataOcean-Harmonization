@@ -37,53 +37,54 @@ public class AddCopernicus2BDO {
 	}
 
 	public static void exec(String Uri, String path2File) {
-		String dataset = null;
-		String line;
+		
+		String query = "ASK {"+Uri+" ?p ?o}";
 		
 		//Query Jena Fueski to see if the URI to be added already exists
-		QueryExecution qe = QueryExecutionFactory.sparqlService(
-				"http://localhost:3030/bdoHarmonization/query", "ASK {"+Uri+" ?p ?o}");
-		boolean results = qe.execAsk();
-		qe.close();
+		boolean results = QueryExecutor.askQuery(query);
 		// if the URI does not exists
 		if(results == false){
-			try {
-				// FileReader reads text files in the default encoding.
-				FileReader fileReader = new FileReader(path2File);
-	
-				// Always wrap FileReader in BufferedReader.
-				BufferedReader bufferedReader = new BufferedReader(fileReader);
-	
-				while((line = bufferedReader. readLine()) != null) {
-					if (dataset == null){
-						dataset = line;
-					}else{
-						dataset += line;
-					}
-				}   
-	
-				// Close file.
-				bufferedReader.close();         
-			}
-			catch(FileNotFoundException ex) {
-				System.out.println(
-						"Unable to open file '" + 
-								path2File + "'");                
-			}
-			catch(IOException ex) {
-				System.out.println(
-						"Error reading file '" 
-								+ path2File + "'");  
-			}
+			String dataset = readFile(path2File);
 
 			//Add the dataset to Jena Fueski
-			UpdateProcessor upp = UpdateExecutionFactory.createRemote(
-					UpdateFactory.create(String.format(dataset)), 
-					"http://localhost:3030/bdoHarmonization/update");
-			upp.execute();
+			QueryExecutor.insertQuery(dataset);
 			System.out.print("Successful");
 		}else{
 			System.out.print(String.format("Error!   URI already exists."));
 		}
+	}
+	
+	public static String readFile(String path2File) {
+		String dataset = null;
+		String line;
+		
+		try {
+			// FileReader reads text files in the default encoding.
+			FileReader fileReader = new FileReader(path2File);
+
+			// Always wrap FileReader in BufferedReader.
+			BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+			while((line = bufferedReader. readLine()) != null) {
+				if (dataset == null){
+					dataset = line;
+				}else{
+					dataset += line;
+				}
+			}  
+			// Close file.
+			bufferedReader.close();         
+		}
+		catch(FileNotFoundException ex) {
+			System.out.println(
+					"Unable to open file '" + 
+							path2File + "'");                
+		}
+		catch(IOException ex) {
+			System.out.println(
+					"Error reading file '" 
+							+ path2File + "'");  
+		}
+		return dataset;
 	}
 }

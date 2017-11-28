@@ -9,8 +9,8 @@ import uuid
 app = Flask(__name__)
 bootstrap = Bootstrap(app)
 
-globalPath = "/home/jaimetrillos/Dropbox/BDO/BigDataOcean-Harmonization"
-# globalPath = "/home/anatrillos/Dropbox/Documentos/BigDataOcean-Harmonization"
+# globalPath = "/home/jaimetrillos/Dropbox/BDO/BigDataOcean-Harmonization"
+globalPath = "/home/anatrillos/Dropbox/Documentos/BigDataOcean-Harmonization"
 
 # other column settings -> http://bootstrap-table.wenzhixin.net.cn/documentation/#column-options
 columns = [{
@@ -321,7 +321,7 @@ class datasetInfo(object):
 	def __init__(self, identifier, title, description, subject, keywords, standards, format, language, homepage, publisher, 
 		accessRights, issuedDate, modifiedDate, geoLocation, spatialWest, spatialEast, spatialSouth, spatialNorth, 
 		coordinateSystem, verticalCoverageFrom, verticalCoverageTo,temporalCoverageBegin, temporalCoverageEnd, 
-		verticalLevel, timeResolution#, variables
+		verticalLevel, timeResolution, variables, variablesBDO
 		):
 		self.identifier = identifier
 		self.title = title
@@ -348,7 +348,8 @@ class datasetInfo(object):
 		self.temporalCoverageBegin = temporalCoverageBegin
 		self.temporalCoverageEnd = temporalCoverageEnd
 		self.timeResolution = timeResolution
-		# self.variables = variables
+		self.variables = variables
+		self.variablesBDO = variablesBDO
 
 if __name__ == '__main__':
 	app.run(debug=True)

@@ -270,6 +270,65 @@
       <div class="row content">
         <div class="col-md-1">
         </div>
+        <div class="col-md-10 metadata-variables">
+          <div class="buttonBar clearfix">
+            <a class="btn btn-primary pull-right add-record" data-added="0"><i class="glyphicon glyphicon-plus"></i> Add Row</a>
+          </div>
+          <table class="table table-bordered" id="tbl_posts">
+            <thead>
+              <tr>
+                <th style="width: 500px;"><label class="label-table-mandatory">* </label>Dataset Variable</th>
+                <th><label class="label-table-mandatory">* </label>BDO Variable</th>
+                <!-- <th style="width: 1px;">Action</th> -->
+              </tr>
+            </thead>
+            <tbody id="tbl_posts_body">
+              {% for variable, variableBDO in dataset.variable,dataset.variableBDO: %}
+                <tr id="rec-{{ loop.index0 +1 }}">
+                 <td>
+                  {{ variable }}
+                  <!-- <input type="text" class="form-control" id="parser_variable" name="parser_variable" value="{{x}}" required> -->
+                 </td>
+                 <td>
+                  {{ variableBDO }}
+                  <!-- <input type="text" class="form-control-autocomplete" id="json_variable-{{ loop.index0 +1 }}" name="json_variable" value="" required> -->
+                 </td>
+                 <!-- <td>
+                  <center>
+                    <a class="btn btn-xs delete-record" data-id="{{ loop.index0 +1 }}"><i class="glyphicon glyphicon-remove glyphiconRemove"></i></a>
+                  </center>
+                </td> -->
+               </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          <div class="buttonBar clearfix">
+            <a class="btn btn-primary pull-right add-record" data-added="0"><i class="glyphicon glyphicon-plus"></i> Add Row</a>
+          </div>
+          <div style="display:none;">
+            <table id="sample_table">
+              <tr id="">
+               <td>
+                <input type="text" class="form-control" id="parser_variable" name="parser_variable">
+               </td>
+               <td>
+                <input type="text" class="form-control-autocomplete" id="json_variable" name="json_variable">
+               </td>
+               <td>
+                <center>
+                  <a class="btn btn-xs delete-record" data-id="0"><i class="glyphicon glyphicon-remove glyphiconRemove"></i></a>
+                </center>
+              </td>
+             </tr>
+           </table>
+         </div>
+        </div>
+        <div class="col-md-1">
+        </div>
+      </div>
+      <div class="row content">
+        <div class="col-md-1">
+        </div>
         <div class="buttonForm">
           <button type="submit" class="btn btn-default">
             <i class="glyphicon glyphicon-edit"></i> Modify
