@@ -1,16 +1,18 @@
 import subprocess
 import json
+import os
+import uuid
 from flask import Flask, render_template, request, redirect, url_for
 from flask_bootstrap import Bootstrap
 from pprint import pprint
-import os
-import uuid
+from werkzeug.utils import secure_filename
 
-app = Flask(__name__)
-bootstrap = Bootstrap(app)
+# GLOBAL VARIABLES
+globalPath = "/home/jaimetrillos/Dropbox/BDO/BigDataOcean-Harmonization"
+# globalPath = "/home/anatrillos/Dropbox/Documentos/BigDataOcean-Harmonization"
 
-# globalPath = "/home/jaimetrillos/Dropbox/BDO/BigDataOcean-Harmonization"
-globalPath = "/home/anatrillos/Dropbox/Documentos/BigDataOcean-Harmonization"
+UPLOAD_FOLDER = globalPath+'/Backend/AddDatasets'
+ALLOWED_EXTENSIONS = set(['nc'])
 
 # other column settings -> http://bootstrap-table.wenzhixin.net.cn/documentation/#column-options
 columns = [{
@@ -23,6 +25,16 @@ columns = [{
 "title": "Description",
 "sortable": True,
 }]
+
+app = Flask(__name__)
+bootstrap = Bootstrap(app)
+# configuring the path of the upload folder
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+# check if an extension is valid
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 # Routing to index
 @app.route('/')
@@ -45,6 +57,7 @@ def index():
 def parse():
 	if request.method == 'POST':
 		uri = request.form['uri']
+		file = request.files['fileNetcdf']
 		if uri != "":
 			# if adding a Copernicus dataset, the shell suggest is called to parse the xml file and get metadata
 			command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/suggest "%s"' %uri
@@ -57,7 +70,27 @@ def parse():
 			dataset = datasetSuggest(**parsed_output)
 
 			return render_template('addMetadata.html', dataset=dataset)
-		else :
+		elif file.filename != '':
+			# Verify if the file is .nc
+			if file and allowed_file(file.filename):
+				# Create a general filename
+				filename = "file.nc"
+				# Saving the file in the UPLOAD_FOLDER with the filename
+				file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+				path_fileNetcdf = UPLOAD_FOLDER + "/" + filename
+				# print (path_fileNetcdf)
+				command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/suggestNetcdf "%s"' %path_fileNetcdf
+				try:
+					process = subprocess.check_output([command], shell="True")
+				except subprocess.CalledProcessError as e:
+					return render_template('500.html')
+				# metadata parsed is converted into json class datasetSuggest to be used inside the html form
+				parsed_output = json.loads(process.decode('utf-8'))
+				dataset = datasetSuggestNetcdf(**parsed_output)
+				print (dataset)
+
+				return render_template('addMetadata.html', dataset=dataset)
+		else:
 			return render_template('addMetadata.html', dataset="")
 
 # Routing to save new dataset
@@ -322,9 +355,37 @@ class datasetSuggest(object):
 		self.timeResolution = timeResolution
 		self.variables = variables
 
+# Class for datasets parsed on shell suggestNetcdf
+class datasetSuggestNetcdf(object):
+	def __init__(self, identifier, title, description, keywords, standards, formats, homepage, publisher, 
+		spatialWest, spatialEast, spatialSouth, spatialNorth, issuedDate, modifiedDate,
+		verticalCoverageFrom, verticalCoverageTo, temporalCoverageBegin, temporalCoverageEnd, 
+		timeResolution, variables
+		):
+		self.identifier = identifier
+		self.title = title
+		self.description = description
+		self.keywords = keywords
+		self.standards = standards
+		self.formats = formats
+		self.homepage = homepage
+		self.issuedDate = issuedDate
+		self.modifiedDate = modifiedDate
+		self.publisher = publisher
+		self.spatialWest = spatialWest
+		self.spatialEast = spatialEast
+		self.spatialSouth = spatialSouth
+		self.spatialNorth = spatialNorth
+		self.verticalCoverageFrom = verticalCoverageFrom
+		self.verticalCoverageTo = verticalCoverageTo
+		self.temporalCoverageBegin = temporalCoverageBegin
+		self.temporalCoverageEnd = temporalCoverageEnd
+		self.timeResolution = timeResolution
+		self.variables = variables
+
 # Class for all dataset metadata
 class datasetInfo(object):
-	def __init__(self, identifier, title, description, subject, keywords, standards, format, language, homepage, publisher, 
+	def __init__(self, identifier, title, description, subject, keywords, standards, formats, language, homepage, publisher, 
 		accessRights, issuedDate, modifiedDate, geoLocation, spatialWest, spatialEast, spatialSouth, spatialNorth, 
 		coordinateSystem, verticalCoverageFrom, verticalCoverageTo,temporalCoverageBegin, temporalCoverageEnd, 
 		verticalLevel, timeResolution, variables#, variablesBDO
@@ -335,7 +396,7 @@ class datasetInfo(object):
 		self.subject = subject
 		self.keywords= keywords
 		self.standards = standards
-		self.format = format
+		self.formats = formats
 		self.language = language
 		self.homepage = homepage
 		self.publisher = publisher

@@ -1,6 +1,8 @@
 package org.unibonn.bdo.bdodatasets;
 
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.io.IOException;
 
@@ -10,6 +12,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.unibonn.bdo.objects.DatasetSuggest;
 
+import ucar.nc2.Attribute;
 import ucar.nc2.NetcdfFile;
 import ucar.nc2.Variable;
 import ucar.nc2.dataset.NetcdfDataset;
@@ -165,13 +168,15 @@ public class BdoDatasetAnalyser {
 		String verticalCoverageFrom;
 		String verticalCoverageTo;
 		String timeResolution;
+		String variables = null;
 
 		//read the file
 		NetcdfFile nc = null;
 		try {
 			nc = NetcdfDataset.openFile(filename, null);
 
-			List<Variable> attribute1;
+			List<Variable> allVariables;
+			List<String> listVariables = new ArrayList<>();
 			
 			//find the attributes and export the information to create the DatasetSuggest
 			identifier = nc.findGlobalAttribute("id").getStringValue();
@@ -196,13 +201,31 @@ public class BdoDatasetAnalyser {
 			temporalCoverageBegin = nc.findGlobalAttribute("time_coverage_start").getStringValue().substring(0, 19);
 			temporalCoverageEnd = nc.findGlobalAttribute("time_coverage_end").getStringValue().substring(0, 19);
 			timeResolution = nc.findGlobalAttribute("update_interval").getStringValue();
-
-
-			//System.out.println(nc.findGlobalAttribute("naming_authority"));
-			attribute1 = nc.getVariables();
-			/*for (int i=0; i<attribute1.size(); i++) {
-		    	System.out.println(attribute1.get(i)+"\n");
-		    }*/
+			//return a list with all variables
+			allVariables = nc.getVariables();
+			for (int i=0; i<allVariables.size(); i++) {
+				//select only the standard_name of the variables
+				Attribute standard_name = allVariables.get(i).findAttribute("standard_name");
+		    	if(standard_name !=null) {
+		    		if(standard_name.getStringValue() != "") {
+		    			//add the standard_name value if it is not null or ""
+		    			listVariables.add(standard_name.getStringValue());
+		    		}
+		    	}
+		    }
+			//Verify and delete if there are duplicates
+			HashSet<String> hs = new HashSet<String>();
+			hs.addAll(listVariables);
+			listVariables.clear();
+			listVariables.addAll(hs);
+			//Generate a string with all the elements of listVariables
+			for (int i=0; i<listVariables.size(); i++) {
+				if(variables == null) {
+					variables = listVariables.get(i);
+				}else {
+					variables = variables + "," + listVariables.get(i);
+				}
+			}
 			result.setIdentifier(identifier);
 			result.setTitle(title);
 			result.setDescription(description);
@@ -222,6 +245,7 @@ public class BdoDatasetAnalyser {
 			result.setTemporalCoverageBegin(temporalCoverageBegin);
 			result.setTemporalCoverageEnd(temporalCoverageEnd);
 			result.setTimeResolution(timeResolution);
+			result.setVariables(variables);
 			
 		} catch (IOException ioe) {
 

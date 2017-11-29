@@ -40,7 +40,7 @@
         <div class="col-md-1">
         </div>          
         <div class="col-md-10 field-title">
-          {{dataset.title}} <label id="identifier" class="label-identifier" for="identifier">({{dataset.identifier}})</label>
+          {{dataset.title}} <label id="labelIdentifier" class="label-identifier">({{dataset.identifier}})</label>
         </div>
         <div class="col-md-1">
         </div>
@@ -50,12 +50,13 @@
         </div> 
         <div class="col-md-10 metadata-info">
           <table class="tableMetadataInfo">
+
             <tr style='display: none;'>
               <td>
                 <label class="label-tableInfo" for="identifier">Identifier:</label>
               </td>
               <td colspan="8">
-                {{ dataset.identifier }}
+                <input type="text" class="form-control" id="identifier" name="identifier" value="{{dataset.identifier}}">
               </td>
             </tr>
             <tr style='display: none;'>
@@ -271,9 +272,6 @@
         <div class="col-md-1">
         </div>
         <div class="col-md-10 metadata-variables">
-          <div class="buttonBar clearfix">
-            <a class="btn btn-primary pull-right add-record" data-added="0"><i class="glyphicon glyphicon-plus"></i> Add Row</a>
-          </div>
           <table class="table table-bordered" id="tbl_posts">
             <thead>
               <tr>
@@ -294,9 +292,6 @@
               {% endfor %}
             </tbody>
           </table>
-          <div class="buttonBar clearfix">
-            <a class="btn btn-primary pull-right add-record" data-added="0"><i class="glyphicon glyphicon-plus"></i> Add Row</a>
-          </div>
           <div style="display:none;">
             <table id="sample_table">
               <tr id="">

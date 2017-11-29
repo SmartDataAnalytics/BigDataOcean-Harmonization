@@ -16,7 +16,7 @@ public class DatasetSuggest {
 	private String subject; //tokenField_subject
 	private String keywords; //tokenField_keywords
 	private String standards; //standards
-	private String format; //tokenField_format
+	private String formats; //tokenField_format
 	private String language; //tokenField_language
 	private String homepage; //URI of Dataset
 	private String publisher; //publisher of Dataset
@@ -41,7 +41,7 @@ public class DatasetSuggest {
 		super();
 	}
 	public DatasetSuggest(String identifier, String title, String description, String subject, String keywords,
-			String standards, String format, String language, String homepage, String publisher, String accessRights,
+			String standards, String formats, String language, String homepage, String publisher, String accessRights,
 			String issuedDate, String modifiedDate, String geoLocation, String spatialWest, String spatialEast,
 			String spatialSouth, String spatialNorth, String coordinateSystem, String verticalCoverageFrom,
 			String verticalCoverageTo, String verticalLevel, String temporalCoverageBegin, String temporalCoverageEnd,
@@ -52,7 +52,7 @@ public class DatasetSuggest {
 		this.subject = subject;
 		this.keywords = keywords;
 		this.standards = standards;
-		this.format = format;
+		this.formats = formats;
 		this.language = language;
 		this.homepage = homepage;
 		this.publisher = publisher;
@@ -110,10 +110,10 @@ public class DatasetSuggest {
 		this.standards = standards;
 	}
 	public String getFormat() {
-		return format;
+		return formats;
 	}
-	public void setFormat(String format) {
-		this.format = format;
+	public void setFormat(String formats) {
+		this.formats = formats;
 	}
 	public String getLanguage() {
 		return language;

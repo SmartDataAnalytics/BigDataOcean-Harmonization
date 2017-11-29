@@ -92,7 +92,7 @@ jQuery(document).ready(function($) {
     }],
     showAutocompleteOnFocus: true
   }); 
-
+  
   $('#tokenfield_keywords').tokenfield({
     typeahead: [null, {
       source: resourceKeywords.ttAdapter(),

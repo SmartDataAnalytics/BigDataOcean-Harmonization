@@ -28,7 +28,7 @@
         <div class="col-md-1">
         </div>
         <div class="col-md-10 field-uri" id='div_typeuri' style='display: none;'>
-            <form id="uriForm" name="uriForm" class="form-style" method='post' action="http://localhost:5000/addMetadata" onsubmit="return requireUri()">
+            <form id="uriForm" name="uriForm" class="form-style" method='post' action="http://localhost:5000/addMetadata" onsubmit="return requireUri();" enctype=multipart/form-data>
                 <div class="col-md-12">
                   <label class="label-table" for="sel1">Select the type of dataset you want to add:</label>
                 </div>
@@ -40,26 +40,38 @@
                     <option>Other</option>
                   </select>
                 </div>
-                <div id='urifield' style='display: none;'>
+
+                <div id='urifield' class="col-md-12" style='display: none;'>
                   <div class="col-md-2">
-                      <label class="label-table" for="uri">URI:</label>
+                    <label class="label-table" for="uri">URI:</label>
                   </div>
                   <div class="col-md-10">
-                      <input type="url" class="form-control" id="uri" name="uri">
+                    <input type="url" class="form-control" id="uri" name="uri">
+                  </div>
+                  <div class="col-md-12" style="padding-right: auto;">
+                    <button type="submit" class="btn btn-default"><i class="glyphicon glyphicon-plus"></i> Add
+                    </button>
+                  </div>
+                </div>
+
+                <div id='addbutton' class="col-md-12" style="padding-right: auto; display: none;">
+                  <button type="submit" class="btn btn-default"><i class="glyphicon glyphicon-plus"></i> Add
+                  </button>
+                </div>
+
+                <div id='filefield' class="col-md-10" style='display: none;'>
+                  <div class="col-md-2">
+                    <label class="label-table" for="uri">File:</label>
+                  </div>
+                  <div class="col-md-10">
+                    <input name="fileNetcdf" id="fileNetcdf" type="file" class="form-control" accept='.nc'>
                   </div>
                   <div class="col-md-12" style="padding-right: auto;">
                     <button type="submit" class="btn btn-default"><i class="glyphicon glyphicon-plus"></i> Add
                     </button>
                 </div>
                 </div>
-                <div id='addbutton' class="col-md-12" style="padding-right: auto; display: none;">
-                    <button type="submit" class="btn btn-default"><i class="glyphicon glyphicon-plus"></i> Add
-                    </button>
-                </div>
             </form>
-            <!--<div class="col-md-2">
-                <button type="submit" class="btn btn-primary add-button">Add URI</button>
-            </div> -->
         </div>
         <div class="col-md-1">
         </div>
