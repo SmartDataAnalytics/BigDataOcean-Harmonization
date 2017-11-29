@@ -1,6 +1,6 @@
 package org.unibonn.bdo.objects;
 
-import java.util.List;
+import java.util.Map;
 
 /**
  *  
@@ -38,8 +38,8 @@ public class Dataset {
 	private String temporalCoverageBegin; //temp_coverage_begin
 	private String temporalCoverageEnd; //temp_coverage_end
 	private String timeResolution; //time_reso
-	private List<String> variables; //variables
-	private List<String> variablesBDO; //variables
+	private Map<String,String> variables; //variables
+	//private List<String> variablesBDO; //variables
 	
 	public Dataset(){
 		
@@ -50,7 +50,7 @@ public class Dataset {
 			String issuedDate, String modifiedDate, String geoLocation, String spatialWest, String spatialEast,
 			String spatialSouth, String spatialNorth, String coordinateSystem, String verticalCoverageFrom,
 			String verticalCoverageTo, String verticalLevel, String temporalCoverageBegin, String temporalCoverageEnd,
-			String timeResolution, List<String> variables, List<String> variablesBDO) {
+			String timeResolution, Map<String, String> variables) {//, List<String> variablesBDO) {
 		this.identifier = identifier;
 		this.title = title;
 		this.description = description;
@@ -77,7 +77,7 @@ public class Dataset {
 		this.temporalCoverageEnd = temporalCoverageEnd;
 		this.timeResolution = timeResolution;
 		this.variables = variables;
-		this.variablesBDO = variablesBDO;
+		//this.variablesBDO = variablesBDO;
 	}
 	
 	public String getTitle() {
@@ -280,20 +280,12 @@ public class Dataset {
 		this.temporalCoverageEnd = temporalCoverageEnd;
 	}
 
-	public List<String> getVariables() {
+	public Map<String, String> getVariables() {
 		return variables;
 	}
 
-	public void setVariables(List<String> variables) {
+	public void setVariables(Map<String, String> variables) {
 		this.variables = variables;
-	}
-
-	public List<String> getVariablesBDO() {
-		return variablesBDO;
-	}
-
-	public void setVariablesBDO(List<String> variablesBDO) {
-		this.variablesBDO = variablesBDO;
 	}
 
 	

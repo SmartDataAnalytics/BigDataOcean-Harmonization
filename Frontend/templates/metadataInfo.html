@@ -40,7 +40,7 @@
         <div class="col-md-1">
         </div>          
         <div class="col-md-10 field-title">
-          {{dataset.title}} <label class="label-identifier" for="identifier">({{dataset.identifier}})</label>
+          {{dataset.title}} <label id="identifier" class="label-identifier" for="identifier">({{dataset.identifier}})</label>
         </div>
         <div class="col-md-1">
         </div>
@@ -279,25 +279,17 @@
               <tr>
                 <th style="width: 500px;"><label class="label-table-mandatory">* </label>Dataset Variable</th>
                 <th><label class="label-table-mandatory">* </label>BDO Variable</th>
-                <!-- <th style="width: 1px;">Action</th> -->
               </tr>
             </thead>
             <tbody id="tbl_posts_body">
-              {% for variable, variableBDO in dataset.variable,dataset.variableBDO: %}
+              {% for variable, variableBDO in dataset.variables.items(): %}
                 <tr id="rec-{{ loop.index0 +1 }}">
                  <td>
                   {{ variable }}
-                  <!-- <input type="text" class="form-control" id="parser_variable" name="parser_variable" value="{{x}}" required> -->
                  </td>
                  <td>
                   {{ variableBDO }}
-                  <!-- <input type="text" class="form-control-autocomplete" id="json_variable-{{ loop.index0 +1 }}" name="json_variable" value="" required> -->
                  </td>
-                 <!-- <td>
-                  <center>
-                    <a class="btn btn-xs delete-record" data-id="{{ loop.index0 +1 }}"><i class="glyphicon glyphicon-remove glyphiconRemove"></i></a>
-                  </center>
-                </td> -->
                </tr>
               {% endfor %}
             </tbody>

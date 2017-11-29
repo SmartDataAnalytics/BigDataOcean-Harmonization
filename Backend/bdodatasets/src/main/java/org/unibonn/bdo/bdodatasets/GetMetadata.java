@@ -1,14 +1,13 @@
 package org.unibonn.bdo.bdodatasets;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.unibonn.bdo.objects.Dataset;
-import org.unibonn.bdo.objects.DatasetList;
 
 import com.google.gson.Gson;
-import com.hp.hpl.jena.query.QueryExecution;
-import com.hp.hpl.jena.query.QueryExecutionFactory;
 import com.hp.hpl.jena.query.QuerySolution;
 import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.rdf.model.RDFNode;
@@ -64,7 +63,8 @@ public class GetMetadata {
 				"       dct:conformsTo ?coorSys ;\n" + 
 				"       bdo:timeCoverage ?temp .\n" + 
 				"  \n" + 
-				"  ?temp ids:beginning ?tempCovB ;\n" + 
+				"  ?temp a bdo:TimeCoverage;\n" + 
+				"		 ids:beginning ?tempCovB ;\n" + 
 				"        ids:end ?tempCovE .\n" + 
 				"  \n" + 
 				"  ?spatial a ignf:GeographicBoundingBox ;\n" + 
@@ -161,8 +161,11 @@ public class GetMetadata {
 			node2 = solution.get("label");
 			listVaraiblesBDO.add(node2.toString());
 		}
-		dataset.setVariables(listVaraibles);
-		dataset.setVariablesBDO(listVaraiblesBDO);
+		Map<String,String> map = new LinkedHashMap<String,String>();
+		for (int i = 0; i < listVaraibles.size(); i++) {
+			map.put(listVaraibles.get(i), listVaraiblesBDO.get(i));
+		}
+		dataset.setVariables(map);
 		
 		try {
 			// Parse into JSON the Dataset instance with all metadata from a dataset

@@ -31,5 +31,12 @@ public class QueryExecutor {
 		return results;
 	}
 	
+	public static void deleteQuery(String query) {
+		UpdateProcessor upp = UpdateExecutionFactory.createRemote(
+				UpdateFactory.create(String.format(query)), 
+				"http://localhost:3030/bdoHarmonization/update");
+		upp.execute();
+		
+	}
 	
 }

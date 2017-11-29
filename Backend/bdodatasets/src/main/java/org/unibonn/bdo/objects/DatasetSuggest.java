@@ -7,6 +7,7 @@ package org.unibonn.bdo.objects;
  * Represents an Dataset: contains the metadata obtained by Jsoup
  * 
  */
+
 public class DatasetSuggest {
 	
 	private String identifier; //identifier of Dataset

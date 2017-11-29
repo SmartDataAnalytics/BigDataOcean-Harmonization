@@ -6,8 +6,6 @@ import java.util.List;
 import org.unibonn.bdo.objects.DatasetList;
 
 import com.google.gson.Gson;
-import com.hp.hpl.jena.query.QueryExecution;
-import com.hp.hpl.jena.query.QueryExecutionFactory;
 import com.hp.hpl.jena.query.QuerySolution;
 import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.rdf.model.RDFNode;

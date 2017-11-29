@@ -78,7 +78,7 @@ def save():
 				file.write("PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \n")
 				file.write("PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> \n")
 				file.write("PREFIX foaf: <http://xmlns.com/foaf/0.1/> \n")
-				file.write("PREFIX disco: <http://rdf-vocabulary.ddialliance.org/discovery> \n")
+				file.write("PREFIX disco: <http://rdf-vocabulary.ddialliance.org/discovery#> \n")
 				file.write("PREFIX dcat: <https://www.w3.org/TR/vocab-dcat/> \n")
 				file.write("PREFIX bdo: <http://bigdataocean.eu/bdo/> \n")
 				file.write("PREFIX ids: <http://industrialdataspace/information-model/> \n")
@@ -93,6 +93,9 @@ def save():
 				file.write("bdo:verticalLevel a owl:Datatypeproperty. \n")
 				file.write("bdo:timeResolution a owl:Datatypeproperty. \n")
 				file.write("bdo:verticalFrom a owl:ObjectProperty . \n")
+				file.write("bdo:"+identifier+"_TC a bdo:TimeCoverage ; \n")
+				file.write("ids:beginning \""+request.form['temp_coverage_begin']+"\"^^xsd:dateTime ; \n")
+				file.write("ids:end \""+request.form['temp_coverage_end']+"\"^^xsd:dateTime. \n")
 				file.write("bdo:"+request.form['identifier']+"_VC a bdo:VerticalCoverage ; \n")
 				file.write("bdo:verticalFrom \""+request.form['vert_coverage_from']+"\"^^xsd:double ; \n")
 				file.write("bdo:verticalTo \""+request.form['vert_coverage_to']+"\"^^xsd:double . \n")
@@ -120,8 +123,7 @@ def save():
 				file.write("dct:conformsTo \""+request.form['coordinate_sys']+"\" ; \n")
 				file.write("bdo:verticalCoverage bdo:"+request.form['identifier']+"_VC ; \n")
 				file.write("bdo:verticalLevel \""+request.form['vertical_level']+"\"; \n")
-				file.write("bdo:timeCoverage [ids:beginning \""+request.form['temp_coverage_begin']+"\"^^xsd:dateTime ; \n")
-				file.write("ids:end \""+request.form['temp_coverage_end']+"\"^^xsd:dateTime] ; \n")
+				file.write("bdo:timeCoverage bdo:"+request.form['identifier']+"_TC ; \n")
 				file.write("bdo:timeResolution \""+request.form['time_reso']+"\" ; \n")
 				# Adding variables to dataset
 				file.write("disco:variable ")
@@ -172,7 +174,7 @@ def save():
 				file.write("PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \n")
 				file.write("PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> \n")
 				file.write("PREFIX foaf: <http://xmlns.com/foaf/0.1/> \n")
-				file.write("PREFIX disco: <http://rdf-vocabulary.ddialliance.org/discovery> \n")
+				file.write("PREFIX disco: <http://rdf-vocabulary.ddialliance.org/discovery#> \n")
 				file.write("PREFIX dcat: <https://www.w3.org/TR/vocab-dcat/> \n")
 				file.write("PREFIX bdo: <http://bigdataocean.eu/bdo/> \n")
 				file.write("PREFIX ids: <http://industrialdataspace/information-model/> \n")
@@ -183,10 +185,15 @@ def save():
 				file.write("\n")
 				file.write("INSERT DATA {\n")
 				file.write("bdo:VerticalCoverage a owl:Class. \n")
+				file.write("bdo:TimeCoverage a owl:Class. \n")
 				file.write("bdo:timeCoverage a owl:ObjectProperty. \n")
 				file.write("bdo:verticalLevel a owl:Datatypeproperty. \n")
 				file.write("bdo:timeResolution a owl:Datatypeproperty. \n")
+				file.write("bdo:verticalTo a owl:ObjectProperty . \n")
 				file.write("bdo:verticalFrom a owl:ObjectProperty . \n")
+				file.write("bdo:"+identifier+"_TC a bdo:TimeCoverage ; \n")
+				file.write("ids:beginning \""+request.form['temp_coverage_begin']+"\"^^xsd:dateTime ; \n")
+				file.write("ids:end \""+request.form['temp_coverage_end']+"\"^^xsd:dateTime. \n")
 				file.write("bdo:"+identifier+"_VC a bdo:VerticalCoverage ; \n")
 				file.write("bdo:verticalFrom \""+request.form['vert_coverage_from']+"\"^^xsd:double ; \n")
 				file.write("bdo:verticalTo \""+request.form['vert_coverage_to']+"\"^^xsd:double . \n")
@@ -214,8 +221,7 @@ def save():
 				file.write("dct:conformsTo \""+request.form['coordinate_sys']+"\" ; \n")
 				file.write("bdo:verticalCoverage bdo:"+identifier+"_VC ; \n")
 				file.write("bdo:verticalLevel \""+request.form['vertical_level']+"\"; \n")
-				file.write("bdo:timeCoverage [ids:beginning \""+request.form['temp_coverage_begin']+"\"^^xsd:dateTime ; \n")
-				file.write("ids:end \""+request.form['temp_coverage_end']+"\"^^xsd:dateTime] ; \n")
+				file.write("bdo:timeCoverage bdo:"+identifier+"_TC ; \n")
 				file.write("bdo:timeResolution \""+request.form['time_reso']+"\" ; \n")
 				# Adding variables to dataset
 				file.write("disco:variable ")
@@ -321,7 +327,7 @@ class datasetInfo(object):
 	def __init__(self, identifier, title, description, subject, keywords, standards, format, language, homepage, publisher, 
 		accessRights, issuedDate, modifiedDate, geoLocation, spatialWest, spatialEast, spatialSouth, spatialNorth, 
 		coordinateSystem, verticalCoverageFrom, verticalCoverageTo,temporalCoverageBegin, temporalCoverageEnd, 
-		verticalLevel, timeResolution, variables, variablesBDO
+		verticalLevel, timeResolution, variables#, variablesBDO
 		):
 		self.identifier = identifier
 		self.title = title
@@ -349,7 +355,7 @@ class datasetInfo(object):
 		self.temporalCoverageEnd = temporalCoverageEnd
 		self.timeResolution = timeResolution
 		self.variables = variables
-		self.variablesBDO = variablesBDO
+		# self.variablesBDO = variablesBDO
 
 if __name__ == '__main__':
 	app.run(debug=True)

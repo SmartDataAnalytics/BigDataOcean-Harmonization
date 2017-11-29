@@ -552,12 +552,13 @@
               </tr>
             </thead>
             <tbody id="tbl_posts_body">
+              {% for variable, variableBDO in dataset.variables.items(): %}
               <tr id="rec-1">
                <td>
-                <input type="text" class="form-control" id="parser_variable" name="parser_variable" required>
+                <input type="text" class="form-control" id="parser_variable" name="parser_variable" value="{{ variable }}" required>
                </td>
                <td>
-                <input type="text" class="form-control" id="json_variable" name="json_variable" required>
+                <input type="text" class="form-control" id="json_variable" name="json_variable" value="{{ variableBDO }}" required>
                </td>
                <td>
                 <center>
