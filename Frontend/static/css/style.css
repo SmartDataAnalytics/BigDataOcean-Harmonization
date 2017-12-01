@@ -311,6 +311,14 @@ footer {
     transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 }
 
+.accordion {
+    margin-bottom:-3px;
+}
+
+.accordion-group {
+    border: none;
+}
+
 .tt-menu {
     position: absolute;
     top: 100%;
@@ -332,6 +340,25 @@ footer {
     background-clip: padding-box;
     cursor: pointer;
 }
+
+.tt-suggestion {
+    display: block;
+    padding: 3px 20px;
+    clear: both;
+    font-weight: normal;
+    line-height: 1.428571429;
+    color: #333333;
+    white-space: nowrap;
+}
+
+.tt-suggestion:hover,
+.tt-suggestion:focus {
+  color: #ffffff;
+  text-decoration: none;
+  outline: 0;
+  background-color: #428bca;
+}
+
 
 .tokenfield {
     /*height: 0px;*/
