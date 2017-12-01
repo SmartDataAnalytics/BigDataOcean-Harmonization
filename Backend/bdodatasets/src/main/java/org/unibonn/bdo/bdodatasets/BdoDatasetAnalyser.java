@@ -4,8 +4,13 @@ package org.unibonn.bdo.bdodatasets;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.io.FileReader;
 import java.io.IOException;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -16,6 +21,8 @@ import ucar.nc2.Attribute;
 import ucar.nc2.NetcdfFile;
 import ucar.nc2.Variable;
 import ucar.nc2.dataset.NetcdfDataset;
+
+import org.unibonn.bdo.bdodatasets.Constants;
 
 /*import ucar.netcdf.Attribute;
 import ucar.netcdf.NetcdfFile;*/
@@ -147,7 +154,7 @@ public class BdoDatasetAnalyser {
 		return result;
 	}
 
-	public static DatasetSuggest analyseDatasetNetcdf(String filename) throws IOException {
+	public static DatasetSuggest analyseDatasetNetcdf(String filename) throws IOException, ParseException {
 		DatasetSuggest result = new DatasetSuggest();
 		String title;
 		String description;
@@ -197,7 +204,13 @@ public class BdoDatasetAnalyser {
 			spatialSouthBoundLatitude = nc.findGlobalAttribute("geospatial_lat_min").getStringValue();
 			spatialNorthBoundLatitude = nc.findGlobalAttribute("geospatial_lat_max").getStringValue();
 			verticalCoverageFrom = nc.findGlobalAttribute("geospatial_vertical_min").getStringValue();
+			if (verticalCoverageFrom.length() == 1) {
+				verticalCoverageFrom = "";
+			}
 			verticalCoverageTo = nc.findGlobalAttribute("geospatial_vertical_max").getStringValue();
+			if (verticalCoverageTo.length() == 1) {
+				verticalCoverageTo = "";
+			}
 			temporalCoverageBegin = nc.findGlobalAttribute("time_coverage_start").getStringValue().substring(0, 19);
 			temporalCoverageEnd = nc.findGlobalAttribute("time_coverage_end").getStringValue().substring(0, 19);
 			timeResolution = nc.findGlobalAttribute("update_interval").getStringValue();
@@ -226,6 +239,23 @@ public class BdoDatasetAnalyser {
 					variables = variables + "," + listVariables.get(i);
 				}
 			}
+			
+			//Extracting the array of keywords find in the json file
+			JSONParser parser = new JSONParser();
+			JSONArray keywordsArray = (JSONArray) parser.parse(new FileReader(Constants.configFilePath+"/Frontend/static/json/keywords.json"));
+            
+			/*search if the keyword extracted from netcdf is equal to the json
+			* change the value of the keyword variable to the value of the json (http://...)
+			*/
+            for(int i=0; i<keywordsArray.size(); i++){
+                JSONObject keyword = (JSONObject) keywordsArray.get(i);
+                String text = keyword.get("text").toString();
+                if(text.equals(keywords)) {
+                	keywords = keyword.get("value").toString();
+                	break;
+                }
+            }
+            
 			result.setIdentifier(identifier);
 			result.setTitle(title);
 			result.setDescription(description);

@@ -40,34 +40,52 @@ jQuery(document).ready(function($) {
   });
   resourceKeywords.initialize();
 
-  $('#tokenfield_subject').tagsinput({
-    itemValue: 'value',
-    itemText: 'text',
-    typeaheadjs: {
-      name: 'resourceSubjects',
-      displayKey: 'text',
-      source: resourceSubjects.ttAdapter()
-    }
+  $('#tokenfield_subject').tokenfield({
+    typeahead: [null, {
+      source: resourceSubjects.ttAdapter(),
+      displayKey: 'text'
+    }],
+    showAutocompleteOnFocus: true
+  }); 
+
+  $('#tokenfield_subject').on('tokenfield:createtoken', function (event) {
+    var existingTokens = $(this).tokenfield('getTokens');
+    $.each(existingTokens, function(index, token) {
+      if (token.value === event.attrs.value)
+        event.preventDefault();
+    });
   });
 
-  $('#tokenfield_language').tagsinput({
-    itemValue: 'value',
-    itemText: 'text',
-    typeaheadjs: {
-      name: 'resourceLanguages',
-      displayKey: 'text',
-      source: resourceLanguages.ttAdapter()
-    }
+  $('#tokenfield_language').tokenfield({
+    typeahead: [null, {
+      source: resourceLanguages.ttAdapter(),
+      displayKey: 'text'
+    }],
+    showAutocompleteOnFocus: true
+  }); 
+
+  $('#tokenfield_language').on('tokenfield:createtoken', function (event) {
+    var existingTokens = $(this).tokenfield('getTokens');
+    $.each(existingTokens, function(index, token) {
+      if (token.value === event.attrs.value)
+        event.preventDefault();
+    });
   });
 
-  $('#tokenfield_keywords').tagsinput({
-    itemValue: 'value',
-    itemText: 'text',
-    typeaheadjs: {
-      name: 'resourceKeywords',
-      displayKey: 'text',
-      source: resourceKeywords.ttAdapter()
-    }
+  $('#tokenfield_keywords').tokenfield({
+    typeahead: [null, {
+      source: resourceKeywords.ttAdapter(),
+      displayKey: 'text'
+    }],
+    showAutocompleteOnFocus: true
+  });
+
+  $('#tokenfield_keywords').on('tokenfield:createtoken', function (event) {
+    var existingTokens = $(this).tokenfield('getTokens');
+    $.each(existingTokens, function(index, token) {
+      if (token.value === event.attrs.value)
+        event.preventDefault();
+    });
   });
   
 });
