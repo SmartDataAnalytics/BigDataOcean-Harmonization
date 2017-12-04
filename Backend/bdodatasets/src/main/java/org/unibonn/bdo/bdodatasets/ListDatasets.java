@@ -3,7 +3,7 @@ package org.unibonn.bdo.bdodatasets;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.unibonn.bdo.objects.DatasetList;
+import org.unibonn.bdo.objects.Dataset;
 
 import com.google.gson.Gson;
 import com.hp.hpl.jena.query.QuerySolution;
@@ -36,13 +36,13 @@ public class ListDatasets {
 				"       dct:description ?description.\n" + 
 				"}";
 		
-		List<DatasetList> listDatasets = new ArrayList<>() ;
+		List<Dataset> listDatasets = new ArrayList<>() ;
 		RDFNode node;
 		// executes query on Jena Fueski to get identifier, title and description of all datasets
 		ResultSet results = QueryExecutor.selectQuery(query);
 		
 		while (results.hasNext()) {
-			DatasetList list = new DatasetList();
+			Dataset list = new Dataset();
 			QuerySolution solution = results.nextSolution();
 			String ident;
 			node = solution.get("identifier");

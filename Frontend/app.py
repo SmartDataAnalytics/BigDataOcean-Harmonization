@@ -8,8 +8,8 @@ from pprint import pprint
 from werkzeug.utils import secure_filename
 
 # GLOBAL VARIABLES
-globalPath = "/home/jaimetrillos/Dropbox/BDO/BigDataOcean-Harmonization"
-# globalPath = "/home/anatrillos/Dropbox/Documentos/BigDataOcean-Harmonization"
+#globalPath = "/home/jaimetrillos/Dropbox/BDO/BigDataOcean-Harmonization"
+globalPath = "/home/anatrillos/Dropbox/Documentos/BigDataOcean-Harmonization"
 
 UPLOAD_FOLDER = globalPath+'/Backend/AddDatasets'
 ALLOWED_EXTENSIONS = set(['nc'])
@@ -333,7 +333,7 @@ class datasetSuggest(object):
 	def __init__(self, identifier, title, description, language, homepage, publisher, 
 		spatialWest, spatialEast, spatialSouth, spatialNorth, issuedDate, modifiedDate,
 		coordinateSystem, verticalCoverageFrom, verticalCoverageTo, verticalLevel, temporalCoverageBegin, temporalCoverageEnd, 
-		timeResolution, variables):
+		timeResolution, variable):
 		self.identifier = identifier
 		self.title = title
 		self.description = description
@@ -353,14 +353,14 @@ class datasetSuggest(object):
 		self.temporalCoverageBegin = temporalCoverageBegin
 		self.temporalCoverageEnd = temporalCoverageEnd
 		self.timeResolution = timeResolution
-		self.variables = variables
+		self.variables = variable
 
 # Class for datasets parsed on shell suggestNetcdf
 class datasetSuggestNetcdf(object):
 	def __init__(self, identifier, title, description, keywords, standards, formats, homepage, publisher, 
 		spatialWest, spatialEast, spatialSouth, spatialNorth, issuedDate, modifiedDate,
 		verticalCoverageFrom, verticalCoverageTo, temporalCoverageBegin, temporalCoverageEnd, 
-		timeResolution, variables
+		timeResolution, variable
 		):
 		self.identifier = identifier
 		self.title = title
@@ -381,7 +381,7 @@ class datasetSuggestNetcdf(object):
 		self.temporalCoverageBegin = temporalCoverageBegin
 		self.temporalCoverageEnd = temporalCoverageEnd
 		self.timeResolution = timeResolution
-		self.variables = variables
+		self.variables = variable
 
 # Class for all dataset metadata
 class datasetInfo(object):

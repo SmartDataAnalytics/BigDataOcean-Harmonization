@@ -2,7 +2,7 @@ package org.unibonn.bdo.bdodatasets;
 
 import java.io.IOException;
 
-import org.unibonn.bdo.objects.DatasetSuggest;
+import org.unibonn.bdo.objects.Dataset;
 
 import com.google.gson.Gson;
 
@@ -26,7 +26,7 @@ public class Suggest {
 	
 	public static void exec(String Dataseturi) {
 		try {
-			DatasetSuggest result = BdoDatasetAnalyser.analyseDatasetURI(Dataseturi);
+			Dataset result = BdoDatasetAnalyser.analyseDatasetURI(Dataseturi);
 			Gson gson  =new Gson();
 			System.out.println(gson.toJson(result));
 		} catch (Exception e) {

@@ -39,7 +39,7 @@ public class Dataset {
 	private String temporalCoverageEnd; //temp_coverage_end
 	private String timeResolution; //time_reso
 	private Map<String,String> variables; //variables
-	//private List<String> variablesBDO; //variables
+	private String variable;
 	
 	public Dataset(){
 		
@@ -50,7 +50,7 @@ public class Dataset {
 			String issuedDate, String modifiedDate, String geoLocation, String spatialWest, String spatialEast,
 			String spatialSouth, String spatialNorth, String coordinateSystem, String verticalCoverageFrom,
 			String verticalCoverageTo, String verticalLevel, String temporalCoverageBegin, String temporalCoverageEnd,
-			String timeResolution, Map<String, String> variables) {//, List<String> variablesBDO) {
+			String timeResolution, Map<String, String> variables) {
 		this.identifier = identifier;
 		this.title = title;
 		this.description = description;
@@ -77,7 +77,45 @@ public class Dataset {
 		this.temporalCoverageEnd = temporalCoverageEnd;
 		this.timeResolution = timeResolution;
 		this.variables = variables;
-		//this.variablesBDO = variablesBDO;
+	}
+	//Constructor for Index.html
+	public Dataset(String title, String description) {
+		this.title = title;
+		this.description = description;
+	}
+	
+	public Dataset(String identifier, String title, String description, String subject, String keywords,
+			String standards, String formats, String language, String homepage, String publisher, String accessRights,
+			String issuedDate, String modifiedDate, String geoLocation, String spatialWest, String spatialEast,
+			String spatialSouth, String spatialNorth, String coordinateSystem, String verticalCoverageFrom,
+			String verticalCoverageTo, String verticalLevel, String temporalCoverageBegin, String temporalCoverageEnd,
+			String timeResolution, String variables) {
+		this.identifier = identifier;
+		this.title = title;
+		this.description = description;
+		this.subject = subject;
+		this.keywords = keywords;
+		this.standards = standards;
+		this.formats = formats;
+		this.language = language;
+		this.homepage = homepage;
+		this.publisher = publisher;
+		this.accessRights = accessRights;
+		this.issuedDate = issuedDate;
+		this.modifiedDate = modifiedDate;
+		this.geoLocation = geoLocation;
+		this.spatialWest = spatialWest;
+		this.spatialEast = spatialEast;
+		this.spatialSouth = spatialSouth;
+		this.spatialNorth = spatialNorth;
+		this.coordinateSystem = coordinateSystem;
+		this.verticalCoverageFrom = verticalCoverageFrom;
+		this.verticalCoverageTo = verticalCoverageTo;
+		this.verticalLevel = verticalLevel;
+		this.temporalCoverageBegin = temporalCoverageBegin;
+		this.temporalCoverageEnd = temporalCoverageEnd;
+		this.timeResolution = timeResolution;
+		this.variable = variables;
 	}
 	
 	public String getTitle() {
@@ -286,6 +324,14 @@ public class Dataset {
 
 	public void setVariables(Map<String, String> variables) {
 		this.variables = variables;
+	}
+
+	public String getVariable() {
+		return variable;
+	}
+
+	public void setVariable(String variable) {
+		this.variable = variable;
 	}
 
 	

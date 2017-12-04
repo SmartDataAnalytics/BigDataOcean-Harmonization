@@ -15,7 +15,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.unibonn.bdo.objects.DatasetSuggest;
+import org.unibonn.bdo.objects.Dataset;
 
 import ucar.nc2.Attribute;
 import ucar.nc2.NetcdfFile;
@@ -38,8 +38,8 @@ import ucar.netcdf.NetcdfFile;*/
 
 public class BdoDatasetAnalyser {
 
-	public static DatasetSuggest analyseDatasetURI(String datasetURI) throws IOException {
-		DatasetSuggest result = new DatasetSuggest();
+	public static Dataset analyseDatasetURI(String datasetURI) throws IOException {
+		Dataset result = new Dataset();
 
 		String delims; //Delimiters for extracting some part of the text
 		String[] tokens; //list of pieces of information
@@ -149,13 +149,13 @@ public class BdoDatasetAnalyser {
 		result.setVerticalCoverageTo(verticalCoverageTo);
 		result.setTimeResolution(timeResolution);
 		result.setVerticalLevel(verticalLevel);
-		result.setVariables(variables);
+		result.setVariable(variables);
 
 		return result;
 	}
 
-	public static DatasetSuggest analyseDatasetNetcdf(String filename) throws IOException, ParseException {
-		DatasetSuggest result = new DatasetSuggest();
+	public static Dataset analyseDatasetNetcdf(String filename) throws IOException, ParseException {
+		Dataset result = new Dataset();
 		String title;
 		String description;
 		String identifier;
@@ -275,7 +275,7 @@ public class BdoDatasetAnalyser {
 			result.setTemporalCoverageBegin(temporalCoverageBegin);
 			result.setTemporalCoverageEnd(temporalCoverageEnd);
 			result.setTimeResolution(timeResolution);
-			result.setVariables(variables);
+			result.setVariable(variables);
 			
 		} catch (IOException ioe) {
 

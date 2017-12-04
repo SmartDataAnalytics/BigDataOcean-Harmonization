@@ -2,7 +2,7 @@ package org.unibonn.bdo.bdodatasets;
 
 import java.io.IOException;
 
-import org.unibonn.bdo.objects.DatasetSuggest;
+import org.unibonn.bdo.objects.Dataset;
 
 import com.google.gson.Gson;
 
@@ -26,7 +26,7 @@ public class SuggestNetcdf {
 	
 	public static void exec(String Dataseturi) {
 		try {
-			DatasetSuggest result = BdoDatasetAnalyser.analyseDatasetNetcdf(Dataseturi);
+			Dataset result = BdoDatasetAnalyser.analyseDatasetNetcdf(Dataseturi);
 			Gson gson  =new Gson();
 			System.out.println(gson.toJson(result));
 		} catch (Exception e) {
