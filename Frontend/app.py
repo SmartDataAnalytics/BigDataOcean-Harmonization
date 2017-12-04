@@ -8,8 +8,8 @@ from pprint import pprint
 from werkzeug.utils import secure_filename
 
 # GLOBAL VARIABLES
-#globalPath = "/home/jaimetrillos/Dropbox/BDO/BigDataOcean-Harmonization"
-globalPath = "/home/anatrillos/Dropbox/Documentos/BigDataOcean-Harmonization"
+globalPath = "/home/jaimetrillos/Dropbox/BDO/BigDataOcean-Harmonization"
+#globalPath = "/home/anatrillos/Dropbox/Documentos/BigDataOcean-Harmonization"
 
 UPLOAD_FOLDER = globalPath+'/Backend/AddDatasets'
 ALLOWED_EXTENSIONS = set(['nc'])
@@ -98,204 +98,80 @@ def parse():
 def save():
 	if request.method == 'POST':
 		# Extracting variablesCF_BDO.json
-		file = open(globalPath + '/Frontend/static/json/variablesCF_BDO.json', 'r')
-		variablesCF = json.load(file)
-		# TTL file is written with data from the addMetadata form to be added to jena fuseki
+		# file = open(globalPath + '/Frontend/static/json/variablesCF_BDO.json', 'r')
+		# variablesCF = json.load(file)
+
 		identifier = request.form['identifier']
+		title = request.form['title']
+		description = request.form['description']
+		# string of subjects divided by ,
+		subjects = request.form['tokenfield_subject']
+		# create list of subjects
+		subject = subjects.split(",")
+		# string of keywords divided by ,
+		keyword= request.form['tokenfield_keywords']
+		# create list of keywords
+		keywords = keyword.split(",")
+		standards = request.form['standards']
+		formats = request.form['tokenfield_format']
+		# string of languages divided by ,
+		languages = request.form['tokenfield_language']
+		# create list of language
+		language = languages.split(",")
+		homepage = request.form['homepage']
+		publisher = request.form['publisher']
+		accessRights = request.form['access_rights']
+		issuedDate = request.form['issued_date']
+		modifiedDate = request.form['modified_date']
+		geoLocation = request.form['tokenfield_geo_loc']
+		spatialWest = request.form['geo_coverageW']
+		spatialEast = request.form['geo_coverageE']
+		spatialSouth = request.form['geo_coverageS']
+		spatialNorth = request.form['geo_coverageN']
+		coordinateSystem = request.form['coordinate_sys']
+		verticalCoverageFrom = request.form['vert_coverage_from']
+		verticalCoverageTo = request.form['vert_coverage_to']
+		verticalLevel = request.form['vertical_level']
+		temporalCoverageBegin = request.form['temp_coverage_begin']
+		temporalCoverageEnd = request.form['temp_coverage_end']
+		timeResolution = request.form['time_reso']
+
+		parservariable = request.form.getlist('parser_variable')
+		jsonvariable = request.form.getlist('json_variable')
+		# delete the empty elements in the list 
+		parservariables = list(filter(None, parservariable))
+		jsonvariables = list(filter(None, jsonvariable))
+		# zip the two list in one called variables
+		variables = list (zip (parservariables, jsonvariables))
+		
 		if identifier  != "":
-			uri = "<http://bigdataocean.eu/bdo/"+identifier+"> \n"
-			with open(globalPath+'/Backend/AddDatasets/addNewDataset.ttl','w') as file:
-				file.write("PREFIX dct: <http://purl.org/dc/terms/> \n")
-				file.write("PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> \n")
-				file.write("PREFIX owl: <http://www.w3.org/2002/07/owl#> \n")
-				file.write("PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \n")
-				file.write("PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> \n")
-				file.write("PREFIX foaf: <http://xmlns.com/foaf/0.1/> \n")
-				file.write("PREFIX disco: <http://rdf-vocabulary.ddialliance.org/discovery#> \n")
-				file.write("PREFIX dcat: <https://www.w3.org/TR/vocab-dcat/> \n")
-				file.write("PREFIX bdo: <http://bigdataocean.eu/bdo/> \n")
-				file.write("PREFIX ids: <http://industrialdataspace/information-model/> \n")
-				file.write("PREFIX qudt: <http://qudt.org/schema/qudt/> \n")
-				file.write("PREFIX unit: <http://qudt.org/vocab/unit/> \n")
-				file.write("PREFIX ignf: <http://data.ign.fr/def/ignf#> \n")
-				file.write("PREFIX skos: <http://www.w3.org/2004/02/skos/core#> \n")
-				file.write("\n")
-				file.write("INSERT DATA {\n")
-				file.write("bdo:VerticalCoverage a owl:Class. \n")
-				file.write("bdo:timeCoverage a owl:ObjectProperty. \n")
-				file.write("bdo:verticalLevel a owl:Datatypeproperty. \n")
-				file.write("bdo:timeResolution a owl:Datatypeproperty. \n")
-				file.write("bdo:verticalFrom a owl:ObjectProperty . \n")
-				file.write("bdo:"+identifier+"_TC a bdo:TimeCoverage ; \n")
-				file.write("ids:beginning \""+request.form['temp_coverage_begin']+"\"^^xsd:dateTime ; \n")
-				file.write("ids:end \""+request.form['temp_coverage_end']+"\"^^xsd:dateTime. \n")
-				file.write("bdo:"+request.form['identifier']+"_VC a bdo:VerticalCoverage ; \n")
-				file.write("bdo:verticalFrom \""+request.form['vert_coverage_from']+"\"^^xsd:double ; \n")
-				file.write("bdo:verticalTo \""+request.form['vert_coverage_to']+"\"^^xsd:double . \n")
-				file.write("bdo:"+request.form['identifier']+"_GC a ignf:GeographicBoundingBox ; \n")
-				file.write("ignf:westBoundLongitude \""+request.form['geo_coverageW']+"\"^^xsd:double ; \n")
-				file.write("ignf:eastBoundLongitude \""+request.form['geo_coverageE']+"\"^^xsd:double ; \n")
-				file.write("ignf:southBoundLatitude \""+request.form['geo_coverageS']+"\"^^xsd:double ; \n")
-				file.write("ignf:northBoundLatitude \""+request.form['geo_coverageN']+"\"^^xsd:double . \n")
-				file.write("bdo:"+request.form["identifier"]+" a dcat:Dataset ; \n")
-				file.write("dct:identifier \""+request.form['identifier']+"\" ; \n")
-				file.write("dct:title \""+request.form['title']+"\" ; \n")
-				file.write("dct:description \""+request.form['description']+"\" ; \n")
-				file.write("dcat:subject <"+request.form['tokenfield_subject']+"> ; \n")
-				file.write("dcat:theme <"+request.form['tokenfield_keywords']+"> ; \n")
-				file.write("dct:Standard \""+request.form['standards']+"\" ; \n")
-				file.write("dct:format \""+request.form['tokenfield_format']+"\" ; \n")
-				file.write("dct:language \""+request.form['tokenfield_language']+"\" ; \n")
-				file.write("foaf:homepage \""+request.form['homepage']+"\" ; \n")
-				file.write("dct:publisher \""+request.form['publisher']+"\" ; \n")
-				file.write("dct:accessRights \""+request.form['access_rights']+"\" ; \n")
-				file.write("dct:issued \""+request.form['issued_date']+"\"^^xsd:dateTime ; \n")
-				file.write("dct:modified \""+request.form['modified_date']+"\"^^xsd:dateTime ; \n")
-				file.write("dct:spatial \""+request.form['tokenfield_geo_loc']+"\" ; \n")
-				file.write("bdo:GeographicalCoverage bdo:"+request.form['identifier']+"_GC; \n")
-				file.write("dct:conformsTo \""+request.form['coordinate_sys']+"\" ; \n")
-				file.write("bdo:verticalCoverage bdo:"+request.form['identifier']+"_VC ; \n")
-				file.write("bdo:verticalLevel \""+request.form['vertical_level']+"\"; \n")
-				file.write("bdo:timeCoverage bdo:"+request.form['identifier']+"_TC ; \n")
-				file.write("bdo:timeResolution \""+request.form['time_reso']+"\" ; \n")
-				# Adding variables to dataset
-				file.write("disco:variable ")
-				parservariables = request.form.getlist('parser_variable')
-				for i, parservariable in enumerate(parservariables):
-					if(i == len(parservariables)-2):
-						file.write("bdo:"+parservariable+" . \n")
-					elif (i < len(parservariables)-2):
-						file.write("bdo:"+parservariable+" , \n")
-				
-				# Creating each variable
-				jsonvariables = request.form.getlist('json_variable')
-				for i, jsonvariable in enumerate(jsonvariables):
-					if (i < len(parservariables)-1):
-						file.write("bdo:"+parservariables[i]+" a bdo:BDOVariable ; \n")
-						file.write("dct:identifier \""+parservariables[i]+"\" ; \n")
-						file.write("skos:prefLabel \""+jsonvariable+"\"@en ; \n")
-						# Searching for the URL of the jsonvariable
-						flag = False
-						for variableCF in variablesCF:
-						    if variableCF['text'] == jsonvariable:
-						        file.write("owl:sameAs <"+variableCF['value']+"> . \n")
-						        flag = True
-						        break
-						if (flag == False):
-							file.write("owl:sameAs <> . \n")
-				file.write("}")
-				file.close()
-			path2TTL = globalPath + "/Backend/AddDatasets/addNewDataset.ttl"
-			# Calls shell addDataset2bdo to connect to jena fuseki and add dataset via sparql query
-			command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/addCopernicus2bdo "%s" "%s"' %(uri, path2TTL)
-			try:
-				process = subprocess.check_output([command], shell="True")
-			except subprocess.CalledProcessError as e:
-				return render_template('500.html')
-			# when the dataset is added to jena fuseki, redirects to the metadataInfo web page corresponding to the identifier
-			if b'Successful' in process:
-				return redirect(url_for('metadataInfo',identifier=identifier))
-			else:
-				return render_template('500.html')
+			check_existance = "<http://bigdataocean.eu/bdo/"+identifier+"> \n"
+			datasetType = ""	
 		else:
 			identifier = str(uuid.uuid4())
-			uri = "<http://bigdataocean.eu/bdo/"+identifier+"> \n"
-			with open(globalPath+'/Backend/AddDatasets/addNewDataset.ttl','w') as file:
-				file.write("PREFIX dct: <http://purl.org/dc/terms/> \n")
-				file.write("PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> \n")
-				file.write("PREFIX owl: <http://www.w3.org/2002/07/owl#> \n")
-				file.write("PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \n")
-				file.write("PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> \n")
-				file.write("PREFIX foaf: <http://xmlns.com/foaf/0.1/> \n")
-				file.write("PREFIX disco: <http://rdf-vocabulary.ddialliance.org/discovery#> \n")
-				file.write("PREFIX dcat: <https://www.w3.org/TR/vocab-dcat/> \n")
-				file.write("PREFIX bdo: <http://bigdataocean.eu/bdo/> \n")
-				file.write("PREFIX ids: <http://industrialdataspace/information-model/> \n")
-				file.write("PREFIX qudt: <http://qudt.org/schema/qudt/> \n")
-				file.write("PREFIX unit: <http://qudt.org/vocab/unit/> \n")
-				file.write("PREFIX ignf: <http://data.ign.fr/def/ignf#> \n")
-				file.write("PREFIX skos: <http://www.w3.org/2004/02/skos/core#> \n")
-				file.write("\n")
-				file.write("INSERT DATA {\n")
-				file.write("bdo:VerticalCoverage a owl:Class. \n")
-				file.write("bdo:TimeCoverage a owl:Class. \n")
-				file.write("bdo:timeCoverage a owl:ObjectProperty. \n")
-				file.write("bdo:verticalLevel a owl:Datatypeproperty. \n")
-				file.write("bdo:timeResolution a owl:Datatypeproperty. \n")
-				file.write("bdo:verticalTo a owl:ObjectProperty . \n")
-				file.write("bdo:verticalFrom a owl:ObjectProperty . \n")
-				file.write("bdo:"+identifier+"_TC a bdo:TimeCoverage ; \n")
-				file.write("ids:beginning \""+request.form['temp_coverage_begin']+"\"^^xsd:dateTime ; \n")
-				file.write("ids:end \""+request.form['temp_coverage_end']+"\"^^xsd:dateTime. \n")
-				file.write("bdo:"+identifier+"_VC a bdo:VerticalCoverage ; \n")
-				file.write("bdo:verticalFrom \""+request.form['vert_coverage_from']+"\"^^xsd:double ; \n")
-				file.write("bdo:verticalTo \""+request.form['vert_coverage_to']+"\"^^xsd:double . \n")
-				file.write("bdo:"+identifier+"_GC a ignf:GeographicBoundingBox ; \n")
-				file.write("ignf:westBoundLongitude \""+request.form['geo_coverageW']+"\"^^xsd:double ; \n")
-				file.write("ignf:eastBoundLongitude \""+request.form['geo_coverageE']+"\"^^xsd:double ; \n")
-				file.write("ignf:southBoundLatitude \""+request.form['geo_coverageS']+"\"^^xsd:double ; \n")
-				file.write("ignf:northBoundLatitude \""+request.form['geo_coverageN']+"\"^^xsd:double . \n")
-				file.write("bdo:"+identifier+" a dcat:Dataset ; \n")
-				file.write("dct:identifier \""+identifier+"\" ; \n")
-				file.write("dct:title \""+request.form['title']+"\" ; \n")
-				file.write("dct:description \""+request.form['description']+"\" ; \n")
-				file.write("dcat:subject <"+request.form['tokenfield_subject']+"> ; \n")
-				file.write("dcat:theme <"+request.form['tokenfield_keywords']+"> ; \n")
-				file.write("dct:Standard \""+request.form['standards']+"\" ; \n")
-				file.write("dct:format \""+request.form['tokenfield_format']+"\" ; \n")
-				file.write("dct:language \""+request.form['tokenfield_language']+"\" ; \n")
-				file.write("foaf:homepage \""+request.form['homepage']+"\" ; \n")
-				file.write("dct:publisher \""+request.form['publisher']+"\" ; \n")
-				file.write("dct:accessRights \""+request.form['access_rights']+"\" ; \n")
-				file.write("dct:issued \""+request.form['issued_date']+"\"^^xsd:dateTime ; \n")
-				file.write("dct:modified \""+request.form['modified_date']+"\"^^xsd:dateTime ; \n")
-				file.write("dct:spatial \""+request.form['tokenfield_geo_loc']+"\" ; \n")
-				file.write("bdo:GeographicalCoverage bdo:"+identifier+"_GC; \n")
-				file.write("dct:conformsTo \""+request.form['coordinate_sys']+"\" ; \n")
-				file.write("bdo:verticalCoverage bdo:"+identifier+"_VC ; \n")
-				file.write("bdo:verticalLevel \""+request.form['vertical_level']+"\"; \n")
-				file.write("bdo:timeCoverage bdo:"+identifier+"_TC ; \n")
-				file.write("bdo:timeResolution \""+request.form['time_reso']+"\" ; \n")
-				# Adding variables to dataset
-				file.write("disco:variable ")
-				parservariables = request.form.getlist('parser_variable')
-				for i, parservariable in enumerate(parservariables):
-					if(i == len(parservariables)-2):
-						file.write("bdo:"+parservariable+" . \n")
-					elif (i < len(parservariables)-2):
-						file.write("bdo:"+parservariable+" , \n")
-				
-				# Creating each variable
-				jsonvariables = request.form.getlist('json_variable')
-				for i, jsonvariable in enumerate(jsonvariables):
-					if (i < len(parservariables)-1):
-						file.write("bdo:"+parservariables[i]+" a bdo:BDOVariable ; \n")
-						file.write("dct:identifier \""+parservariables[i]+"\" ; \n")
-						file.write("skos:prefLabel \""+jsonvariable+"\"@en ; \n")
-						# Searching for the URL of the jsonvariable
-						flag = False
-						for variableCF in variablesCF:
-						    if variableCF['text'] == jsonvariable:
-						        file.write("owl:sameAs <"+variableCF['value']+"> . \n")
-						        flag = True
-						        break
-						if (flag == False):
-							file.write("owl:sameAs <> . \n")
-				file.write("}")
-				file.close()
-			check_existance = request.form['title']+">"+request.form['publisher']+">"+request.form['issued_date']
-			path2TTL = globalPath + "/Backend/AddDatasets/addNewDataset.ttl"
-			# Calls shell addDataset2bdo to connect to jena fuseki and add dataset via sparql query
-			command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/addDataset2bdo "%s" "%s"' %(check_existance, path2TTL)
-			try:
-				process = subprocess.check_output([command], shell="True")
-			except subprocess.CalledProcessError as e:
-				return render_template('500.html')
-			# when the dataset is added to jena fuseki, redirects to the metadataInfo web page corresponding to the identifier
-			if b'Successful' in process:
-				return redirect(url_for('metadataInfo',identifier=identifier))
-			else:
-				return render_template('500.html')
+			check_existance = title+">"+publisher+">"+issuedDate
+			datasetType = "other"
+
+		# add the values to the datasetInfo class
+		dataset = datasetInfo (identifier, title, description, subject, keywords, standards, formats, language, homepage, publisher, 
+			accessRights, issuedDate, modifiedDate, geoLocation, spatialWest, spatialEast, spatialSouth, spatialNorth, 
+			coordinateSystem, verticalCoverageFrom, verticalCoverageTo,temporalCoverageBegin, temporalCoverageEnd, 
+			verticalLevel, timeResolution, variables)
+		# create the json of the datasetInfo class
+		datasetJson = json.dumps(dataset.__dict__)
+		print (datasetJson)
+			
+		# # Calls shell addDataset2bdo to connect to jena fuseki and add dataset via sparql query
+		# command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/addDataset2bdo "%s" "%s"' %(datasetType, check_existance, datasetJson)
+		# try:
+		# 	process = subprocess.check_output([command], shell="True")
+		# except subprocess.CalledProcessError as e:
+		# 	return render_template('500.html')
+		# # when the dataset is added to jena fuseki, redirects to the metadataInfo web page corresponding to the identifier
+		# if b'Successful' in process:
+		# 	return redirect(url_for('metadataInfo',identifier=identifier))
+		# else:
+		# 	return render_template('500.html')
 
 # Routing to modify a corresponding dataset
 @app.route('/modify/<identifier>', methods=['GET', 'POST'])
@@ -388,7 +264,7 @@ class datasetInfo(object):
 	def __init__(self, identifier, title, description, subject, keywords, standards, formats, language, homepage, publisher, 
 		accessRights, issuedDate, modifiedDate, geoLocation, spatialWest, spatialEast, spatialSouth, spatialNorth, 
 		coordinateSystem, verticalCoverageFrom, verticalCoverageTo,temporalCoverageBegin, temporalCoverageEnd, 
-		verticalLevel, timeResolution, variables#, variablesBDO
+		verticalLevel, timeResolution, variables
 		):
 		self.identifier = identifier
 		self.title = title
@@ -416,7 +292,6 @@ class datasetInfo(object):
 		self.temporalCoverageEnd = temporalCoverageEnd
 		self.timeResolution = timeResolution
 		self.variables = variables
-		# self.variablesBDO = variablesBDO
 
 if __name__ == '__main__':
 	app.run(debug=True)
