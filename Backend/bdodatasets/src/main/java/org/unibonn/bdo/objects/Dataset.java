@@ -1,6 +1,5 @@
 package org.unibonn.bdo.objects;
 
-import java.util.List;
 import java.util.Map;
 
 /**

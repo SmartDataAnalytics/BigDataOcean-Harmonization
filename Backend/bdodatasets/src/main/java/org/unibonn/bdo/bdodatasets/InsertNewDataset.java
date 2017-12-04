@@ -12,13 +12,15 @@ import org.json.simple.parser.ParseException;
 import org.unibonn.bdo.objects.Dataset;
 
 import com.google.gson.Gson;
+import com.google.gson.stream.JsonReader;
+
 
 /**
  *  
  * @author Jaime M Trillos
  * @author Ana C Trillos
  *
- * Receives 3 parameters, flag ("" if copernicus or netcdf, "other" if not copernicus or netcdf)
+ * Receives 3 parameters: flag ("" if copernicus or netcdf, "other" if not copernicus or netcdf)
  * parameter (it is the uri, or the combination of data to be queried)
  * jsonDataset (the Dataset object to be added in JSON format)
  *
@@ -30,10 +32,9 @@ public class InsertNewDataset {
 		String flag = args[0];
 		String parameter = args[1];
 		String jsonDataset = args[2];
-		//String flag = "";
-		//String parameter = "asd>sad>2017-12-31T12:59:59";
-		//String parameter = "<http://bigdataocean.eu/bdo/MEDSEA_ANALYSIS_FORECAST_WAV_006_011>";
-		//String jsonDataset = "{\"keywords\": \"http://www.eionet.europa.eu/concept/406, http://www.eionet.europa.eu/concept/4538\", \"timeResolution\": \"asd\", \"homepage\": \"\", \"language\": \"eng, abk\", \"spatialEast\": \"\", \"issuedDate\": \"2017-12-31T12:59:59\", \"geoLocation\": \"\", \"spatialWest\": \"\", \"publisher\": \"asd\", \"subject\": \"http://inspire.ec.europa.eu/metadata-codelist/TopicCategory/climatologyMeteorologyAtmosphere, http://inspire.ec.europa.eu/metadata-codelist/TopicCategory/geoscientificInformation\", \"accessRights\": \"\", \"description\": \"asfas\", \"spatialSouth\": \"\", \"coordinateSystem\": \"\", \"formats\": \"\", \"verticalCoverageTo\": \"\", \"verticalCoverageFrom\": \"\", \"spatialNorth\": \"\", \"temporalCoverageEnd\": \"\", \"verticalLevel\": \"\", \"temporalCoverageBegin\": \"\", \"title\": \"asf\", \"standards\": \"\", \"identifier\": \"51f31bd5-a7bf-45fb-bc50-d2eba2f8a65e\", \"variables\": [[\"ad\", \"air_pressure_at_sea_level\"], [\"FVBB\", \"air_pressure_at_sea_level_quality_flag\"]], \"modifiedDate\": \"2017-12-31T12:59:59\"}";
+//		String flag = "other";
+//		String parameter = "s>a>2017-12-31T12:59:59";
+//		String jsonDataset = Constants.configFilePath+"/Backend/AddDatasets/jsonDataset.json";
 		exec(flag, parameter, jsonDataset);
 	}
 
@@ -163,7 +164,7 @@ public class InsertNewDataset {
 		insertQuery += "}";
 		
 		//if the dataset to be added is copernicus or netcdf, queries by URI
-		if(flag != "other") {
+		if(flag.equals("")) {
 			String query = "ASK {"+parameter+" ?p ?o}";
 			
 			//Query Jena Fueski to see if the URI to be added already exists
@@ -177,7 +178,7 @@ public class InsertNewDataset {
 				System.out.print(String.format("Error!   URI already exists."));
 			}
 		//if not, queries by a selection of parameters: title, publisher and issued date
-		}else {
+		}else if(flag.equals("other")) {
 			String []param = parameter.split(">");
 
 			String query = "PREFIX dct: <http://purl.org/dc/terms/>\n" +
@@ -200,9 +201,12 @@ public class InsertNewDataset {
 		}
 	}
 
-	private static Dataset convertToObjectDataset(String jsonDataset) {
+	private static Dataset convertToObjectDataset(String jsonDataset) throws FileNotFoundException {
 		// Parse into JSON the Dataset instance with all metadata from a dataset
-		Dataset data = new Gson().fromJson(jsonDataset, Dataset.class);
+		System.out.println("java "+jsonDataset);
+		JsonReader reader = new JsonReader(new FileReader(jsonDataset));
+		
+		Dataset data = new Gson().fromJson(reader, Dataset.class);
 		return data;
 		
 	}

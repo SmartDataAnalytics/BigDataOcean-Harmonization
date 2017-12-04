@@ -8,8 +8,8 @@ from pprint import pprint
 from werkzeug.utils import secure_filename
 
 # GLOBAL VARIABLES
-globalPath = "/home/jaimetrillos/Dropbox/BDO/BigDataOcean-Harmonization"
-#globalPath = "/home/anatrillos/Dropbox/Documentos/BigDataOcean-Harmonization"
+#globalPath = "/home/jaimetrillos/Dropbox/BDO/BigDataOcean-Harmonization"
+globalPath = "/home/anatrillos/Dropbox/Documentos/BigDataOcean-Harmonization"
 
 UPLOAD_FOLDER = globalPath+'/Backend/AddDatasets'
 ALLOWED_EXTENSIONS = set(['nc'])
@@ -150,10 +150,15 @@ def save():
 			verticalLevel, timeResolution, variables)
 		# create the json of the datasetInfo class
 		datasetJson = json.dumps(dataset.__dict__)
-		print (datasetJson)
+		with open(globalPath+'/Backend/AddDatasets/jsonDataset.json','w') as file:
+			file.write(datasetJson)
+			file.close()
+		path2json = globalPath + "/Backend/AddDatasets/jsonDataset.json"
+
 			
-		# Calls shell addDataset2bdo to connect to jena fuseki and add dataset via sparql query
-		command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/insertDataset "%s" "%s"' %(datasetType, check_existance, datasetJson)
+		# Calls shell insertDataset to connect to jena fuseki and add dataset via sparql query
+		command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/insertDataset "%s" "%s" "%s"' %(datasetType, check_existance, path2json)
+		print(command)
 		try:
 			process = subprocess.check_output([command], shell="True")
 		except subprocess.CalledProcessError as e:
