@@ -152,17 +152,17 @@ def save():
 		datasetJson = json.dumps(dataset.__dict__)
 		print (datasetJson)
 			
-		# # Calls shell addDataset2bdo to connect to jena fuseki and add dataset via sparql query
-		# command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/addDataset2bdo "%s" "%s"' %(datasetType, check_existance, datasetJson)
-		# try:
-		# 	process = subprocess.check_output([command], shell="True")
-		# except subprocess.CalledProcessError as e:
-		# 	return render_template('500.html')
-		# # when the dataset is added to jena fuseki, redirects to the metadataInfo web page corresponding to the identifier
-		# if b'Successful' in process:
-		# 	return redirect(url_for('metadataInfo',identifier=identifier))
-		# else:
-		# 	return render_template('500.html')
+		# Calls shell addDataset2bdo to connect to jena fuseki and add dataset via sparql query
+		command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/insertDataset "%s" "%s"' %(datasetType, check_existance, datasetJson)
+		try:
+			process = subprocess.check_output([command], shell="True")
+		except subprocess.CalledProcessError as e:
+			return render_template('500.html')
+		# when the dataset is added to jena fuseki, redirects to the metadataInfo web page corresponding to the identifier
+		if b'Successful' in process:
+			return redirect(url_for('metadataInfo',identifier=identifier))
+		else:
+			return render_template('500.html')
 
 # Routing to modify a corresponding dataset
 @app.route('/modify/<identifier>', methods=['GET', 'POST'])
