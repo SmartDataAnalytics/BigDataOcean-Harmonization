@@ -1,5 +1,6 @@
 package org.unibonn.bdo.objects;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -42,15 +43,50 @@ public class Dataset {
 	private String variable;
 	
 	public Dataset(){
-		
 	}
-	
+
+	public Dataset(String identifier, String title, String description, String subject, String keywords,
+			String standards, String formats, String language, String homepage, String publisher, String accessRights,
+			String issuedDate, String modifiedDate, String geoLocation, String spatialWest, String spatialEast,
+			String spatialSouth, String spatialNorth, String coordinateSystem, String verticalCoverageFrom,
+			String verticalCoverageTo, String verticalLevel, String temporalCoverageBegin, String temporalCoverageEnd,
+			String timeResolution, String variable) {
+		super();
+		this.identifier = identifier;
+		this.title = title;
+		this.description = description;
+		this.subject = subject;
+		this.keywords = keywords;
+		this.standards = standards;
+		this.formats = formats;
+		this.language = language;
+		this.homepage = homepage;
+		this.publisher = publisher;
+		this.accessRights = accessRights;
+		this.issuedDate = issuedDate;
+		this.modifiedDate = modifiedDate;
+		this.geoLocation = geoLocation;
+		this.spatialWest = spatialWest;
+		this.spatialEast = spatialEast;
+		this.spatialSouth = spatialSouth;
+		this.spatialNorth = spatialNorth;
+		this.coordinateSystem = coordinateSystem;
+		this.verticalCoverageFrom = verticalCoverageFrom;
+		this.verticalCoverageTo = verticalCoverageTo;
+		this.verticalLevel = verticalLevel;
+		this.temporalCoverageBegin = temporalCoverageBegin;
+		this.temporalCoverageEnd = temporalCoverageEnd;
+		this.timeResolution = timeResolution;
+		this.variable = variable;
+	}
+
 	public Dataset(String identifier, String title, String description, String subject, String keywords,
 			String standards, String formats, String language, String homepage, String publisher, String accessRights,
 			String issuedDate, String modifiedDate, String geoLocation, String spatialWest, String spatialEast,
 			String spatialSouth, String spatialNorth, String coordinateSystem, String verticalCoverageFrom,
 			String verticalCoverageTo, String verticalLevel, String temporalCoverageBegin, String temporalCoverageEnd,
 			String timeResolution, Map<String, String> variables) {
+		super();
 		this.identifier = identifier;
 		this.title = title;
 		this.description = description;
@@ -78,53 +114,6 @@ public class Dataset {
 		this.timeResolution = timeResolution;
 		this.variables = variables;
 	}
-	//Constructor for Index.html
-	public Dataset(String title, String description) {
-		this.title = title;
-		this.description = description;
-	}
-	
-	public Dataset(String identifier, String title, String description, String subject, String keywords,
-			String standards, String formats, String language, String homepage, String publisher, String accessRights,
-			String issuedDate, String modifiedDate, String geoLocation, String spatialWest, String spatialEast,
-			String spatialSouth, String spatialNorth, String coordinateSystem, String verticalCoverageFrom,
-			String verticalCoverageTo, String verticalLevel, String temporalCoverageBegin, String temporalCoverageEnd,
-			String timeResolution, String variables) {
-		this.identifier = identifier;
-		this.title = title;
-		this.description = description;
-		this.subject = subject;
-		this.keywords = keywords;
-		this.standards = standards;
-		this.formats = formats;
-		this.language = language;
-		this.homepage = homepage;
-		this.publisher = publisher;
-		this.accessRights = accessRights;
-		this.issuedDate = issuedDate;
-		this.modifiedDate = modifiedDate;
-		this.geoLocation = geoLocation;
-		this.spatialWest = spatialWest;
-		this.spatialEast = spatialEast;
-		this.spatialSouth = spatialSouth;
-		this.spatialNorth = spatialNorth;
-		this.coordinateSystem = coordinateSystem;
-		this.verticalCoverageFrom = verticalCoverageFrom;
-		this.verticalCoverageTo = verticalCoverageTo;
-		this.verticalLevel = verticalLevel;
-		this.temporalCoverageBegin = temporalCoverageBegin;
-		this.temporalCoverageEnd = temporalCoverageEnd;
-		this.timeResolution = timeResolution;
-		this.variable = variables;
-	}
-	
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
 
 	public String getIdentifier() {
 		return identifier;
@@ -132,6 +121,14 @@ public class Dataset {
 
 	public void setIdentifier(String identifier) {
 		this.identifier = identifier;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	public String getDescription() {
@@ -166,11 +163,11 @@ public class Dataset {
 		this.standards = standards;
 	}
 
-	public String getFormat() {
+	public String getFormats() {
 		return formats;
 	}
 
-	public void setFormat(String formats) {
+	public void setFormats(String formats) {
 		this.formats = formats;
 	}
 
@@ -302,20 +299,20 @@ public class Dataset {
 		this.temporalCoverageBegin = temporalCoverageBegin;
 	}
 
-	public String getTimeResolution() {
-		return timeResolution;
-	}
-
-	public void setTimeResolution(String timeResolution) {
-		this.timeResolution = timeResolution;
-	}
-
 	public String getTemporalCoverageEnd() {
 		return temporalCoverageEnd;
 	}
 
 	public void setTemporalCoverageEnd(String temporalCoverageEnd) {
 		this.temporalCoverageEnd = temporalCoverageEnd;
+	}
+
+	public String getTimeResolution() {
+		return timeResolution;
+	}
+
+	public void setTimeResolution(String timeResolution) {
+		this.timeResolution = timeResolution;
 	}
 
 	public Map<String, String> getVariables() {
@@ -332,8 +329,8 @@ public class Dataset {
 
 	public void setVariable(String variable) {
 		this.variable = variable;
-	}
-
+	}	
 	
 	
 }
+

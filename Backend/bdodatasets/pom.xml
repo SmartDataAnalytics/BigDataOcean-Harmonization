@@ -173,15 +173,8 @@
               </jvmSettings>
             </program>
             <program>
-              <mainClass>org.unibonn.bdo.bdodatasets.AddDataset2BDO</mainClass>
-              <name>addDataset2bdo</name>
-              <jvmSettings>
-                <maxMemorySize>512m</maxMemorySize>
-              </jvmSettings>
-            </program>
-            <program>
-              <mainClass>org.unibonn.bdo.bdodatasets.AddCopernicus2BDO</mainClass>
-              <name>addCopernicus2bdo</name>
+              <mainClass>org.unibonn.bdo.bdodatasets.InsertNewDataset</mainClass>
+              <name>insertDataset</name>
               <jvmSettings>
                 <maxMemorySize>512m</maxMemorySize>
               </jvmSettings>

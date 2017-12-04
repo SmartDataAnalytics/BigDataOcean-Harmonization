@@ -261,7 +261,7 @@ public class BdoDatasetAnalyser {
 			result.setDescription(description);
 			result.setKeywords(keywords);
 			result.setStandards(standards);
-			result.setFormat(format);
+			result.setFormats(format);
 			result.setHomepage(homepage);
 			result.setPublisher(publisher);
 			result.setIssuedDate(issued);

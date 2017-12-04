@@ -98,7 +98,7 @@ public class GetMetadata {
 			node = solution.get("standard");
 			dataset.setStandards(node.toString());
 			node = solution.get("format");
-			dataset.setFormat(node.toString());
+			dataset.setFormats(node.toString());
 			node = solution.get("lang");
 			dataset.setLanguage(node.toString());
 			node = solution.get("homep");
