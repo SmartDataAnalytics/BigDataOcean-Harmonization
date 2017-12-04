@@ -79,17 +79,31 @@
               <td>
                 <label class="label-tableInfo" for="subject">Subject:</label>
               </td>
-              <td colspan="8">                            
-                {{ dataset.subject }}
+              {% set subjects = dataset.subject.split(",") %}
+              {% for subject in subjects: %}
+              <td class="col-md-6">
+                <div class="AgentThumb">
+                  <div class="agentThumbInnerBodySubject">
+                    <div class="agentThumbName">{{subject}}</div>
+                  </div>
+                </div>
               </td>
+              {% endfor %}
             </tr>
             <tr>
               <td>
                 <label class="label-tableInfo" for="keywords">Keywords:</label>
               </td>
-              <td colspan="8">                            
-                {{ dataset.keywords }}
+              {% set keywords = dataset.keywords.split(",") %}
+              {% for keyword in keywords: %}
+              <td class="col-md-6">
+                <div class="AgentThumb">
+                  <div class="agentThumbInnerBodyKeyword">
+                    <div class="agentThumbName">{{keyword}}</div>
+                  </div>
+                </div>
               </td>
+              {% endfor %}
             </tr>
             <tr>
               <td>
@@ -111,9 +125,16 @@
               <td>
                 <label class="label-tableInfo" for="language">Language:</label>
               </td>
-              <td colspan="8">
-                {{ dataset.language }}
+              {% set languages = dataset.language.split(",") %}
+              {% for language in languages: %}
+              <td class="col-md-6">
+                <div class="AgentThumb">
+                  <div class="agentThumbInnerBodylanguage">
+                    <div class="agentThumbName">{{language}}</div>
+                  </div>
+                </div>
               </td>
+              {% endfor %}
             </tr>
             <tr>
               <td>

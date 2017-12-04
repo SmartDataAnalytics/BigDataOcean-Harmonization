@@ -104,20 +104,11 @@ def save():
 		identifier = request.form['identifier']
 		title = request.form['title']
 		description = request.form['description']
-		# string of subjects divided by ,
-		subjects = request.form['tokenfield_subject']
-		# create list of subjects
-		subject = subjects.split(",")
-		# string of keywords divided by ,
-		keyword= request.form['tokenfield_keywords']
-		# create list of keywords
-		keywords = keyword.split(",")
+		subject = request.form['tokenfield_subject']
+		keywords= request.form['tokenfield_keywords']
 		standards = request.form['standards']
 		formats = request.form['tokenfield_format']
-		# string of languages divided by ,
-		languages = request.form['tokenfield_language']
-		# create list of language
-		language = languages.split(",")
+		language = request.form['tokenfield_language']
 		homepage = request.form['homepage']
 		publisher = request.form['publisher']
 		accessRights = request.form['access_rights']
