@@ -1,10 +1,15 @@
 package org.unibonn.bdo.bdodatasets;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.hp.hpl.jena.query.QuerySolution;
 import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.rdf.model.RDFNode;
 
 public class DeleteDataset {
+	
+	private final static Logger log = LoggerFactory.getLogger(DeleteDataset.class);
 	
 	public static void main(String[] args) {
 		//String identifier = args[0];
@@ -58,9 +63,9 @@ public class DeleteDataset {
 		
 		System.out.println(query);
 		
-		
 		QueryExecutor.deleteQuery(query);
 		System.out.print("Successful");
+		//log.info("Deleting variable successfully: " + query);
 	}
 
 }

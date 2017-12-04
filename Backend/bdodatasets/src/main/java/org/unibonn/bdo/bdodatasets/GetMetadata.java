@@ -5,6 +5,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.unibonn.bdo.objects.Dataset;
 
 import com.google.gson.Gson;
@@ -22,6 +24,8 @@ import com.hp.hpl.jena.rdf.model.RDFNode;
  */
 
 public class GetMetadata {
+	
+	private final static Logger log = LoggerFactory.getLogger(GetMetadata.class);
 
 
 	public static void main(String[] args) {
@@ -171,6 +175,7 @@ public class GetMetadata {
 			// Parse into JSON the Dataset instance with all metadata from a dataset
 			Gson gson  = new Gson();
 			System.out.println(gson.toJson(dataset));
+			//log.info("Dataset's metadata: " + gson.toJson(dataset));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

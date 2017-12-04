@@ -2,6 +2,8 @@ package org.unibonn.bdo.bdodatasets;
 
 import java.io.IOException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.unibonn.bdo.objects.Dataset;
 
 import com.google.gson.Gson;
@@ -16,7 +18,9 @@ import com.google.gson.Gson;
  */
 
 public class SuggestNetcdf {
-
+	
+	private final static Logger log = LoggerFactory.getLogger(SuggestNetcdf.class);
+	
 	public static void main(String[] args) throws IOException {
 		//System.out.println( args[0] );   
 		String file = args[0];
@@ -29,6 +33,7 @@ public class SuggestNetcdf {
 			Dataset result = BdoDatasetAnalyser.analyseDatasetNetcdf(Dataseturi);
 			Gson gson  =new Gson();
 			System.out.println(gson.toJson(result));
+			//log.info("Suggest of netcdf: "+gson.toJson(result));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

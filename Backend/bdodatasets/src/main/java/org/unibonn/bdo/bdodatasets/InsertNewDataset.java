@@ -9,6 +9,8 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.unibonn.bdo.objects.Dataset;
 
 import com.google.gson.Gson;
@@ -27,6 +29,8 @@ import com.google.gson.stream.JsonReader;
  */
 
 public class InsertNewDataset {
+	
+	private final static Logger log = LoggerFactory.getLogger(InsertNewDataset.class);
 	
 	public static void main(String[] args) throws FileNotFoundException, IOException, ParseException {
 		String flag = args[0];
@@ -174,8 +178,10 @@ public class InsertNewDataset {
 				//Add the dataset to Jena Fueski
 				QueryExecutor.insertQuery(insertQuery);
 				System.out.print("Successful");
+				//log.info("Inserting dataset successfully");
 			}else{
 				System.out.print(String.format("Error!   URI already exists."));
+				//log.error("Error!   URI already exists.");
 			}
 		//if not, queries by a selection of parameters: title, publisher and issued date
 		}else if(flag.equals("other")) {
@@ -195,8 +201,10 @@ public class InsertNewDataset {
 				//Add the dataset to Jena Fueski
 				QueryExecutor.insertQuery(insertQuery);
 				System.out.print("Successful");
+				//log.info("Datasets was inserted successfully");
 			}else{
 				System.out.print(String.format("Error!   URI already exists."));
+				//log.error("Error!   URI already exists.");
 			}
 		}
 	}
