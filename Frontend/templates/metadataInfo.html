@@ -50,132 +50,136 @@
         </div> 
         <div class="col-md-10 metadata-info">
           <table class="tableMetadataInfo">
-
-            <tr style='display: none;'>
-              <td>
-                <label class="label-tableInfo" for="identifier">Identifier:</label>
-              </td>
-              <td colspan="8">
-                <input type="text" class="form-control" id="identifier" name="identifier" value="{{dataset.identifier}}">
-              </td>
-            </tr>
-            <tr style='display: none;'>
-              <td>
-                <label class="label-tableInfo" for="title">Title:</label>
-              </td>
-              <td colspan="8">
-                {{ dataset.title }}
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label class="label-tableInfo" for="description">Description:</label>
-              </td>
-              <td colspan="8">
-                {{ dataset.description }}
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label class="label-tableInfo" for="subject">Subject:</label>
-              </td>
-              {% set subjects = dataset.subject.split(",") %}
-              {% for subject in subjects: %}
-              <td class="col-md-6">
-                <div class="AgentThumb">
-                  <div class="agentThumbInnerBodySubject">
-                    <div class="agentThumbName">{{subject}}</div>
+            <thead>
+              <th class="labels-table"></th>
+              <th class="info-table"></th>
+            </thead>
+            <tbody>
+              <tr style='display: none;'>
+                <td>
+                  <label class="label-tableInfo" for="identifier">Identifier:</label>
+                </td>
+                <td colspan="8">
+                  <input type="text" class="form-control" id="identifier" name="identifier" value="{{dataset.identifier}}">
+                </td>
+              </tr>
+              <tr style='display: none;'>
+                <td>
+                  <label class="label-tableInfo" for="title">Title:</label>
+                </td>
+                <td colspan="8">
+                  {{ dataset.title }}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label class="label-tableInfo" for="description">Description:</label>
+                </td>
+                <td colspan="8">
+                  {{ dataset.description }}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label class="label-tableInfo" for="subject">Subject:</label>
+                </td>
+                {% set subjects = dataset.subject.split(",") %}
+                {% for subject in subjects: %}
+                <td class="col-md-6">
+                  <div class="AgentThumb">
+                    <div class="agentThumbInnerBodySubject">
+                      <div class="agentThumbName">{{subject}}</div>
+                    </div>
                   </div>
-                </div>
-              </td>
-              {% endfor %}
-            </tr>
-            <tr>
-              <td>
-                <label class="label-tableInfo" for="keywords">Keywords:</label>
-              </td>
-              {% set keywords = dataset.keywords.split(",") %}
-              {% for keyword in keywords: %}
-              <td class="col-md-6">
-                <div class="AgentThumb">
-                  <div class="agentThumbInnerBodyKeyword">
-                    <div class="agentThumbName">{{keyword}}</div>
+                </td>
+                {% endfor %}
+              </tr>
+              <tr>
+                <td>
+                  <label class="label-tableInfo" for="keywords">Keywords:</label>
+                </td>
+                {% set keywords = dataset.keywords.split(",") %}
+                {% for keyword in keywords: %}
+                <td class="col-md-6">
+                  <div class="AgentThumb">
+                    <div class="agentThumbInnerBodyKeyword">
+                      <div class="agentThumbName">{{keyword}}</div>
+                    </div>
                   </div>
-                </div>
-              </td>
-              {% endfor %}
-            </tr>
-            <tr>
-              <td>
-                <label class="label-tableInfo" for="standards">Standards:</label>
-              </td>
-              <td colspan="8">                            
-                {{ dataset.standards }}
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label class="label-tableInfo" for="data_format">Data Format:</label>
-              </td>
-              <td colspan="8">                            
-                {{ dataset.format }}
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label class="label-tableInfo" for="language">Language:</label>
-              </td>
-              {% set languages = dataset.language.split(",") %}
-              {% for language in languages: %}
-              <td class="col-md-6">
-                <div class="AgentThumb">
-                  <div class="agentThumbInnerBodylanguage">
-                    <div class="agentThumbName">{{language}}</div>
+                </td>
+                {% endfor %}
+              </tr>
+              <tr>
+                <td>
+                  <label class="label-tableInfo" for="standards">Standards:</label>
+                </td>
+                <td colspan="8">                            
+                  {{ dataset.standards }}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label class="label-tableInfo" for="data_format">Data Format:</label>
+                </td>
+                <td colspan="8">                            
+                  {{ dataset.format }}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label class="label-tableInfo" for="language">Language:</label>
+                </td>
+                {% set languages = dataset.language.split(",") %}
+                {% for language in languages: %}
+                <td class="col-md-6">
+                  <div class="AgentThumb">
+                    <div class="agentThumbInnerBodylanguage">
+                      <div class="agentThumbName">{{language}}</div>
+                    </div>
                   </div>
-                </div>
-              </td>
-              {% endfor %}
-            </tr>
-            <tr>
-              <td>
-                <label class="label-tableInfo" for="homepage">Homepage:</label>
-              </td>
-              <td colspan="8">
-                {{ dataset.homepage }}
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label class="label-tableInfo" for="publisher">Publisher:</label>
-              </td>
-              <td colspan="8">
-                {{ dataset.publisher }}
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label class="label-tableInfo" for="access_rights">Access rights:</label>
-              </td>
-              <td colspan="8">
-                {{ dataset.access_rights }}
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label class="label-tableInfo" for="issued_date">Issued date:</label>
-              </td>
-              <td colspan="8">
-                {{ dataset.issuedDate }}
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label class="label-tableInfo" for="modified_date">Modified date:</label>
-              </td>
-              <td colspan="8">
-                {{ dataset.modifiedDate }}
-              </td>
-            </tr>
+                </td>
+                {% endfor %}
+              </tr>
+              <tr>
+                <td>
+                  <label class="label-tableInfo" for="homepage">Homepage:</label>
+                </td>
+                <td colspan="8">
+                  <a href="{{ dataset.homepage }}" target="_blank">{{ dataset.homepage }}</a>                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label class="label-tableInfo" for="publisher">Publisher:</label>
+                </td>
+                <td colspan="8">
+                  {{ dataset.publisher }}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label class="label-tableInfo" for="access_rights">Access rights:</label>
+                </td>
+                <td colspan="8">
+                  {{ dataset.access_rights }}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label class="label-tableInfo" for="issued_date">Issued date:</label>
+                </td>
+                <td colspan="8">
+                  {{ dataset.issuedDate }}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label class="label-tableInfo" for="modified_date">Modified date:</label>
+                </td>
+                <td colspan="8">
+                  {{ dataset.modifiedDate }}
+                </td>
+              </tr>
+            </tbody>
           </table>
         </div>
         <div class="col-md-1">
@@ -186,104 +190,110 @@
         </div>
         <div class="col-md-10 metadata-spatial">
           <table class="tableMetadataInfo">
-            <tr>
-              <td>
-                <label class="label-tableInfo" for="geoLocation">Geographic Location:</label>
-              </td>
-              <td colspan="8">
-                {{ dataset.geo_location }}
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label class="label-tableInfo">Geographical Coverage:</label>
-              </td>
-              <td class="col-xs">
-                <label class="label-table-coordinatesInfo" for="geo_coverageW">W:</label>
-              </td>
-              <td class="col-xs">
-                {{ dataset.spatialWest }}
-              </td>
-              <td class="col-xs">
-                <label class="label-table-coordinatesInfo" for="geo_coverageE">E:</label>
-              </td>
-              <td class="col-xs">
-                {{ dataset.spatialEast }}
-              </td>
-              <td class="col-xs">
-                <label class="label-table-coordinatesInfo" for="geo_coverageS">S:</label>
-              </td>
-              <td class="col-xs">
-                {{ dataset.spatialSouth }}
-              </td>
-              <td class="col-xs">
-                <label class="label-table-coordinatesInfo" for="geo_coverageN">N:</label>
-              </td>
-              <td class="col-xs">
-                {{ dataset.spatialNorth }}
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label class="label-tableInfo" for="coordinate_sys">Coordinate reference system:</label>
-              </td>
-              <td colspan="8">
-                {{ dataset.coordinateSystem }}
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label class="label-tableInfo">Vertical Coverage:</label>
-              </td>
-              <td colspan="1">
-                <center>
-                  <label class="label-tableInfo" for="vert_coverage_from">from</label>
-                </center>
-              </td>
-              <td colspan="3">
-                {{ dataset.verticalCoverageFrom }}
-              </td>
-              <td colspan="1">
-                <center>
-                  <label class="label-tableInfo" for="vert_coverage_to">to</label>
-                </center>
-              </td>
-              <td colspan="3">
-                {{ dataset.verticalCoverageTo }}
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label class="label-tableInfo" for="vertical_level">Vertical Level:</label>
-              </td>
-              <td colspan="8">
-                {{ dataset.verticalLevel }}
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label class="label-tableInfo" for="temp_coverage_begin">Temporal Coverage:</label>
-              </td>
-              <td colspan="3">
-                {{ dataset.temporalCoverageBegin }}
-              </td>
-              <td colspan="2">
-                <center>
-                  <label class="label-tableInfo" for="temp_coverage_end">to</label>
-                </center>
-              </td>
-              <td colspan="3">
-                {{ dataset.temporalCoverageEnd }}
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label class="label-tableInfo" for="time_resolution">Time Resolution:</label>
-              </td>
-              <td colspan="8">
-                {{ dataset.timeResolution }}
-              </td>
-            </tr>
+            <thead>
+              <th class="labels-table"></th>
+              <th colspan="8" class="info-table"></th>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <label class="label-tableInfo" for="geoLocation">Geographic Location:</label>
+                </td>
+                <td colspan="8">
+                  {{ dataset.geo_location }}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label class="label-tableInfo">Geographical Coverage:</label>
+                </td>
+                <td class="col-xs">
+                  <label class="label-table-coordinatesInfo" for="geo_coverageW">W:</label>
+                </td>
+                <td class="col-xs">
+                  {{ dataset.spatialWest }}
+                </td>
+                <td class="col-xs">
+                  <label class="label-table-coordinatesInfo" for="geo_coverageE">E:</label>
+                </td>
+                <td class="col-xs">
+                  {{ dataset.spatialEast }}
+                </td>
+                <td class="col-xs">
+                  <label class="label-table-coordinatesInfo" for="geo_coverageS">S:</label>
+                </td>
+                <td class="col-xs">
+                  {{ dataset.spatialSouth }}
+                </td>
+                <td class="col-xs">
+                  <label class="label-table-coordinatesInfo" for="geo_coverageN">N:</label>
+                </td>
+                <td class="col-xs">
+                  {{ dataset.spatialNorth }}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label class="label-tableInfo" for="coordinate_sys">Coordinate reference system:</label>
+                </td>
+                <td colspan="8">
+                  {{ dataset.coordinateSystem }}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label class="label-tableInfo">Vertical Coverage:</label>
+                </td>
+                <td colspan="1">
+                  <center>
+                    <label class="label-tableInfo" for="vert_coverage_from">from</label>
+                  </center>
+                </td>
+                <td colspan="3">
+                  {{ dataset.verticalCoverageFrom }}
+                </td>
+                <td colspan="1">
+                  <center>
+                    <label class="label-tableInfo" for="vert_coverage_to">to</label>
+                  </center>
+                </td>
+                <td colspan="3">
+                  {{ dataset.verticalCoverageTo }}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label class="label-tableInfo" for="vertical_level">Vertical Level:</label>
+                </td>
+                <td colspan="8">
+                  {{ dataset.verticalLevel }}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label class="label-tableInfo" for="temp_coverage_begin">Temporal Coverage:</label>
+                </td>
+                <td colspan="3">
+                  {{ dataset.temporalCoverageBegin }}
+                </td>
+                <td colspan="2">
+                  <center>
+                    <label class="label-tableInfo" for="temp_coverage_end">to</label>
+                  </center>
+                </td>
+                <td colspan="3">
+                  {{ dataset.temporalCoverageEnd }}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label class="label-tableInfo" for="time_resolution">Time Resolution:</label>
+                </td>
+                <td colspan="8">
+                  {{ dataset.timeResolution }}
+                </td>
+              </tr>
+            </tbody>
           </table>
         </div>
         <div class="col-md-1">

@@ -33,6 +33,7 @@ body {
 .label-table {
     color: #ffffff;
     font-size: 16px;
+    height: 0px;
 }
 
 .label-table-mandatory {
@@ -45,7 +46,10 @@ body {
 }
 
 .label-table-coordinates {
+    font-size: 16px;
     color: #ffffff;
+    height: 0px;
+    padding-left: 10px;
 }
 
 .label-table-coordinatesInfo {
@@ -58,7 +62,7 @@ body {
     border-radius: 3px;
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
-    width: 90%;
+    width: 100%;
 }
 
 .tableMetadataInfo {
@@ -70,6 +74,14 @@ body {
     background-color: #F6F6F6;
     padding: .4em;
     width: 100%;
+}
+
+.labels-table {
+    width: 30%;
+}
+
+.info-table {
+    width: 70%;
 }
 
 .tableMetadata td{

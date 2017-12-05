@@ -43,118 +43,124 @@
             <strong>* This fields are required!</strong> 
           </div>
           <table class="tableMetadata">
-            <tr style='display: none;'>
-              <td>
-                <label class="label-table" for="identifier">Identifier:</label>
-              </td>
-              <td colspan="8">
-                <input type="text" class="form-control" id="identifier" name="identifier" value="{{dataset.identifier}}">
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label class="label-table-mandatory">* </label>
-                <label class="label-table" for="title">Title:</label>
-              </td>
-              <td colspan="8">
-                <input type="text" class="form-control" id="title" name="title" required value="{{ dataset.title }}">
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label class="label-table-mandatory">* </label>
-                <label class="label-table" for="description">Description:</label>
-              </td>
-              <td colspan="8">
-                <textarea class="form-control" rows="2" id="description" name="description" required>{{dataset.description}}</textarea>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label class="label-table-mandatory">* </label>
-                <label class="label-table" for="subject">Subject:</label>
-              </td>
-              <td colspan="8">                            
-                <input type="text" class="form-control" id="tokenfield_subject" name="tokenfield_subject" required value="{{ dataset.subject }}">
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label class="label-table-mandatory">* </label>
-                <label class="label-table" for="keywords">Keywords:</label>
-              </td>
-              <td colspan="8">                            
-                <input type="text" class="form-control" id="tokenfield_keywords" name="tokenfield_keywords" required value="{{ dataset.keywords }}">
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label class="label-table" for="standards">Standards:</label>
-              </td>
-              <td colspan="8">                            
-                <input type="text" class="form-control" id="standards" name="standards" value="{{ dataset.standards }}">
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label class="label-table " for="data_format">Data Format:</label>
-              </td>
-              <td colspan="8">                            
-                <input type="text" class="form-control" id="tokenfield_format" name="tokenfield_format" value="{{ dataset.formats }}">
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label class="label-table-mandatory">* </label>
-                <label class="label-table" for="language">Language:</label>
-              </td>
-              <td colspan="8">
-                <input type="text" class="form-control" id="tokenfield_language" name="tokenfield_language" required value="{{dataset.language}}">
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label class="label-table" for="homepage">Homepage:</label>
-              </td>
-              <td colspan="8">
-                <input type="url" class="form-control" id="homepage" name="homepage" value="{{dataset.homepage}}">
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label class="label-table-mandatory">* </label>
-                <label class="label-table" for="publisher">Publisher:</label>
-              </td>
-              <td colspan="8">
-                <input type="text" class="form-control" id="publisher" name="publisher" required value="{{dataset.publisher}}">
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label class="label-table " for="access_rights">Access rights:</label>
-              </td>
-              <td colspan="8">
-                <input type="text" class="form-control" id="access_rights" name="access_rights" value="{{ dataset.access_rights }}">
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label class="label-table-mandatory">* </label>
-                <label class="label-table " for="issued_date">Issued date:</label>
-              </td>
-              <td colspan="8">
-                <input type="datetime-local" step="1" class="form-control" id="issued_date" name="issued_date" required value="{{ dataset.issuedDate }}">
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label class="label-table-mandatory">* </label>
-                <label class="label-table " for="modified_date">Modified date:</label>
-              </td>
-              <td colspan="8">
-                <input type="datetime-local" step="1" class="form-control" id="modified_date" name="modified_date" required value="{{ dataset.modifiedDate }}">
-              </td>
-            </tr>
+             <thead>
+              <th class="labels-table"></th>
+              <th class="info-table"></th>
+            </thead>
+            <tbody>
+              <tr style='display: none;'>
+                <td>
+                  <label class="label-table" for="identifier">Identifier:</label>
+                </td>
+                <td colspan="8">
+                  <input type="text" class="form-control" id="identifier" name="identifier" value="{{dataset.identifier}}">
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label class="label-table-mandatory">* </label>
+                  <label class="label-table" for="title">Title:</label>
+                </td>
+                <td colspan="8">
+                  <input type="text" class="form-control" id="title" name="title" required value="{{ dataset.title }}">
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label class="label-table-mandatory">* </label>
+                  <label class="label-table" for="description">Description:</label>
+                </td>
+                <td colspan="8">
+                  <textarea class="form-control" rows="2" id="description" name="description" required>{{dataset.description}}</textarea>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label class="label-table-mandatory">* </label>
+                  <label class="label-table" for="subject">Subject:</label>
+                </td>
+                <td colspan="8">                            
+                  <input type="text" class="form-control" id="tokenfield_subject" name="tokenfield_subject" required value="{{ dataset.subject }}">
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label class="label-table-mandatory">* </label>
+                  <label class="label-table" for="keywords">Keywords:</label>
+                </td>
+                <td colspan="8">                            
+                  <input type="text" class="form-control" id="tokenfield_keywords" name="tokenfield_keywords" required value="{{ dataset.keywords }}">
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label class="label-table" for="standards">Standards:</label>
+                </td>
+                <td colspan="8">                            
+                  <input type="text" class="form-control" id="standards" name="standards" value="{{ dataset.standards }}">
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label class="label-table " for="data_format">Data Format:</label>
+                </td>
+                <td colspan="8">                            
+                  <input type="text" class="form-control" id="tokenfield_format" name="tokenfield_format" value="{{ dataset.formats }}">
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label class="label-table-mandatory">* </label>
+                  <label class="label-table" for="language">Language:</label>
+                </td>
+                <td colspan="8">
+                  <input type="text" class="form-control" id="tokenfield_language" name="tokenfield_language" required value="{{dataset.language}}">
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label class="label-table" for="homepage">Homepage:</label>
+                </td>
+                <td colspan="8">
+                  <input type="url" class="form-control" id="homepage" name="homepage" value="{{dataset.homepage}}">
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label class="label-table-mandatory">* </label>
+                  <label class="label-table" for="publisher">Publisher:</label>
+                </td>
+                <td colspan="8">
+                  <input type="text" class="form-control" id="publisher" name="publisher" required value="{{dataset.publisher}}">
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label class="label-table " for="access_rights">Access rights:</label>
+                </td>
+                <td colspan="8">
+                  <input type="text" class="form-control" id="access_rights" name="access_rights" value="{{ dataset.access_rights }}">
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label class="label-table-mandatory">* </label>
+                  <label class="label-table " for="issued_date">Issued date:</label>
+                </td>
+                <td colspan="8">
+                  <input type="datetime-local" step="1" class="form-control" id="issued_date" name="issued_date" required value="{{ dataset.issuedDate }}">
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label class="label-table-mandatory">* </label>
+                  <label class="label-table " for="modified_date">Modified date:</label>
+                </td>
+                <td colspan="8">
+                  <input type="datetime-local" step="1" class="form-control" id="modified_date" name="modified_date" required value="{{ dataset.modifiedDate }}">
+                </td>
+              </tr>
+            </tbody>
           </table>
         </div>
         <div class="col-md-1">
@@ -165,105 +171,111 @@
         </div>
         <div class="col-md-10 metadata-spatial">
           <table class="tableMetadata">
-            <tr>
-              <td>
-                <label class="label-table" for="geoLocation">Geographic Location:</label>
-              </td>
-              <td colspan="8">
-                <input type="text" class="form-control" id="tokenfield_geo_loc" name="tokenfield_geo_loc" value="{{dataset.geo_location}}">
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label class="label-table">Geographical Coverage:</label>
-              </td>
-              <td class="col-xs">
-                <label class="label-table-coordinates" for="geo_coverageW">W:</label>
-              </td>
-              <td class="col-xs">
-                <input type="number" class="form-control-input" id="geo_coverageW" name="geo_coverageW" value="{{dataset.spatialWest}}">
-              </td>
-              <td class="col-xs">
-                <label class="label-table-coordinates" for="geo_coverageE">E:</label>
-              </td>
-              <td class="col-xs">
-                <input type="number" class="form-control-input" id="geo_coverageE" name="geo_coverageE" value="{{dataset.spatialEast}}">
-              </td>
-              <td class="col-xs">
-                <label class="label-table-coordinates" for="geo_coverageS">S:</label>
-              </td>
-              <td class="col-xs">
-                <input type="number" class="form-control-input" id="geo_coverageS" name="geo_coverageS" value="{{dataset.spatialSouth}}">
-              </td>
-              <td class="col-xs">
-                <label class="label-table-coordinates" for="geo_coverageN">N:</label>
-              </td>
-              <td class="col-xs">
-                <input type="number" class="form-control-input" id="geo_coverageN" name="geo_coverageN" value="{{dataset.spatialNorth}}">
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label class="label-table " for="coordinate_sys">Coordinate reference system:</label>
-              </td>
-              <td colspan="8">
-                <input type="text" class="form-control" id="coordinate_sys" name="coordinate_sys" value="{{dataset.coordinateSystem}}">
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label class="label-table">Vertical Coverage:</label>
-              </td>
-              <td colspan="1">
-                <center>
-                  <label class="label-table" for="vert_coverage_from">from</label>
-                </center>
-              </td>
-              <td colspan="3">
-                <input type="number" step="1" class="form-control" id="vert_coverage_from" name="vert_coverage_from" value="{{dataset.verticalCoverageFrom}}">
-              </td>
-              <td colspan="1">
-                <center>
-                  <label class="label-table" for="vert_coverage_to">to</label>
-                </center>
-              </td>
-              <td colspan="3">
-                <input type="number" step="1" class="form-control" id="vert_coverage_to" name="vert_coverage_to" value="{{dataset.verticalCoverageTo}}">
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label class="label-table" for="vertical_level">Vertical Level:</label>
-              </td>
-              <td colspan="8">
-                <input type="number" class="form-control" id="vertical_level" name="vertical_level" value="{{dataset.verticalLevel}}">
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label class="label-table " for="temp_coverage_begin">Temporal Coverage:</label>
-              </td>
-              <td colspan="3">
-                <input type="datetime-local" step="1" class="form-control" id="temp_coverage_begin" name="temp_coverage_begin" value="{{dataset.temporalCoverageBegin}}">
-              </td>
-              <td colspan="2">
-                <center>
-                  <label class="label-table" for="temp_coverage_end">to</label>
-                </center>
-              </td>
-              <td colspan="3">
-                <input type="datetime-local" step="1" class="form-control" id="temp_coverage_end" name="temp_coverage_end" value="{{dataset.temporalCoverageEnd}}">
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label class="label-table-mandatory">* </label>
-                <label class="label-table " for="time_resolution">Time Resolution:</label>
-              </td>
-              <td colspan="8">
-                <input type="text" class="form-control" id="time_reso" name="time_reso" required value="{{dataset.timeResolution}}">
-              </td>
-            </tr>
+             <thead>
+              <th class="labels-table"></th>
+              <th colspan="8" class="info-table"></th>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <label class="label-table" for="geoLocation">Geographic Location:</label>
+                </td>
+                <td colspan="8">
+                  <input type="text" class="form-control" id="tokenfield_geo_loc" name="tokenfield_geo_loc" value="{{dataset.geo_location}}">
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label class="label-table">Geographical Coverage:</label>
+                </td>
+                <td style="width: 5%;">
+                  <label class="label-table-coordinates" for="geo_coverageW">W:</label>
+                </td>
+                <td style="width: 10%;">
+                  <input type="number" class="form-control-input" id="geo_coverageW" name="geo_coverageW" value="{{dataset.spatialWest}}">
+                </td>
+                <td style="width: 5%;">
+                  <label class="label-table-coordinates" for="geo_coverageE">E:</label>
+                </td>
+                <td style="width: 20%;">
+                  <input type="number" class="form-control-input" id="geo_coverageE" name="geo_coverageE" value="{{dataset.spatialEast}}">
+                </td>
+                <td style="width: 5%;">
+                  <label class="label-table-coordinates" for="geo_coverageS">S:</label>
+                </td>
+                <td style="width: 10%;">
+                  <input type="number" class="form-control-input" id="geo_coverageS" name="geo_coverageS" value="{{dataset.spatialSouth}}">
+                </td>
+                <td style="width: 5%;">
+                  <label class="label-table-coordinates" for="geo_coverageN">N:</label>
+                </td>
+                <td style="width: 10%;">
+                  <input type="number" class="form-control-input" id="geo_coverageN" name="geo_coverageN" value="{{dataset.spatialNorth}}">
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label class="label-table " for="coordinate_sys">Coordinate reference system:</label>
+                </td>
+                <td colspan="8">
+                  <input type="text" class="form-control" id="coordinate_sys" name="coordinate_sys" value="{{dataset.coordinateSystem}}">
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label class="label-table">Vertical Coverage:</label>
+                </td>
+                <td colspan="1" style="width: 5%;">
+                  <center>
+                    <label class="label-table" for="vert_coverage_from">from</label>
+                  </center>
+                </td>
+                <td colspan="3" style="width: 30%;">
+                  <input type="number" step="1" class="form-control" id="vert_coverage_from" name="vert_coverage_from" value="{{dataset.verticalCoverageFrom}}">
+                </td>
+                <td colspan="1" style="width: 5%;">
+                  <center>
+                    <label class="label-table" for="vert_coverage_to">to</label>
+                  </center>
+                </td>
+                <td colspan="3" style="width: 30%;">
+                  <input type="number" step="1" class="form-control" id="vert_coverage_to" name="vert_coverage_to" value="{{dataset.verticalCoverageTo}}">
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label class="label-table" for="vertical_level">Vertical Level:</label>
+                </td>
+                <td colspan="8">
+                  <input type="number" class="form-control" id="vertical_level" name="vertical_level" value="{{dataset.verticalLevel}}">
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label class="label-table " for="temp_coverage_begin">Temporal Coverage:</label>
+                </td>
+                <td colspan="3" style="width: 30%;">
+                  <input type="datetime-local" step="1" class="form-control" id="temp_coverage_begin" name="temp_coverage_begin" value="{{dataset.temporalCoverageBegin}}">
+                </td>
+                <td colspan="2" style="width: 10%;">
+                  <center>
+                    <label class="label-table" for="temp_coverage_end">to</label>
+                  </center>
+                </td>
+                <td colspan="3" style="width: 30%;">
+                  <input type="datetime-local" step="1" class="form-control" id="temp_coverage_end" name="temp_coverage_end" value="{{dataset.temporalCoverageEnd}}">
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label class="label-table-mandatory">* </label>
+                  <label class="label-table " for="time_resolution">Time Resolution:</label>
+                </td>
+                <td colspan="8">
+                  <input type="text" class="form-control" id="time_reso" name="time_reso" required value="{{dataset.timeResolution}}">
+                </td>
+              </tr>
+            </tbody>
           </table>
         </div>
         <div class="col-md-1">
