@@ -293,10 +293,10 @@
         <div class="col-md-1">
         </div>
         <div class="col-md-10 metadata-variables">
-          <table class="table table-bordered" id="tbl_posts">
+          <table class="table table-bordered" id="tbl_posts" style="table-layout: fixed;">
             <thead>
               <tr>
-                <th style="width: 500px;"></label>Dataset Variable</th>
+                <th></label>Dataset Variable</th>
                 <th></label>BDO Variable</th>
               </tr>
             </thead>
@@ -304,10 +304,10 @@
               {% for variable, variableBDO in dataset.variables.items(): %}
                 <tr id="rec-{{ loop.index0 +1 }}">
                  <td>
-                  {{ variable }}
+                  <span class="variablesspan">{{ variable }}</span>
                  </td>
                  <td>
-                  {{ variableBDO }}
+                  <span class="variablesspan">{{ variableBDO }}</span>
                  </td>
                </tr>
               {% endfor %}

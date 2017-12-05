@@ -2,7 +2,7 @@ import subprocess
 import json
 import os
 import uuid
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_bootstrap import Bootstrap
 from pprint import pprint
 from werkzeug.utils import secure_filename
@@ -13,8 +13,6 @@ globalPath = "/home/jaimetrillos/Dropbox/BDO/BigDataOcean-Harmonization"
 
 UPLOAD_FOLDER = globalPath+'/Backend/AddDatasets'
 ALLOWED_EXTENSIONS = set(['nc'])
-
-
 
 app = Flask(__name__)
 bootstrap = Bootstrap(app)
@@ -54,8 +52,6 @@ def index():
 		return render_template('500.html')
 	except ValueError:  # includes simplejson.decoder.JSONDecodeError
 		return render_template('500.html')
-
-	
 
 # Routing to addMetadata form
 @app.route('/addMetadata', methods=['GET', 'POST'])
@@ -170,13 +166,14 @@ def save():
 			# print(command)
 			try:
 				process = subprocess.check_output([command], shell="True")
+				
 			except subprocess.CalledProcessError as e:
 				return render_template('500.html')
 			# when the dataset is added to jena fuseki, redirects to the metadataInfo web page corresponding to the identifier
 			if b'Successful' in process:
 				return redirect(url_for('metadataInfo',identifier=identifier))
 			else:
-				return render_template('500.html')
+				return render_template('404.html', error='URI already exists.')
 	except ValueError:  # includes simplejson.decoder.JSONDecodeError
 		return render_template('500.html')
 
@@ -197,6 +194,16 @@ def edit(identifier):
 			return render_template('editMetadata.html', dataset=dataset)
 	except ValueError:  # includes simplejson.decoder.JSONDecodeError
 		return render_template('500.html')
+
+# Routing to save new dataset
+@app.route('/edit', methods=['GET','POST'])
+def editing():
+	return render_template('404.html')
+
+# Routing to delete a corresponding dataset
+@app.route('/delete/<identifier>', methods=['GET', 'POST'])
+def delete(identifier):
+	return render_template('404.html')
 
 # Routing to see metadata of an specific dataset
 @app.route('/metadataInfo/<identifier>', methods=['GET', 'POST'])

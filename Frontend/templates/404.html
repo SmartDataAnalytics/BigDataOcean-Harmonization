@@ -1,57 +1,82 @@
-{% extends "bootstrap/base.html" %}
-{% block html_attribs %} lang="en"{% endblock %}
-
-{% block title %} BigDataOcean Harmonization {% endblock %}
-{% block styles %}
-{{super()}}<link rel='icon' href='/static/img/BIG-DATA-OCEAN_LOGO.ico'>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap-theme.min.css">
-<link rel="stylesheet" href="static/css/bootstrap-tagsinput.css">
-<link rel="stylesheet" href="static/css/style.css">
-<script src="static/js/jquery-3.2.1.min.js"></script>
-<script src="static/js/script.js"></script>
-<script src="static/js/bootstrap-tagsinput.js"></script>
-<script src="static/js/Bloodhound.js"></script>
-{% endblock %}
-{% block navbar %}
-<nav class="navbar navbar-bdo navbar-fixed-top">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="404 Not Found">
+    <meta name="author" content="">
+    <title>404 Not Found</title>
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <style>
+        /* Error Page Inline Styles */
+        body {
+          padding-top: 20px;
+        }
+    </style>
+    <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body onload="javascript:loadDomain();">
+    <!-- Error Page Content -->
     <div class="container">
-        <div class="navbar-header">
-            <div class="icon">
-                <table class="container">
-                    <tr>
-                        <td>
-                            <a id="logo" title="BigDataOcean Repository" href="">
-                                <img itemprop="image" alt="BigDataOcean Repository" src="static/img/BIG-DATA-OCEAN_LOGO.png" height="86"
-                                     width="200">
-                            </a>
-                        </td>
-                        <td class="label-table">
-                            <h1>Big Data Ocean - Dataset Harmonization</h1>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-        <div class="collapse navbar-collapse" id="myNavbar">
-        </div>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-error alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+            {{message}}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    {% if error %}
+       <div class="alert alert-danger alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+            <strong>{{error}}</strong>
+          </div>
+    {% endif %}
+      <!-- Jumbotron -->
+      <div class="jumbotron">
+        <h1><i class="fa fa-frown-o red"></i> 404 Not Found</h1>
+        <p class="lead">We couldn't find what you're looking for on <em><span id="display-domain"></span></em>.</p>
+        <p><a onclick="javascript:checkSite();" class="btn btn-default btn-lg"><span class="green">Take Me To The Homepage</span></a>
+          <script type="text/javascript">
+              function checkSite(){
+                var currentSite = window.location.hostname;
+                  window.location = "http://localhost:5000/";
+              }
+          </script>
+      </p>
+      </div>
     </div>
-</nav>
-{% endblock %}
-{% block content %}
-<div class="container text-center" style="margin-top:90px">
-    <div class="row content">
-        <div class="col-md-1">
+    <div class="container">
+      <div class="body-content">
+        <div class="row">
+          <div class="col-md-6">
+            <h2>What happened?</h2>
+            <p class="lead">A 404 error status implies that the file or page that you're looking for could not be found.</p>
+          </div>
+          <div class="col-md-6">
+            <h2>What can I do?</h2>
+            <p class="lead">If you're a site vistor</p>
+            <p>Please use your browsers back button and check that you're in the right place. If you need immediate assistance, please send us an email instead.</p>
+            <p class="lead">If you're the site owner</p>
+             <p>Please check that you're in the right place and get in touch with your website provider if you believe this to be an error.</p>
+         </div>
         </div>
-        <div class="col-md-10 field-uri">
-            <p style="font-size:36px;color:white">404 - This page does not exist!</p>
-        </div>
-        <div class="row content">
-        </div>
+      </div>
     </div>
-</div>
-
-<footer class="container-fluid text-center">
-  <p>Footer Text</p>
-</footer>
-{% endblock %}
+</body>
+<!-- End Error Page Content -->
+<!--Scripts-->
+<!-- jQuery library -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    function loadDomain() {
+        var display = document.getElementById("display-domain");
+        display.innerHTML = document.domain;
+    }
+</script>
+</html>
