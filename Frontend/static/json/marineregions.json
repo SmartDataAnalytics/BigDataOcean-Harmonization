@@ -1,330 +1,330 @@
 [
   {
     "text": "Arctic Ocean",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=1906"
+    "value": "http://marineregions.org/mrgid/1906"
   },
   {
     "text": "Baffin Bay",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=4253"
+    "value": "http://marineregions.org/mrgid/4253"
   },
   {
     "text": "Barentsz Sea",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=4247"
+    "value": "http://marineregions.org/mrgid/4247"
   },
   {
     "text": "Beaufort Sea",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=4256"
+    "value": "http://marineregions.org/mrgid/4256"
   },
   {
     "text": "Chukchi Sea",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=4257"
+    "value": "http://marineregions.org/mrgid/4257"
   },
   {
     "text": "Davis Strait",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=4250"
+    "value": "http://marineregions.org/mrgid/4250"
   },
   {
     "text": "East Siberian Sea",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=4244"
+    "value": "http://marineregions.org/mrgid/4244"
   },
   {
     "text": "Greenland Sea",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=2356"
+    "value": "http://marineregions.org/mrgid/2356"
   },
   {
     "text": "Hudson Bay",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=4252"
+    "value": "http://marineregions.org/mrgid/4252"
   },
   {
     "text": "Hudson Strait",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=4251"
+    "value": "http://marineregions.org/mrgid/4251"
   },
   {
     "text": "Kara Sea",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=4246"
+    "value": "http://marineregions.org/mrgid/4246"
   },
   {
     "text": "Laptev Sea",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=4245"
+    "value": "http://marineregions.org/mrgid/4245"
   },
   {
     "text": "Lincoln Sea",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=4254"
+    "value": "http://marineregions.org/mrgid/4254"
   },
   {
     "text": "Northwestern Passages",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=5698"
+    "value": "http://marineregions.org/mrgid/5698"
   },
   {
     "text": "Norwegian Sea",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=2353"
+    "value": "http://marineregions.org/mrgid/2353"
   },
   {
     "text": "White Sea",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=4248"
+    "value": "http://marineregions.org/mrgid/4248"
   },
   {
     "text": "Baltic Sea",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=2401"
+    "value": "http://marineregions.org/mrgid/2401"
   },
   {
     "text": "Gulf of Bothnia",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=2402"
+    "value": "http://marineregions.org/mrgid/2402"
   },
   {
     "text": "Gulf of Finland",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=2407"
+    "value": "http://marineregions.org/mrgid/2407"
   },
   {
     "text": "Gulf of Riga",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=2409"
+    "value": "http://marineregions.org/mrgid/2409"
   },
   {
     "text": "Kattegat",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=2374"
+    "value": "http://marineregions.org/mrgid/2374"
   },
   {
     "text": "North Atlantic Ocean",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=1912"
+    "value": "http://marineregions.org/mrgid/1912"
   },
   {
     "text": "Bay of Biscay",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=2359"
+    "value": "http://marineregions.org/mrgid/2359"
   },
   {
     "text": "Bristol Channel",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=3141"
+    "value": "http://marineregions.org/mrgid/3141"
   },
   {
     "text": "Caribbean Sea",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=4287"
+    "value": "http://marineregions.org/mrgid/4287"
   },
   {
     "text": "Celtic Sea",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=2351"
+    "value": "http://marineregions.org/mrgid/2351"
   },
   {
     "text": "English Channel",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=2389"
+    "value": "http://marineregions.org/mrgid/2389"
   },
   {
     "text": "Gulf of Guinea",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=4286"
+    "value": "http://marineregions.org/mrgid/4286"
   },
   {
     "text": "Gulf of Mexico",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=4288"
+    "value": "http://marineregions.org/mrgid/4288"
   },
   {
     "text": "Gulf of St. Lawrence",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=49716"
+    "value": "http://marineregions.org/mrgid/49716"
   },
   {
     "text": "Inner Seas off the West Coast of Scotland",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=4283"
+    "value": "http://marineregions.org/mrgid/4283"
   },
   {
     "text": "Irish Sea and St. George's Channel",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=2357"
+    "value": "http://marineregions.org/mrgid/2357"
   },
   {
     "text": "Labrador Sea",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=4291"
+    "value": "http://marineregions.org/mrgid/4291"
   },
   {
     "text": "North Sea",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=2350"
+    "value": "http://marineregions.org/mrgid/2350"
   },
   {
     "text": "Skagerrak",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=2379"
+    "value": "http://marineregions.org/mrgid/2379"
   },
   {
     "text": "South Atlantic Ocean",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=1914"
+    "value": "http://marineregions.org/mrgid/1914"
   },
   {
     "text": "Rio de La Plata",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=4325"
+    "value": "http://marineregions.org/mrgid/4325"
   },
   {
     "text": "Bay of Fundy",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=4289"
+    "value": "http://marineregions.org/mrgid/4289"
   },
   {
     "text": "Indian Ocean",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=1904"
+    "value": "http://marineregions.org/mrgid/1904"
   },
   {
     "text": "Andaman Sea",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=4274"
+    "value": "http://marineregions.org/mrgid/4274"
   },
   {
     "text": "Arabian Sea",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=4268"
+    "value": "http://marineregions.org/mrgid/4268"
   },
   {
     "text": "Bay of Bengal",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=4273"
+    "value": "http://marineregions.org/mrgid/4273"
   },
   {
     "text": "Great Australian Bight",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=4276"
+    "value": "http://marineregions.org/mrgid/4276"
   },
   {
     "text": "Gulf of Aden",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=4265"
+    "value": "http://marineregions.org/mrgid/4265"
   },
   {
     "text": "Gulf of Oman",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=4267"
+    "value": "http://marineregions.org/mrgid/4267"
   },
   {
     "text": "Gulf of Suez",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=4262"
+    "value": "http://marineregions.org/mrgid/4262"
   },
   {
     "text": "Laccadive Sea",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=4969"
+    "value": "http://marineregions.org/mrgid/4969"
   },
   {
     "text": "Malacca Strait",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=4275"
+    "value": "http://marineregions.org/mrgid/4275"
   },
   {
     "text": "Mozambique Channel",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=4261"
+    "value": "http://marineregions.org/mrgid/4261"
   },
   {
     "text": "Persian Gulf",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=4266"
+    "value": "http://marineregions.org/mrgid/4266"
   },
   {
     "text": "Red Sea",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=4264"
+    "value": "http://marineregions.org/mrgid/4264"
   },
   {
     "text": "Black Sea",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=3319"
+    "value": "http://marineregions.org/mrgid/3319"
   },
   {
     "text": "Sea of Azov",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=3320"
+    "value": "http://marineregions.org/mrgid/3320"
   },
   {
     "text": "Mediterranean Sea",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=1905"
+    "value": "http://marineregions.org/mrgid/1905"
   },
   {
     "text": "Mediterranean Sea - Eastern Basin",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=4280"
+    "value": "http://marineregions.org/mrgid/4280"
   },
   {
     "text": "Adriatic Sea",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=3314"
+    "value": "http://marineregions.org/mrgid/3314"
   },
   {
     "text": "Aegean Sea",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=3315"
+    "value": "http://marineregions.org/mrgid/3315"
   },
   {
     "text": "Ionian Sea",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=3351"
+    "value": "http://marineregions.org/mrgid/3351"
   },
   {
     "text": "Mediterranean Sea - Western Basin",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=4279"
+    "value": "http://marineregions.org/mrgid/4279"
   },
   {
     "text": "Alboran Sea",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=3324"
+    "value": "http://marineregions.org/mrgid/3324"
   },
   {
     "text": "Balearic Sea",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=3322"
+    "value": "http://marineregions.org/mrgid/3322"
   },
   {
     "text": "Ligurian Sea",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=3363"
+    "value": "http://marineregions.org/mrgid/3363"
   },
   {
     "text": "Strait of Gibraltar",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=3346"
+    "value": "http://marineregions.org/mrgid/3346"
   },
   {
     "text": "Tyrrhenian Sea",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=3386"
+    "value": "http://marineregions.org/mrgid/3386"
   },
   {
     "text": "Sea of Marmara",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=3369"
+    "value": "http://marineregions.org/mrgid/3369"
   },
   {
     "text": "North Pacific Ocean",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=1908"
+    "value": "http://marineregions.org/mrgid/1908"
   },
   {
     "text": "Bering Sea",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=4310"
+    "value": "http://marineregions.org/mrgid/4310"
   },
   {
     "text": "Eastern China Sea",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=4302"
+    "value": "http://marineregions.org/mrgid/4302"
   },
   {
     "text": "Gulf of Alaska",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=4312"
+    "value": "http://marineregions.org/mrgid/4312"
   },
   {
     "text": "Gulf of California",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=4314"
+    "value": "http://marineregions.org/mrgid/4314"
   },
   {
     "text": "Japan Sea",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=4307"
+    "value": "http://marineregions.org/mrgid/4307"
   },
   {
     "text": "Philippine Sea",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=4300"
+    "value": "http://marineregions.org/mrgid/4300"
   },
   {
     "text": "Sea of Okhotsk",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=4309"
+    "value": "http://marineregions.org/mrgid/4309"
   },
   {
     "text": "The Coastal Waters of Southeast Alaska and British Columbia",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=4313"
+    "value": "http://marineregions.org/mrgid/4313"
   },
   {
     "text": "Yellow Sea",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=4303"
+    "value": "http://marineregions.org/mrgid/4303"
   },
   {
     "text": "South China Sea",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=4332"
+    "value": "http://marineregions.org/mrgid/4332"
   },
   {
     "text": "South Pacific Ocean",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=1910"
+    "value": "http://marineregions.org/mrgid/1910"
   },
   {
     "text": "Bass Strait",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=4366"
+    "value": "http://marineregions.org/mrgid/4366"
   },
   {
     "text": "Bismarck Sea",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=4360"
+    "value": "http://marineregions.org/mrgid/4360"
   },
   {
     "text": "Coral Sea",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=4364"
+    "value": "http://marineregions.org/mrgid/4364"
   },
   {
     "text": "Solomon Sea",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=4361"
+    "value": "http://marineregions.org/mrgid/4361"
   },
   {
     "text": "Tasman Sea",
-    "value": "http://www.marineregions.org/gazetteer.php?p=details&id=4365"
+    "value": "http://marineregions.org/mrgid/4365"
   }
 ]
