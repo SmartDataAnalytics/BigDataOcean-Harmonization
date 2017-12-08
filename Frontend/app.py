@@ -8,8 +8,8 @@ from pprint import pprint
 from werkzeug.utils import secure_filename
 
 # GLOBAL VARIABLES
-globalPath = "/home/jaimetrillos/Dropbox/BDO/BigDataOcean-Harmonization"
-# globalPath = "/home/anatrillos/Dropbox/Documentos/BigDataOcean-Harmonization"
+#globalPath = "/home/jaimetrillos/Dropbox/BDO/BigDataOcean-Harmonization"
+globalPath = "/home/anatrillos/Dropbox/Documentos/BigDataOcean-Harmonization"
 
 UPLOAD_FOLDER = globalPath+'/Backend/AddDatasets'
 ALLOWED_EXTENSIONS = set(['nc'])
@@ -203,7 +203,19 @@ def editing():
 # Routing to delete a corresponding dataset
 @app.route('/delete/<identifier>', methods=['GET', 'POST'])
 def delete(identifier):
-	return render_template('404.html')
+	# Calls shell insertDataset to connect to jena fuseki and add dataset via sparql query
+	command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/deleteDataset "%s"' %identifier
+	# print(command)
+	try:
+		process = subprocess.check_output([command], shell="True")
+		
+	except subprocess.CalledProcessError as e:
+		return render_template('500.html')
+	# when the dataset is added to jena fuseki, redirects to the metadataInfo web page corresponding to the identifier
+	if b'Successful' in process:
+		return redirect(url_for('index'))
+	else:
+		return render_template('404.html', error='There was an error while deleting the dataset.')
 
 # Routing to see metadata of an specific dataset
 @app.route('/metadataInfo/<identifier>', methods=['GET', 'POST'])

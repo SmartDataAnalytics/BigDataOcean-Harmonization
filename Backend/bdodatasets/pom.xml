@@ -193,6 +193,13 @@
                 <maxMemorySize>512m</maxMemorySize>
               </jvmSettings>
             </program>
+            <program>
+              <mainClass>org.unibonn.bdo.bdodatasets.DeleteDataset</mainClass>
+              <name>deleteDataset</name>
+              <jvmSettings>
+                <maxMemorySize>512m</maxMemorySize>
+              </jvmSettings>
+            </program>
           </programs>
         </configuration>
         <executions>
