@@ -88,7 +88,9 @@
                 <td class="col-md-6">
                   <div class="AgentThumb">
                     <div class="agentThumbInnerBodySubject">
-                      <div class="agentThumbName">{{subject}}</div>
+                      <div class="agentThumbName">
+                        <a href="{{subject}}" target="_blank">{{subject}}</a>
+                      </div>
                     </div>
                   </div>
                 </td>
@@ -103,7 +105,9 @@
                 <td class="col-md-6">
                   <div class="AgentThumb">
                     <div class="agentThumbInnerBodyKeyword">
-                      <div class="agentThumbName">{{keyword}}</div>
+                      <div class="agentThumbName">
+                        <a href="{{keyword}}" target="_blank">{{keyword}}</a>
+                      </div>
                     </div>
                   </div>
                 </td>
@@ -134,7 +138,9 @@
                 <td class="col-md-6">
                   <div class="AgentThumb">
                     <div class="agentThumbInnerBodylanguage">
-                      <div class="agentThumbName">{{language}}</div>
+                      <div class="agentThumbName">
+                        <a href="http://id.loc.gov/vocabulary/iso639-2/{{language}}" target="_blank">{{language}}</a>
+                      </div>
                     </div>
                   </div>
                 </td>
@@ -145,7 +151,8 @@
                   <label class="label-tableInfo" for="homepage">Homepage:</label>
                 </td>
                 <td colspan="8">
-                  <a href="{{ dataset.homepage }}" target="_blank">{{ dataset.homepage }}</a>                </td>
+                  <a href="{{ dataset.homepage }}" target="_blank">{{ dataset.homepage }}</a>
+                </td>
               </tr>
               <tr>
                 <td>
@@ -199,8 +206,19 @@
                 <td>
                   <label class="label-tableInfo" for="geoLocation">Geographic Location:</label>
                 </td>
-                <td colspan="8">
-                  {{ dataset.geo_location }}
+                <td colspan="8" class="col-md-6">
+                {% if dataset.geoLocation|default("") != "": %}
+                  {% set geo_locations = dataset.geoLocation.split(",") %}
+                  {% for geo_location in geo_locations: %}
+                    <div class="AgentThumb">
+                      <div class="agentThumbInnerBodyGeoLoc">
+                        <div class="agentThumbName">
+                          <a href="{{geo_location}}" target="_blank">{{geo_location}}</a>
+                        </div>
+                      </div>
+                    </div>
+                  {% endfor %}
+                {% endif%}
                 </td>
               </tr>
               <tr>
@@ -313,13 +331,19 @@
             <tbody id="tbl_posts_body">
               {% for variable, variableBDO in dataset.variables.items(): %}
                 <tr id="rec-{{ loop.index0 +1 }}">
-                 <td>
-                  <span class="variablesspan">{{ variable }}</span>
-                 </td>
-                 <td>
-                  <span class="variablesspan">{{ variableBDO }}</span>
-                 </td>
-               </tr>
+                  <td>
+                    <span class="variablesspan">{{ variable }}</span>
+                  </td>
+                  <td>
+                    <span class="variablesspan">
+                      {%for variable in variables:%}
+                        {%if variable["text"] == variableBDO:%}
+                          <a href="{{variable['value']}}" target="_blank">{{variableBDO}}</a>
+                        {% endif%}
+                      {% endfor %}
+                    </span>
+                  </td>
+                </tr>
               {% endfor %}
             </tbody>
           </table>

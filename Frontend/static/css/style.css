@@ -80,6 +80,10 @@ body {
     width: 30%;
 }
 
+.labels-table-addmetadata {
+    width: 15%;
+}
+
 .info-table {
     width: 70%;
 }
@@ -287,6 +291,18 @@ footer {
     position: relative;
     border-left: 6px solid #53A3B4;
     padding-left: .3em;
+}
+
+.agentThumbInnerBodyGeoLoc {
+    position: relative;
+    border-left: 6px solid #FFA500;
+    padding-left: .3em;
+}
+
+.agentThumbInnerBodySubject a, .agentThumbInnerBodyKeyword a, .agentThumbInnerBodylanguage a
+, .agentThumbInnerBodyGeoLoc a {
+    color: white;
+    text-decoration: underline;
 }
 
 .agentThumbPrefUri {

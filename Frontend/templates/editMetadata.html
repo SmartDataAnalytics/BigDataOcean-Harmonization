@@ -23,12 +23,12 @@
     </div>
   </nav>
   <div class="container text-center" style="margin-top:90px">
-    <form id="metadataForm" name="metadataForm" class="form-style" method="POST" action="http://localhost:5000/edit" novalidate>
+    <form id="metadataForm" name="metadataForm" class="form-style" method="POST" action="http://localhost:5000/edit" novalidate onsubmit="return requireVariables();">
       <div class="row content">
         <div class="col-md-1">
         </div>
         <div class="buttonForm">
-          <button type="submit" class="btn btn-default">Save</button>
+          <button id="btnSave" type="submit" class="btn btn-default" disabled>Save</button>
           <button type="button" class="btn btn-danger" onclick="cancelButton()">Cancel</button>
         </div>
         <div class="col-md-1">
@@ -53,6 +53,7 @@
                   <label class="label-table" for="identifier">Identifier:</label>
                 </td>
                 <td colspan="8">
+                  <div id="status">Clean</div>
                   <input type="text" class="form-control" id="identifier" name="identifier" value="{{dataset.identifier}}">
                 </td>
               </tr>
@@ -181,7 +182,7 @@
                   <label class="label-table" for="geoLocation">Geographic Location:</label>
                 </td>
                 <td colspan="8">
-                  <input type="text" class="form-control" id="tokenfield_geo_loc" name="tokenfield_geo_loc" value="{{dataset.geo_location}}">
+                  <input type="text" class="form-control" id="tokenfield_geo_loc" name="tokenfield_geo_loc" value="{{dataset.geoLocation}}">
                 </td>
               </tr>
               <tr>
@@ -342,7 +343,7 @@
         <div class="col-md-1">
         </div>
         <div class="buttonForm">
-          <button type="submit" class="btn btn-default">Save</button>
+          <button id="btnSave1" type="submit" class="btn btn-default" disabled>Save</button>
           <button type="button" class="btn btn-danger" onclick="cancelButton()">Cancel</button>
         </div>
         <div class="col-md-1">
@@ -371,6 +372,7 @@
 <script src="../static/js/bootstrap-tokenfield.js"></script>
 <script src="../static/js/typeahead.bundle.js"></script>
 <script src="../static/js/jquery.easy-autocomplete.min.js"></script> 
+<script type="text/javascript" src="../static/js/jquery.dirrty.js"></script>
 <script type="text/javascript" src="../static/js/editmetadatascript.js"></script>
 <script type="text/javascript">
   function validateForm() {

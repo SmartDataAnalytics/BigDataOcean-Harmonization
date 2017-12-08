@@ -24,7 +24,7 @@
   </nav>
   {%if dataset!="":%}
   <div class="container text-center" style="margin-top:90px">
-    <form id="metadataForm" name="metadataForm" class="form-style" method="POST" action="http://localhost:5000/save" novalidate>
+    <form id="metadataForm" name="metadataForm" class="form-style" method="POST" action="http://localhost:5000/save" novalidate onsubmit="return requireVariables();">
       <div class="row content">
         <div class="col-md-1">
         </div>
@@ -45,7 +45,7 @@
           </div>
           <table class="tableMetadata">
             <thead>
-              <th class="labels-table"></th>
+              <th class="labels-table-addmetadata"></th>
               <th class="info-table"></th>
             </thead>
             <tbody>
@@ -115,7 +115,11 @@
                   <label class="label-table" for="language">Language:</label>
                 </td>
                 <td colspan="8">
-                  <input type="text" class="form-control" id="tokenfield_language" name="tokenfield_language" required value="{{dataset.language}}">
+                  {%if dataset.language|default("") != "":%}
+                    <input type="text" class="form-control" id="tokenfield_language" name="tokenfield_language" required value="{{dataset.language}}">
+                  {%else:%}
+                    <input type="text" class="form-control" id="tokenfield_language" name="tokenfield_language" required value="eng">
+                  {% endif %}
                 </td>
               </tr>
               <tr>
@@ -182,7 +186,7 @@
                   <label class="label-table" for="geoLocation">Geographic Location:</label>
                 </td>
                 <td colspan="8">
-                  <input type="text" class="form-control" id="tokenfield_geo_loc" name="tokenfield_geo_loc" value="{{dataset.geo_location}}">
+                  <input type="text" class="form-control" id="tokenfield_geo_loc" name="tokenfield_geo_loc" value="{{dataset.geoLocation}}">
                 </td>
               </tr>
               <tr>
@@ -353,7 +357,7 @@
   </div>
   {%else:%}
   <div class="container text-center" style="margin-top:90px">
-    <form id="metadataForm" name="metadataForm" class="form-style" method="POST" action="http://localhost:5000/save" novalidate>
+    <form id="metadataForm" name="metadataForm" class="form-style" method="POST" action="http://localhost:5000/save" novalidate onsubmit="return requireVariables();">
       <div class="row content">
         <div class="col-md-1">
         </div>
@@ -374,7 +378,7 @@
           </div>
           <table class="tableMetadata">
             <thead>
-              <th class="labels-table"></th>
+              <th class="labels-table-addmetadata"></th>
               <th class="info-table"></th>
             </thead>
             <tbody>
@@ -444,7 +448,7 @@
                   <label class="label-table" for="language">Language:</label>
                 </td>
                 <td colspan="8">
-                  <input type="text" class="form-control" id="tokenfield_language" name="tokenfield_language" required>
+                  <input type="text" class="form-control" id="tokenfield_language" name="tokenfield_language" value="eng" required>
                 </td>
               </tr>
               <tr>

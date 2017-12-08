@@ -13,7 +13,7 @@ var options = {
 
 //Enable easyautocomplete (List) to field json_variable-#
 size = jQuery('#tbl_posts >tbody >tr').length;
-for (i = 0; i <= size; i++) { 
+for (i = 1; i <= size; i++) { 
     $("#json_variable-"+i).easyAutocomplete(options);
 }
 
@@ -40,6 +40,13 @@ jQuery(document).ready(function($) {
   });
   resourceKeywords.initialize();
 
+  var resourceGeoLoc = new Bloodhound({
+    datumTokenizer: Bloodhound.tokenizers.obj.whitespace('text'),
+    queryTokenizer: Bloodhound.tokenizers.whitespace,
+    prefetch: 'static/json/marineregions.json'
+  });
+  resourceGeoLoc.initialize();
+
   $('#tokenfield_subject').tokenfield({
     typeahead: [null, {
       source: resourceSubjects.ttAdapter(),
@@ -48,12 +55,26 @@ jQuery(document).ready(function($) {
     showAutocompleteOnFocus: true
   }); 
 
+  //if the token is duplicated then it is not created
   $('#tokenfield_subject').on('tokenfield:createtoken', function (event) {
     var existingTokens = $(this).tokenfield('getTokens');
     $.each(existingTokens, function(index, token) {
       if (token.value === event.attrs.value)
         event.preventDefault();
     });
+  });
+
+  //if the token has value with http then it is created
+  $('#tokenfield_subject').on('tokenfield:createtoken', function (event) {
+    var flag = false;
+    var pattern = /http/;
+    $.each(resourceSubjects, function(index, value) {
+      var exists = pattern.test(event.attrs.value);
+      flag = exists;
+    });
+    if(!flag) {
+      event.preventDefault(); //prevents creation of token
+    }
   });
 
   $('#tokenfield_language').tokenfield({
@@ -87,6 +108,46 @@ jQuery(document).ready(function($) {
         event.preventDefault();
     });
   });
+
+  $('#tokenfield_keywords').on('tokenfield:createtoken', function (event) {
+    var flag = false;
+    var pattern = /http/;
+    $.each(resourceKeywords, function(index, value) {
+      var exists = pattern.test(event.attrs.value);
+      flag = exists;
+    });
+    if(!flag) {
+      event.preventDefault(); //prevents creation of token
+    }
+  });
+
+  $('#tokenfield_geo_loc').tokenfield({
+    typeahead: [null, {
+      source: resourceGeoLoc.ttAdapter(),
+      displayKey: 'text'
+    }],
+    showAutocompleteOnFocus: true
+  });
+
+  $('#tokenfield_geo_loc').on('tokenfield:createtoken', function (event) {
+    var existingTokens = $(this).tokenfield('getTokens');
+    $.each(existingTokens, function(index, token) {
+      if (token.value === event.attrs.value)
+        event.preventDefault();
+    });
+  });  
+
+  $('#tokenfield_geo_loc').on('tokenfield:createtoken', function (event) {
+    var flag = false;
+    var pattern = /http/;
+    $.each(resourceGeoLoc, function(index, value) {
+      var exists = pattern.test(event.attrs.value);
+      flag = exists;
+    });
+    if(!flag) {
+      event.preventDefault(); //prevents creation of token
+    }
+  });
   
 });
 
@@ -103,6 +164,8 @@ jQuery(document).delegate('a.add-record', 'click', function(e) {
   element.appendTo('#tbl_posts_body');
   $('#json_variable-'+size).easyAutocomplete(options);
   element.find('.sn').html(size);
+  $('#json_variable-'+size).prop('required',true);
+  $('parser_variable').prop('required',true);
 });
 
 //Deletion of rows for the table variables
@@ -127,4 +190,14 @@ jQuery(document).delegate('a.delete-record', 'click', function(e) {
 
 function cancelButton(){
   window.location.href="/"
+}
+
+function requireVariables(){
+  for (var i = 1; i <=size; i++) {
+    var jsonvariable = $("#json_variable-"+i).val();
+    if (jsonvariable === ""){
+      alert("Please fill the variable Field");
+      return false;
+    }
+  }
 }

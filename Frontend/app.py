@@ -8,8 +8,8 @@ from pprint import pprint
 from werkzeug.utils import secure_filename
 
 # GLOBAL VARIABLES
-#globalPath = "/home/jaimetrillos/Dropbox/BDO/BigDataOcean-Harmonization"
-globalPath = "/home/anatrillos/Dropbox/Documentos/BigDataOcean-Harmonization"
+globalPath = "/home/jaimetrillos/Dropbox/BDO/BigDataOcean-Harmonization"
+# globalPath = "/home/anatrillos/Dropbox/Documentos/BigDataOcean-Harmonization"
 
 UPLOAD_FOLDER = globalPath+'/Backend/AddDatasets'
 ALLOWED_EXTENSIONS = set(['nc'])
@@ -102,10 +102,6 @@ def parse():
 def save():
 	try:
 		if request.method == 'POST':
-			# Extracting variablesCF_BDO.json
-			# file = open(globalPath + '/Frontend/static/json/variablesCF_BDO.json', 'r')
-			# variablesCF = json.load(file)
-
 			identifier = request.form['identifier']
 			title = request.form['title']
 			description = request.form['description']
@@ -222,6 +218,10 @@ def delete(identifier):
 def metadataInfo(identifier):
 	try:
 		if request.method == 'GET':
+			# Extracting variablesCF_BDO.json
+			file = open(globalPath + '/Frontend/static/json/variablesCF_BDO.json', 'r')
+			variablesCF = json.load(file)
+
 			uri = "<http://bigdataocean.eu/bdo/"+identifier+"> \n"
 			# Calls shel getDataset to obtain all metadata of a dataset from jena fuseki
 			comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/getDataset "%s"' %uri
@@ -232,7 +232,7 @@ def metadataInfo(identifier):
 			# metadata parsed is converted into json class datasetInfo to be used inside the html form
 			parsed_output = json.loads(process.decode('utf-8'))
 			dataset = datasetInfo(**parsed_output)
-			return render_template('metadataInfo.html', dataset=dataset)
+			return render_template('metadataInfo.html', dataset=dataset, variables=variablesCF)
 	except ValueError:  # includes simplejson.decoder.JSONDecodeError
 		return render_template('500.html')
 
