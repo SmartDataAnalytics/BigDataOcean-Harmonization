@@ -8,8 +8,8 @@ from pprint import pprint
 from werkzeug.utils import secure_filename
 
 # GLOBAL VARIABLES
-globalPath = "/home/jaimetrillos/Dropbox/BDO/BigDataOcean-Harmonization"
-# globalPath = "/home/anatrillos/Dropbox/Documentos/BigDataOcean-Harmonization"
+#globalPath = "/home/jaimetrillos/Dropbox/BDO/BigDataOcean-Harmonization"
+globalPath = "/home/anatrillos/Dropbox/Documentos/BigDataOcean-Harmonization"
 
 UPLOAD_FOLDER = globalPath+'/Backend/AddDatasets'
 ALLOWED_EXTENSIONS = set(['nc'])
@@ -188,20 +188,102 @@ def edit(identifier):
 			parsed_output = json.loads(process.decode('utf-8'))
 			dataset = datasetInfo(**parsed_output)
 			return render_template('editMetadata.html', dataset=dataset)
+			
 	except ValueError:  # includes simplejson.decoder.JSONDecodeError
 		return render_template('500.html')
 
 # Routing to save new dataset
 @app.route('/edit', methods=['GET','POST'])
 def editing():
-	return render_template('404.html')
+	try:
+		if request.method == 'POST':
+			identifier = request.form['identifier']
+			title = request.form['title']
+			description = request.form['description']
+			subject = request.form['tokenfield_subject']
+			keywords= request.form['tokenfield_keywords']
+			standards = request.form['standards']
+			formats = request.form['tokenfield_format']
+			language = request.form['tokenfield_language']
+			homepage = request.form['homepage']
+			publisher = request.form['publisher']
+			accessRights = request.form['access_rights']
+			issuedDate = request.form['issued_date']
+			modifiedDate = request.form['modified_date']
+			geoLocation = request.form['tokenfield_geo_loc']
+			spatialWest = request.form['geo_coverageW']
+			spatialEast = request.form['geo_coverageE']
+			spatialSouth = request.form['geo_coverageS']
+			spatialNorth = request.form['geo_coverageN']
+			coordinateSystem = request.form['coordinate_sys']
+			verticalCoverageFrom = request.form['vert_coverage_from']
+			verticalCoverageTo = request.form['vert_coverage_to']
+			verticalLevel = request.form['vertical_level']
+			temporalCoverageBegin = request.form['temp_coverage_begin']
+			temporalCoverageEnd = request.form['temp_coverage_end']
+			timeResolution = request.form['time_reso']
+
+			parservariable = request.form.getlist('parser_variable')
+			jsonvariable = request.form.getlist('json_variable')
+			# delete the empty elements in the list 
+			parservariables = list(filter(None, parservariable))
+			jsonvariables = list(filter(None, jsonvariable))
+			# zip the two list in one called variables
+			variables = list (zip (parservariables, jsonvariables))
+			
+			if identifier  != "":
+				check_existance = "<http://bigdataocean.eu/bdo/"+identifier+"> \n"
+				datasetType = ""	
+			else:
+				identifier = str(uuid.uuid4())
+				check_existance = title+">"+publisher+">"+issuedDate
+				datasetType = "other"
+
+			# add the values to the datasetInfo class
+			dataset = datasetInfo (identifier, title, description, subject, keywords, standards, formats, language, homepage, publisher, 
+				accessRights, issuedDate, modifiedDate, geoLocation, spatialWest, spatialEast, spatialSouth, spatialNorth, 
+				coordinateSystem, verticalCoverageFrom, verticalCoverageTo,temporalCoverageBegin, temporalCoverageEnd, 
+				verticalLevel, timeResolution, variables)
+			# create the json of the datasetInfo class
+			datasetJson = json.dumps(dataset.__dict__)
+			with open(globalPath+'/Backend/AddDatasets/jsonDataset.json','w') as file:
+				file.write(datasetJson)
+				file.close()
+			path2json = globalPath + "/Backend/AddDatasets/jsonDataset.json"
+
+			# Calls shell insertDataset to connect to jena fuseki and add dataset via sparql query
+			command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/deleteDataset "%s"' %identifier
+			try:
+				process = subprocess.check_output([command], shell="True")
+				
+			except subprocess.CalledProcessError as e:
+				return render_template('500.html')
+			# when the dataset is added to jena fuseki, redirects to the metadataInfo web page corresponding to the identifier
+			if b'Successful' in process:
+				# Calls shell insertDataset to connect to jena fuseki and add dataset via sparql query
+				command2 = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/insertDataset "%s" "%s" "%s"' %(datasetType, check_existance, path2json)
+				# print(command)
+				try:
+					process = subprocess.check_output([command2], shell="True")
+					
+				except subprocess.CalledProcessError as e:
+					return render_template('500.html')
+				# when the dataset is added to jena fuseki, redirects to the metadataInfo web page corresponding to the identifier
+				if b'Successful' in process:
+					return redirect(url_for('metadataInfo',identifier=identifier))
+				else:
+					return render_template('404.html', error='URI already exists.')
+			else:
+				return render_template('404.html', error='There was an error while modifying the dataset.')
+
+	except ValueError:  # includes simplejson.decoder.JSONDecodeError
+		return render_template('500.html')
 
 # Routing to delete a corresponding dataset
 @app.route('/delete/<identifier>', methods=['GET', 'POST'])
 def delete(identifier):
 	# Calls shell insertDataset to connect to jena fuseki and add dataset via sparql query
 	command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/deleteDataset "%s"' %identifier
-	# print(command)
 	try:
 		process = subprocess.check_output([command], shell="True")
 		
@@ -235,6 +317,10 @@ def metadataInfo(identifier):
 			return render_template('metadataInfo.html', dataset=dataset, variables=variablesCF)
 	except ValueError:  # includes simplejson.decoder.JSONDecodeError
 		return render_template('500.html')
+
+@app.route('/endpoint', methods=['GET', 'POST'])
+def endpoint():
+	return render_template('sparqlEndpoint.html')
 
 # Class for datasets parsed on shell suggest
 class datasetSuggest(object):

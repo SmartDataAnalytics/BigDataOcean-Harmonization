@@ -23,7 +23,7 @@
     </div>
   </nav>
   <div class="container text-center" style="margin-top:90px">
-    <form id="metadataForm" name="metadataForm" class="form-style" method="POST" action="http://localhost:5000/edit" novalidate onsubmit="return requireVariables();">
+    <form id="metadataForm" name="metadataForm" class="form-style" method="POST" action="http://localhost:5000/edit" novalidate onSubmit="alert('This might tale a while, thank you for your patience');">
       <div class="row content">
         <div class="col-md-1">
         </div>
@@ -43,8 +43,8 @@
             <strong>* This fields are required!</strong> 
           </div>
           <table class="tableMetadata">
-             <thead>
-              <th class="labels-table"></th>
+            <thead>
+              <th class="labels-table-addmetadata"></th>
               <th class="info-table"></th>
             </thead>
             <tbody>
@@ -53,7 +53,6 @@
                   <label class="label-table" for="identifier">Identifier:</label>
                 </td>
                 <td colspan="8">
-                  <div id="status">Clean</div>
                   <input type="text" class="form-control" id="identifier" name="identifier" value="{{dataset.identifier}}">
                 </td>
               </tr>
@@ -115,7 +114,11 @@
                   <label class="label-table" for="language">Language:</label>
                 </td>
                 <td colspan="8">
-                  <input type="text" class="form-control" id="tokenfield_language" name="tokenfield_language" required value="{{dataset.language}}">
+                  {%if dataset.language|default("") != "":%}
+                    <input type="text" class="form-control" id="tokenfield_language" name="tokenfield_language" required value="{{dataset.language}}">
+                  {%else:%}
+                    <input type="text" class="form-control" id="tokenfield_language" name="tokenfield_language" required value="eng">
+                  {% endif %}
                 </td>
               </tr>
               <tr>
@@ -172,7 +175,7 @@
         </div>
         <div class="col-md-10 metadata-spatial">
           <table class="tableMetadata">
-             <thead>
+            <thead>
               <th class="labels-table"></th>
               <th colspan="8" class="info-table"></th>
             </thead>
@@ -193,25 +196,25 @@
                   <label class="label-table-coordinates" for="geo_coverageW">W:</label>
                 </td>
                 <td style="width: 10%;">
-                  <input type="number" class="form-control-input" id="geo_coverageW" name="geo_coverageW" value="{{dataset.spatialWest}}">
+                  <input type="number" class="form-control" id="geo_coverageW" name="geo_coverageW" value="{{dataset.spatialWest}}">
                 </td>
                 <td style="width: 5%;">
                   <label class="label-table-coordinates" for="geo_coverageE">E:</label>
                 </td>
                 <td style="width: 20%;">
-                  <input type="number" class="form-control-input" id="geo_coverageE" name="geo_coverageE" value="{{dataset.spatialEast}}">
+                  <input type="number" class="form-control" id="geo_coverageE" name="geo_coverageE" value="{{dataset.spatialEast}}">
                 </td>
                 <td style="width: 5%;">
                   <label class="label-table-coordinates" for="geo_coverageS">S:</label>
                 </td>
                 <td style="width: 10%;">
-                  <input type="number" class="form-control-input" id="geo_coverageS" name="geo_coverageS" value="{{dataset.spatialSouth}}">
+                  <input type="number" class="form-control" id="geo_coverageS" name="geo_coverageS" value="{{dataset.spatialSouth}}">
                 </td>
                 <td style="width: 5%;">
                   <label class="label-table-coordinates" for="geo_coverageN">N:</label>
                 </td>
                 <td style="width: 10%;">
-                  <input type="number" class="form-control-input" id="geo_coverageN" name="geo_coverageN" value="{{dataset.spatialNorth}}">
+                  <input type="number" class="form-control" id="geo_coverageN" name="geo_coverageN" value="{{dataset.spatialNorth}}">
                 </td>
               </tr>
               <tr>
@@ -301,16 +304,16 @@
               {% for variable, variableBDO in dataset.variables.items(): %}
                 <tr id="rec-{{ loop.index0 +1 }}">
                  <td>
-                  <input type="text" class="form-control" id="parser_variable" name="parser_variable" value="{{ variable }}" required>
+                  <input type="text" class="form-control" id="parser_variable" name="parser_variable" value="{{variable}}" required>
                  </td>
                  <td>
-                  <input type="text" class="form-control-autocomplete" id="json_variable-{{ loop.index0 +1 }}" name="json_variable" value="{{ variableBDO }}" required>
+                  <input type="text" class="form-control-autocomplete" id="json_variable-{{ loop.index0 +1 }}" name="json_variable" value="{{variableBDO}}" required>
                  </td>
                  <td>
                   <center>
                     <a class="btn btn-xs delete-record" data-id="{{ loop.index0 +1 }}"><i class="glyphicon glyphicon-remove glyphiconRemove"></i></a>
                   </center>
-                 </td>
+                </td>
                </tr>
               {% endfor %}
             </tbody>
@@ -343,14 +346,14 @@
         <div class="col-md-1">
         </div>
         <div class="buttonForm">
-          <button id="btnSave1" type="submit" class="btn btn-default" disabled>Save</button>
+           <button id="btnSave1" type="submit" class="btn btn-default" disabled>Save</button>
           <button type="button" class="btn btn-danger" onclick="cancelButton()">Cancel</button>
         </div>
         <div class="col-md-1">
         </div>
       </div>
     </form>
-  </div>
+  </div>  
   <footer class="container-fluid text-center">
     <a class="footer" href="http://www.bigdataocean.eu/site/">Big Data Ocean</a>
   </footer>

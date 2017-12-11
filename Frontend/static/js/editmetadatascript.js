@@ -39,14 +39,14 @@ jQuery(document).ready(function($) {
   var resourceKeywords = new Bloodhound({
     datumTokenizer: Bloodhound.tokenizers.obj.whitespace('text'),
     queryTokenizer: Bloodhound.tokenizers.whitespace,
-    prefetch: '../static/json/keywords.json'
+    prefetch: '../../static/json/keywords.json'
   });
   resourceKeywords.initialize();
 
   var resourceGeoLoc = new Bloodhound({
     datumTokenizer: Bloodhound.tokenizers.obj.whitespace('text'),
     queryTokenizer: Bloodhound.tokenizers.whitespace,
-    prefetch: 'static/json/marineregions.json'
+    prefetch: '../static/json/marineregions.json'
   });
   resourceGeoLoc.initialize();
 
