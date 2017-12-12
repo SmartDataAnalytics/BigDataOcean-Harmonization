@@ -36,8 +36,8 @@ public class InsertNewDataset {
 		String flag = args[0];
 		String parameter = args[1];
 		String jsonDataset = args[2];
-//		String flag = "other";
-//		String parameter = "s>a>2017-12-31T12:59:59";
+//		String flag = "";
+//		String parameter = "<http://bigdataocean.eu/bdo/MEDSEA_ANALYSIS_FORECAST_PHY_006_013>";
 //		String jsonDataset = Constants.configFilePath+"/Backend/AddDatasets/jsonDataset.json";
 		exec(flag, parameter, jsonDataset);
 	}
@@ -92,8 +92,7 @@ public class InsertNewDataset {
 				"    dct:publisher \""+newDataset.getPublisher()+"\" ; \n" + 
 				"    dct:accessRights \""+newDataset.getAccessRights()+"\" ; \n" + 
 				"    dct:issued \""+newDataset.getIssuedDate()+"\"^^xsd:dateTime ; \n" + 
-				"    dct:modified \""+newDataset.getModifiedDate()+"\"^^xsd:dateTime ; \n" + 
-				"    dct:spatial \""+newDataset.getGeoLocation()+"\" ; \n" + 
+				"    dct:modified \""+newDataset.getModifiedDate()+"\"^^xsd:dateTime ; \n" +				
 				"    bdo:GeographicalCoverage bdo:"+newDataset.getIdentifier()+"_GC ; \n" + 
 				"    dct:conformsTo \""+newDataset.getCoordinateSystem()+"\" ; \n" + 
 				"    bdo:verticalCoverage bdo:"+newDataset.getIdentifier()+"_VC ; \n" + 
@@ -128,6 +127,16 @@ public class InsertNewDataset {
 				insertQuery += "\""+listLang[i]+"\" ; \n" ;
 			}else {
 				insertQuery += "\""+listLang[i]+"\" , \n" ;
+			}
+		}
+		insertQuery +="    dct:spatial ";
+		//lists the geographical locations
+		String[] listGeoLoc = newDataset.getGeoLocation().split(", ");
+		for(int i = 0; i < listGeoLoc.length; i++) {
+			if(i == listGeoLoc.length-1) {
+				insertQuery += "<"+listGeoLoc[i]+"> ; \n" ;
+			}else {
+				insertQuery += "<"+listGeoLoc[i]+"> , \n" ;
 			}
 		}
 		insertQuery += "    disco:variable ";

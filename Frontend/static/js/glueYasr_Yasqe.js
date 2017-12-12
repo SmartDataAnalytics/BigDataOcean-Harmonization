@@ -3,7 +3,7 @@ var yasqe = YASQE(document.getElementById('yasqe'), {
 		endpoint: 'http://localhost:3030/bdoHarmonization/sparql',
 		showQueryButton: true
 	},
-	value: 'SELECT ?p ?o \nWHERE {\n<http://bigdataocean.eu/bdo/MEDSEA_ANALYSIS_FORECAST_WAV_006_011> ?p ?o\n}'
+	value: 'PREFIX dct: <http://purl.org/dc/terms/>\nPREFIX dcat: <https://www.w3.org/TR/vocab-dcat/>\nSELECT ?dataset ?identifier \nWHERE {\n?dataset dct:identifier ?identifier;\n a dcat:Dataset.\n}'
 });
 
 var yasr = YASR(document.getElementById("yasr"), {

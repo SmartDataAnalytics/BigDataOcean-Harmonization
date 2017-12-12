@@ -127,7 +127,7 @@ def save():
 			temporalCoverageBegin = request.form['temp_coverage_begin']
 			temporalCoverageEnd = request.form['temp_coverage_end']
 			timeResolution = request.form['time_reso']
-
+			print("OJO:"+geoLocation)
 			parservariable = request.form.getlist('parser_variable')
 			jsonvariable = request.form.getlist('json_variable')
 			# delete the empty elements in the list 

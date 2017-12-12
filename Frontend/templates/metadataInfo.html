@@ -206,10 +206,10 @@
                 <td>
                   <label class="label-tableInfo" for="geoLocation">Geographic Location:</label>
                 </td>
-                <td colspan="8" class="col-md-6">
                 {% if dataset.geoLocation|default("") != "": %}
                   {% set geo_locations = dataset.geoLocation.split(",") %}
                   {% for geo_location in geo_locations: %}
+                  <td colspan="8" class="col-md-6">                
                     <div class="AgentThumb">
                       <div class="agentThumbInnerBodyGeoLoc">
                         <div class="agentThumbName">
@@ -217,9 +217,9 @@
                         </div>
                       </div>
                     </div>
+                  </td>
                   {% endfor %}
                 {% endif%}
-                </td>
               </tr>
               <tr>
                 <td>

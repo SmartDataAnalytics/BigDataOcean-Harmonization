@@ -30,7 +30,7 @@ public class GetMetadata {
 
 	public static void main(String[] args) {
 		String uri = args[0];
-		//String uri = "<http://bigdataocean.eu/bdo/MEDSEA_ANALYSIS_FORECAST_WAV_006_011>";
+		//String uri = "<http://bigdataocean.eu/bdo/MEDSEA_ANALYSIS_FORECAST_PHY_006_013>";
 		exec(uri);
 
 	}
@@ -80,7 +80,7 @@ public class GetMetadata {
 				"  ?vCov a  bdo:VerticalCoverage ;\n" + 
 				"        bdo:verticalFrom ?verFrom ;\n" + 
 				"        bdo:verticalTo ?verTo .\n" + 
-				"} LIMIT 1";
+				"}";
 		
 		Dataset dataset = new Dataset();
 		RDFNode node;
@@ -96,15 +96,30 @@ public class GetMetadata {
 			node = solution.get("desc");
 			dataset.setDescription(node.toString());
 			node = solution.get("sub");
-			dataset.setSubject(node.toString());
+			if(dataset.getSubject() != null)
+			{
+				dataset.setSubject(dataset.getSubject()+", "+node.toString());
+			}else {
+				dataset.setSubject(node.toString());
+			}
 			node = solution.get("keyw");
-			dataset.setKeywords(node.toString());
+			if(dataset.getKeywords() != null)
+			{
+				dataset.setKeywords(dataset.getKeywords()+", "+node.toString());
+			}else {
+				dataset.setKeywords(node.toString());
+			}
 			node = solution.get("standard");
 			dataset.setStandards(node.toString());
 			node = solution.get("format");
 			dataset.setFormats(node.toString());
 			node = solution.get("lang");
-			dataset.setLanguage(node.toString());
+			if(dataset.getLanguage() != null)
+			{
+				dataset.setLanguage(dataset.getLanguage()+", "+node.toString());
+			}else {
+				dataset.setLanguage(node.toString());
+			}
 			node = solution.get("homep");
 			dataset.setHomepage(node.toString());
 			node = solution.get("publi");
@@ -116,7 +131,12 @@ public class GetMetadata {
 			node = solution.get("modifiedDate");
 			dataset.setModifiedDate(node.toString());
 			node = solution.get("geoLoc");
-			dataset.setGeoLocation(node.toString());
+			if(dataset.getGeoLocation() == null)
+			{
+				dataset.setGeoLocation(node.toString());
+			}else {
+				dataset.setGeoLocation(dataset.getGeoLocation()+", "+node.toString());				
+			}
 			node = solution.get("vFrom");
 			dataset.setVerticalCoverageFrom(node.toString());
 			node = solution.get("vTo");
