@@ -28,5 +28,5 @@ RUN unzip apache-jena-fuseki-3.4.0.zip && rm apache-jena-fuseki-3.4.0.zip
 RUN chmod +x apache-jena-fuseki-3.4.0/bin/s-*
 
 WORKDIR /BDOHarmonization
-CMD cd BigDataOcean-Harmonization/Frontend/ 
+CMD cd BigDataOcean-Harmonization/Frontend/ && python app.py
 
