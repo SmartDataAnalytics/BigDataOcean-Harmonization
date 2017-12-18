@@ -10,7 +10,7 @@ from werkzeug.utils import secure_filename
 # GLOBAL VARIABLES
 #globalPath = "/home/jaimetrillos/Dropbox/BDO/BigDataOcean-Harmonization"
 #globalPath = "/home/anatrillos/Dropbox/Documentos/BigDataOcean-Harmonization"
-globalPath = "/BDOHarmonization"
+globalPath = "/BDOHarmonization/BigDataOcean-Harmonization"
 
 UPLOAD_FOLDER = globalPath+'/Backend/AddDatasets'
 ALLOWED_EXTENSIONS = set(['nc'])
