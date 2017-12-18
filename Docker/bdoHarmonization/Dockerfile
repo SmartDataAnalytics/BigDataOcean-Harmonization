@@ -18,7 +18,6 @@ RUN git clone https://github.com/SmartDataAnalytics/BigDataOcean-Harmonization.g
 RUN mkdir /src
 RUN mkdir /logs
 RUN cd BigDataOcean-Harmonization/Backend/bdodatasets/ && mvn clean install
-# RUN cp -r /BDOHarmonization/BigDataOcean-Harmonization/Backend/TripleStore/ ../
 
 # Install fuseki
 WORKDIR /
@@ -27,6 +26,7 @@ RUN wget http://archive.apache.org/dist/jena/binaries/apache-jena-fuseki-3.4.0.z
 RUN unzip apache-jena-fuseki-3.4.0.zip && rm apache-jena-fuseki-3.4.0.zip
 RUN chmod +x apache-jena-fuseki-3.4.0/bin/s-*
 
-WORKDIR /BDOHarmonization
-CMD cd BigDataOcean-Harmonization/Frontend/ && python app.py
+WORKDIR /BDOHarmonization/BigDataOcean-Harmonization/Frontend/
+ENTRYPOINT ["python"]
+CMD ["app.py"]
 

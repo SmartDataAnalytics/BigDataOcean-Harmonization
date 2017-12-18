@@ -7,7 +7,7 @@ services:
     environment:
       - ADMIN_PASSWORD=bd0
   bdoharmonization:
-    build: "./bdoHarmonization"
+    build: "./bdoharmonization"
     ports:
       - 5000:5000
     links:
