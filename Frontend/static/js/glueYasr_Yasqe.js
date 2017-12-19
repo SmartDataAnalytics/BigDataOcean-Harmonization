@@ -6,6 +6,8 @@ var yasqe = YASQE(document.getElementById('yasqe'), {
 	value: 'PREFIX dct: <http://purl.org/dc/terms/>\nPREFIX dcat: <https://www.w3.org/TR/vocab-dcat/>\nSELECT ?dataset ?identifier \nWHERE {\n?dataset dct:identifier ?identifier;\n a dcat:Dataset.\n}'
 });
 
+YASR.defaults.outputPlugins = ["error", "boolean", "rawResponse", "table"]
+
 var yasr = YASR(document.getElementById("yasr"), {
 	//this way, the URLs in the results are prettified using the defined prefixes in the query
 	getUsedPrefixes: yasqe.getPrefixesFromQuery
