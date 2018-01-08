@@ -60,7 +60,6 @@ public class GetMetadata {
 				"       dct:accessRights ?rights ;\n" + 
 				"       dct:issued ?issued ;\n" + 
 				"       dct:modified ?modified ;\n" + 
-				"       dct:spatial ?geoLoc ;\n" + 
 				"       bdo:timeResolution ?timeReso ;\n" + 
 				"       bdo:GeographicalCoverage ?spatial ;\n" + 
 				"       bdo:verticalLevel ?vLevel ;\n" + 
@@ -80,6 +79,7 @@ public class GetMetadata {
 				"  ?vCov a  bdo:VerticalCoverage ;\n" + 
 				"        bdo:verticalFrom ?verFrom ;\n" + 
 				"        bdo:verticalTo ?verTo .\n" + 
+				" OPTIONAL {"+Uri+" dct:spatial ?geoloc .}\n" +
 				"}";
 		
 		Dataset dataset = new Dataset();
@@ -131,11 +131,16 @@ public class GetMetadata {
 			node = solution.get("modifiedDate");
 			dataset.setModifiedDate(node.toString());
 			node = solution.get("geoLoc");
-			if(dataset.getGeoLocation() == null)
-			{
-				dataset.setGeoLocation(node.toString());
+			//if node = null then setGeoLocation to ""
+			if(node!=null) {
+				if(dataset.getGeoLocation() == null)
+				{
+					dataset.setGeoLocation(node.toString());
+				}else {
+					dataset.setGeoLocation(dataset.getGeoLocation()+", "+node.toString());				
+				}
 			}else {
-				dataset.setGeoLocation(dataset.getGeoLocation()+", "+node.toString());				
+				dataset.setGeoLocation("");
 			}
 			node = solution.get("vFrom");
 			dataset.setVerticalCoverageFrom(node.toString());

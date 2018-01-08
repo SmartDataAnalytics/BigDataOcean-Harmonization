@@ -11,14 +11,35 @@ var options = {
   }  
 };
 
-//Enable easyautocomplete (List) to field json_variable-#
-size = jQuery('#tbl_posts >tbody >tr').length;
-for (i = 1; i <= size; i++) { 
-  $("#json_variable-"+i).easyAutocomplete(options);
-  $('#json_variable-'+i).prop('required',true);
-  $('parser_variable').prop('required',true);
-  
-}
+$( document ).ready(function() {
+  //Enable easyautocomplete (List) to field json_variable-#
+  size = jQuery('#tbl_posts >tbody >tr').length;
+  for (i = 1; i <= size; i++) { 
+    $("#json_variable-"+i).easyAutocomplete(options);
+    // avoid free text in easy autocomplete field (BDO variables)
+    $('#json_variable-'+i).on("blur", function() {
+
+      var $input = $('#json_variable-'+i),
+          value = $input.val(),
+          list = $input.getItems(),
+          foundMatch = false;
+      for (var i = 0, length = list.length; i < length; i += 1) {
+        
+        if (list[i].label === value) {
+          foundMatch = true;
+          break;
+        }
+      }
+
+      if (!foundMatch || list.length === 0) {
+        $input.val("").trigger("change");//or other message
+      }
+
+    });
+    $('#json_variable-'+i).prop('required',true);
+    $('parser_variable').prop('required',true);
+  }
+});
 
 //Creation of tokenfields 
 jQuery(document).ready(function($) {
@@ -166,6 +187,28 @@ jQuery(document).delegate('a.add-record', 'click', function(e) {
   element.find('.delete-record').attr('data-id', size);
   element.appendTo('#tbl_posts_body');
   $('#json_variable-'+size).easyAutocomplete(options);
+
+  // avoid free text in easy autocomplete field (BDO variables)
+  $('#json_variable-'+size).on("blur", function() {
+
+    var $input = $('#json_variable-'+size),
+        value = $input.val(),
+        list = $input.getItems(),
+        foundMatch = false;
+    for (var i = 0, length = list.length; i < length; i += 1) {
+
+      if (list[i].label === value) {
+        foundMatch = true;
+        break;
+      }
+    }
+
+    if (!foundMatch || list.length === 0) {
+      $input.val("").trigger("change");//or other message
+    }
+
+  });
+
   element.find('.sn').html(size);
   $('#json_variable-'+size).prop('required',true);
   $('parser_variable').prop('required',true);
@@ -219,3 +262,24 @@ function requireVariables(){
     }
   }
 }
+
+// avoid free text in easy autocomplete field (BDO variables)
+$('#json_variable-1').on("blur", function() {
+
+  var $input = $('#json_variable-1'),
+      value = $input.val(),
+      list = $input.getItems(),
+      foundMatch = false;
+  for (var i = 0, length = list.length; i < length; i += 1) {
+    
+    if (list[i].label === value) {
+      foundMatch = true;
+      break;
+    }
+  }
+
+  if (!foundMatch || list.length === 0) {
+    $input.val("").trigger("change");//or other message
+  }
+
+});

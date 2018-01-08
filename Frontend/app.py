@@ -63,7 +63,7 @@ def parse():
 			file = request.files['fileNetcdf']
 			if uri != "":
 				# if adding a Copernicus dataset, the shell suggest is called to parse the xml file and get metadata
-				command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/suggest "%s"' %uri
+				command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/suggest "%s" Coppernicus' %uri
 				try:
 					process = subprocess.check_output([command], shell="True")
 				except subprocess.CalledProcessError as e:
@@ -82,7 +82,7 @@ def parse():
 					file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 					path_fileNetcdf = UPLOAD_FOLDER + "/" + filename
 					# print (path_fileNetcdf)
-					command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/suggestNetcdf "%s"' %path_fileNetcdf
+					command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/suggest "%s" Netcdf' %path_fileNetcdf
 					try:
 						process = subprocess.check_output([command], shell="True")
 					except subprocess.CalledProcessError as e:
@@ -128,7 +128,6 @@ def save():
 			temporalCoverageBegin = request.form['temp_coverage_begin']
 			temporalCoverageEnd = request.form['temp_coverage_end']
 			timeResolution = request.form['time_reso']
-			print("OJO:"+geoLocation)
 			parservariable = request.form.getlist('parser_variable')
 			jsonvariable = request.form.getlist('json_variable')
 			# delete the empty elements in the list 

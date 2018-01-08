@@ -37,7 +37,7 @@ public class InsertNewDataset {
 		String parameter = args[1];
 		String jsonDataset = args[2];
 //		String flag = "";
-//		String parameter = "<http://bigdataocean.eu/bdo/MEDSEA_ANALYSIS_FORECAST_PHY_006_013>";
+//		String parameter = "<http://bigdataocean.eu/bdo/MEDSEA_ANALYSIS_mmmmFORECAST_PHY_006_013>";
 //		String jsonDataset = Constants.configFilePath+"/Backend/AddDatasets/jsonDataset.json";
 		exec(flag, parameter, jsonDataset);
 	}
@@ -129,14 +129,17 @@ public class InsertNewDataset {
 				insertQuery += "\""+listLang[i]+"\" , \n" ;
 			}
 		}
-		insertQuery +="    dct:spatial ";
 		//lists the geographical locations
 		String[] listGeoLoc = newDataset.getGeoLocation().split(", ");
-		for(int i = 0; i < listGeoLoc.length; i++) {
-			if(i == listGeoLoc.length-1) {
-				insertQuery += "<"+listGeoLoc[i]+"> ; \n" ;
-			}else {
-				insertQuery += "<"+listGeoLoc[i]+"> , \n" ;
+		//if the first item of the list is not empty then insert the property...
+		if(!listGeoLoc[0].equals("")) { 
+			insertQuery +="    dct:spatial ";
+			for(int i = 0; i < listGeoLoc.length; i++) {
+				if(i == listGeoLoc.length-1) {
+					insertQuery += "<"+listGeoLoc[i]+"> ; \n" ;
+				}else {
+					insertQuery += "<"+listGeoLoc[i]+"> , \n" ;
+				}
 			}
 		}
 		insertQuery += "    disco:variable ";
