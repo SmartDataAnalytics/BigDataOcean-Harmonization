@@ -218,7 +218,13 @@ function requireVariables(){
   for (var i = 1; i <=size; i++) {
     var jsonvariable = $("#json_variable-"+i).val();
     if (jsonvariable === ""){
-      alert("Please fill the variable Field");
+      $.alert({
+        title: 'Alert!',
+        content: 'Please choose a variable in the Variable Field.',
+        type: 'red',
+        typeAnimated: true,
+        useBootstrap: true,
+      });
       return false;
     }
   }

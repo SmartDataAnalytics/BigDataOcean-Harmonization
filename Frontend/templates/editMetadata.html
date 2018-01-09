@@ -23,7 +23,7 @@
     </div>
   </nav>
   <div class="container text-center" style="margin-top:90px">
-    <form id="metadataForm" name="metadataForm" class="form-style" method="POST" action="http://localhost:5000/edit" novalidate onSubmit="alert('This might tale a while, thank you for your patience');">
+    <form id="metadataForm" name="metadataForm" class="form-style" method="POST" onSubmit="modifyAlert()" action="http://localhost:5000/edit" >
       <div class="row content">
         <div class="col-md-1">
         </div>
@@ -367,6 +367,7 @@
 <link rel="stylesheet" href="../static/css/easy-autocomplete.min.css"> 
 <link rel="stylesheet" href="../static/css/easy-autocomplete.themes.min.css"> 
 <link rel="stylesheet" href="../static/css/style.css">
+<link rel="stylesheet" href="../static/css/jquery-confirm.css">
 
 <script src="../static/js/jquery-3.2.1.min.js"></script>
 <script src="http://code.jquery.com/ui/1.12.1/jquery-ui.js" ></script>
@@ -376,6 +377,7 @@
 <script src="../static/js/typeahead.bundle.js"></script>
 <script src="../static/js/jquery.easy-autocomplete.min.js"></script> 
 <script type="text/javascript" src="../static/js/jquery.dirrty.js"></script>
+<script src="../static/js/jquery-confirm.js"></script>
 <script type="text/javascript" src="../static/js/editmetadatascript.js"></script>
 <script type="text/javascript">
   function validateForm() {
@@ -385,5 +387,14 @@
       return false;
     }
   }
+  function modifyAlert(){
+  $.alert({
+    icon: 'fa fa-spinner fa-spin',
+    title: 'Working!',
+    content: 'This operation might take a little time, thank you for your patience!',
+    useBootstrap: true,
+    typeAnimated: true
+  });
+}
 </script>
 </html>

@@ -44,11 +44,23 @@ function toggleLayer( whichLayer ){
 
 function requireUri(){
   if (document.getElementById('urifield').style.display == 'block' && document.getElementById('uri').value == ""){
-    alert("Please fill the URI Field");
+    $.alert({
+        title: 'Alert!',
+        content: 'Please fill the URI Field.',
+        type: 'red',
+        typeAnimated: true,
+        useBootstrap: true,
+    });
     return false;
   }
   if (document.getElementById('filefield').style.display == 'block' && document.getElementById('fileNetcdf').value == ""){
-    alert("Please fill the file Field");
+    $.alert({
+        title: 'Alert!',
+        content: 'Please choose a file in the File Field.',
+        type: 'red',
+        typeAnimated: true,
+        useBootstrap: true,
+    });
     return false;
   }
   if (document.getElementById('filefield').style.display == 'block' && document.getElementById('fileNetcdf').value != ""){

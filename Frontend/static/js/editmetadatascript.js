@@ -234,6 +234,8 @@ jQuery(document).delegate('a.delete-record', 'click', function(e) {
   } else {
     return false;
   }
+  $("#btnSave").removeAttr("disabled");
+  $("#btnSave1").removeAttr("disabled");
 });
 
 function cancelButton(){
@@ -257,7 +259,13 @@ function requireVariables(){
   for (var i = 1; i <=size; i++) {
     var jsonvariable = $("#json_variable-"+i).val();
     if (jsonvariable === ""){
-      alert("Please fill the variable Field");
+      $.alert({
+        title: 'Alert!',
+        content: 'Please choose a variable in the Variable Field.',
+        type: 'red',
+        typeAnimated: true,
+        useBootstrap: true,
+      });
       return false;
     }
   }
@@ -283,3 +291,4 @@ $('#json_variable-1').on("blur", function() {
   }
 
 });
+
