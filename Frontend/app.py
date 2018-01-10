@@ -71,6 +71,7 @@ def parse():
 				# metadata parsed is converted into json class datasetSuggest to be used inside the html form
 				parsed_output = json.loads(process.decode('utf-8'))
 				dataset = datasetSuggest(**parsed_output)
+				# print (dataset.variables)
 
 				return render_template('addMetadata.html', dataset=dataset)
 			elif file.filename != '':
@@ -187,6 +188,7 @@ def edit(identifier):
 			# metadata parsed is converted into json class datasetInfo to be used inside the html form
 			parsed_output = json.loads(process.decode('utf-8'))
 			dataset = datasetInfo(**parsed_output)
+			# print(dataset.variables)
 			return render_template('editMetadata.html', dataset=dataset)
 			
 	except ValueError:  # includes simplejson.decoder.JSONDecodeError
@@ -382,7 +384,7 @@ class datasetInfo(object):
 	def __init__(self, identifier, title, description, subject, keywords, standards, formats, language, homepage, publisher, 
 		accessRights, issuedDate, modifiedDate, geoLocation, spatialWest, spatialEast, spatialSouth, spatialNorth, 
 		coordinateSystem, verticalCoverageFrom, verticalCoverageTo,temporalCoverageBegin, temporalCoverageEnd, 
-		verticalLevel, timeResolution, variables
+		verticalLevel, timeResolution, variable
 		):
 		self.identifier = identifier
 		self.title = title
@@ -409,7 +411,8 @@ class datasetInfo(object):
 		self.temporalCoverageBegin = temporalCoverageBegin
 		self.temporalCoverageEnd = temporalCoverageEnd
 		self.timeResolution = timeResolution
-		self.variables = variables
+		# self.variables = variables # map<string, string>
+		self.variables = variable
 
 if __name__ == '__main__':
 	app.run(debug=True, host='0.0.0.0')

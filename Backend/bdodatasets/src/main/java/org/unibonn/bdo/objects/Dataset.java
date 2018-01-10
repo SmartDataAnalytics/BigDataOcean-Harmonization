@@ -1,5 +1,6 @@
 package org.unibonn.bdo.objects;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -38,8 +39,8 @@ public class Dataset {
 	private String temporalCoverageBegin; //temp_coverage_begin
 	private String temporalCoverageEnd; //temp_coverage_end
 	private String timeResolution; //time_reso
-	private Map<String,String> variables; //variables
-	private String variable;
+	private Map<String,String> variables; //dataset variables and BDO variables
+	private List<String> variable; //dataset variables
 	
 	public Dataset(){
 	}
@@ -49,7 +50,7 @@ public class Dataset {
 			String issuedDate, String modifiedDate, String geoLocation, String spatialWest, String spatialEast,
 			String spatialSouth, String spatialNorth, String coordinateSystem, String verticalCoverageFrom,
 			String verticalCoverageTo, String verticalLevel, String temporalCoverageBegin, String temporalCoverageEnd,
-			String timeResolution, String variable) {
+			String timeResolution, List<String> variable) {
 		super();
 		this.identifier = identifier;
 		this.title = title;
@@ -322,11 +323,11 @@ public class Dataset {
 		this.variables = variables;
 	}
 
-	public String getVariable() {
+	public List<String> getVariable() {
 		return variable;
 	}
 
-	public void setVariable(String variable) {
+	public void setVariable(List<String> variable) {
 		this.variable = variable;
 	}	
 	

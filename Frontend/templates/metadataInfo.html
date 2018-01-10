@@ -332,16 +332,17 @@
               </tr>
             </thead>
             <tbody id="tbl_posts_body">
-              {% for variable, variableBDO in dataset.variables.items(): %}
+              {% for x in dataset.variables: %}
+              {% set list = x.split(" -- ") %}
                 <tr id="rec-{{ loop.index0 +1 }}">
                   <td>
-                    <span class="variablesspan">{{ variable }}</span>
+                    <span class="variablesspan">{{ list[0] }}</span>
                   </td>
                   <td>
                     <span class="variablesspan">
                       {%for variable in variables:%}
-                        {%if variable["text"] == variableBDO:%}
-                          <a href="{{variable['value']}}" target="_blank">{{variableBDO}}</a>
+                        {%if variable["text"] == list[1]:%}
+                          <a href="{{variable['value']}}" target="_blank">{{ list[1] }}</a>
                         {% endif%}
                       {% endfor %}
                     </span>

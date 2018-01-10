@@ -302,23 +302,11 @@
               </tr>
             </thead>
             <tbody id="tbl_posts_body">
-              {% for x in dataset.variables.split(","): %}
-                <tr id="rec-{{ loop.index0 +1 }}">
-                 <td>
-                  <input type="text" class="form-control" id="parser_variable" name="parser_variable" value="{{x}}" required>
-                 </td>
-                 <td>
-                  <input type="text" class="form-control-autocomplete" id="json_variable-{{ loop.index0 +1 }}" name="json_variable" value="" required>
-                 </td>
-                 <td>
-                  <center>
-                    <a class="btn btn-xs delete-record" data-id="{{ loop.index0 +1 }}"><i class="glyphicon glyphicon-remove glyphiconRemove"></i></a>
-                  </center>
-                </td>
-               </tr>
-              {% endfor %}
             </tbody>
           </table>
+          <script type="text/javascript">
+            var response = {{ dataset.variables|safe }};
+          </script>
           <div class="buttonBar clearfix">
             <a class="btn btn-primary pull-right add-record" data-added="0"><i class="glyphicon glyphicon-plus"></i> Add Row</a>
           </div>
@@ -711,7 +699,12 @@
   function validateForm() {
     var x = document.forms["metadataForm"]["fname"].value;
     if (document.forms["metadataForm"]["title"].value == "") {
-      alert("Name must be filled out");
+      $.alert({
+        title: 'Alert!',
+        content: 'Name must be filled out',
+        useBootstrap: true,
+        typeAnimated: true
+      });
       return false;
     }
   }

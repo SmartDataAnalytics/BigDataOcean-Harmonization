@@ -62,7 +62,7 @@ public class BdoDatasetAnalyser {
 		String verticalLevel;
 		String timeResolution;
 		Elements variablesElements;
-		String variables;
+		List<String> variables = new ArrayList<>();
 
 		//Read the URI and return the HTML/XML document
 		Document doc = Jsoup.connect(datasetURI).get();
@@ -123,12 +123,15 @@ public class BdoDatasetAnalyser {
 		Element item7 = doc.getElementsByTag("gmd:descriptiveKeywords").get(2);
 		variablesElements = item7.getElementsByTag("gmx:Anchor");
 
-		delims = variablesElements.text().replaceAll(" ", ",");
-		variables = delims;
-
+		String replace = variablesElements.text().replaceAll(" ", ",");
+		
 		delims = ",geonetwork.thesaurus.external.parameter.myocean.ocean-variables";
-		tokens = variables.split(delims);
-		variables = tokens[0];
+		tokens = replace.split(delims);
+		delims = tokens[0];
+		String[] list = delims.split(",");
+		for (int i=0; i<list.length; i++) {
+			variables.add(list[i]);
+		}
 
 		result.setTitle(title);
 		result.setDescription(description);
@@ -175,7 +178,7 @@ public class BdoDatasetAnalyser {
 		String verticalCoverageFrom;
 		String verticalCoverageTo;
 		String timeResolution;
-		String variables = null;
+		List<String> variables = new ArrayList<>();
 
 		//read the file
 		NetcdfFile nc = null;
@@ -183,7 +186,6 @@ public class BdoDatasetAnalyser {
 			nc = NetcdfDataset.openFile(filename, null);
 
 			List<Variable> allVariables;
-			List<String> listVariables = new ArrayList<>();
 			
 			//find the attributes and export the information to create the DatasetSuggest
 			identifier = nc.findGlobalAttribute("id").getStringValue();
@@ -222,23 +224,15 @@ public class BdoDatasetAnalyser {
 		    	if(standard_name !=null) {
 		    		if(standard_name.getStringValue() != "") {
 		    			//add the standard_name value if it is not null or ""
-		    			listVariables.add(standard_name.getStringValue());
+		    			variables.add(standard_name.getStringValue());
 		    		}
 		    	}
 		    }
 			//Verify and delete if there are duplicates
 			HashSet<String> hs = new HashSet<String>();
-			hs.addAll(listVariables);
-			listVariables.clear();
-			listVariables.addAll(hs);
-			//Generate a string with all the elements of listVariables
-			for (int i=0; i<listVariables.size(); i++) {
-				if(variables == null) {
-					variables = listVariables.get(i);
-				}else {
-					variables = variables + "," + listVariables.get(i);
-				}
-			}
+			hs.addAll(variables);
+			variables.clear();
+			variables.addAll(hs);
 			
 			//Extracting the array of keywords find in the json file
 			JSONParser parser = new JSONParser();

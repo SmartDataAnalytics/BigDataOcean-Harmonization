@@ -230,12 +230,12 @@ jQuery(document).delegate('a.delete-record', 'click', function(e) {
       //alert(index);
       $(this).find('span.sn').html(index+1);
     });
+    $("#btnSave").removeAttr("disabled");
+    $("#btnSave1").removeAttr("disabled");
     return true;
   } else {
     return false;
   }
-  $("#btnSave").removeAttr("disabled");
-  $("#btnSave1").removeAttr("disabled");
 });
 
 function cancelButton(){
@@ -292,3 +292,42 @@ $('#json_variable-1').on("blur", function() {
 
 });
 
+//Add variables to the table.
+$.each(response, function(i, item) {
+  var variable = response[i].split(" -- ");
+  var content = jQuery('#sample_table tr'),
+  size = jQuery('#tbl_posts >tbody >tr').length + 1,
+  element = null,    
+  element = content.clone();
+  element.attr('id', 'rec-'+size);
+  element.find('#parser_variable').attr('value', variable[0]);
+  element.find('#json_variable').attr('id', 'json_variable-'+size);
+  element.find('#json_variable-'+size).attr('value', variable[1]);
+  element.find('.delete-record').attr('data-id', size);
+  element.appendTo('#tbl_posts_body');
+  $('#json_variable-'+size).easyAutocomplete(options);
+  // avoid free text in easy autocomplete field (BDO variables)
+  $('#json_variable-'+size).on("blur", function() {
+
+    var $input = $('#json_variable-'+size),
+        value = $input.val(),
+        list = $input.getItems(),
+        foundMatch = false;
+    for (var i = 0, length = list.length; i < length; i += 1) {
+
+      if (list[i].label === value) {
+        foundMatch = true;
+        break;
+      }
+    }
+
+    if (!foundMatch || list.length === 0) {
+      $input.val("").trigger("change");//or other message
+    }
+
+  });
+
+  element.find('.sn').html(size);
+  $('#json_variable-'+size).prop('required',true);
+  $('parser_variable').prop('required',true);
+});

@@ -28,9 +28,9 @@ public class Suggest {
 		String uri_file = args[0];
 		String type = args[1];
 		//String uri_file = "http://cmems-resources.cls.fr/?option=com_csw&view=details&tab=info&product_id=MEDSEA_ANALYSIS_FORECAST_WAV_006_011&format=xml";
-		//String type = "Coppernicus"
+		//String type = "Coppernicus";
 		//String uri_file = "/home/jaimetrillos/Dropbox/BDO/BigDataOcean-Harmonization/Backend/AddDatasets/file.nc";
-		//String type = "Netcdf"
+		//String type = "Netcdf";
 		exec(uri_file, type);
 	}
 	

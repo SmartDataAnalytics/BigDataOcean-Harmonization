@@ -167,6 +167,32 @@ public class GetMetadata {
 		}
 		
 		List<String> listVaraibles = new ArrayList<>() ;
+		RDFNode node2, node3;
+		
+		String queryVariables = "PREFIX dct: <http://purl.org/dc/terms/>\n" +
+				"PREFIX bdo: <http://bigdataocean.eu/bdo/>\n" +
+				"PREFIX skos: <http://www.w3.org/2004/02/skos/core#>\n" +
+				"SELECT ?uri ?identifierVariable (STR(?prefLabel) AS ?label)\n" + 
+				"WHERE {\n" + 
+				"  "+Uri+" ?predicate ?object .\n" + 
+				"  ?object a bdo:BDOVariable ;\n" + 
+				"        dct:identifier ?identifierVariable ;\n" + 
+				"        skos:prefLabel ?prefLabel .\n" + 
+				"  FILTER(lang(?prefLabel) = \"en\")\n" + 
+				"}";
+		
+		// Adding Datasetvariables -- BDOvariables in a list
+		ResultSet rsVariables = QueryExecutor.selectQuery(queryVariables);
+		while(rsVariables.hasNext()){
+			QuerySolution solution = rsVariables.nextSolution();
+			node2 = solution.get("identifierVariable");
+			node3 = solution.get("label");
+			listVaraibles.add(node2.toString() + " -- "+ node3.toString());
+		}
+		
+		dataset.setVariable(listVaraibles);
+		
+		/*List<String> listVaraibles = new ArrayList<>() ;
 		List<String> listVaraiblesBDO = new ArrayList<>() ;
 		RDFNode node2;
 		
@@ -194,7 +220,7 @@ public class GetMetadata {
 		for (int i = 0; i < listVaraibles.size(); i++) {
 			map.put(listVaraibles.get(i), listVaraiblesBDO.get(i));
 		}
-		dataset.setVariables(map);
+		dataset.setVariables(map);*/
 		
 		try {
 			// Parse into JSON the Dataset instance with all metadata from a dataset
