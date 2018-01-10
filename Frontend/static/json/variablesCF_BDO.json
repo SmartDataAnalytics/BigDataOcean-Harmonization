@@ -140,10 +140,6 @@
     "value": "http://bigdataocean.eu/bdo/cf/parameter/sea_water_temperature_quality_flag"
   },
   {
-    "text": "time",
-    "value": "http://bigdataocean.eu/bdo/cf/parameter/time"
-  },
-  {
     "text": "time_quality_flag",
     "value": "http://bigdataocean.eu/bdo/cf/parameter/time_quality_flag"
   },
