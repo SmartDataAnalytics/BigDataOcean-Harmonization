@@ -180,6 +180,13 @@
               </jvmSettings>
             </program>
             <program>
+              <mainClass>org.unibonn.bdo.bdodatasets.ApiListDatasetByVariable</mainClass>
+              <name>apiListDatasetByVariable</name>
+              <jvmSettings>
+                <maxMemorySize>512m</maxMemorySize>
+              </jvmSettings>
+            </program>
+            <program>
               <mainClass>org.unibonn.bdo.bdodatasets.GetMetadata</mainClass>
               <name>getDataset</name>
               <jvmSettings>

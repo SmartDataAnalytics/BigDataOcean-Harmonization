@@ -1,5 +1,8 @@
 package org.unibonn.bdo.bdodatasets;
 
+import java.util.Iterator;
+
+import com.hp.hpl.jena.graph.Triple;
 import com.hp.hpl.jena.query.QueryExecution;
 import com.hp.hpl.jena.query.QueryExecutionFactory;
 import com.hp.hpl.jena.query.ResultSet;
@@ -11,7 +14,7 @@ public class QueryExecutor {
 	
 	public static boolean askQuery(String query) {
 		QueryExecution qe = QueryExecutionFactory.sparqlService(
-				"http://fuseki:3030/bdoHarmonization/query", query);
+				"http://localhost:3030/bdoHarmonization/query", query);
 		boolean results = qe.execAsk();
 		return results;
 		
@@ -20,13 +23,13 @@ public class QueryExecutor {
 	public static void insertQuery(String dataset) {
 		UpdateProcessor upp = UpdateExecutionFactory.createRemote(
 				UpdateFactory.create(String.format(dataset)), 
-				"http://fuseki:3030/bdoHarmonization/update");
+				"http://localhost:3030/bdoHarmonization/update");
 		upp.execute();
 	}
 	
 	public static ResultSet selectQuery(String query) {
 		QueryExecution qe = QueryExecutionFactory.sparqlService(
-				"http://fuseki:3030/bdoHarmonization/query",query);
+				"http://localhost:3030/bdoHarmonization/query",query);
 		ResultSet results = qe.execSelect();
 		return results;
 	}
@@ -34,9 +37,8 @@ public class QueryExecutor {
 	public static void deleteQuery(String query) {
 		UpdateProcessor upp = UpdateExecutionFactory.createRemote(
 				UpdateFactory.create(String.format(query)), 
-				"http://fuseki:3030/bdoHarmonization/update");
-		upp.execute();
-		
+				"http://localhost:3030/bdoHarmonization/update");
+		upp.execute();		
 	}
 	
 }

@@ -17,7 +17,7 @@ import com.hp.hpl.jena.rdf.model.RDFNode;
  * @author Jaime M Trillos
  * @author Ana C Trillos
  *
- * Does not receive any parameter, but querie Jena Fuseki to get a list of all datasets
+ * Does not receive any parameter, but query Jena Fuseki to get a list of all datasets
  *
  */
 
