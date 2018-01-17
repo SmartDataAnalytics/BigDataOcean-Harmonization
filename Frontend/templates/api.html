@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>BigDataOcean Harmonization </title>
+  <link rel='icon' href='/static/img/BIG-DATA-OCEAN_LOGO.ico'>
+</head>
+
+<body>
+  <nav class="navbar navbar-bdo navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <div class="icon">
+                <a id="logo" title="BigDataOcean Repository" href="/">
+                    <img itemprop="image" alt="BigDataOcean Repository" src="static/img/BIG-DATA-OCEAN_LOGO.png" height="86" width="200">
+                </a>
+            </div>
+            <div class="bdotitle label-table">
+                <h1>Big Data Ocean - Dataset Harmonization</h1>
+            </div>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+        </div>
+    </div>
+  </nav>
+  <div class="container text-center" style="margin-top:90px">
+    <div class="row content">
+        <div class="col-md-1">
+        </div>          
+        <div class="col-md-10 field-title">
+          API documentation
+          <label class="desc">
+            Functions defined in BigDataOcean can be called with an <span class="pre">HTTP GET </span><span>request. The response to the function you call is in </span><span class="pre">JSON format</span><span>. Browser plugins like </span><a href="https://addons.mozilla.org/en-us/firefox/addon/jsonview/" target="_blank">JSONView for Firefox </a><span>or </span><a href="https://chrome.google.com/webstore/detail/jsonview/chklaanhfefbnpoihckbnefhakgolnmc" target="_blank">Chrome </a><span>will format and color BigDataOcean's JSON response nicely in your browser.</span>
+          </label>
+        </div>
+        <div class="col-md-1">
+        </div>
+      </div>
+    <div class="row content api-row" id="api">
+        <div class="col-md-1">
+        </div>
+        <div class="col-md-10 metadata-info" id="accordion">
+          <h2>
+            <span class="apiHttpMethod">get</span>
+            <span class="apiPath">/api/v1/dataset/searchVariable</span>
+          </h2>
+          <div>
+            <form method="GET" action="/api/v1/dataset/searchVariable">
+              <h4 data-sw-translate="">Parameters</h4>
+              <table class="apiTable">
+                <thead>
+                  <tr>
+                    <th style="width: 100px; max-width: 100px" data-sw-translate="">Parameter</th>
+                    <th style="width: 310px; max-width: 310px" data-sw-translate="">Value</th>
+                    <th style="width: 200px; max-width: 200px" data-sw-translate="">Description</th>
+                    <th style="width: 100px; max-width: 100px" data-sw-translate="">Parameter Type</th>
+                    <th style="width: 220px; max-width: 230px" data-sw-translate="">Data Type</th>
+                  </tr>
+                </thead>
+                <tbody class="operation-params">
+                  <tr>
+                    <td class="code required">
+                      <label for="tokenfield_variables">variable(s)</label>
+                    </td>
+                    <td>
+                      <input type="text" class="form-control" id="tokenfield_variables" name= "search" required placeholder="required">
+                    </td>
+                    <td>
+                      <strong>
+                        <span class="markdown"><p>example variable(s): time,latitude</p>
+                        </span>
+                      </strong>
+                    </td>
+                    <td>search</td>
+                    <td><span class="model-signature">string</span></td>
+                  </tr>
+                </tbody>
+              </table>
+              <input class="submit" type="submit" value="Try it out!">
+            </form>
+            <div class="apiExample">For example, using the BigDataOcean list variables API, your app can search for all datasets matching the variables "time,latitude": <a href="/api/v1/dataset/searchVariable?search=time,latitude" target="_blank">http://localhost:5000/api/v1/dataset/searchVariable?search=time,latitude</a></div>
+          </div>
+          <h3>Section 2</h3>
+          <div>
+            <p>Sed non urna. Donec et ante. Phasellus eu ligula. Vestibulum sit amet purus. Vivamus hendrerit, dolor at aliquet laoreet, mauris turpis porttitor velit, faucibus interdum tellus libero ac justo. Vivamus non quam. In suscipit faucibus urna. </p>
+          </div>
+          <h3>Section 3</h3>
+          <div>
+            <p>Nam enim risus, molestie et, porta ac, aliquam ac, risus. Quisque lobortis. Phasellus pellentesque purus in massa. Aenean in pede. Phasellus ac libero ac tellus pellentesque semper. Sed ac felis. Sed commodo, magna quis lacinia ornare, quam ante aliquam nisi, eu iaculis leo purus venenatis dui. </p>
+            <ul>
+              <li>List item one</li>
+              <li>List item two</li>
+              <li>List item three</li>
+            </ul>
+          </div>
+          <h3>Section 4</h3>
+          <div>
+            <p>Cras dictum. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aenean lacinia mauris vel est. </p><p>Suspendisse eu nisl. Nullam ut libero. Integer dignissim consequat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. </p>
+          </div>
+        </div>
+        <div class="col-md-1">
+        </div>
+    </div>
+    
+    <div class="row content">
+    </div>
+  </div>
+
+  <footer class="container-fluid text-center">
+    <div class="wrpl"><a href="http://www.bigdataocean.eu/site/">
+        <dl>
+          <dt><img class="BDO_logo" src="/static/img/BIG-DATA-OCEAN_LOGO.png"></dt>
+          <dd><strong>Big Data Ocean</strong></dd>
+        </dl></a></div>
+    <div class="wrpl"><br>
+      <div class="bookmarks"><b>Documentation</b>
+        <ul>
+          <li><a href="/api" title="API documentation">API documentation</a></li>
+          <li><a href="https://github.com/SmartDataAnalytics/BigDataOcean-Harmonization" title="Source in GitHub" target="_blank">Source code</a></li>
+        </ul>
+      </div>
+      <div class="bookmarks"><b>Publication</b>
+        <ul>
+          <li><a href="https://doi.org/10.5281/zenodo.833359" title="BigDataOcean" target="_blank">IEEE '17</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+</body>
+<script
+  src="https://code.jquery.com/jquery-2.2.4.min.js"
+  integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+  crossorigin="anonymous"></script>
+<script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="static/css/style.css">
+<link rel="stylesheet" href="static/css/api.css">
+<link rel="stylesheet" href="static/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="static/css/jquery-confirm.css">
+<link rel="stylesheet" href="static/css/bootstrap-tokenfield.css">
+<link rel="stylesheet" href="static/css/tokenfield-typeahead.css">
+<link rel="stylesheet" href="static/css/easy-autocomplete.min.css"> 
+<link rel="stylesheet" href="static/css/easy-autocomplete.themes.min.css"> 
+
+<script type='text/javascript' src="static/js/apiScript.js"></script>
+<script src="static/js/jquery-confirm.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="static/js/Bloodhound.js"></script>
+<script src="static/js/bootstrap-tokenfield.js"></script>
+<script src="static/js/typeahead.bundle.js"></script>
+<script src="static/js/jquery.easy-autocomplete.min.js"></script> 
+
+</html>

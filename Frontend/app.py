@@ -2,7 +2,7 @@ import subprocess
 import json
 import os
 import uuid
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 from flask_bootstrap import Bootstrap
 from pprint import pprint
 from werkzeug.utils import secure_filename
@@ -325,12 +325,15 @@ def endpoint():
 	return render_template('sparqlEndpoint.html')
 
 #APIs
-@app.route('/api/v1/dataset/searchVariable/<searchVariables>', methods=['GET'])
-def listDatasetByVariable(searchVariables):
-	#try:
+@app.route('/api', methods=['GET', 'POST'])
+def api():
+	return render_template('api.html')
+
+@app.route('/api/v1/dataset/searchVariable', methods=['GET'])
+def listDatasetByVariable():
 	if request.method == 'GET':
 		# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
-		comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/apiListDatasetByVariable "%s"' %searchVariables
+		comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/apiListDatasetByVariable "%s"' %request.args['search']
 		try:
 			process = subprocess.check_output([comm], shell="True")
 		except subprocess.CalledProcessError as e:
@@ -338,9 +341,6 @@ def listDatasetByVariable(searchVariables):
 		# metadata parsed is converted into json class datasetInfo to be used inside the html form
 		parsed_output = json.loads(process.decode('utf-8'))
 		return jsonify(parsed_output)
-			#return render_template('metadataInfo.html', dataset=dataset, variables=variablesCF)
-	#except ValueError:  # includes simplejson.decoder.JSONDecodeError
-	#	return render_template('404.html')
 
 # Class for datasets parsed on shell suggest
 class datasetSuggest(object):

@@ -11,7 +11,7 @@
     <div class="container">
         <div class="navbar-header">
             <div class="icon">
-                <a id="logo" title="BigDataOcean Repository" href="http://localhost:5000/">
+                <a id="logo" title="BigDataOcean Repository" href="/">
                     <img itemprop="image" alt="BigDataOcean Repository" src="static/img/BIG-DATA-OCEAN_LOGO.png" height="86" width="200">
                 </a>
             </div>
@@ -28,7 +28,7 @@
         <div class="col-md-1">
         </div>
         <div class="col-md-10 field-uri" id='div_typeuri' style='display: none;'>
-            <form id="uriForm" name="uriForm" class="form-style" method='post' action="http://localhost:5000/addMetadata" onsubmit="return requireUri();" enctype=multipart/form-data>
+            <form id="uriForm" name="uriForm" class="form-style" method='post' action="/addMetadata" onsubmit="return requireUri();" enctype=multipart/form-data>
                 <div class="col-md-12">
                   <label class="label-table" for="sel1">Select the type of dataset you want to add:</label>
                 </div>
@@ -104,7 +104,24 @@
   </div>
 
   <footer class="container-fluid text-center">
-    <a class="footer" href="http://www.bigdataocean.eu/site/">Big Data Ocean</a>
+    <div class="wrpl"><a href="http://www.bigdataocean.eu/site/">
+        <dl>
+          <dt><img class="BDO_logo" src="/static/img/BIG-DATA-OCEAN_LOGO.png"></dt>
+          <dd><strong>Big Data Ocean</strong></dd>
+        </dl></a></div>
+    <div class="wrpl"><br>
+      <div class="bookmarks"><b>Documentation</b>
+        <ul>
+          <li><a href="/api" title="API documentation">API documentation</a></li>
+          <li><a href="https://github.com/SmartDataAnalytics/BigDataOcean-Harmonization" title="Source in GitHub" target="_blank">Source code</a></li>
+        </ul>
+      </div>
+      <div class="bookmarks"><b>Publication</b>
+        <ul>
+          <li><a href="https://doi.org/10.5281/zenodo.833359" title="BigDataOcean" target="_blank">IEEE '17</a></li>
+        </ul>
+      </div>
+    </div>
   </footer>
 </body>
 <script

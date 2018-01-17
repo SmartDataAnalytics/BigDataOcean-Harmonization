@@ -34,7 +34,7 @@ public class ApiListDatasetByVariable {
 	}
 
 	public static void exec(String variables) {
-		String[] listV = variables.split(", ");
+		String[] listV = variables.split(",");
 			
 		String values = "  VALUES ?label { ";
 		for(String var : listV) {
