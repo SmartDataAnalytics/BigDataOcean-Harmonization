@@ -6,3 +6,5 @@ Tool for harmonization of datasets in BigDataOcean
 cd harmonization_docker/
 $ docker-compose up
 ```
+
+Then visit http://localhost:5000/
