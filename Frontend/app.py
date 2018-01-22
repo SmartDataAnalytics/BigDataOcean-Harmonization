@@ -329,8 +329,53 @@ def endpoint():
 def api():
 	return render_template('api.html')
 
+@app.route('/api/v1/dataset/list', methods=['GET'])
+def listDataset():
+	if request.method == 'GET':
+		return render_template('maintenance-page.html')
+
+@app.route('/api/v1/dataset/searchDataset', methods=['GET'])
+def searchDataset():
+	if request.method == 'GET':
+		return render_template('maintenance-page.html')
+
+@app.route('/api/v1/dataset/searchSubject', methods=['GET'])
+def searchSubject():
+	if request.method == 'GET':
+		return render_template('maintenance-page.html')
+
+@app.route('/api/v1/dataset/searchKeyword', methods=['GET'])
+def searchKeyword():
+	if request.method == 'GET':
+		return render_template('maintenance-page.html')		
+
+@app.route('/api/v1/dataset/searchGeoLocation', methods=['GET'])
+def searchGeoLocation():
+	if request.method == 'GET':
+		return render_template('maintenance-page.html')
+
+@app.route('/api/v1/dataset/searchGeoCoverage', methods=['GET'])
+def searchGeoCoverage():
+	if request.method == 'GET':
+		return render_template('maintenance-page.html')		
+
+@app.route('/api/v1/dataset/searchVerticalCoverage', methods=['GET'])
+def searchVerticalCoverage():
+	if request.method == 'GET':
+		return render_template('maintenance-page.html')
+
+@app.route('/api/v1/dataset/searchTemporalCoverage', methods=['GET'])
+def searchTemporalCoverage():
+	if request.method == 'GET':
+		return render_template('maintenance-page.html')	
+
+@app.route('/api/v1/dataset/listVariables', methods=['GET'])
+def listVariables():
+	if request.method == 'GET':
+		return render_template('maintenance-page.html')
+
 @app.route('/api/v1/dataset/searchVariable', methods=['GET'])
-def listDatasetByVariable():
+def searchVariable():
 	if request.method == 'GET':
 		# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
 		comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/apiListDatasetByVariable "%s"' %request.args['search']
