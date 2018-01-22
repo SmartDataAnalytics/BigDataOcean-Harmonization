@@ -642,8 +642,9 @@ b, strong {
     background-color: #e7e7e7;
 }
 
-#accordion {
-    padding-top: 15px;
+#accordion, #accordion1, #accordion2 {
+    padding-top: 10px;
     padding-bottom: 15px;
+    width: 100%;
 }
     
