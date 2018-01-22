@@ -28,15 +28,15 @@ public class ApiListDatasetByVariable {
 
 	public static void main(String[] args) {
 		String variables = args[0];
-		//String variables = "sea_surface_wave_significant_height, sea_surface_wave_from_direction";
+		//String variables = "sea_surface_wave_significant_height,latitude";
 		exec(variables);
 
 	}
 
 	public static void exec(String variables) {
-		String[] listV = variables.split(",");
+		String[] listV = variables.split(", ");
 			
-		String values = "  VALUES ?label { ";
+		String values = "  VALUES ?var { ";
 		for(String var : listV) {
 			values += "\""+var+"\"@en ";
 		}
@@ -49,44 +49,58 @@ public class ApiListDatasetByVariable {
 				"PREFIX bdo: <http://bigdataocean.eu/bdo/>\n" + 
 				"\n" + 
 				"\n" + 
-				"SELECT distinct ?uri ?title ?subject ?language\n" + 
+				"SELECT distinct ?uri ?title ?subject ?language (STR(?var) AS ?variables)\n" + 
 				"WHERE {\n" + 
-				"  ?variable a bdo:BDOVariable;\n" + 
-				"      skos:prefLabel ?label.\n" + 
+				"  ?uriVar a bdo:BDOVariable;\n" + 
+				"      skos:prefLabel ?var.\n" + 
 				values + 
-				"  ?uri disco:variable ?variable;\n" + 
+				"  ?uri disco:variable ?uriVar;\n" + 
 				"       dct:title ?title;\n" + 
 				"       dcat:subject ?subject;\n" + 
 				"       dct:language ?language.\n" + 
 				"}";
 		
-		List<Dataset> list = new ArrayList<>() ;
+		List<Dataset> list = new ArrayList<>();
 		RDFNode node;
 		// executes query on Jena Fueski to get Metadata
 		ResultSet results = QueryExecutor.selectQuery(apiQuery);
-		
+		String id = null;
+		int i = 0;		
 		while(results.hasNext()){
 			Dataset dataset = new Dataset();
-			QuerySolution solution = results.nextSolution();
+			QuerySolution solution = results.nextSolution();				
 			node = solution.get("uri");
-			dataset.setIdentifier(node.toString());
-			node = solution.get("title");
-			dataset.setTitle(node.toString());
-			node = solution.get("subject");
-			if(dataset.getSubject() != null)
-			{
-				dataset.setSubject(dataset.getSubject()+", "+node.toString());
+			if(id != node.toString()) {
+				List<String> listVar = new ArrayList<>();
+				dataset.setIdentifier(node.toString());
+				id = node.toString();
+				node = solution.get("title");
+				dataset.setTitle(node.toString());
+				node = solution.get("subject");
+				if(dataset.getSubject() != null)
+				{
+					dataset.setSubject(dataset.getSubject()+", "+node.toString());
+				}else {
+					dataset.setSubject(node.toString());
+				}
+				node = solution.get("language");
+				if(dataset.getLanguage() != null)
+				{
+					dataset.setLanguage(dataset.getLanguage()+", "+node.toString());
+				}else {
+					dataset.setLanguage(node.toString());
+				}
+				node = solution.get("variables");
+				listVar.add(node.toString());
+				dataset.setVariable(listVar);
+				list.add(dataset);	
+				i++;
 			}else {
-				dataset.setSubject(node.toString());
+				dataset = list.get(i-1);
+				List<String> listVar = dataset.getVariable();
+				node = solution.get("variables");
+				listVar.add(node.toString());
 			}
-			node = solution.get("language");
-			if(dataset.getLanguage() != null)
-			{
-				dataset.setLanguage(dataset.getLanguage()+", "+node.toString());
-			}else {
-				dataset.setLanguage(node.toString());
-			}
-			list.add(dataset);
 		}
 		try {
 			// Parse into JSON the Dataset instance with all metadata from a dataset
