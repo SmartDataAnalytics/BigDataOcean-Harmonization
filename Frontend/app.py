@@ -332,7 +332,15 @@ def api():
 @app.route('/api/v1/dataset/list', methods=['GET'])
 def listDataset():
 	if request.method == 'GET':
-		return render_template('maintenance-page.html')
+		# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
+		comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("1", "")
+		try:
+			process = subprocess.check_output([comm], shell="True")
+		except subprocess.CalledProcessError as e:
+			return render_template('500.html')
+		# metadata parsed is converted into json class datasetInfo to be used inside the html form
+		parsed_output = json.loads(process.decode('utf-8'))
+		return jsonify(parsed_output)
 
 @app.route('/api/v1/dataset/searchDataset', methods=['GET'])
 def searchDataset():
@@ -372,13 +380,21 @@ def searchTemporalCoverage():
 @app.route('/api/v1/dataset/listVariables', methods=['GET'])
 def listVariables():
 	if request.method == 'GET':
-		return render_template('maintenance-page.html')
+		# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
+		comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("9", request.args['search'])
+		try:
+			process = subprocess.check_output([comm], shell="True")
+		except subprocess.CalledProcessError as e:
+			return render_template('500.html')
+		# metadata parsed is converted into json class datasetInfo to be used inside the html form
+		parsed_output = json.loads(process.decode('utf-8'))
+		return jsonify(parsed_output)
 
 @app.route('/api/v1/dataset/searchVariable', methods=['GET'])
 def searchVariable():
 	if request.method == 'GET':
 		# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
-		comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/apiListDatasetByVariable "%s"' %request.args['search']
+		comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("10", request.args['search'])
 		try:
 			process = subprocess.check_output([comm], shell="True")
 		except subprocess.CalledProcessError as e:
