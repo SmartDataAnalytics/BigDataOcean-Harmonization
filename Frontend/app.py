@@ -345,7 +345,17 @@ def listDataset():
 @app.route('/api/v1/dataset/searchDataset', methods=['GET'])
 def searchDataset():
 	if request.method == 'GET':
-		return render_template('maintenance-page.html')
+		# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
+		param = 'bdo:'+request.args['search']
+		print(param)
+		comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("2", param)
+		try:
+			process = subprocess.check_output([comm], shell="True")
+		except subprocess.CalledProcessError as e:
+			return render_template('500.html')
+		# metadata parsed is converted into json class datasetInfo to be used inside the html form
+		parsed_output = json.loads(process.decode('utf-8'))
+		return jsonify(parsed_output)
 
 @app.route('/api/v1/dataset/searchSubject', methods=['GET'])
 def searchSubject():
@@ -375,7 +385,16 @@ def searchVerticalCoverage():
 @app.route('/api/v1/dataset/searchTemporalCoverage', methods=['GET'])
 def searchTemporalCoverage():
 	if request.method == 'GET':
-		return render_template('maintenance-page.html')	
+		# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
+		param = request.args['begin']+',- '+request.args['end']
+		comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("8", param)
+		try:
+			process = subprocess.check_output([comm], shell="True")
+		except subprocess.CalledProcessError as e:
+			return render_template('500.html')
+		# metadata parsed is converted into json class datasetInfo to be used inside the html form
+		parsed_output = json.loads(process.decode('utf-8'))
+		return jsonify(parsed_output)
 
 @app.route('/api/v1/dataset/listVariables', methods=['GET'])
 def listVariables():

@@ -30,8 +30,8 @@ public class Api {
 	public static void main(String[] args) {
 		int apiNumber = Integer.parseInt(args[0]);
 		String searchParam = args[1];
-		//int apiNumber = 1;
-		//String searchParam = "MEDSEA_ANALYSIS_FORECAST_WAV_006_011";
+		//int apiNumber = 8;
+		//String searchParam = "2016-08-01T00:00:00,- ";
 		//String searchParam = "sea_surface_wave_significant_height, latitude";
 		exec(apiNumber, searchParam);
 
@@ -52,6 +52,15 @@ public class Api {
 				break;
 				
 			case 2:
+				try {
+					Dataset dataset = BdoApiAnalyser.apiSearchDataset(searchParam);
+					// Parse into JSON the Dataset instance with all metadata from a dataset
+					Gson gson  = new Gson();
+					System.out.print(gson.toJson(dataset));
+					//log.info("Dataset's metadata: " + gson.toJson(dataset));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 				break;
 				
 			case 3:
@@ -70,7 +79,18 @@ public class Api {
 				break;
 			
 			case 8:
-				break;
+				
+				try {
+					List<Dataset> list = BdoApiAnalyser.apiListDatasetByTimeCov(searchParam);
+					// Parse into JSON the Dataset instance with all metadata from a dataset
+					Gson gson  = new Gson();
+					System.out.print(gson.toJson(list));
+					//log.info("Dataset's metadata: " + gson.toJson(dataset))
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				break;	
 			
 			case 9:
 				try {
@@ -85,9 +105,8 @@ public class Api {
 				break;
 				
 			case 10:
-				List<Dataset> list;
 				try {
-					list = BdoApiAnalyser.apiListDatasetsByVar(searchParam);
+					List<Dataset> list = BdoApiAnalyser.apiListDatasetsByVar(searchParam);
 					// Parse into JSON the Dataset instance with all metadata from a dataset
 					Gson gson  = new Gson();
 					System.out.print(gson.toJson(list));

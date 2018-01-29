@@ -166,7 +166,7 @@ public class GetMetadata {
 			dataset.setCoordinateSystem(node.toString());
 		}
 		
-		List<String> listVaraibles = new ArrayList<>() ;
+		List<String> listVariables = new ArrayList<>() ;
 		RDFNode node2, node3;
 		
 		String queryVariables = "PREFIX dct: <http://purl.org/dc/terms/>\n" +
@@ -187,10 +187,10 @@ public class GetMetadata {
 			QuerySolution solution = rsVariables.nextSolution();
 			node2 = solution.get("identifierVariable");
 			node3 = solution.get("label");
-			listVaraibles.add(node2.toString() + " -- "+ node3.toString());
+			listVariables.add(node2.toString() + " -- "+ node3.toString());
 		}
 		
-		dataset.setVariable(listVaraibles);
+		dataset.setVariable(listVariables);
 		
 		/*List<String> listVaraibles = new ArrayList<>() ;
 		List<String> listVaraiblesBDO = new ArrayList<>() ;

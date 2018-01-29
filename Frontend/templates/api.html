@@ -415,7 +415,7 @@
                         <label for="searchBegin">Begin</label>
                       </td>
                       <td>
-                        <input type="datetime-local" class="form-control" id="searchFrom" name= "begin" required >
+                        <input type="datetime-local" step="1" class="form-control" id="searchFrom" name= "begin" required >
                       </td>
                       <td>
                         <strong>
@@ -431,7 +431,7 @@
                         <label for="searchEnd">End</label>
                       </td>
                       <td>
-                        <input type="datetime-local" class="form-control" id="searchEnd" name= "end">
+                        <input type="datetime-local" step="1" class="form-control" id="searchEnd" name= "end">
                       </td>
                       <td>
                         <strong>
@@ -446,7 +446,7 @@
                 </table>
                 <input class="submit" type="submit" value="Try it out!">
               </form>
-              <div class="apiExample">For example, using the BigDataOcean API, your app can search for temporal coverage "begin=2016-08-01T00:00:00 end=": <a href="/api/v1/dataset/searchTemporalCoverage?search=begin=2016-08-01T00:00:00&end=" target="_blank">http://localhost:5000/api/v1/dataset/searchTemporalCoverage?search=begin=2016-08-01T00:00:00&end=</a></div>
+              <div class="apiExample">For example, using the BigDataOcean API, your app can search for temporal coverage "begin=2016-08-01T00:00:00 end=": <a href="/api/v1/dataset/searchTemporalCoverage?begin=2016-08-01T00:00:00&end=" target="_blank">http://localhost:5000/api/v1/dataset/searchTemporalCoverage?begin=2016-08-01T00:00:00&end=</a></div>
             </div>
           </div>
 
