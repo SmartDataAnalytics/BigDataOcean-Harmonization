@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URL;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -14,6 +15,7 @@ import org.json.simple.parser.ParseException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.parser.Parser;
 import org.jsoup.select.Elements;
 import org.unibonn.bdo.objects.Dataset;
 
@@ -65,7 +67,8 @@ public class BdoDatasetAnalyser {
 		List<String> variables = new ArrayList<>();
 
 		//Read the URI and return the HTML/XML document
-		Document doc = Jsoup.connect(datasetURI).get();
+//		Document doc = Jsoup.connect(datasetURI).get();
+		Document doc = Jsoup.parse(new URL(datasetURI).openStream(), "UTF-8", "", Parser.xmlParser());
 
 		//Search parent tag 
 		Element item = doc.getElementsByTag("gmd:identificationInfo").first();
