@@ -114,9 +114,9 @@
                   <label class="label-table" for="language">Language:</label>
                 </td>
                 <td colspan="8">
-                  {%if dataset.language|default("") != "":%}
+                  {%if dataset.language|default("") != ""%}
                     <input type="text" class="form-control" id="tokenfield_language" name="tokenfield_language" required value="{{dataset.language}}">
-                  {%else:%}
+                  {%else%}
                     <input type="text" class="form-control" id="tokenfield_language" name="tokenfield_language" required value="eng">
                   {% endif %}
                 </td>

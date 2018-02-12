@@ -22,7 +22,7 @@
       </div>
     </div>
   </nav>
-  {%if dataset!="":%}
+  {%if dataset!=""%}
   <div class="container text-center" style="margin-top:90px">
     <form id="metadataForm" name="metadataForm" class="form-style" method="POST" action="/save" novalidate onsubmit="return requireVariables();">
       <div class="row content">
@@ -115,9 +115,9 @@
                   <label class="label-table" for="language">Language:</label>
                 </td>
                 <td colspan="8">
-                  {%if dataset.language|default("") != "":%}
+                  {%if dataset.language|default("") != ""%}
                     <input type="text" class="form-control" id="tokenfield_language" name="tokenfield_language" required value="{{dataset.language}}">
-                  {%else:%}
+                  {%else%}
                     <input type="text" class="form-control" id="tokenfield_language" name="tokenfield_language" required value="eng">
                   {% endif %}
                 </td>
@@ -343,7 +343,7 @@
       </div>
     </form>
   </div>
-  {%else:%}
+  {%else%}
   <div class="container text-center" style="margin-top:90px">
     <form id="metadataForm" name="metadataForm" class="form-style" method="POST" action="/save" novalidate onsubmit="return requireVariables();">
       <div class="row content">

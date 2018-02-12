@@ -30,9 +30,9 @@ public class Api {
 	public static void main(String[] args) {
 		int apiNumber = Integer.parseInt(args[0]);
 		String searchParam = args[1];
-		//int apiNumber = 8;
-		//String searchParam = "2016-08-01T00:00:00,- ";
-		//String searchParam = "sea_surface_wave_significant_height, latitude";
+		//int apiNumber = 7;
+		//String searchParam = "0,- 2";
+		//String searchParam = "http://inspire.ec.europa.eu/metadata-codelist/TopicCategory/oceans, http://inspire.ec.europa.eu/metadata-codelist/TopicCategory/climatologyMeteorologyAtmosphere";
 		exec(apiNumber, searchParam);
 
 	}
@@ -64,22 +64,58 @@ public class Api {
 				break;
 				
 			case 3:
+				try {
+					List<Dataset> list = BdoApiAnalyser.apiSearchSubjects(searchParam);
+					// Parse into JSON the Dataset instance with all metadata from a dataset
+					Gson gson  = new Gson();
+					System.out.print(gson.toJson(list));
+					//log.info("Dataset's metadata: " + gson.toJson(dataset));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 				break;
 			
 			case 4:
+				try {
+					List<Dataset> list = BdoApiAnalyser.apiSearchKeywords(searchParam);
+					// Parse into JSON the Dataset instance with all metadata from a dataset
+					Gson gson  = new Gson();
+					System.out.print(gson.toJson(list));
+					//log.info("Dataset's metadata: " + gson.toJson(dataset));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 				break;
 				
 			case 5:
+				try {
+					List<Dataset> list = BdoApiAnalyser.apiSearchGeoLoc(searchParam);
+					// Parse into JSON the Dataset instance with all metadata from a dataset
+					Gson gson  = new Gson();
+					System.out.print(gson.toJson(list));
+					//log.info("Dataset's metadata: " + gson.toJson(dataset));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 				break;
 			
 			case 6:
 				break;
 			
 			case 7:
+				try {
+					List<Dataset> list = BdoApiAnalyser.apiListDatasetByVertCov(searchParam);
+					// Parse into JSON the Dataset instance with all metadata from a dataset
+					Gson gson  = new Gson();
+					System.out.print(gson.toJson(list));
+					//log.info("Dataset's metadata: " + gson.toJson(dataset))
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				break;
 			
-			case 8:
-				
+			case 8:				
 				try {
 					List<Dataset> list = BdoApiAnalyser.apiListDatasetByTimeCov(searchParam);
 					// Parse into JSON the Dataset instance with all metadata from a dataset

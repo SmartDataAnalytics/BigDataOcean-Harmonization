@@ -256,6 +256,175 @@ public class BdoApiAnalyser {
 		return dataset;
 	}
 	
+	public static List<Dataset> apiSearchSubjects(String searchParam) {
+		String[] listSubject = searchParam.split(", ");
+		String values = "  VALUES ?subject { ";
+		for(String sub : listSubject) {
+			values += "<"+sub+"> ";
+		}
+		values += "}\n";
+		List<Dataset> list = new ArrayList<>();
+		String apiQuery = "PREFIX disco: <http://rdf-vocabulary.ddialliance.org/discovery#>\n" + 
+				"PREFIX skos: <http://www.w3.org/2004/02/skos/core#>\n" + 
+				"PREFIX dct: <http://purl.org/dc/terms/>\n" + 
+				"PREFIX dcat: <https://www.w3.org/TR/vocab-dcat/>\n" + 
+				"PREFIX bdo: <http://bigdataocean.eu/bdo/>\n" + 
+				"PREFIX ids: <http://industrialdataspace/information-model/>\n" + 
+				"PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" + 
+				"\n" + 
+				"SELECT DISTINCT ?uri ?title ?lang ?subject\n" + 
+				"WHERE {  \n" + 
+				"  ?uri dct:title ?title;\n" + 
+				"       dct:language ?lang;\n" + 
+				"       dcat:subject ?subject.\n" +
+				values +
+				"}";
+		ResultSet results = QueryExecutor.selectQuery(apiQuery);
+		while(results.hasNext()) {
+			Dataset dataset = new Dataset();
+			QuerySolution solution = results.nextSolution();				
+			dataset.setIdentifier(solution.get("uri").toString());
+			dataset.setTitle(solution.get("title").toString());
+			dataset.setLanguage(solution.get("lang").toString());
+			dataset.setSubject(solution.get("subject").toString());
+			list.add(dataset);
+		}
+		return list;
+	}
+
+	public static List<Dataset> apiSearchKeywords(String searchParam) {
+		String[] listKeywords = searchParam.split(", ");
+		String values = "  VALUES ?keywords { ";
+		for(String key : listKeywords) {
+			values += "<"+key+"> ";
+		}
+		values += "}\n";
+		List<Dataset> list = new ArrayList<>();
+		String apiQuery = "PREFIX disco: <http://rdf-vocabulary.ddialliance.org/discovery#>\n" + 
+				"PREFIX skos: <http://www.w3.org/2004/02/skos/core#>\n" + 
+				"PREFIX dct: <http://purl.org/dc/terms/>\n" + 
+				"PREFIX dcat: <https://www.w3.org/TR/vocab-dcat/>\n" + 
+				"PREFIX bdo: <http://bigdataocean.eu/bdo/>\n" + 
+				"PREFIX ids: <http://industrialdataspace/information-model/>\n" + 
+				"PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" + 
+				"\n" + 
+				"SELECT DISTINCT ?uri ?title ?lang ?keywords\n" + 
+				"WHERE {  \n" + 
+				"  ?uri dct:title ?title;\n" + 
+				"       dct:language ?lang;\n" + 
+				"       dcat:theme ?keywords.\n" +
+				values +
+				"}";
+		ResultSet results = QueryExecutor.selectQuery(apiQuery);
+		while(results.hasNext()) {
+			Dataset dataset = new Dataset();
+			QuerySolution solution = results.nextSolution();				
+			dataset.setIdentifier(solution.get("uri").toString());
+			dataset.setTitle(solution.get("title").toString());
+			dataset.setLanguage(solution.get("lang").toString());
+			dataset.setKeywords(solution.get("keywords").toString());
+			list.add(dataset);
+		}
+		return list;
+	}
+
+	public static List<Dataset> apiSearchGeoLoc(String searchParam) {
+		String[] listGeoLoc = searchParam.split(", ");
+		String values = "  VALUES ?geo_loc { ";
+		for(String geoLoc : listGeoLoc) {
+			values += "<"+geoLoc+"> ";
+		}
+		values += "}\n";
+		List<Dataset> list = new ArrayList<>();
+		String apiQuery = "PREFIX disco: <http://rdf-vocabulary.ddialliance.org/discovery#>\n" + 
+				"PREFIX skos: <http://www.w3.org/2004/02/skos/core#>\n" + 
+				"PREFIX dct: <http://purl.org/dc/terms/>\n" + 
+				"PREFIX dcat: <https://www.w3.org/TR/vocab-dcat/>\n" + 
+				"PREFIX bdo: <http://bigdataocean.eu/bdo/>\n" + 
+				"PREFIX ids: <http://industrialdataspace/information-model/>\n" + 
+				"PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" + 
+				"\n" + 
+				"SELECT DISTINCT ?uri ?title ?lang ?geo_loc ?subject\n" + 
+				"WHERE {  \n" + 
+				"  ?uri dct:title ?title;\n" + 
+				"       dct:language ?lang;\n" + 
+				"       dct:spatial ?geo_loc;\n" + 
+				"       dcat:subject ?subject." +
+				values +
+				"}";
+		ResultSet results = QueryExecutor.selectQuery(apiQuery);
+		while(results.hasNext()) {
+			Dataset dataset = new Dataset();
+			QuerySolution solution = results.nextSolution();				
+			dataset.setIdentifier(solution.get("uri").toString());
+			dataset.setTitle(solution.get("title").toString());
+			dataset.setLanguage(solution.get("lang").toString());
+			dataset.setSubject(solution.get("subject").toString());
+			dataset.setGeoLocation(solution.get("geo_loc").toString());
+			list.add(dataset);
+		}
+		return list;
+	}
+
+	public static List<Dataset> apiListDatasetByVertCov (String searchParam) throws IOException {
+		String[] listVert = searchParam.split(",- ");
+		List<Dataset> list = new ArrayList<>();
+		String apiQuery = "PREFIX disco: <http://rdf-vocabulary.ddialliance.org/discovery#>\n" + 
+				"PREFIX skos: <http://www.w3.org/2004/02/skos/core#>\n" + 
+				"PREFIX dct: <http://purl.org/dc/terms/>\n" + 
+				"PREFIX dcat: <https://www.w3.org/TR/vocab-dcat/>\n" + 
+				"PREFIX bdo: <http://bigdataocean.eu/bdo/>\n" + 
+				"PREFIX ids: <http://industrialdataspace/information-model/>\n" + 
+				"PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" + 
+				"\n" + 
+				"SELECT distinct ?uri ?title ?lang (STR (?vertC_from) AS ?from) (STR (?vertC_to) AS ?to) ?subject\n" + 
+				"WHERE {  \n" + 
+				"  ?uri dct:title ?title;\n" + 
+				"       dct:language ?lang;\n" + 
+				"       dcat:subject ?subject;\n\n" + 
+				"       bdo:verticalCoverage ?vertC.\n" + 
+				"  ?vertC a bdo:VerticalCoverage;\n" + 
+				"         bdo:verticalFrom ?vertC_from;\n" + 
+				"         bdo:verticalTo ?vertC_to.\n" +
+				"  FILTER (?vertC_from >= \""+listVert[0]+"\"^^xsd:double)\n" +
+				"  FILTER (?vertC_to <= \""+listVert[1]+"\"^^xsd:double)\n" + 
+				"}";
+		
+		RDFNode node;
+		ResultSet results = QueryExecutor.selectQuery(apiQuery);
+		//ResultSetFormatter.out(results);
+		while(results.hasNext()){			
+			Dataset dataset = new Dataset();
+			QuerySolution solution = results.nextSolution();				
+			node = solution.get("uri");
+			List<String> listVar = new ArrayList<>();
+			dataset.setIdentifier(node.toString());
+			node = solution.get("title");
+			dataset.setTitle(node.toString());
+			node = solution.get("subject");
+			if(dataset.getSubject() != null)
+			{
+				dataset.setSubject(dataset.getSubject()+", "+node.toString());
+			}else {
+				dataset.setSubject(node.toString());
+			}
+			node = solution.get("lang");
+			if(dataset.getLanguage() != null)
+			{
+				dataset.setLanguage(dataset.getLanguage()+", "+node.toString());
+			}else {
+				dataset.setLanguage(node.toString());
+			}
+			node = solution.get("from");
+			dataset.setVerticalCoverageFrom(node.toString());
+			node = solution.get("to");
+			dataset.setVerticalCoverageTo(node.toString());
+			list.add(dataset);
+		}
+		return list;
+	}
+
+	
 	public static List<Dataset> apiListDatasetByTimeCov (String searchParam) throws IOException {
 		String[] listTime = searchParam.split(",- ");
 		List<Dataset> list = new ArrayList<>();

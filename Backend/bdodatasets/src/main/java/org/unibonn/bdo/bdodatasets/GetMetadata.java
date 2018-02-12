@@ -79,7 +79,7 @@ public class GetMetadata {
 				"  ?vCov a  bdo:VerticalCoverage ;\n" + 
 				"        bdo:verticalFrom ?verFrom ;\n" + 
 				"        bdo:verticalTo ?verTo .\n" + 
-				" OPTIONAL {"+Uri+" dct:spatial ?geoloc .}\n" +
+				" OPTIONAL {"+Uri+" dct:spatial ?geoLoc .}\n" +
 				"}";
 		
 		Dataset dataset = new Dataset();

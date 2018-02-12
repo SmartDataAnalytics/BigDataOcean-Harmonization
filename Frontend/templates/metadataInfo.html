@@ -340,8 +340,8 @@
                   </td>
                   <td>
                     <span class="variablesspan">
-                      {%for variable in variables:%}
-                        {%if variable["text"] == list[1]:%}
+                      {%for variable in variables%}
+                        {%if variable["text"] == list[1]%}
                           <a href="{{variable['value']}}" target="_blank">{{ list[1] }}</a>
                         {% endif%}
                       {% endfor %}
