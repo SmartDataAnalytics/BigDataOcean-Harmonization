@@ -60,7 +60,7 @@ def parse():
 	try:
 		if request.method == 'POST':
 			uri = request.form['uri']
-			file = request.files['fileNetcdf']
+			file = request.files.get('fileNetcdf')
 			if uri != "":
 				# if adding a Copernicus dataset, the shell suggest is called to parse the xml file and get metadata
 				command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/suggest "%s" Coppernicus' %uri
@@ -71,10 +71,10 @@ def parse():
 				# metadata parsed is converted into json class datasetSuggest to be used inside the html form
 				parsed_output = json.loads(process.decode('utf-8'))
 				dataset = datasetSuggest(**parsed_output)
-				# print (dataset.variables)
 
 				return render_template('addMetadata.html', dataset=dataset)
-			elif file.filename != '':
+			
+			elif file != None :
 				# Verify if the file is .nc
 				if file and allowed_file(file.filename):
 					# Create a general filename
