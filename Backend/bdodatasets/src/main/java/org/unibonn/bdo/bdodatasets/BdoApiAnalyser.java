@@ -365,6 +365,61 @@ public class BdoApiAnalyser {
 		}
 		return list;
 	}
+	
+	public static List<Dataset> apisearchGeoCoverage(String searchParam) {
+		String[] listGeoLoc = searchParam.split(", ");
+		List<String> newList = new ArrayList<>();
+		for (int i = 0; i<listGeoLoc.length; i++) {
+			double number = Double.parseDouble(listGeoLoc[i]);
+			if (number >= 0) {
+				newList.add(""+(number+1.0));
+			}else {
+				newList.add(listGeoLoc[i]);
+				listGeoLoc[i] = ""+(number-1.0);
+			}
+		}
+		List<Dataset> list = new ArrayList<>();
+		String apiQuery = "PREFIX disco: <http://rdf-vocabulary.ddialliance.org/discovery#>\n" + 
+				"PREFIX skos: <http://www.w3.org/2004/02/skos/core#>\n" + 
+				"PREFIX dct: <http://purl.org/dc/terms/>\n" + 
+				"PREFIX dcat: <https://www.w3.org/TR/vocab-dcat/>\n" + 
+				"PREFIX bdo: <http://bigdataocean.eu/bdo/> \n" + 
+				"PREFIX ids: <http://industrialdataspace/information-model/>\n" + 
+				"PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" + 
+				"PREFIX ignf: <http://data.ign.fr/def/ignf#>\n" + 
+				"\n" + 
+				"SELECT DISTINCT ?uri ?title ?lang ?geo_loc ?subject (STR(?east) AS ?streast) (STR(?west) AS ?strwest) "
+				+ "(STR(?south) AS ?strsouth) (STR(?north) AS ?strnorth) \n" + 
+				"WHERE { \n" + 
+				"  	?uri dct:title ?title;\n" + 
+				"	   dct:language ?lang;\n" + 
+				"	   dct:spatial ?geo_loc;\n" + 
+				"	   bdo:GeographicalCoverage ?geocov;\n" + 
+				"	   dcat:subject ?subject.\n" + 
+				"    ?geocov a ignf:GeographicBoundingBox;\n" + 
+				"	   ignf:eastBoundLongitude ?east;\n" + 
+				"	   ignf:northBoundLatitude ?north;\n" + 
+				"	   ignf:southBoundLatitude ?south;\n" + 
+				"	   ignf:westBoundLongitude ?west.\n" + 
+				"  FILTER ((?east>="+listGeoLoc[1]+") && (?north>="+listGeoLoc[3]+") && (?south>="+listGeoLoc[2]+") && (?west>="+listGeoLoc[0]+") && "
+						+ "(?east<="+newList.get(1)+") && (?north<="+newList.get(3)+") && (?south<="+newList.get(2)+") && (?west<="+newList.get(0)+"))\n" + 
+				"}";
+		ResultSet results = QueryExecutor.selectQuery(apiQuery);
+		while(results.hasNext()) {
+			Dataset dataset = new Dataset();
+			QuerySolution solution = results.nextSolution();				
+			dataset.setIdentifier(solution.get("uri").toString());
+			dataset.setTitle(solution.get("title").toString());
+			dataset.setLanguage(solution.get("lang").toString());
+			dataset.setSubject(solution.get("subject").toString());
+			dataset.setSpatialEast(solution.get("streast").toString());
+			dataset.setSpatialNorth(solution.get("strnorth").toString());
+			dataset.setSpatialSouth(solution.get("strsouth").toString());
+			dataset.setSpatialWest(solution.get("strwest").toString());
+			list.add(dataset);
+		}
+		return list;
+	}
 
 	public static List<Dataset> apiListDatasetByVertCov (String searchParam) throws IOException {
 		String[] listVert = searchParam.split(",- ");

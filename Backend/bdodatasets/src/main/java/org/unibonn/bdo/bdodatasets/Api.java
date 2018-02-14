@@ -30,9 +30,10 @@ public class Api {
 	public static void main(String[] args) {
 		int apiNumber = Integer.parseInt(args[0]);
 		String searchParam = args[1];
-		//int apiNumber = 7;
+		//int apiNumber = 6;
 		//String searchParam = "0,- 2";
 		//String searchParam = "http://inspire.ec.europa.eu/metadata-codelist/TopicCategory/oceans, http://inspire.ec.europa.eu/metadata-codelist/TopicCategory/climatologyMeteorologyAtmosphere";
+		//String searchParam = "-18, 36, 30, 45";
 		exec(apiNumber, searchParam);
 
 	}
@@ -100,6 +101,16 @@ public class Api {
 				break;
 			
 			case 6:
+				try {
+					List<Dataset> list = BdoApiAnalyser.apisearchGeoCoverage(searchParam);
+					// Parse into JSON the Dataset instance with all metadata from a dataset
+					Gson gson  = new Gson();
+					System.out.print(gson.toJson(list));
+					//log.info("Dataset's metadata: " + gson.toJson(dataset))
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				break;
 			
 			case 7:
