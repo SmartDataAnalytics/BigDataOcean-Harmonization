@@ -30,10 +30,10 @@ public class Api {
 	public static void main(String[] args) {
 		int apiNumber = Integer.parseInt(args[0]);
 		String searchParam = args[1];
-		//int apiNumber = 6;
-		//String searchParam = "0,- 2";
+		//int apiNumber = 7;
+		//String searchParam = "-6000,= -2";
 		//String searchParam = "http://inspire.ec.europa.eu/metadata-codelist/TopicCategory/oceans, http://inspire.ec.europa.eu/metadata-codelist/TopicCategory/climatologyMeteorologyAtmosphere";
-		//String searchParam = "-18, 36, 30, 45";
+		//String searchParam = "-17.1, 36.2, 30, 45.98";
 		exec(apiNumber, searchParam);
 
 	}

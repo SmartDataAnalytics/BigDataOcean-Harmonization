@@ -401,8 +401,8 @@ public class BdoApiAnalyser {
 				"	   ignf:northBoundLatitude ?north;\n" + 
 				"	   ignf:southBoundLatitude ?south;\n" + 
 				"	   ignf:westBoundLongitude ?west.\n" + 
-				"  FILTER ((?east>="+listGeoLoc[1]+") && (?north>="+listGeoLoc[3]+") && (?south>="+listGeoLoc[2]+") && (?west>="+listGeoLoc[0]+") && "
-						+ "(?east<="+newList.get(1)+") && (?north<="+newList.get(3)+") && (?south<="+newList.get(2)+") && (?west<="+newList.get(0)+"))\n" + 
+				"  FILTER ((?east>="+listGeoLoc[1]+") && (?north>="+listGeoLoc[3]+") && (?south>="+listGeoLoc[2]+") && (?west>="+listGeoLoc[0]+") || \n"+
+				"  (?east<="+newList.get(1)+") && (?north<="+newList.get(3)+") && (?south<="+newList.get(2)+") && (?west<="+newList.get(0)+"))\n" + 
 				"}";
 		ResultSet results = QueryExecutor.selectQuery(apiQuery);
 		while(results.hasNext()) {
@@ -422,7 +422,7 @@ public class BdoApiAnalyser {
 	}
 
 	public static List<Dataset> apiListDatasetByVertCov (String searchParam) throws IOException {
-		String[] listVert = searchParam.split(",- ");
+		String[] listVert = searchParam.split(",= ");
 		List<Dataset> list = new ArrayList<>();
 		String apiQuery = "PREFIX disco: <http://rdf-vocabulary.ddialliance.org/discovery#>\n" + 
 				"PREFIX skos: <http://www.w3.org/2004/02/skos/core#>\n" + 

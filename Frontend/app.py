@@ -412,7 +412,7 @@ def searchGeoCoverage():
 def searchVerticalCoverage():
 	if request.method == 'GET':
 		# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
-		param = request.args['from']+',- '+request.args['to']
+		param = request.args['from']+',= '+request.args['to']
 		comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("7", param)
 		try:
 			process = subprocess.check_output([comm], shell="True")
