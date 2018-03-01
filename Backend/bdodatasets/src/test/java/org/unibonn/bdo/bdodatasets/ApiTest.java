@@ -19,7 +19,7 @@ public class ApiTest {
 	private String searchParam;
 	private List<String> listVar = new ArrayList<>();
 
-	@Before
+	/*@Before
 	public void setUp() throws Exception {
 		testList = new ArrayList<>();
 		datasetTest = new Dataset();
@@ -41,9 +41,9 @@ public class ApiTest {
 		listVar.add("sea_surface_wave_stokes_drift_x_velocity");
 		listVar.add("sea_surface_wave_stokes_drift_y_velocity");
 		listVar.add("delayed_mode_or_real_time_data");
-	}
+	}*/
 
-	@Test
+	/*@Test
 	public void test1() {
 		try {
 			testList = BdoApiAnalyser.apiListAllDatasets();
@@ -136,6 +136,6 @@ public class ApiTest {
 	@After
 	public void destroy() {
 		testList.clear();
-	}
+	}*/
 
 }
