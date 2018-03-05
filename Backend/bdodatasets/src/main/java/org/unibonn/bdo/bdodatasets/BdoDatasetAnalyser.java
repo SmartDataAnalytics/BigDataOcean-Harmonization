@@ -8,6 +8,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FSDataInputStream;
+import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.Path;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -186,8 +190,17 @@ public class BdoDatasetAnalyser {
 		//read the file
 		NetcdfFile nc = null;
 		try {
-			nc = NetcdfDataset.openFile(filename, null);
-
+			//Get file from HFDS server
+			Configuration conf = new Configuration();
+			Path path = new Path(filename);
+			Path localpath = new Path(Constants.configFilePath+"/Backend/AddDatasets/archivo.nc");
+			FileSystem fs = FileSystem.get(path.toUri(), conf);
+			//copy NetCDF file locally
+			fs.copyToLocalFile(path,localpath);
+			fs.close();
+			//read NetCDF file to get its metadata
+			nc = NetcdfDataset.openFile(localpath.toString(), null);
+			
 			List<Variable> allVariables;
 			
 			//find the attributes and export the information to create the DatasetSuggest
