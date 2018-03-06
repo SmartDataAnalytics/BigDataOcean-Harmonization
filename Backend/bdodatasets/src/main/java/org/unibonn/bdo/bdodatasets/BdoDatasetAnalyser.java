@@ -8,9 +8,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 
-import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.fs.FSDataInputStream;
-import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -190,102 +187,102 @@ public class BdoDatasetAnalyser {
 		//read the file
 		NetcdfFile nc = null;
 		try {
-			//Get file from HFDS server
-			Configuration conf = new Configuration();
-			Path path = new Path(filename);
-			Path localpath = new Path(Constants.configFilePath+"/Backend/AddDatasets/archivo.nc");
-			FileSystem fs = FileSystem.get(path.toUri(), conf);
-			//copy NetCDF file locally
-			fs.copyToLocalFile(path,localpath);
-			fs.close();
+			HDFSFileSystem hdfsSys = new HDFSFileSystem(filename);
+			Path localFile = hdfsSys.copyFile(filename,Constants.configFilePath+"/file.nc");
 			//read NetCDF file to get its metadata
-			nc = NetcdfDataset.openFile(localpath.toString(), null);
+			nc = NetcdfDataset.openFile(localFile.toString(), null);
 			
 			List<Variable> allVariables;
 			
 			//find the attributes and export the information to create the DatasetSuggest
-			identifier = nc.findGlobalAttribute("id").getStringValue();
-			title = nc.findGlobalAttribute("title").getStringValue();
-			description = nc.findGlobalAttribute("summary").getStringValue();
-			if (description.length() == 1) {
-				description = "";
+			List<Attribute> listFileMetadata = nc.getGlobalAttributes();
+			if(listFileMetadata != null)
+			{
+				/*if(nc.findGlobalAttribute("id")) {
+					identifier = nc.findGlobalAttribute("id").getStringValue();
+				}*/
+				title = nc.findGlobalAttribute("title").getStringValue();
+				description = nc.findGlobalAttribute("summary").getStringValue();
+				if (description.length() == 1) {
+					description = "";
+				}
+				keywords = nc.findGlobalAttribute("area").getStringValue();
+				standards = nc.findGlobalAttribute("Conventions").getStringValue();
+				format = "NetCDF";
+				homepage = nc.findGlobalAttribute("institution_references").getStringValue();
+				publisher = nc.findGlobalAttribute("naming_authority").getStringValue();
+				issued = nc.findGlobalAttribute("history").getStringValue().substring(0, 19);
+				modified = nc.findGlobalAttribute("date_update").getStringValue().substring(0, 19);
+				spatialWestBoundLongitude = nc.findGlobalAttribute("geospatial_lon_min").getStringValue();
+				spatialEastBoundLongitude = nc.findGlobalAttribute("geospatial_lon_max").getStringValue();
+				spatialSouthBoundLatitude = nc.findGlobalAttribute("geospatial_lat_min").getStringValue();
+				spatialNorthBoundLatitude = nc.findGlobalAttribute("geospatial_lat_max").getStringValue();
+				verticalCoverageFrom = nc.findGlobalAttribute("geospatial_vertical_min").getStringValue();
+				if (verticalCoverageFrom.length() == 1) {
+					verticalCoverageFrom = "";
+				}
+				verticalCoverageTo = nc.findGlobalAttribute("geospatial_vertical_max").getStringValue();
+				if (verticalCoverageTo.length() == 1) {
+					verticalCoverageTo = "";
+				}
+				temporalCoverageBegin = nc.findGlobalAttribute("time_coverage_start").getStringValue().substring(0, 19);
+				temporalCoverageEnd = nc.findGlobalAttribute("time_coverage_end").getStringValue().substring(0, 19);
+				timeResolution = nc.findGlobalAttribute("update_interval").getStringValue();
+				//return a list with all variables
+				allVariables = nc.getVariables();
+				for (int i=0; i<allVariables.size(); i++) {
+					//select only the standard_name of the variables
+					Attribute standard_name = allVariables.get(i).findAttribute("standard_name");
+			    	if(standard_name !=null) {
+			    		if(standard_name.getStringValue() != "") {
+			    			//add the standard_name value if it is not null or ""
+			    			variables.add(standard_name.getStringValue());
+			    		}
+			    	}
+			    }
+				//Verify and delete if there are duplicates
+				HashSet<String> hs = new HashSet<String>();
+				hs.addAll(variables);
+				variables.clear();
+				variables.addAll(hs);
+				
+				//Extracting the array of keywords find in the json file
+				JSONParser parser = new JSONParser();
+				JSONArray keywordsArray = (JSONArray) parser.parse(new FileReader(Constants.configFilePath+"/Frontend/static/json/keywords.json"));
+	            
+				/*search if the keyword extracted from netcdf is equal to the json
+				* change the value of the keyword variable to the value of the json (http://...)
+				*/
+	            for(int i=0; i<keywordsArray.size(); i++){
+	                JSONObject keyword = (JSONObject) keywordsArray.get(i);
+	                String text = keyword.get("text").toString();
+	                if(text.equals(keywords)) {
+	                	keywords = keyword.get("value").toString();
+	                	break;
+	                }
+	            }
+	            
+				//result.setIdentifier(identifier);
+				result.setTitle(title);
+				result.setDescription(description);
+				result.setKeywords(keywords);
+				result.setStandards(standards);
+				result.setFormats(format);
+				result.setHomepage(homepage);
+				result.setPublisher(publisher);
+				result.setIssuedDate(issued);
+				result.setModifiedDate(modified);
+				result.setSpatialWest(spatialWestBoundLongitude);
+				result.setSpatialEast(spatialEastBoundLongitude);
+				result.setSpatialSouth(spatialSouthBoundLatitude);
+				result.setSpatialNorth(spatialNorthBoundLatitude);
+				result.setVerticalCoverageFrom(verticalCoverageFrom);
+				result.setVerticalCoverageTo(verticalCoverageTo);
+				result.setTemporalCoverageBegin(temporalCoverageBegin);
+				result.setTemporalCoverageEnd(temporalCoverageEnd);
+				result.setTimeResolution(timeResolution);
+				result.setVariable(variables);
 			}
-			keywords = nc.findGlobalAttribute("area").getStringValue();
-			standards = nc.findGlobalAttribute("Conventions").getStringValue();
-			format = "NetCDF";
-			homepage = nc.findGlobalAttribute("institution_references").getStringValue();
-			publisher = nc.findGlobalAttribute("naming_authority").getStringValue();
-			issued = nc.findGlobalAttribute("history").getStringValue().substring(0, 19);
-			modified = nc.findGlobalAttribute("date_update").getStringValue().substring(0, 19);
-			spatialWestBoundLongitude = nc.findGlobalAttribute("geospatial_lon_min").getStringValue();
-			spatialEastBoundLongitude = nc.findGlobalAttribute("geospatial_lon_max").getStringValue();
-			spatialSouthBoundLatitude = nc.findGlobalAttribute("geospatial_lat_min").getStringValue();
-			spatialNorthBoundLatitude = nc.findGlobalAttribute("geospatial_lat_max").getStringValue();
-			verticalCoverageFrom = nc.findGlobalAttribute("geospatial_vertical_min").getStringValue();
-			if (verticalCoverageFrom.length() == 1) {
-				verticalCoverageFrom = "";
-			}
-			verticalCoverageTo = nc.findGlobalAttribute("geospatial_vertical_max").getStringValue();
-			if (verticalCoverageTo.length() == 1) {
-				verticalCoverageTo = "";
-			}
-			temporalCoverageBegin = nc.findGlobalAttribute("time_coverage_start").getStringValue().substring(0, 19);
-			temporalCoverageEnd = nc.findGlobalAttribute("time_coverage_end").getStringValue().substring(0, 19);
-			timeResolution = nc.findGlobalAttribute("update_interval").getStringValue();
-			//return a list with all variables
-			allVariables = nc.getVariables();
-			for (int i=0; i<allVariables.size(); i++) {
-				//select only the standard_name of the variables
-				Attribute standard_name = allVariables.get(i).findAttribute("standard_name");
-		    	if(standard_name !=null) {
-		    		if(standard_name.getStringValue() != "") {
-		    			//add the standard_name value if it is not null or ""
-		    			variables.add(standard_name.getStringValue());
-		    		}
-		    	}
-		    }
-			//Verify and delete if there are duplicates
-			HashSet<String> hs = new HashSet<String>();
-			hs.addAll(variables);
-			variables.clear();
-			variables.addAll(hs);
-			
-			//Extracting the array of keywords find in the json file
-			JSONParser parser = new JSONParser();
-			JSONArray keywordsArray = (JSONArray) parser.parse(new FileReader(Constants.configFilePath+"/Frontend/static/json/keywords.json"));
-            
-			/*search if the keyword extracted from netcdf is equal to the json
-			* change the value of the keyword variable to the value of the json (http://...)
-			*/
-            for(int i=0; i<keywordsArray.size(); i++){
-                JSONObject keyword = (JSONObject) keywordsArray.get(i);
-                String text = keyword.get("text").toString();
-                if(text.equals(keywords)) {
-                	keywords = keyword.get("value").toString();
-                	break;
-                }
-            }
-            
-			result.setIdentifier(identifier);
-			result.setTitle(title);
-			result.setDescription(description);
-			result.setKeywords(keywords);
-			result.setStandards(standards);
-			result.setFormats(format);
-			result.setHomepage(homepage);
-			result.setPublisher(publisher);
-			result.setIssuedDate(issued);
-			result.setModifiedDate(modified);
-			result.setSpatialWest(spatialWestBoundLongitude);
-			result.setSpatialEast(spatialEastBoundLongitude);
-			result.setSpatialSouth(spatialSouthBoundLatitude);
-			result.setSpatialNorth(spatialNorthBoundLatitude);
-			result.setVerticalCoverageFrom(verticalCoverageFrom);
-			result.setVerticalCoverageTo(verticalCoverageTo);
-			result.setTemporalCoverageBegin(temporalCoverageBegin);
-			result.setTemporalCoverageEnd(temporalCoverageEnd);
-			result.setTimeResolution(timeResolution);
-			result.setVariable(variables);
 			
 		} catch (IOException ioe) {
 
