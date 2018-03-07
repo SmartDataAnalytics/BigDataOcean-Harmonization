@@ -163,32 +163,32 @@ public class BdoDatasetAnalyser {
 
 	public static Dataset analyseDatasetNetcdf(String filename) throws IOException, ParseException {
 		Dataset result = new Dataset();
-		String title;
-		String description;
-		String identifier;
-		String issued;
-		String modified;
-		String keywords;
-		String homepage;
-		String standards;
-		String format;
-		String spatialWestBoundLongitude;
-		String spatialEastBoundLongitude;
-		String spatialSouthBoundLatitude;
-		String spatialNorthBoundLatitude;
-		String temporalCoverageBegin;
-		String temporalCoverageEnd;
-		String publisher;
-		String verticalCoverageFrom;
-		String verticalCoverageTo;
-		String timeResolution;
+		String title = "";
+		String description = "";
+		String identifier = "";
+		String issued = "";
+		String modified = "";
+		String keywords = "";
+		String homepage = "";
+		String standards = "";
+		String format = "";
+		String spatialWestBoundLongitude = "";
+		String spatialEastBoundLongitude = "";
+		String spatialSouthBoundLatitude = "";
+		String spatialNorthBoundLatitude = "";
+		String temporalCoverageBegin = "";
+		String temporalCoverageEnd = "";
+		String publisher = "";
+		String verticalCoverageFrom = "";
+		String verticalCoverageTo = "";
+		String timeResolution = "";
 		List<String> variables = new ArrayList<>();
 
 		//read the file
 		NetcdfFile nc = null;
 		try {
 			HDFSFileSystem hdfsSys = new HDFSFileSystem(filename);
-			Path localFile = hdfsSys.copyFile(filename,Constants.configFilePath+"/file.nc");
+			Path localFile = hdfsSys.copyFile(filename,Constants.configFilePath+"/Backend/AddDatasets/file.nc");
 			//read NetCDF file to get its metadata
 			nc = NetcdfDataset.openFile(localFile.toString(), null);
 			
@@ -198,36 +198,85 @@ public class BdoDatasetAnalyser {
 			List<Attribute> listFileMetadata = nc.getGlobalAttributes();
 			if(listFileMetadata != null)
 			{
-				/*if(nc.findGlobalAttribute("id")) {
-					identifier = nc.findGlobalAttribute("id").getStringValue();
-				}*/
-				title = nc.findGlobalAttribute("title").getStringValue();
-				description = nc.findGlobalAttribute("summary").getStringValue();
-				if (description.length() == 1) {
-					description = "";
+				for(Attribute attr : listFileMetadata) {					
+					if(attr.getShortName().toLowerCase().equals("id")) {
+						identifier = attr.getStringValue();
+					}
+					if(attr.getShortName().toLowerCase().equals("title")) {
+						title = attr.getStringValue();
+					}
+					if(attr.getShortName().toLowerCase().equals("summary")) {
+						description = attr.getStringValue();
+						if (description.length() == 1) {
+							description = "";
+						}
+					}
+					if(attr.getShortName().toLowerCase().equals("area")) {
+						keywords = attr.getStringValue();
+					}
+					if(attr.getShortName().toLowerCase().equals("conventions")) {
+						standards = attr.getStringValue();
+					}
+					format = "NetCDF";
+					if(attr.getShortName().toLowerCase().equals("institution_references")) {
+						homepage = attr.getStringValue();
+					}
+					if(attr.getShortName().toLowerCase().equals("naming_authority")) {
+						publisher = attr.getStringValue();
+					}
+					if(attr.getShortName().toLowerCase().equals("history")) {
+						issued = attr.getStringValue().substring(0, 19);
+						if(!(issued.substring(4,5).equals("-") && issued.substring(7,8).equals("-") && issued.substring(10,11).equals("T") && issued.substring(13,14).equals(":") && issued.substring(16,17).equals(":"))) {
+							issued = "";
+						}
+					}
+					if(attr.getShortName().toLowerCase().equals("date_update")) {
+						modified = attr.getStringValue().substring(0, 19);
+						if(!(modified.substring(4,5).equals("-") && modified.substring(7,8).equals("-") && modified.substring(10,11).equals("T") && modified.substring(13,14).equals(":") && modified.substring(16,17).equals(":"))) {
+							modified = "";
+						}
+					}
+					if(attr.getShortName().toLowerCase().equals("geospatial_lon_min") || attr.getShortName().toLowerCase().equals("longitude_min")) {
+						spatialWestBoundLongitude = attr.getValues().toString();
+					}
+					if(attr.getShortName().toLowerCase().equals("geospatial_lon_max") || attr.getShortName().toLowerCase().equals("longitude_max")) {
+						spatialEastBoundLongitude = attr.getValues().toString();
+					}
+					if(attr.getShortName().toLowerCase().equals("geospatial_lat_min") || attr.getShortName().toLowerCase().equals("latitude_min")) {
+						spatialSouthBoundLatitude = attr.getValues().toString();
+					}
+					if(attr.getShortName().toLowerCase().equals("geospatial_lat_max") || attr.getShortName().toLowerCase().equals("latitude_max")) {
+						spatialNorthBoundLatitude = attr.getValues().toString();
+					}
+					if(attr.getShortName().toLowerCase().equals("geospatial_vertical_min")) {
+						verticalCoverageFrom = attr.getStringValue();
+						if (verticalCoverageFrom.length() == 1) {
+							verticalCoverageFrom = "";
+						}
+					}				
+					if(attr.getShortName().toLowerCase().equals("geospatial_vertical_max")) {
+						verticalCoverageTo = attr.getStringValue();
+						if (verticalCoverageTo.length() == 1) {
+							verticalCoverageTo = "";
+						}
+					}				
+					if(attr.getShortName().toLowerCase().equals("time_coverage_start")) {
+						temporalCoverageBegin = attr.getStringValue().substring(0, 19);
+						if(!(temporalCoverageBegin.substring(4,5).equals("-") && temporalCoverageBegin.substring(7,8).equals("-") && temporalCoverageBegin.substring(10,11).equals("T") && temporalCoverageBegin.substring(13,14).equals(":") && temporalCoverageBegin.substring(16,17).equals(":"))) {
+							temporalCoverageBegin = "";
+						}
+					}
+					if(attr.getShortName().toLowerCase().equals("time_coverage_end")) {
+						temporalCoverageEnd = attr.getStringValue().substring(0, 19);
+						if(!(temporalCoverageEnd.substring(4,5).equals("-") && temporalCoverageEnd.substring(7,8).equals("-") && temporalCoverageEnd.substring(10,11).equals("T") && temporalCoverageEnd.substring(13,14).equals(":") && temporalCoverageEnd.substring(16,17).equals(":"))) {
+							temporalCoverageEnd = "";
+						}
+					}
+					if(attr.getShortName().toLowerCase().equals("update_interval")) {
+						timeResolution = attr.getStringValue();
+					}
 				}
-				keywords = nc.findGlobalAttribute("area").getStringValue();
-				standards = nc.findGlobalAttribute("Conventions").getStringValue();
-				format = "NetCDF";
-				homepage = nc.findGlobalAttribute("institution_references").getStringValue();
-				publisher = nc.findGlobalAttribute("naming_authority").getStringValue();
-				issued = nc.findGlobalAttribute("history").getStringValue().substring(0, 19);
-				modified = nc.findGlobalAttribute("date_update").getStringValue().substring(0, 19);
-				spatialWestBoundLongitude = nc.findGlobalAttribute("geospatial_lon_min").getStringValue();
-				spatialEastBoundLongitude = nc.findGlobalAttribute("geospatial_lon_max").getStringValue();
-				spatialSouthBoundLatitude = nc.findGlobalAttribute("geospatial_lat_min").getStringValue();
-				spatialNorthBoundLatitude = nc.findGlobalAttribute("geospatial_lat_max").getStringValue();
-				verticalCoverageFrom = nc.findGlobalAttribute("geospatial_vertical_min").getStringValue();
-				if (verticalCoverageFrom.length() == 1) {
-					verticalCoverageFrom = "";
-				}
-				verticalCoverageTo = nc.findGlobalAttribute("geospatial_vertical_max").getStringValue();
-				if (verticalCoverageTo.length() == 1) {
-					verticalCoverageTo = "";
-				}
-				temporalCoverageBegin = nc.findGlobalAttribute("time_coverage_start").getStringValue().substring(0, 19);
-				temporalCoverageEnd = nc.findGlobalAttribute("time_coverage_end").getStringValue().substring(0, 19);
-				timeResolution = nc.findGlobalAttribute("update_interval").getStringValue();
+				
 				//return a list with all variables
 				allVariables = nc.getVariables();
 				for (int i=0; i<allVariables.size(); i++) {
@@ -262,7 +311,7 @@ public class BdoDatasetAnalyser {
 	                }
 	            }
 	            
-				//result.setIdentifier(identifier);
+				result.setIdentifier(identifier);
 				result.setTitle(title);
 				result.setDescription(description);
 				result.setKeywords(keywords);
