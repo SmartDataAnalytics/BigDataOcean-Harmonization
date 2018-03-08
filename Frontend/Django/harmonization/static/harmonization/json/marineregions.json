@@ -1,0 +1,330 @@
+[
+  {
+    "text": "Arctic Ocean",
+    "value": "http://marineregions.org/mrgid/1906"
+  },
+  {
+    "text": "Baffin Bay",
+    "value": "http://marineregions.org/mrgid/4253"
+  },
+  {
+    "text": "Barentsz Sea",
+    "value": "http://marineregions.org/mrgid/4247"
+  },
+  {
+    "text": "Beaufort Sea",
+    "value": "http://marineregions.org/mrgid/4256"
+  },
+  {
+    "text": "Chukchi Sea",
+    "value": "http://marineregions.org/mrgid/4257"
+  },
+  {
+    "text": "Davis Strait",
+    "value": "http://marineregions.org/mrgid/4250"
+  },
+  {
+    "text": "East Siberian Sea",
+    "value": "http://marineregions.org/mrgid/4244"
+  },
+  {
+    "text": "Greenland Sea",
+    "value": "http://marineregions.org/mrgid/2356"
+  },
+  {
+    "text": "Hudson Bay",
+    "value": "http://marineregions.org/mrgid/4252"
+  },
+  {
+    "text": "Hudson Strait",
+    "value": "http://marineregions.org/mrgid/4251"
+  },
+  {
+    "text": "Kara Sea",
+    "value": "http://marineregions.org/mrgid/4246"
+  },
+  {
+    "text": "Laptev Sea",
+    "value": "http://marineregions.org/mrgid/4245"
+  },
+  {
+    "text": "Lincoln Sea",
+    "value": "http://marineregions.org/mrgid/4254"
+  },
+  {
+    "text": "Northwestern Passages",
+    "value": "http://marineregions.org/mrgid/5698"
+  },
+  {
+    "text": "Norwegian Sea",
+    "value": "http://marineregions.org/mrgid/2353"
+  },
+  {
+    "text": "White Sea",
+    "value": "http://marineregions.org/mrgid/4248"
+  },
+  {
+    "text": "Baltic Sea",
+    "value": "http://marineregions.org/mrgid/2401"
+  },
+  {
+    "text": "Gulf of Bothnia",
+    "value": "http://marineregions.org/mrgid/2402"
+  },
+  {
+    "text": "Gulf of Finland",
+    "value": "http://marineregions.org/mrgid/2407"
+  },
+  {
+    "text": "Gulf of Riga",
+    "value": "http://marineregions.org/mrgid/2409"
+  },
+  {
+    "text": "Kattegat",
+    "value": "http://marineregions.org/mrgid/2374"
+  },
+  {
+    "text": "North Atlantic Ocean",
+    "value": "http://marineregions.org/mrgid/1912"
+  },
+  {
+    "text": "Bay of Biscay",
+    "value": "http://marineregions.org/mrgid/2359"
+  },
+  {
+    "text": "Bristol Channel",
+    "value": "http://marineregions.org/mrgid/3141"
+  },
+  {
+    "text": "Caribbean Sea",
+    "value": "http://marineregions.org/mrgid/4287"
+  },
+  {
+    "text": "Celtic Sea",
+    "value": "http://marineregions.org/mrgid/2351"
+  },
+  {
+    "text": "English Channel",
+    "value": "http://marineregions.org/mrgid/2389"
+  },
+  {
+    "text": "Gulf of Guinea",
+    "value": "http://marineregions.org/mrgid/4286"
+  },
+  {
+    "text": "Gulf of Mexico",
+    "value": "http://marineregions.org/mrgid/4288"
+  },
+  {
+    "text": "Gulf of St. Lawrence",
+    "value": "http://marineregions.org/mrgid/49716"
+  },
+  {
+    "text": "Inner Seas off the West Coast of Scotland",
+    "value": "http://marineregions.org/mrgid/4283"
+  },
+  {
+    "text": "Irish Sea and St. George's Channel",
+    "value": "http://marineregions.org/mrgid/2357"
+  },
+  {
+    "text": "Labrador Sea",
+    "value": "http://marineregions.org/mrgid/4291"
+  },
+  {
+    "text": "North Sea",
+    "value": "http://marineregions.org/mrgid/2350"
+  },
+  {
+    "text": "Skagerrak",
+    "value": "http://marineregions.org/mrgid/2379"
+  },
+  {
+    "text": "South Atlantic Ocean",
+    "value": "http://marineregions.org/mrgid/1914"
+  },
+  {
+    "text": "Rio de La Plata",
+    "value": "http://marineregions.org/mrgid/4325"
+  },
+  {
+    "text": "Bay of Fundy",
+    "value": "http://marineregions.org/mrgid/4289"
+  },
+  {
+    "text": "Indian Ocean",
+    "value": "http://marineregions.org/mrgid/1904"
+  },
+  {
+    "text": "Andaman Sea",
+    "value": "http://marineregions.org/mrgid/4274"
+  },
+  {
+    "text": "Arabian Sea",
+    "value": "http://marineregions.org/mrgid/4268"
+  },
+  {
+    "text": "Bay of Bengal",
+    "value": "http://marineregions.org/mrgid/4273"
+  },
+  {
+    "text": "Great Australian Bight",
+    "value": "http://marineregions.org/mrgid/4276"
+  },
+  {
+    "text": "Gulf of Aden",
+    "value": "http://marineregions.org/mrgid/4265"
+  },
+  {
+    "text": "Gulf of Oman",
+    "value": "http://marineregions.org/mrgid/4267"
+  },
+  {
+    "text": "Gulf of Suez",
+    "value": "http://marineregions.org/mrgid/4262"
+  },
+  {
+    "text": "Laccadive Sea",
+    "value": "http://marineregions.org/mrgid/4969"
+  },
+  {
+    "text": "Malacca Strait",
+    "value": "http://marineregions.org/mrgid/4275"
+  },
+  {
+    "text": "Mozambique Channel",
+    "value": "http://marineregions.org/mrgid/4261"
+  },
+  {
+    "text": "Persian Gulf",
+    "value": "http://marineregions.org/mrgid/4266"
+  },
+  {
+    "text": "Red Sea",
+    "value": "http://marineregions.org/mrgid/4264"
+  },
+  {
+    "text": "Black Sea",
+    "value": "http://marineregions.org/mrgid/3319"
+  },
+  {
+    "text": "Sea of Azov",
+    "value": "http://marineregions.org/mrgid/3320"
+  },
+  {
+    "text": "Mediterranean Sea",
+    "value": "http://marineregions.org/mrgid/1905"
+  },
+  {
+    "text": "Mediterranean Sea - Eastern Basin",
+    "value": "http://marineregions.org/mrgid/4280"
+  },
+  {
+    "text": "Adriatic Sea",
+    "value": "http://marineregions.org/mrgid/3314"
+  },
+  {
+    "text": "Aegean Sea",
+    "value": "http://marineregions.org/mrgid/3315"
+  },
+  {
+    "text": "Ionian Sea",
+    "value": "http://marineregions.org/mrgid/3351"
+  },
+  {
+    "text": "Mediterranean Sea - Western Basin",
+    "value": "http://marineregions.org/mrgid/4279"
+  },
+  {
+    "text": "Alboran Sea",
+    "value": "http://marineregions.org/mrgid/3324"
+  },
+  {
+    "text": "Balearic Sea",
+    "value": "http://marineregions.org/mrgid/3322"
+  },
+  {
+    "text": "Ligurian Sea",
+    "value": "http://marineregions.org/mrgid/3363"
+  },
+  {
+    "text": "Strait of Gibraltar",
+    "value": "http://marineregions.org/mrgid/3346"
+  },
+  {
+    "text": "Tyrrhenian Sea",
+    "value": "http://marineregions.org/mrgid/3386"
+  },
+  {
+    "text": "Sea of Marmara",
+    "value": "http://marineregions.org/mrgid/3369"
+  },
+  {
+    "text": "North Pacific Ocean",
+    "value": "http://marineregions.org/mrgid/1908"
+  },
+  {
+    "text": "Bering Sea",
+    "value": "http://marineregions.org/mrgid/4310"
+  },
+  {
+    "text": "Eastern China Sea",
+    "value": "http://marineregions.org/mrgid/4302"
+  },
+  {
+    "text": "Gulf of Alaska",
+    "value": "http://marineregions.org/mrgid/4312"
+  },
+  {
+    "text": "Gulf of California",
+    "value": "http://marineregions.org/mrgid/4314"
+  },
+  {
+    "text": "Japan Sea",
+    "value": "http://marineregions.org/mrgid/4307"
+  },
+  {
+    "text": "Philippine Sea",
+    "value": "http://marineregions.org/mrgid/4300"
+  },
+  {
+    "text": "Sea of Okhotsk",
+    "value": "http://marineregions.org/mrgid/4309"
+  },
+  {
+    "text": "The Coastal Waters of Southeast Alaska and British Columbia",
+    "value": "http://marineregions.org/mrgid/4313"
+  },
+  {
+    "text": "Yellow Sea",
+    "value": "http://marineregions.org/mrgid/4303"
+  },
+  {
+    "text": "South China Sea",
+    "value": "http://marineregions.org/mrgid/4332"
+  },
+  {
+    "text": "South Pacific Ocean",
+    "value": "http://marineregions.org/mrgid/1910"
+  },
+  {
+    "text": "Bass Strait",
+    "value": "http://marineregions.org/mrgid/4366"
+  },
+  {
+    "text": "Bismarck Sea",
+    "value": "http://marineregions.org/mrgid/4360"
+  },
+  {
+    "text": "Coral Sea",
+    "value": "http://marineregions.org/mrgid/4364"
+  },
+  {
+    "text": "Solomon Sea",
+    "value": "http://marineregions.org/mrgid/4361"
+  },
+  {
+    "text": "Tasman Sea",
+    "value": "http://marineregions.org/mrgid/4365"
+  }
+]

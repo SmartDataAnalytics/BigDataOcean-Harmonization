@@ -1,0 +1,591 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>BigDataOcean Harmonization </title>
+  <link rel='icon' href="{% static 'harmonization/img/BIG-DATA-OCEAN_LOGO.ico' %}">
+</head>
+
+<body>
+  <nav class="navbar navbar-bdo navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <div class="icon">
+                <a id="logo" title="BigDataOcean Repository" href="/">
+                    <img itemprop="image" alt="BigDataOcean Repository" src="{% static 'harmonization/img/BIG-DATA-OCEAN_LOGO.png' %}" height="86" width="200">
+                </a>
+            </div>
+            <div class="bdotitle label-table">
+                <h1>Big Data Ocean - Dataset Harmonization</h1>
+            </div>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+        </div>
+    </div>
+  </nav>
+  <div class="container text-center" style="margin-top:90px">
+    <div class="row content">
+        <div class="col-md-1">
+        </div>          
+        <div class="col-md-10 field-title">
+          API documentation
+          <label class="desc">
+            Functions defined in BigDataOcean can be called with an <span class="pre">HTTP GET </span><span>request. The response to the function you call is in </span><span class="pre">JSON format</span><span>. Browser plugins like </span><a href="https://addons.mozilla.org/en-us/firefox/addon/jsonview/" target="_blank">JSONView for Firefox </a><span>or </span><a href="https://chrome.google.com/webstore/detail/jsonview/chklaanhfefbnpoihckbnefhakgolnmc" target="_blank">Chrome </a><span>will format and color BigDataOcean's JSON response nicely in your browser.</span>
+          </label>
+        </div>
+        <div class="col-md-1">
+        </div>
+      </div>
+    <div class="row content api-row" id="api">
+        <div class="col-md-1">
+        </div>
+        <div class="col-md-10 metadata-info">
+
+          <div class="apiGroupName">Search Dataset</div>
+          <div class="col-md-10 metadata-info" id="accordion">
+            <h2>
+              <span class="apiHttpMethod">get</span>
+              <span class="apiPath">/api/v1/dataset/list</span>
+            </h2>
+            <div>
+              <form method="GET" action="/api/v1/dataset/list">
+                <h4 data-sw-translate="">Parameters</h4>
+                <table class="apiTable">
+                  <thead>
+                    <tr>
+                      <th style="width: 100px; max-width: 100px" data-sw-translate="">Parameter</th>
+                      <th style="width: 310px; max-width: 310px" data-sw-translate="">Value</th>
+                      <th style="width: 200px; max-width: 200px" data-sw-translate="">Description</th>
+                      <th style="width: 100px; max-width: 100px" data-sw-translate="">Parameter Type</th>
+                      <th style="width: 220px; max-width: 230px" data-sw-translate="">Data Type</th>
+                    </tr>
+                  </thead>
+                  <tbody class="operation-params">
+                    <tr>
+                      <td class="code required">
+                        <label>-</label>
+                      </td>
+                      <td>
+                        <label>-</label>
+                      </td>
+                      <td>
+                        <label>-</label>
+                      </td>
+                      <td>
+                        <label>-</label>
+                      </td>
+                      <td>
+                        <label>-</label>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <input class="submit" type="submit" value="Try it out!">
+              </form>
+              <div class="apiExample">For example, using the BigDataOcean API, your app can list all datasets in BigDataOcean Harmonization<a href="/api/v1/dataset/list" target="_blank">http://localhost:5000/api/v1/dataset/list</a></div>
+            </div>
+            <h2>
+              <span class="apiHttpMethod">get</span>
+              <span class="apiPath">/api/v1/dataset/searchDataset</span>
+            </h2>
+            <div>
+              <form method="GET" action="/api/v1/dataset/searchDataset">
+                <h4 data-sw-translate="">Parameters</h4>
+                <table class="apiTable">
+                  <thead>
+                    <tr>
+                      <th style="width: 100px; max-width: 100px" data-sw-translate="">Parameter</th>
+                      <th style="width: 310px; max-width: 310px" data-sw-translate="">Value</th>
+                      <th style="width: 200px; max-width: 200px" data-sw-translate="">Description</th>
+                      <th style="width: 100px; max-width: 100px" data-sw-translate="">Parameter Type</th>
+                      <th style="width: 220px; max-width: 230px" data-sw-translate="">Data Type</th>
+                    </tr>
+                  </thead>
+                  <tbody class="operation-params">
+                    <tr>
+                      <td class="code required">
+                        <label for="search">URI</label>
+                      </td>
+                      <td>
+                        <input type="text" class="form-control" id="search" name= "search" required placeholder="required">
+                      </td>
+                      <td>
+                        <strong>
+                          <span class="markdown"><p>example: MEDSEA_ANALYSIS_<br>FORECAST_WAV_006_<br>011</p>
+                          </span>
+                        </strong>
+                      </td>
+                      <td>search</td>
+                      <td><span class="model-signature">string</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+                <input class="submit" type="submit" value="Try it out!">
+              </form>
+              <div class="apiExample">For example, using the BigDataOcean API, your app can search for a specific dataset "MEDSEA_ANALYSIS_FORECAST_WAV_006_011": <a href="/api/v1/dataset/searchDataset?search=MEDSEA_ANALYSIS_FORECAST_WAV_006_011" target="_blank">http://localhost:5000/api/v1/dataset/searchDataset?search=MEDSEA_ANALYSIS_FORECAST_WAV_006_011</a></div>
+            </div>
+            <h2>
+              <span class="apiHttpMethod">get</span>
+              <span class="apiPath">/api/v1/dataset/searchSubject</span>
+            </h2>
+            <div>
+              <form method="GET" action="/api/v1/dataset/searchSubject">
+                <h4 data-sw-translate="">Parameters</h4>
+                <table class="apiTable">
+                  <thead>
+                    <tr>
+                      <th style="width: 100px; max-width: 100px" data-sw-translate="">Parameter</th>
+                      <th style="width: 310px; max-width: 310px" data-sw-translate="">Value</th>
+                      <th style="width: 200px; max-width: 200px" data-sw-translate="">Description</th>
+                      <th style="width: 100px; max-width: 100px" data-sw-translate="">Parameter Type</th>
+                      <th style="width: 220px; max-width: 230px" data-sw-translate="">Data Type</th>
+                    </tr>
+                  </thead>
+                  <tbody class="operation-params">
+                    <tr>
+                      <td class="code required">
+                        <label for="tokenfield_subject">Subject(s)</label>
+                      </td>
+                      <td>
+                        <input type="text" class="form-control" id="tokenfield_subject" name= "search" required placeholder="required">
+                      </td>
+                      <td>
+                        <strong>
+                          <span class="markdown"><p>example: http://inspire.ec.europa.eu/<br>metadata-codelist/TopicCategory/<br>oceans</p>
+                          </span>
+                        </strong>
+                      </td>
+                      <td>search</td>
+                      <td><span class="model-signature">string</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+                <input class="submit" type="submit" value="Try it out!">
+              </form>
+              <div class="apiExample">For example, using the BigDataOcean API, your app can search for a subject or a list of subjects "http://inspire.ec.europa.eu/metadata-codelist/TopicCategory/oceans": <a href="/api/v1/dataset/searchSubject?search=http://inspire.ec.europa.eu/metadata-codelist/TopicCategory/oceans" target="_blank">http://localhost:5000/api/v1/dataset/searchSubject?search=http://inspire.ec.europa.eu/metadata-codelist/TopicCategory/oceans</a></div>
+            </div>
+            <h2>
+              <span class="apiHttpMethod">get</span>
+              <span class="apiPath">/api/v1/dataset/searchKeyword</span>
+            </h2>
+            <div>
+              <form method="GET" action="/api/v1/dataset/searchKeyword">
+                <h4 data-sw-translate="">Parameters</h4>
+                <table class="apiTable">
+                  <thead>
+                    <tr>
+                      <th style="width: 100px; max-width: 100px" data-sw-translate="">Parameter</th>
+                      <th style="width: 310px; max-width: 310px" data-sw-translate="">Value</th>
+                      <th style="width: 200px; max-width: 200px" data-sw-translate="">Description</th>
+                      <th style="width: 100px; max-width: 100px" data-sw-translate="">Parameter Type</th>
+                      <th style="width: 220px; max-width: 230px" data-sw-translate="">Data Type</th>
+                    </tr>
+                  </thead>
+                  <tbody class="operation-params">
+                    <tr>
+                      <td class="code required">
+                        <label for="tokenfield_keywords">Keyword(s)</label>
+                      </td>
+                      <td>
+                        <input type="text" class="form-control" id="tokenfield_keywords" name= "search" required placeholder="required">
+                      </td>
+                      <td>
+                        <strong>
+                          <span class="markdown"><p>example: https://www.eionet.europa.eu/<br>gemet/en/concept/14844</p>
+                          </span>
+                        </strong>
+                      </td>
+                      <td>search</td>
+                      <td><span class="model-signature">string</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+                <input class="submit" type="submit" value="Try it out!">
+              </form>
+              <div class="apiExample">For example, using the BigDataOcean API, your app can search for a keyword or a list of keywords "https://www.eionet.europa.eu/gemet/en/concept/14844": <a href="/api/v1/dataset/searchKeyword?search=https://www.eionet.europa.eu/gemet/en/concept/14844" target="_blank">http://localhost:5000/api/v1/dataset/searchKeyword?search=https://www.eionet.europa.eu/gemet/en/concept/14844</a></div>
+            </div>
+          </div>
+
+          <div class="apiGroupName">Search Dataset By Geographic and Time</div>
+          <div class="col-md-10 metadata-info" id="accordion1">
+            <h2>
+              <span class="apiHttpMethod">get</span>
+              <span class="apiPath">/api/v1/dataset/searchGeoLocation</span>
+            </h2>
+            <div>
+              <form method="GET" action="/api/v1/dataset/searchGeoLocation">
+                <h4 data-sw-translate="">Parameters</h4>
+                <table class="apiTable">
+                  <thead>
+                    <tr>
+                      <th style="width: 100px; max-width: 100px" data-sw-translate="">Parameter</th>
+                      <th style="width: 310px; max-width: 310px" data-sw-translate="">Value</th>
+                      <th style="width: 200px; max-width: 200px" data-sw-translate="">Description</th>
+                      <th style="width: 100px; max-width: 100px" data-sw-translate="">Parameter Type</th>
+                      <th style="width: 220px; max-width: 230px" data-sw-translate="">Data Type</th>
+                    </tr>
+                  </thead>
+                  <tbody class="operation-params">
+                    <tr>
+                      <td class="code required">
+                        <label for="tokenfield_geo_loc">Geo Location(s)</label>
+                      </td>
+                      <td>
+                        <input type="text" class="form-control" id="tokenfield_geo_loc" name= "search" required placeholder="required">
+                      </td>
+                      <td>
+                        <strong>
+                          <span class="markdown"><p>example: http://marineregions.org/mrgid/1905</p>
+                          </span>
+                        </strong>
+                      </td>
+                      <td>search</td>
+                      <td><span class="model-signature">string</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+                <input class="submit" type="submit" value="Try it out!">
+              </form>
+              <div class="apiExample">For example, using the BigDataOcean API, your app can search for a geographic location or a list of geographic locations "http://marineregions.org/mrgid/1905": <a href="/api/v1/dataset/searchGeoLocation?search=http://marineregions.org/mrgid/1905" target="_blank">http://localhost:5000/api/v1/dataset/searchGeoLocation?search=http://marineregions.org/mrgid/1905</a></div>
+            </div>
+            <h2>
+              <span class="apiHttpMethod">get</span>
+              <span class="apiPath">/api/v1/dataset/searchGeoCoverage</span>
+            </h2>
+            <div>
+              <form method="GET" action="/api/v1/dataset/searchGeoCoverage">
+                <h4 data-sw-translate="">Parameters</h4>
+                <table class="apiTable">
+                  <thead>
+                    <tr>
+                      <th style="width: 100px; max-width: 100px" data-sw-translate="">Parameter</th>
+                      <th style="width: 310px; max-width: 310px" data-sw-translate="">Value</th>
+                      <th style="width: 200px; max-width: 200px" data-sw-translate="">Description</th>
+                      <th style="width: 100px; max-width: 100px" data-sw-translate="">Parameter Type</th>
+                      <th style="width: 220px; max-width: 230px" data-sw-translate="">Data Type</th>
+                    </tr>
+                  </thead>
+                  <tbody class="operation-params">
+                    <tr>
+                      <td class="code required">
+                        <label for="searchW">West</label>
+                      </td>
+                      <td>
+                        <input type="number" class="form-control" id="searchW" name= "W" required placeholder="required" step="any">
+                      </td>
+                      <td>
+                        <strong>
+                          <span class="markdown"><p>example: -18.12</p>
+                          </span>
+                        </strong>
+                      </td>
+                      <td>search</td>
+                      <td><span class="model-signature">number</span></td>
+                    </tr>
+                    <tr>
+                      <td class="code required">
+                        <label for="searchE">East</label>
+                      </td>
+                      <td>
+                        <input type="number" class="form-control" id="searchE" name= "E" required placeholder="required" step="any">
+                      </td>
+                      <td>
+                        <strong>
+                          <span class="markdown"><p>example: 36.30</p>
+                          </span>
+                        </strong>
+                      </td>
+                      <td>search</td>
+                      <td><span class="model-signature">number</span></td>
+                    </tr>
+                    <tr>
+                      <td class="code required">
+                        <label for="searchS">South</label>
+                      </td>
+                      <td>
+                        <input type="number" class="form-control" id="searchS" name= "S" required placeholder="required" step="any">
+                      </td>
+                      <td>
+                        <strong>
+                          <span class="markdown"><p>example: 30.17</p>
+                          </span>
+                        </strong>
+                      </td>
+                      <td>search</td>
+                      <td><span class="model-signature">number</span></td>
+                    </tr>
+                    <tr>
+                      <td class="code required">
+                        <label for="searchN">North</label>
+                      </td>
+                      <td>
+                        <input type="number" class="form-control" id="searchN" name= "N" required placeholder="required" step="any">
+                      </td>
+                      <td>
+                        <strong>
+                          <span class="markdown"><p>example: 45.98</p>
+                          </span>
+                        </strong>
+                      </td>
+                      <td>search</td>
+                      <td><span class="model-signature">number</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+                <input class="submit" type="submit" value="Try it out!">
+              </form>
+              <div class="apiExample">For example, using the BigDataOcean API, your app can search for  geographical coverage "W=-17.12 E=36.20 S=30 N=45.98": <a href="/api/v1/dataset/searchGeoCoverage?W=-17.12&E=36.20&S=30&N=45.98" target="_blank">http://localhost:5000/api/v1/dataset/searchGeoCoverage?W=-17.12&E=36.20&S=30&N=45.98</a></div>
+            </div>
+            <h2>
+              <span class="apiHttpMethod">get</span>
+              <span class="apiPath">/api/v1/dataset/searchVerticalCoverage</span>
+            </h2>
+            <div>
+              <form method="GET" action="/api/v1/dataset/searchVerticalCoverage">
+                <h4 data-sw-translate="">Parameters</h4>
+                <table class="apiTable">
+                  <thead>
+                    <tr>
+                      <th style="width: 100px; max-width: 100px" data-sw-translate="">Parameter</th>
+                      <th style="width: 310px; max-width: 310px" data-sw-translate="">Value</th>
+                      <th style="width: 200px; max-width: 200px" data-sw-translate="">Description</th>
+                      <th style="width: 100px; max-width: 100px" data-sw-translate="">Parameter Type</th>
+                      <th style="width: 220px; max-width: 230px" data-sw-translate="">Data Type</th>
+                    </tr>
+                  </thead>
+                  <tbody class="operation-params">
+                    <tr>
+                      <td class="code required">
+                        <label for="searchFrom">From</label>
+                      </td>
+                      <td>
+                        <input type="number" class="form-control" id="searchFrom" name= "from" required placeholder="required">
+                      </td>
+                      <td>
+                        <strong>
+                          <span class="markdown"><p>example: 0</p>
+                          </span>
+                        </strong>
+                      </td>
+                      <td>search</td>
+                      <td><span class="model-signature">number</span></td>
+                    </tr>
+                    <tr>
+                      <td class="code required">
+                        <label for="searchTo">To</label>
+                      </td>
+                      <td>
+                        <input type="number" class="form-control" id="searchTo" name= "to" required placeholder="required">
+                      </td>
+                      <td>
+                        <strong>
+                          <span class="markdown"><p>example: 0</p>
+                          </span>
+                        </strong>
+                      </td>
+                      <td>search</td>
+                      <td><span class="model-signature">number</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+                <input class="submit" type="submit" value="Try it out!">
+              </form>
+              <div class="apiExample">For example, using the BigDataOcean API, your app can search for vertical coverage "from=0 to=0": <a href="/api/v1/dataset/searchVerticalCoverage?from=0&to=0" target="_blank">http://localhost:5000/api/v1/dataset/searchVerticalCoverage?from=0&to=0</a></div>
+            </div>
+            <h2>
+              <span class="apiHttpMethod">get</span>
+              <span class="apiPath">/api/v1/dataset/searchTemporalCoverage</span>
+            </h2>
+            <div>
+              <form method="GET" action="/api/v1/dataset/searchTemporalCoverage">
+                <h4 data-sw-translate="">Parameters</h4>
+                <table class="apiTable">
+                  <thead>
+                    <tr>
+                      <th style="width: 100px; max-width: 100px" data-sw-translate="">Parameter</th>
+                      <th style="width: 310px; max-width: 310px" data-sw-translate="">Value</th>
+                      <th style="width: 200px; max-width: 200px" data-sw-translate="">Description</th>
+                      <th style="width: 100px; max-width: 100px" data-sw-translate="">Parameter Type</th>
+                      <th style="width: 220px; max-width: 230px" data-sw-translate="">Data Type</th>
+                    </tr>
+                  </thead>
+                  <tbody class="operation-params">
+                    <tr>
+                      <td class="code required">
+                        <label for="searchBegin">Begin</label>
+                      </td>
+                      <td>
+                        <input type="datetime-local" step="1" class="form-control" id="searchFrom" name= "begin" required >
+                      </td>
+                      <td>
+                        <strong>
+                          <span class="markdown"><p>example: 2016-08-01T00:00:00</p>
+                          </span>
+                        </strong>
+                      </td>
+                      <td>search</td>
+                      <td><span class="model-signature">datetime-local</span></td>
+                    </tr>
+                    <tr>
+                      <td class="code required">
+                        <label for="searchEnd">End</label>
+                      </td>
+                      <td>
+                        <input type="datetime-local" step="1" class="form-control" id="searchEnd" name= "end">
+                      </td>
+                      <td>
+                        <strong>
+                          <span class="markdown"><p>example: 2016-08-01T00:00:00</p>
+                          </span>
+                        </strong>
+                      </td>
+                      <td>optional, search</td>
+                      <td><span class="model-signature">datetime-local</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+                <input class="submit" type="submit" value="Try it out!">
+              </form>
+              <div class="apiExample">For example, using the BigDataOcean API, your app can search for temporal coverage "begin=2016-08-01T00:00:00 end=": <a href="/api/v1/dataset/searchTemporalCoverage?begin=2016-08-01T00:00:00&end=" target="_blank">http://localhost:5000/api/v1/dataset/searchTemporalCoverage?begin=2016-08-01T00:00:00&end=</a></div>
+            </div>
+          </div>
+
+          <div class="apiGroupName">Search Variable</div>
+          <div class="col-md-10 metadata-info" id="accordion2">
+            <h2>
+              <span class="apiHttpMethod">get</span>
+              <span class="apiPath">/api/v1/dataset/listVariables</span>
+            </h2>
+            <div>
+              <form method="GET" action="/api/v1/dataset/listVariables">
+                <h4 data-sw-translate="">Parameters</h4>
+                <table class="apiTable">
+                  <thead>
+                    <tr>
+                      <th style="width: 100px; max-width: 100px" data-sw-translate="">Parameter</th>
+                      <th style="width: 310px; max-width: 310px" data-sw-translate="">Value</th>
+                      <th style="width: 200px; max-width: 200px" data-sw-translate="">Description</th>
+                      <th style="width: 100px; max-width: 100px" data-sw-translate="">Parameter Type</th>
+                      <th style="width: 220px; max-width: 230px" data-sw-translate="">Data Type</th>
+                    </tr>
+                  </thead>
+                  <tbody class="operation-params">
+                    <tr>
+                      <td class="code required">
+                        <label for="search">URI</label>
+                      </td>
+                      <td>
+                        <input type="text" class="form-control" id="search" name= "search" required placeholder="required">
+                      </td>
+                      <td>
+                        <strong>
+                          <span class="markdown"><p>example: MEDSEA_ANALYSIS_<br>FORECAST_WAV_006_<br>011</p>
+                          </span>
+                        </strong>
+                      </td>
+                      <td>search</td>
+                      <td><span class="model-signature">string</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+                <input class="submit" type="submit" value="Try it out!">
+              </form>
+              <div class="apiExample">For example, using the BigDataOcean API, your app can list the variables of a specific dataset "MEDSEA_ANALYSIS_FORECAST_WAV_006_011": <a href="/api/v1/dataset/listVariables?search=MEDSEA_ANALYSIS_FORECAST_WAV_006_011" target="_blank">http://localhost:5000/api/v1/dataset/listVariables?search=MEDSEA_ANALYSIS_FORECAST_WAV_006_011</a></div>
+            </div>
+            <h2>
+              <span class="apiHttpMethod">get</span>
+              <span class="apiPath">/api/v1/dataset/searchVariable</span>
+            </h2>
+            <div>
+              <form method="GET" action="/api/v1/dataset/searchVariable">
+                <h4 data-sw-translate="">Parameters</h4>
+                <table class="apiTable">
+                  <thead>
+                    <tr>
+                      <th style="width: 100px; max-width: 100px" data-sw-translate="">Parameter</th>
+                      <th style="width: 310px; max-width: 310px" data-sw-translate="">Value</th>
+                      <th style="width: 200px; max-width: 200px" data-sw-translate="">Description</th>
+                      <th style="width: 100px; max-width: 100px" data-sw-translate="">Parameter Type</th>
+                      <th style="width: 220px; max-width: 230px" data-sw-translate="">Data Type</th>
+                    </tr>
+                  </thead>
+                  <tbody class="operation-params">
+                    <tr>
+                      <td class="code required">
+                        <label for="tokenfield_variables">variable(s)</label>
+                      </td>
+                      <td>
+                        <input type="text" class="form-control" id="tokenfield_variables" name= "search" required placeholder="required">
+                      </td>
+                      <td>
+                        <strong>
+                          <span class="markdown"><p>example: sea_surface_wave_significant_height, latitude</p>
+                          </span>
+                        </strong>
+                      </td>
+                      <td>search</td>
+                      <td><span class="model-signature">string</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+                <input class="submit" type="submit" value="Try it out!">
+              </form>
+              <div class="apiExample">For example, using the BigDataOcean API, your app can list datasets that has a variable or a list of variables "sea_surface_wave_significant_height,latitude": <a href="/api/v1/dataset/searchVariable?search=sea_surface_wave_significant_height, latitude" target="_blank">http://localhost:5000/api/v1/dataset/searchVariable?search=sea_surface_wave_significant_height, latitude</a></div>
+            </div>
+          </div>
+
+        </div>
+        <div class="col-md-1">
+        </div>
+    </div>
+    
+    <div class="row content">
+    </div>
+  </div>
+
+  <footer class="container-fluid text-center">
+    <div class="wrpl"><a href="http://www.bigdataocean.eu/site/">
+        <dl>
+          <dt><img class="BDO_logo" src="{% static 'harmonization/img/BIG-DATA-OCEAN_LOGO.png' %}"></dt>
+          <dd><strong>Big Data Ocean</strong></dd>
+        </dl></a></div>
+    <div class="wrpl"><br>
+      <div class="bookmarks"><b>Documentation</b>
+        <ul>
+          <li><a href="/api" title="API documentation">API documentation</a></li>
+          <li><a href="https://github.com/SmartDataAnalytics/BigDataOcean-Harmonization" title="Source in GitHub" target="_blank">Source code</a></li>
+        </ul>
+      </div>
+      <div class="bookmarks"><b>Publication</b>
+        <ul>
+          <li><a href="https://doi.org/10.5281/zenodo.833359" title="BigDataOcean" target="_blank">IEEE '17</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+</body>
+<script
+  src="https://code.jquery.com/jquery-2.2.4.min.js"
+  integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+  crossorigin="anonymous"></script>
+<script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="{% static 'harmonization/css/style.css' %}">
+<link rel="stylesheet" href="{% static 'harmonization/css/api.css' %}">
+<link rel="stylesheet" href="{% static 'harmonization/css/jquery-ui.css' %}">
+<link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="{% static 'harmonization/css/jquery-confirm.css' %}">
+<link rel="stylesheet" href="{% static 'harmonization/css/bootstrap-tokenfield.css' %}">
+<link rel="stylesheet" href="{% static 'harmonization/css/tokenfield-typeahead.css' %}">
+<link rel="stylesheet" href="{% static 'harmonization/css/easy-autocomplete.min.css' %}"> 
+<link rel="stylesheet" href="{% static 'harmonization/css/easy-autocomplete.themes.min.css' %}"> 
+
+<script type='text/javascript' src="{% static 'harmonization/js/apiScript.js' %}"></script>
+<script src="{% static 'harmonization/js/jquery-confirm.js' %}"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="{% static 'harmonization/js/Bloodhound.js' %}"></script>
+<script src="{% static 'harmonization/js/bootstrap-tokenfield.js' %}"></script>
+<script src="{% static 'harmonization/js/typeahead.bundle.js' %}"></script>
+<script src="{% static 'harmonization/js/jquery.easy-autocomplete.min.js' %}"></script> 
+
+</html>
