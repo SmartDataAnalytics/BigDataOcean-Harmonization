@@ -24,7 +24,6 @@ public class Suggest {
 	private final static Logger log = LoggerFactory.getLogger(Suggest.class);
 
 	public static void main(String[] args) throws IOException {
-		//System.out.println( args[0] );   
 		String uri_file = args[0];
 		String type = args[1];
 		//String uri_file = "http://cmems-resources.cls.fr/?option=com_csw&view=details&tab=info&product_id=GLOBAL_ANALYSIS_FORECAST_PHY_001_024&format=xml";

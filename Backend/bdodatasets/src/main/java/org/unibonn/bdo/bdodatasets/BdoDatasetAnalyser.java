@@ -297,7 +297,7 @@ public class BdoDatasetAnalyser {
 				
 				//Extracting the array of keywords find in the json file
 				JSONParser parser = new JSONParser();
-				JSONArray keywordsArray = (JSONArray) parser.parse(new FileReader(Constants.configFilePath+"/Frontend/static/json/keywords.json"));
+				JSONArray keywordsArray = (JSONArray) parser.parse(new FileReader(Constants.configFilePath+"/Frontend/Flask/static/json/keywords.json"));
 	            
 				/*search if the keyword extracted from netcdf is equal to the json
 				* change the value of the keyword variable to the value of the json (http://...)

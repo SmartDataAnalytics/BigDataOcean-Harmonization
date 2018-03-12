@@ -57,45 +57,115 @@ def index():
 def parse():
 	try:
 		if request.method == 'POST':
-			uri = request.form['uri']
-			file = request.files.get('fileNetcdf')
-			if uri != "":
-				# if adding a Copernicus dataset, the shell suggest is called to parse the xml file and get metadata
-				command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/suggest "%s" Coppernicus' %uri
-				try:
-					process = subprocess.check_output([command], shell="True")
-				except subprocess.CalledProcessError as e:
-					return render_template('500.html')
-				# metadata parsed is converted into json class datasetSuggest to be used inside the html form
-				parsed_output = json.loads(process.decode('utf-8'))
-				dataset = datasetSuggest(**parsed_output)
+			# uri = request.form['uri']
+			# file = request.files.get('fileNetcdf')
+			# if uri != "":
+			# 	return redirect(url_for('addCopernicus',uri=uri), code=307)
+			# 	# if adding a Copernicus dataset, the shell suggest is called to parse the xml file and get metadata
+			# 	command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/suggest "%s" Coppernicus' %uri
+			# 	try:
+			# 		process = subprocess.check_output([command], shell="True")
+			# 	except subprocess.CalledProcessError as e:
+			# 		return render_template('500.html')
+			# 	# metadata parsed is converted into json class datasetSuggest to be used inside the html form
+			# 	parsed_output = json.loads(process.decode('utf-8'))
+			# 	dataset = datasetSuggest(**parsed_output)
 
-				return render_template('addMetadata.html', dataset=dataset)
+			# 	return render_template('addMetadata.html', dataset=dataset)
 			
-			elif file != None :
-				# Verify if the file is .nc
-				if file and allowed_file(file.filename):
-					# Create a general filename
-					filename = "file.nc"
-					# Saving the file in the UPLOAD_FOLDER with the filename
-					file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-					path_fileNetcdf = UPLOAD_FOLDER + "/" + filename
-					# print (path_fileNetcdf)
-					command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/suggest "%s" Netcdf' %path_fileNetcdf
-					try:
-						process = subprocess.check_output([command], shell="True")
-					except subprocess.CalledProcessError as e:
-						return render_template('500.html')
-					# metadata parsed is converted into json class datasetSuggest to be used inside the html form
-					parsed_output = json.loads(process.decode('utf-8'))
-					dataset = datasetSuggestNetcdf(**parsed_output)
-					# print (dataset)
+			# elif file != None :
+			# 	# Verify if the file is .nc
+			# 	if file and allowed_file(file.filename):
+			# 		# Create a general filename
+			# 		filename = "file.nc"
+			# 		# Saving the file in the UPLOAD_FOLDER with the filename
+			# 		file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+			# 		path_fileNetcdf = UPLOAD_FOLDER + "/" + filename
+			# 		# print (path_fileNetcdf)
+			# 		command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/suggest "%s" Netcdf' %path_fileNetcdf
+			# 		try:
+			# 			process = subprocess.check_output([command], shell="True")
+			# 		except subprocess.CalledProcessError as e:
+			# 			return render_template('500.html')
+			# 		# metadata parsed is converted into json class datasetSuggest to be used inside the html form
+			# 		parsed_output = json.loads(process.decode('utf-8'))
+			# 		dataset = datasetSuggestNetcdf(**parsed_output)
+			# 		# print (dataset)
 
-					return render_template('addMetadata.html', dataset=dataset)
-			else:
-				return render_template('addMetadata.html', dataset="")
+			# 		return render_template('addMetadata.html', dataset=dataset)
+			# else:
+			return render_template('addMetadata.html', dataset="")
 	except ValueError:  # includes simplejson.decoder.JSONDecodeError
 		return render_template('500.html')
+
+@app.route('/addMetadata/Copernicus', methods=['GET', 'POST'])
+def addCopernicus():
+	try:
+		if request.method == 'POST':
+			uri = request.form['uri']
+			# if adding a Copernicus dataset, the shell suggest is called to parse the xml file and get metadata
+			command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/suggest "%s" Coppernicus' %uri
+			try:
+				process = subprocess.check_output([command], shell="True")
+			except subprocess.CalledProcessError as e:
+				return render_template('500.html')
+			# metadata parsed is converted into json class datasetSuggest to be used inside the html form
+			parsed_output = json.loads(process.decode('utf-8'))
+			dataset = datasetSuggest(**parsed_output)
+
+			return render_template('addMetadata.html', dataset=dataset)
+		elif request.method == 'GET':
+			uri = request.args['uri']
+			print (uri)
+			# if adding a Copernicus dataset, the shell suggest is called to parse the xml file and get metadata
+			command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/suggest "%s" Coppernicus' %uri
+			print (command)
+			try:
+				process = subprocess.check_output([command], shell="True")
+			except subprocess.CalledProcessError as e:
+				return render_template('500.html')
+			# metadata parsed is converted into json class datasetSuggest to be used inside the html form
+			parsed_output = json.loads(process.decode('utf-8'))
+			dataset = datasetSuggest(**parsed_output)
+
+			return render_template('addMetadata.html', dataset=dataset)
+	except ValueError:  # includes simplejson.decoder.JSONDecodeError
+		return render_template('500.html')
+
+@app.route('/addMetadata/NetCDF', methods=['GET', 'POST'])
+def addNetCDF():
+	try:
+		if request.method == 'POST':
+			file = request.form['fileNetcdf']
+			command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/suggest "%s" Netcdf' %file
+			try:
+				process = subprocess.check_output([command], shell="True")
+			except subprocess.CalledProcessError as e:
+				return render_template('500.html')
+			# parsing output from maven script, to avoid log comments
+			process = process.split(b'\n')
+			# metadata parsed is converted into json class datasetSuggest to be used inside the html form
+			parsed_output = json.loads(process[1].decode('utf-8'))
+			dataset = datasetSuggestNetcdf(**parsed_output)
+
+			return render_template('addMetadata.html', dataset=dataset)
+		elif request.method == 'GET':
+			file = request.args['file']
+			command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/suggest "%s" Netcdf' %file
+			try:
+				process = subprocess.check_output([command], shell="True")
+			except subprocess.CalledProcessError as e:
+				return render_template('500.html')
+			# parsing output from maven script, to avoid log comments
+			process = process.split(b'\n')
+			# metadata parsed is converted into json class datasetSuggest to be used inside the html form
+			parsed_output = json.loads(process[1].decode('utf-8'))
+			dataset = datasetSuggestNetcdf(**parsed_output)
+
+			return render_template('addMetadata.html', dataset=dataset)
+	except ValueError:  # includes simplejson.decoder.JSONDecodeError
+		return render_template('500.html')
+
 
 # Routing to save new dataset
 @app.route('/save', methods=['GET','POST'])

@@ -23,7 +23,7 @@ public class HDFSFileSystem {
 
             // Set FileSystem URI
             conf.set("fs.defaultFS", hdfsURI);
-            conf.set("fs.default.name", hdfsURI);
+            //conf.set("fs.default.name", hdfsURI);
 
             // Because of Maven
             conf.set("fs.hdfs.impl", org.apache.hadoop.hdfs.DistributedFileSystem.class.getName());
@@ -37,7 +37,7 @@ public class HDFSFileSystem {
             this.fileSystem = fs;
 
         } catch (IOException e) {
-            logger.log(Level.SEVERE, e.getMessage(), e);
+            //logger.log(Level.SEVERE, e.getMessage(), e);
         }
     }
 
@@ -46,7 +46,7 @@ public class HDFSFileSystem {
 
         try {
 
-            logger.info("Read file from hdfs path: " + path);
+            //logger.info("Read file from hdfs path: " + path);
             Path hdfsreadpath = new Path(path);
             // Init input stream
             inputStream = fileSystem.open(hdfsreadpath);
@@ -54,12 +54,12 @@ public class HDFSFileSystem {
             return new BufferedReader(new InputStreamReader(inputStream));
 
         } catch (Exception e) {
-            logger.log(Level.SEVERE, e.getMessage(), e);
+            //logger.log(Level.SEVERE, e.getMessage(), e);
             if (null != inputStream) {
                 try {
                     inputStream.close();
                 } catch (IOException e1) {
-                    logger.log(Level.SEVERE, e.getMessage(), e);
+                    //logger.log(Level.SEVERE, e.getMessage(), e);
                 }
             }
         }
@@ -71,19 +71,19 @@ public class HDFSFileSystem {
         FSDataInputStream inputStream = null;
 
         try {
-            logger.info("Read file from hdfs path: " + path);
+            //logger.info("Read file from hdfs path: " + path);
             Path hdfsreadpath = new Path(path);
             // Init input stream
             inputStream = fileSystem.open(hdfsreadpath);
 
             return IOUtils.toByteArray(inputStream);
         } catch (Exception e) {
-            logger.log(Level.SEVERE, e.getMessage(), e);
+            //logger.log(Level.SEVERE, e.getMessage(), e);
             if (null != inputStream) {
                 try {
                     inputStream.close();
                 } catch (IOException e1) {
-                    logger.log(Level.SEVERE, e.getMessage(), e);
+                    //logger.log(Level.SEVERE, e.getMessage(), e);
                 }
             }
         }
