@@ -13,10 +13,14 @@ globalPath = "/BDOHarmonization/BigDataOcean-Harmonization"
 UPLOAD_FOLDER = globalPath+'/Backend/AddDatasets'
 ALLOWED_EXTENSIONS = set(['nc'])
 
+#JWT authorization
+Authorization = 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJiZG8iLCJleHAiOjE1NTI0ODk1ODUsInJvbGUiOiJST0xFX0FETUlOIn0.o5cZnYT3MKwfmVt06EyCMWy2qpgFPwcwZg82a3jmkNZKOVCJIbnh-LsHnEIF8BEUdj9OKrurwtknYh5ObjgLvg'
+
 app = Flask(__name__)
 bootstrap = Bootstrap(app)
 # configuring the path of the upload folder
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
 
 # check if an extension is valid
 def allowed_file(filename):
@@ -51,6 +55,12 @@ def index():
 		return render_template('500.html')
 	except ValueError:  # includes simplejson.decoder.JSONDecodeError
 		return render_template('500.html')
+
+# List of files that does not have metadata
+@app.route('/prueba')
+def prueba():
+	r = requests.get('http://212.101.173.34:8085/file/metadata/empty', headers={'Authorization': Authorization})
+	return r.content
 
 # Routing to addMetadata form
 @app.route('/addMetadata', methods=['GET', 'POST'])
@@ -371,7 +381,7 @@ def metadataInfo(identifier):
 	try:
 		if request.method == 'GET':
 			# Extracting variablesCF_BDO.json
-			file = open(globalPath + '/Frontend/static/json/variablesCF_BDO.json', 'r')
+			file = open(globalPath + '/Frontend/Flask/static/json/variablesCF_BDO.json', 'r')
 			variablesCF = json.load(file)
 
 			uri = "<http://bigdataocean.eu/bdo/"+identifier+"> \n"
