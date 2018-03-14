@@ -4,15 +4,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.naming.directory.SearchControls;
-import javax.xml.crypto.Data;
-
 import org.unibonn.bdo.objects.Dataset;
 
-import com.google.gson.Gson;
 import com.hp.hpl.jena.query.QuerySolution;
 import com.hp.hpl.jena.query.ResultSet;
-import com.hp.hpl.jena.query.ResultSetFormatter;
 import com.hp.hpl.jena.rdf.model.RDFNode;
 
 /**

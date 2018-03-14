@@ -1,4 +1,5 @@
 import subprocess
+import requests
 import json
 import os
 import uuid
@@ -57,54 +58,46 @@ def index():
 		return render_template('500.html')
 
 # List of files that does not have metadata
-@app.route('/prueba')
-def prueba():
-	r = requests.get('http://212.101.173.34:8085/file/metadata/empty', headers={'Authorization': Authorization})
-	return r.content
+@app.route('/list')
+def list():
+	parsed_output = requests.get('http://212.101.173.34:8085/file/metadata/empty', headers={'Authorization': Authorization})
+	columns = [{
+	"field": "id",
+	"title": "FileId",
+	"sortable": True,
+	},
+	{
+	"field": "fileName",
+	"title": "Title",
+	"sortable": True,
+	},
+	{
+	"field": "hdfsFullURI",
+	"title": "URI",
+	"sortable": True,
+	},
+	{
+	"field": "dataType",
+	"title": "DataType",
+	"sortable": True,
+	}]
+	data = json.loads(parsed_output.content.decode('utf-8'))
+	if parsed_output.status_code == 200:
+		return render_template('listFiles.html',
+				data=data,
+				columns=columns)
+	else:
+		return render_template('500.html')
 
 # Routing to addMetadata form
 @app.route('/addMetadata', methods=['GET', 'POST'])
 def parse():
 	try:
 		if request.method == 'POST':
-			# uri = request.form['uri']
-			# file = request.files.get('fileNetcdf')
-			# if uri != "":
-			# 	return redirect(url_for('addCopernicus',uri=uri), code=307)
-			# 	# if adding a Copernicus dataset, the shell suggest is called to parse the xml file and get metadata
-			# 	command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/suggest "%s" Coppernicus' %uri
-			# 	try:
-			# 		process = subprocess.check_output([command], shell="True")
-			# 	except subprocess.CalledProcessError as e:
-			# 		return render_template('500.html')
-			# 	# metadata parsed is converted into json class datasetSuggest to be used inside the html form
-			# 	parsed_output = json.loads(process.decode('utf-8'))
-			# 	dataset = datasetSuggest(**parsed_output)
-
-			# 	return render_template('addMetadata.html', dataset=dataset)
-			
-			# elif file != None :
-			# 	# Verify if the file is .nc
-			# 	if file and allowed_file(file.filename):
-			# 		# Create a general filename
-			# 		filename = "file.nc"
-			# 		# Saving the file in the UPLOAD_FOLDER with the filename
-			# 		file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-			# 		path_fileNetcdf = UPLOAD_FOLDER + "/" + filename
-			# 		# print (path_fileNetcdf)
-			# 		command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/suggest "%s" Netcdf' %path_fileNetcdf
-			# 		try:
-			# 			process = subprocess.check_output([command], shell="True")
-			# 		except subprocess.CalledProcessError as e:
-			# 			return render_template('500.html')
-			# 		# metadata parsed is converted into json class datasetSuggest to be used inside the html form
-			# 		parsed_output = json.loads(process.decode('utf-8'))
-			# 		dataset = datasetSuggestNetcdf(**parsed_output)
-			# 		# print (dataset)
-
-			# 		return render_template('addMetadata.html', dataset=dataset)
-			# else:
-			return render_template('addMetadata.html', dataset="")
+			return render_template('addMetadata.html', dataset='', idFile='')
+		elif request.method == 'GET':
+			idFile = request.args['idFile']
+			return render_template('addMetadata.html', dataset='', idFile=idFile)
 	except ValueError:  # includes simplejson.decoder.JSONDecodeError
 		return render_template('500.html')
 
@@ -123,7 +116,7 @@ def addCopernicus():
 			parsed_output = json.loads(process.decode('utf-8'))
 			dataset = datasetSuggest(**parsed_output)
 
-			return render_template('addMetadata.html', dataset=dataset)
+			return render_template('addMetadata.html', dataset=dataset, idFile='')
 		elif request.method == 'GET':
 			uri = request.args['uri']
 			print (uri)
@@ -138,7 +131,7 @@ def addCopernicus():
 			parsed_output = json.loads(process.decode('utf-8'))
 			dataset = datasetSuggest(**parsed_output)
 
-			return render_template('addMetadata.html', dataset=dataset)
+			return render_template('addMetadata.html', dataset=dataset, idFile='')
 	except ValueError:  # includes simplejson.decoder.JSONDecodeError
 		return render_template('500.html')
 
@@ -158,9 +151,10 @@ def addNetCDF():
 			parsed_output = json.loads(process[1].decode('utf-8'))
 			dataset = datasetSuggestNetcdf(**parsed_output)
 
-			return render_template('addMetadata.html', dataset=dataset)
+			return render_template('addMetadata.html', dataset=dataset, idFile='')
 		elif request.method == 'GET':
 			file = request.args['file']
+			idFile = request.args['idFile']
 			command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/suggest "%s" Netcdf' %file
 			try:
 				process = subprocess.check_output([command], shell="True")
@@ -172,7 +166,7 @@ def addNetCDF():
 			parsed_output = json.loads(process[1].decode('utf-8'))
 			dataset = datasetSuggestNetcdf(**parsed_output)
 
-			return render_template('addMetadata.html', dataset=dataset)
+			return render_template('addMetadata.html', dataset=dataset, idFile=idFile)
 	except ValueError:  # includes simplejson.decoder.JSONDecodeError
 		return render_template('500.html')
 
@@ -183,6 +177,7 @@ def save():
 	try:
 		if request.method == 'POST':
 			identifier = request.form['identifier']
+			idFile = request.form['idFile']
 			title = request.form['title']
 			description = request.form['description']
 			subject = request.form['tokenfield_subject']
@@ -246,7 +241,12 @@ def save():
 				return render_template('500.html')
 			# when the dataset is added to jena fuseki, redirects to the metadataInfo web page corresponding to the identifier
 			if b'Successful' in process:
-				return redirect(url_for('metadataInfo',identifier=identifier))
+				result = requests.put('http://212.101.173.34:8085/file/' + idFile + 
+					'/metadata/' + identifier, headers={'Authorization': Authorization})
+				if result.status_code == 200:
+					return redirect(url_for('metadataInfo', identifier=identifier))
+				else:
+					return render_template('500.html')
 			else:
 				return render_template('404.html', error='URI already exists.')
 	except ValueError:  # includes simplejson.decoder.JSONDecodeError

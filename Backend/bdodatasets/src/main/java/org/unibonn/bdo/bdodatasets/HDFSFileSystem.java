@@ -8,7 +8,6 @@ import org.apache.hadoop.fs.Path;
 
 import java.io.*;
 import java.net.URI;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class HDFSFileSystem {

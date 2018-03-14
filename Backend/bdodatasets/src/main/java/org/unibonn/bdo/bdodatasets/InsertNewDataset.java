@@ -223,7 +223,7 @@ public class InsertNewDataset {
 
 	private static Dataset convertToObjectDataset(String jsonDataset) throws FileNotFoundException {
 		// Parse into JSON the Dataset instance with all metadata from a dataset
-		System.out.println("java "+jsonDataset);
+		// System.out.println("java "+jsonDataset);
 		JsonReader reader = new JsonReader(new FileReader(jsonDataset));
 		
 		Dataset data = new Gson().fromJson(reader, Dataset.class);
