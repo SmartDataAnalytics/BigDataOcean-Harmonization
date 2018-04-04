@@ -1,6 +1,6 @@
 //List of variables extracted from variablesCF_BDO.json
 var options = {
-  url: "static/json/variablesCF_BDO.json",
+  url: "../static/json/variablesCF_BDO.json",
 
   getValue: "text",
 
@@ -36,7 +36,7 @@ jQuery(document).ready(function($) {
   var resourceKeywords = new Bloodhound({
     datumTokenizer: Bloodhound.tokenizers.obj.whitespace('text'),
     queryTokenizer: Bloodhound.tokenizers.whitespace,
-    prefetch: 'static/json/keywords.json'
+    prefetch: '../static/json/keywords.json'
   });
   resourceKeywords.initialize();
 
