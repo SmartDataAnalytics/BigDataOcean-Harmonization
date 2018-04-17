@@ -60,7 +60,7 @@ def index():
 # List of files that does not have metadata
 @app.route('/list')
 def list():
-	parsed_output = requests.get('http://212.101.173.34:8085/file/metadata/empty', headers={'Authorization': Authorization})
+	parsed_output = requests.get('http://212.101.173.21:8085/file/metadata/empty', headers={'Authorization': Authorization})
 	columns = [{
 	"field": "id",
 	"title": "FileId",
@@ -241,7 +241,7 @@ def save():
 				return render_template('500.html')
 			# when the dataset is added to jena fuseki, redirects to the metadataInfo web page corresponding to the identifier
 			if b'Successful' in process:
-				result = requests.put('http://212.101.173.34:8085/file/' + idFile + 
+				result = requests.put('http://212.101.173.21:8085/file/' + idFile + 
 					'/metadata/' + identifier, headers={'Authorization': Authorization})
 				if result.status_code == 200:
 					return redirect(url_for('metadataInfo', identifier=identifier))
