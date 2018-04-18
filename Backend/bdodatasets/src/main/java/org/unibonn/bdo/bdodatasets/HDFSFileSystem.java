@@ -103,5 +103,16 @@ public class HDFSFileSystem {
     	
     	return localPath;
     }
+    
+    public void deleteFile(String path) {
+    	Path hdfsFilePath = new Path(path);
+    	try {
+			fileSystem.delete(hdfsFilePath, true);
+			fileSystem.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
 }
 

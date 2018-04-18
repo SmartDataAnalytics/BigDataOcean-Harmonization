@@ -332,6 +332,8 @@ public class BdoDatasetAnalyser {
 				result.setTimeResolution(timeResolution);
 				result.setVariable(variables);
 			}
+			//Delete the temporal file "file.nc"
+			hdfsSys.deleteFile(Constants.configFilePath+"/Backend/AddDatasets/file.nc");
 			
 		} catch (IOException ioe) {
 
