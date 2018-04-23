@@ -22,14 +22,14 @@ jQuery(document).ready(function($) {
   var resourceSubjects = new Bloodhound({
     datumTokenizer: Bloodhound.tokenizers.obj.whitespace('text'),
     queryTokenizer: Bloodhound.tokenizers.whitespace,
-    prefetch: 'static/json/subject.json'
+    prefetch: '../static/json/subject.json'
   });
   resourceSubjects.initialize(); 
 
   var resourceLanguages = new Bloodhound({
     datumTokenizer: Bloodhound.tokenizers.obj.whitespace('text'),
     queryTokenizer: Bloodhound.tokenizers.whitespace,
-    prefetch: 'static/json/language.json'
+    prefetch: '../static/json/language.json'
   });
   resourceLanguages.initialize();
 
@@ -43,7 +43,7 @@ jQuery(document).ready(function($) {
   var resourceGeoLoc = new Bloodhound({
     datumTokenizer: Bloodhound.tokenizers.obj.whitespace('text'),
     queryTokenizer: Bloodhound.tokenizers.whitespace,
-    prefetch: 'static/json/marineregions.json'
+    prefetch: '../static/json/marineregions.json'
   });
   resourceGeoLoc.initialize();
 
