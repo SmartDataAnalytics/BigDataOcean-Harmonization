@@ -205,11 +205,19 @@ def save():
 			parservariable = request.form.getlist('parser_variable')
 			jsonvariable = request.form.getlist('json_variable')
 			# delete the empty elements in the list 
-			parservariables = list(filter(None, parservariable))
-			jsonvariables = list(filter(None, jsonvariable))
+			print ("zzzzzzzzzzzzzzzz") #falta convertir los arrays a list()
+			parservariable[:] = [item for item in parservariable if item != '']
+			parservariables = list(parservariable)
+			#parservariables = list(filter('', parservariable))
+			jsonvariables[:] = [item for item in jsonvariables if item != '']
+			jsonvariables = jsonvariable
+			print(jsonvariables)
+			#jsonvariables = list(filter(None, jsonvariable))
 			# zip the two list in one called variables
 			variables = list (zip (parservariables, jsonvariables))
 			
+			print(parservariables)
+
 			if identifier  != "":
 				check_existance = "<http://bigdataocean.eu/bdo/"+identifier+"> \n"
 				datasetType = ""	
