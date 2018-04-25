@@ -6,6 +6,7 @@ import uuid
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 from flask_bootstrap import Bootstrap
 from pprint import pprint
+import numpy as np
 from werkzeug.utils import secure_filename
 
 # GLOBAL VARIABLES
@@ -205,18 +206,12 @@ def save():
 			parservariable = request.form.getlist('parser_variable')
 			jsonvariable = request.form.getlist('json_variable')
 			# delete the empty elements in the list 
-			print ("zzzzzzzzzzzzzzzz") #falta convertir los arrays a list()
 			parservariable[:] = [item for item in parservariable if item != '']
-			parservariables = list(parservariable)
-			#parservariables = list(filter('', parservariable))
-			jsonvariables[:] = [item for item in jsonvariables if item != '']
-			jsonvariables = jsonvariable
-			print(jsonvariables)
-			#jsonvariables = list(filter(None, jsonvariable))
+			parserlist = np.array(parservariable).tolist()
+			jsonvariable[:] = [item for item in jsonvariable if item != '']
+			jsonlist = np.array(jsonvariable).tolist()
 			# zip the two list in one called variables
-			variables = list (zip (parservariables, jsonvariables))
-			
-			print(parservariables)
+			variables = dict(zip(parserlist, jsonlist))
 
 			if identifier  != "":
 				check_existance = "<http://bigdataocean.eu/bdo/"+identifier+"> \n"
@@ -249,12 +244,15 @@ def save():
 				return render_template('500.html')
 			# when the dataset is added to jena fuseki, redirects to the metadataInfo web page corresponding to the identifier
 			if b'Successful' in process:
-				result = requests.put('http://212.101.173.21:8085/file/' + idFile + 
-					'/metadata/' + identifier, headers={'Authorization': Authorization})
-				if result.status_code == 200:
-					return redirect(url_for('metadataInfo', identifier=identifier))
+				if idFile != '':
+					result = requests.put('http://212.101.173.21:8085/file/' + idFile + 
+						'/metadata/' + identifier, headers={'Authorization': Authorization})
+					if result.status_code == 200:
+						return redirect(url_for('metadataInfo', identifier=identifier))
+					else:
+						return render_template('500.html')
 				else:
-					return render_template('500.html')
+					return redirect(url_for('metadataInfo', identifier=identifier))
 			else:
 				return render_template('404.html', error='URI already exists.')
 	except ValueError:  # includes simplejson.decoder.JSONDecodeError
@@ -314,10 +312,12 @@ def editing():
 			parservariable = request.form.getlist('parser_variable')
 			jsonvariable = request.form.getlist('json_variable')
 			# delete the empty elements in the list 
-			parservariables = list(filter(None, parservariable))
-			jsonvariables = list(filter(None, jsonvariable))
+			parservariable[:] = [item for item in parservariable if item != '']
+			parserlist = np.array(parservariable).tolist()
+			jsonvariable[:] = [item for item in jsonvariable if item != '']
+			jsonlist = np.array(jsonvariable).tolist()
 			# zip the two list in one called variables
-			variables = list (zip (parservariables, jsonvariables))
+			variables = dict(zip(parserlist, jsonlist))
 			
 			if identifier  != "":
 				check_existance = "<http://bigdataocean.eu/bdo/"+identifier+"> \n"

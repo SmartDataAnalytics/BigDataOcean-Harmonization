@@ -8,10 +8,11 @@ RUN apt-get update \
   && ln -s /usr/bin/python3 python \
   && pip3 install --upgrade pip
 
-# Install flask, flask bootstrap and requests
+# Install flask, flask bootstrap, requests and numpy
 RUN pip install flask
 RUN pip install flask-bootstrap
 RUN pip install requests 
+RUN pip install numpy
 
 # Install bdoHarmonization
 WORKDIR /BDOHarmonization

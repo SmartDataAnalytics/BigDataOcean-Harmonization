@@ -36,9 +36,9 @@ public class InsertNewDataset {
 		String flag = args[0];
 		String parameter = args[1];
 		String jsonDataset = args[2];
-//		String flag = "";
-//		String parameter = "<http://bigdataocean.eu/bdo/MEDSEA_ANALYSIS_mmmmFORECAST_PHY_006_013>";
-//		String jsonDataset = Constants.configFilePath+"/Backend/AddDatasets/jsonDataset.json";
+		//String flag = "";
+		//String parameter = "<http://bigdataocean.eu/bdo/MEDSEA_ANALYSIS_mmmmFORECAST_PHY_006_013>";
+		//String jsonDataset = Constants.configFilePath+"/Backend/AddDatasets/jsonDataset.json";
 		exec(flag, parameter, jsonDataset);
 	}
 
@@ -156,7 +156,7 @@ public class InsertNewDataset {
 		insertQuery += "\n";
 		//create the triples for each variable
 		for(Entry<String, String> var : newDataset.getVariables().entrySet()) {
-			String pathFile = Constants.configFilePath+"/Frontend/static/json/variablesCF_BDO.json";
+			String pathFile = Constants.configFilePath+"/Frontend/Flask/static/json/variablesCF_BDO.json";
 			JSONParser parser = new JSONParser();
 			JSONArray variablesCF = (JSONArray) parser.parse(new FileReader(pathFile));
 	        String sameAs = null;

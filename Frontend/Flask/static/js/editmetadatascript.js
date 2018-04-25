@@ -5,6 +5,7 @@ var options = {
   getValue: "text",
 
   list: {
+    maxNumberOfElements: 10,
     match: {
       enabled: true
     }
