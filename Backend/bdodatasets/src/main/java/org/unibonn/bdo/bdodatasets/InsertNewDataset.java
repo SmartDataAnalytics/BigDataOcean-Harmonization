@@ -146,10 +146,11 @@ public class InsertNewDataset {
 		int j=0;
 		//lists the variables
 		for(Entry<String, String> var : newDataset.getVariables().entrySet()) {
+			String varKey = var.getKey().replace(" ", "_");
 			if(j == newDataset.getVariables().size()-1) {
-				insertQuery += "bdo:"+newDataset.getIdentifier()+"_"+var.getKey()+" . \n ";
+				insertQuery += "bdo:"+newDataset.getIdentifier()+"_"+varKey+" . \n ";
 			}else {
-				insertQuery += "bdo:"+newDataset.getIdentifier()+"_"+var.getKey()+" , ";
+				insertQuery += "bdo:"+newDataset.getIdentifier()+"_"+varKey+" , ";
 			}
 			j++;
 		}
@@ -171,8 +172,9 @@ public class InsertNewDataset {
 	            	break;
 	            }
 	        }
-			insertQuery += " bdo:"+newDataset.getIdentifier()+"_"+var.getKey()+" a bdo:BDOVariable ; \n" + 
-					"    dct:identifier \""+var.getKey()+"\" ; \n" +
+			String varKey = var.getKey().replace(" ", "_");
+			insertQuery += " bdo:"+newDataset.getIdentifier()+"_"+varKey+" a bdo:BDOVariable ; \n" + 
+					"    dct:identifier \""+varKey+"\" ; \n" +
 					"    skos:prefLabel \""+var.getValue()+"\"@en ; \n" +
 					"    owl:sameAs <"+sameAs+"> . \n" +
 					"    \n" ;
