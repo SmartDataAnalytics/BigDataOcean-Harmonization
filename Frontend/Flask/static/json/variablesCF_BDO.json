@@ -28,10 +28,6 @@
     "value": "http://bigdataocean.eu/bdo/cf/parameter/profile_direction"
   },
   {
-    "text": "volume_fraction_of_oxygen_in_sea_water",
-    "value": "http://bigdataocean.eu/bdo/cf/parameter/volume_fraction_of_oxygen_in_sea_water"
-  },
-  {
     "text": "volume_fraction_of_oxygen_in_sea_water_processing_method",
     "value": "http://bigdataocean.eu/bdo/cf/parameter/volume_fraction_of_oxygen_in_sea_water_processing_method"
   },
@@ -188,10 +184,6 @@
     "value": "http://bigdataocean.eu/bdo/cf/parameter/sea_surface_wave_period_at_variance_spectral_density_maximum_quality_flag"
   },
   {
-    "text": "wind_from_direction",
-    "value": "http://bigdataocean.eu/bdo/cf/parameter/wind_from_direction"
-  },
-  {
     "text": "wind_from_direction_processing_method",
     "value": "http://bigdataocean.eu/bdo/cf/parameter/wind_from_direction_processing_method"
   },
@@ -220,10 +212,6 @@
     "value": "http://bigdataocean.eu/bdo/cf/parameter/y_wind"
   },
   {
-    "text": "sea_floor_depth_below_geoid",
-    "value": "http://bigdataocean.eu/bdo/cf/parameter/sea_floor_depth_below_geoid"
-  },
-  {
     "text": "x_direction_in_the_canonical_space",
     "value": "http://bigdataocean.eu/bdo/cf/parameter/x_direction_in_the_canonical_space"
   },
@@ -246,10 +234,6 @@
   {
     "text": "longitude_staggered",
     "value": "http://bigdataocean.eu/bdo/cf/parameter/longitude_staggered"
-  },
-  {
-    "text": "land_binary_mask",
-    "value": "http://bigdataocean.eu/bdo/cf/parameter/land_binary_mask"
   },
   {
     "text": "mean_wave_direction_X",
@@ -1023,6 +1007,9 @@
     "text": "remaining_on_board_engine_oil",
     "value": "http://bigdataocean.eu/bdo/cf/parameter/remaining_on_board_engine_oil"
   },
+  {"text":"time",
+    "value":"http://vocab.nerc.ac.uk/collection/P07/current/CFSN0115/"},
+
   {"text":"sea_surface_subskin_temperature",
     "value":"http://vocab.nerc.ac.uk/collection/P07/current/CFV9N3/"},
  
@@ -5750,9 +5737,6 @@
  
   {"text":"surface_albedo_assuming_deep_snow",
     "value":"http://vocab.nerc.ac.uk/collection/P07/current/CFSN0289/"},
- 
-  {"text":"time",
-    "value":"http://vocab.nerc.ac.uk/collection/P07/current/CFSN0115/"},
  
   {"text":"ocean_vertical_salt_diffusivity",
     "value":"http://vocab.nerc.ac.uk/collection/P07/current/CFV10N29/"},

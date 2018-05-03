@@ -341,8 +341,10 @@
                   <td>
                     <span class="variablesspan">
                       {%for variable in variables%}
-                        {%if variable["text"] == list[1]%}
+                        {%if variable["text"] == list[1] and not variable["value"].startswith( 'http://bigdataocean.eu/bdo' )%}
                           <a href="{{variable['value']}}" target="_blank">{{ list[1] }}</a>
+                        {% elif variable["text"] == list[1] and variable["value"].startswith( 'http://bigdataocean.eu/bdo' )%}
+                          <span class="variablesspan">{{ list[1] }}</span>
                         {% endif%}
                       {% endfor %}
                     </span>

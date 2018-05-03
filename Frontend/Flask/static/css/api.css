@@ -66,6 +66,19 @@
   text-align: center;
   padding: 7px 0px 4px;
 }
+
+.apiPostHttpMethod{
+  background-color: red;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: white;
+  display: inline-block;
+  width: 50px;
+  font-size: 0.7em;
+  text-align: center;
+  padding: 7px 0px 4px;
+}
+
 .apiPath{
   padding-left:1em;
   font-family: "Courier New" Courier monospace;
