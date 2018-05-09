@@ -36,7 +36,8 @@
                   <select class="form-control" id="sel1" onchange="selectType()">
                     <option></option>
                     <option>Copernicus Dataset</option>
-                    <option>NetCDF Dataset</option>
+                    <option>NetCDF Dataset File</option>
+                    <!-- <option>NetCDF Dataset URL File</option> -->
                     <option>Other</option>
                   </select>
                 </div>
@@ -69,17 +70,33 @@
                 <div id='filefield' class="col-md-10" style='display: none;'>
                   <form id="uriForm" name="uriForm" class="form-style" method='post' action="/addMetadata/NetCDF" onsubmit="return requireUri();" enctype="multipart/form-data">
                     <div class="col-md-2">
-                      <label class="label-table" for="uri">URL File:</label>
+                      <label class="label-table" for="uri">File:</label>
                     </div>
                     <div class="col-md-10">
-                      <input type="url" class="form-control" id="fileNetcdf" name="fileNetcdf">
-                    </div>
-                    <!-- <div class="col-md-10">
                       <input name="fileNetcdf" id="fileNetcdf" type="file" class="form-control" accept='.nc'>
                     </div>
                     <div class="col-md-10" style='display: none;'>
-                      <input type="url" class="form-control" id="uri" name="uri">
-                    </div> -->
+                      <input type="url" class="form-control" id="urlfileNetcdf" name="urlfileNetcdf">
+                    </div>
+                    <div class="col-md-12" style="padding-right: auto;">
+                      <button type="submit" class="btn btn-default"><i class="glyphicon glyphicon-plus"></i> Add
+                      </button>
+                    </div>
+                  </form>
+                </div>
+
+                <div id='urlfilefield' class="col-md-10" style='display: none;'>
+                  <!-- It is not taking the value of urlfileNetcdf -->
+                  <form id="uriForm" name="uriForm" class="form-style" method='post' action="/addMetadata/NetCDF" onsubmit="return requireUri();" enctype="multipart/form-data">
+                    <div class="col-md-2">
+                      <label class="label-table" for="uri">URL File:</label>
+                    </div>
+                    <div class="col-md-10">
+                      <input type="text" class="form-control" id="urlfileNetcdf" name="urlfileNetcdf">
+                    </div>
+                    <div class="col-md-10" style='display: none;'>
+                      <input name="fileNetcdf" id="fileNetcdf" type="file" class="form-control" accept='.nc'>
+                    </div>
                     <div class="col-md-12" style="padding-right: auto;">
                       <button type="submit" class="btn btn-default"><i class="glyphicon glyphicon-plus"></i> Add
                       </button>

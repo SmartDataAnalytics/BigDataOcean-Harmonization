@@ -7,6 +7,8 @@ import java.util.List;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import org.apache.hadoop.fs.Path;
 import org.json.simple.JSONArray;
@@ -35,7 +37,7 @@ import ucar.netcdf.NetcdfFile;*/
  * @author Jaime M Trillos
  * @author Ana C Trillos
  *
- * Parse XML file from Copernicus dataset to get Metadata
+ * Parse XML file from Copernicus dataset and NetCDF to obtain Metadata
  *
  */
 
@@ -334,6 +336,190 @@ public class BdoDatasetAnalyser {
 			}
 			//Delete the temporal file "file.nc"
 			hdfsSys.deleteFile(Constants.configFilePath+"/Backend/AddDatasets/file.nc");
+			
+		} catch (IOException ioe) {
+
+		} finally { 
+			if (null != nc) try {
+				nc.close();
+			} catch (IOException ioe) {
+
+			}
+		}
+
+		return result;
+	}
+	
+	public static Dataset analyseDatasetFileNetcdf(String filename) throws IOException, ParseException {
+		Dataset result = new Dataset();
+		String title = "";
+		String description = "";
+		String identifier = "";
+		String issued = "";
+		String modified = "";
+		String keywords = "";
+		String homepage = "";
+		String standards = "";
+		String format = "";
+		String spatialWestBoundLongitude = "";
+		String spatialEastBoundLongitude = "";
+		String spatialSouthBoundLatitude = "";
+		String spatialNorthBoundLatitude = "";
+		String temporalCoverageBegin = "";
+		String temporalCoverageEnd = "";
+		String publisher = "";
+		String verticalCoverageFrom = "";
+		String verticalCoverageTo = "";
+		String timeResolution = "";
+		List<String> variables = new ArrayList<>();
+
+		//read the file
+		NetcdfFile nc = null;
+		try {
+			nc = NetcdfDataset.openFile(filename, null);
+			
+			List<Variable> allVariables;
+			
+			//find the attributes and export the information to create the DatasetSuggest
+			List<Attribute> listFileMetadata = nc.getGlobalAttributes();
+			if(listFileMetadata != null)
+			{
+				for(Attribute attr : listFileMetadata) {					
+					if(attr.getShortName().toLowerCase().equals("id")) {
+						identifier = attr.getStringValue();
+					}
+					if(attr.getShortName().toLowerCase().equals("title")) {
+						title = attr.getStringValue();
+					}
+					if(attr.getShortName().toLowerCase().equals("summary")) {
+						description = attr.getStringValue();
+						if (description.length() == 1) {
+							description = "";
+						}
+					}
+					if(attr.getShortName().toLowerCase().equals("area")) {
+						keywords = attr.getStringValue();
+					}
+					if(attr.getShortName().toLowerCase().equals("conventions")) {
+						standards = attr.getStringValue();
+					}
+					format = "NetCDF";
+					if(attr.getShortName().toLowerCase().equals("institution_references")) {
+						homepage = attr.getStringValue();
+					}
+					if(attr.getShortName().toLowerCase().equals("naming_authority")) {
+						publisher = attr.getStringValue();
+					}
+					if(attr.getShortName().toLowerCase().equals("history")) {
+						issued = attr.getStringValue().substring(0, 19);
+						if(!(issued.substring(4,5).equals("-") && issued.substring(7,8).equals("-") && issued.substring(10,11).equals("T") && issued.substring(13,14).equals(":") && issued.substring(16,17).equals(":"))) {
+							issued = "";
+						}
+					}
+					if(attr.getShortName().toLowerCase().equals("date_update")) {
+						modified = attr.getStringValue().substring(0, 19);
+						if(!(modified.substring(4,5).equals("-") && modified.substring(7,8).equals("-") && modified.substring(10,11).equals("T") && modified.substring(13,14).equals(":") && modified.substring(16,17).equals(":"))) {
+							modified = "";
+						}
+					}
+					if(attr.getShortName().toLowerCase().equals("geospatial_lon_min") || attr.getShortName().toLowerCase().equals("longitude_min")) {
+						spatialWestBoundLongitude = attr.getValues().toString();
+					}
+					if(attr.getShortName().toLowerCase().equals("geospatial_lon_max") || attr.getShortName().toLowerCase().equals("longitude_max")) {
+						spatialEastBoundLongitude = attr.getValues().toString();
+					}
+					if(attr.getShortName().toLowerCase().equals("geospatial_lat_min") || attr.getShortName().toLowerCase().equals("latitude_min")) {
+						spatialSouthBoundLatitude = attr.getValues().toString();
+					}
+					if(attr.getShortName().toLowerCase().equals("geospatial_lat_max") || attr.getShortName().toLowerCase().equals("latitude_max")) {
+						spatialNorthBoundLatitude = attr.getValues().toString();
+					}
+					if(attr.getShortName().toLowerCase().equals("geospatial_vertical_min")) {
+						verticalCoverageFrom = attr.getStringValue();
+						if (verticalCoverageFrom.length() == 1) {
+							verticalCoverageFrom = "";
+						}
+					}				
+					if(attr.getShortName().toLowerCase().equals("geospatial_vertical_max")) {
+						verticalCoverageTo = attr.getStringValue();
+						if (verticalCoverageTo.length() == 1) {
+							verticalCoverageTo = "";
+						}
+					}				
+					if(attr.getShortName().toLowerCase().equals("time_coverage_start")) {
+						temporalCoverageBegin = attr.getStringValue().substring(0, 19);
+						if(!(temporalCoverageBegin.substring(4,5).equals("-") && temporalCoverageBegin.substring(7,8).equals("-") && temporalCoverageBegin.substring(10,11).equals("T") && temporalCoverageBegin.substring(13,14).equals(":") && temporalCoverageBegin.substring(16,17).equals(":"))) {
+							temporalCoverageBegin = "";
+						}
+					}
+					if(attr.getShortName().toLowerCase().equals("time_coverage_end")) {
+						temporalCoverageEnd = attr.getStringValue().substring(0, 19);
+						if(!(temporalCoverageEnd.substring(4,5).equals("-") && temporalCoverageEnd.substring(7,8).equals("-") && temporalCoverageEnd.substring(10,11).equals("T") && temporalCoverageEnd.substring(13,14).equals(":") && temporalCoverageEnd.substring(16,17).equals(":"))) {
+							temporalCoverageEnd = "";
+						}
+					}
+					if(attr.getShortName().toLowerCase().equals("update_interval")) {
+						timeResolution = attr.getStringValue();
+					}
+				}
+				
+				//return a list with all variables
+				allVariables = nc.getVariables();
+				for (int i=0; i<allVariables.size(); i++) {
+					//select only the standard_name of the variables
+					Attribute standard_name = allVariables.get(i).findAttribute("standard_name");
+			    	if(standard_name !=null) {
+			    		if(standard_name.getStringValue() != "") {
+			    			//add the standard_name value if it is not null or ""
+			    			variables.add(standard_name.getStringValue());
+			    		}
+			    	}
+			    }
+				//Verify and delete if there are duplicates
+				HashSet<String> hs = new HashSet<String>();
+				hs.addAll(variables);
+				variables.clear();
+				variables.addAll(hs);
+				
+				//Extracting the array of keywords find in the json file
+				JSONParser parser = new JSONParser();
+				JSONArray keywordsArray = (JSONArray) parser.parse(new FileReader(Constants.configFilePath+"/Frontend/Flask/static/json/keywords.json"));
+	            
+				/*search if the keyword extracted from netcdf is equal to the json
+				* change the value of the keyword variable to the value of the json (http://...)
+				*/
+	            for(int i=0; i<keywordsArray.size(); i++){
+	                JSONObject keyword = (JSONObject) keywordsArray.get(i);
+	                String text = keyword.get("text").toString();
+	                if(text.equals(keywords)) {
+	                	keywords = keyword.get("value").toString();
+	                	break;
+	                }
+	            }
+	            
+				result.setIdentifier(identifier);
+				result.setTitle(title);
+				result.setDescription(description);
+				result.setKeywords(keywords);
+				result.setStandards(standards);
+				result.setFormats(format);
+				result.setHomepage(homepage);
+				result.setPublisher(publisher);
+				result.setIssuedDate(issued);
+				result.setModifiedDate(modified);
+				result.setSpatialWest(spatialWestBoundLongitude);
+				result.setSpatialEast(spatialEastBoundLongitude);
+				result.setSpatialSouth(spatialSouthBoundLatitude);
+				result.setSpatialNorth(spatialNorthBoundLatitude);
+				result.setVerticalCoverageFrom(verticalCoverageFrom);
+				result.setVerticalCoverageTo(verticalCoverageTo);
+				result.setTemporalCoverageBegin(temporalCoverageBegin);
+				result.setTemporalCoverageEnd(temporalCoverageEnd);
+				result.setTimeResolution(timeResolution);
+				result.setVariable(variables);
+			}
+			//Delete the temporal file "file.nc"
+			Files.deleteIfExists(Paths.get(Constants.configFilePath+"/Backend/AddDatasets/file.nc"));
 			
 		} catch (IOException ioe) {
 

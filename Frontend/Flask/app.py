@@ -140,19 +140,40 @@ def addCopernicus():
 def addNetCDF():
 	try:
 		if request.method == 'POST':
-			file = request.form['fileNetcdf']
-			command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/suggest "%s" Netcdf' %file
-			try:
-				process = subprocess.check_output([command], shell="True")
-			except subprocess.CalledProcessError as e:
-				return render_template('500.html')
-			# parsing output from maven script, to avoid log comments
-			process = process.split(b'\n')
-			# metadata parsed is converted into json class datasetSuggest to be used inside the html form
-			parsed_output = json.loads(process[1].decode('utf-8'))
-			dataset = datasetSuggestNetcdf(**parsed_output)
+			urifile = request.form['urlfileNetcdf']
+			file = request.files['fileNetcdf']
+			if urifile != '':
+				command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/suggest "%s" Netcdf' %urifile
+				try:
+					process = subprocess.check_output([command], shell="True")
+				except subprocess.CalledProcessError as e:
+					return render_template('500.html')
+				# parsing output from maven script, to avoid log comments
+				process = process.split(b'\n')
+				# metadata parsed is converted into json class datasetSuggest to be used inside the html form
+				parsed_output = json.loads(process[1].decode('utf-8'))
+				dataset = datasetSuggestNetcdf(**parsed_output)
 
-			return render_template('addMetadata.html', dataset=dataset, idFile='')
+				return render_template('addMetadata.html', dataset=dataset, idFile='')
+			elif file.filename != '':
+				# Verify if the file is .nc
+				if file and allowed_file(file.filename):
+					# Create a general filename
+					filename = "file.nc"
+					# Saving the file in the UPLOAD_FOLDER with the filename
+					file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+					path_fileNetcdf = UPLOAD_FOLDER + "/" + filename
+					# print (path_fileNetcdf)
+					command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/suggest "%s" FileNetcdf' %path_fileNetcdf
+					try:
+						process = subprocess.check_output([command], shell="True")
+					except subprocess.CalledProcessError as e:
+						return render_template('500.html')
+					# metadata parsed is converted into json class datasetSuggest to be used inside the html form
+					parsed_output = json.loads(process.decode('utf-8'))
+					dataset = datasetSuggestNetcdf(**parsed_output)
+
+					return render_template('addMetadata.html', dataset=dataset, idFile='')
 		elif request.method == 'GET':
 			file = request.args['file']
 			idFile = request.args['idFile']

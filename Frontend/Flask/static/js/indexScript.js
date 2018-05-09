@@ -3,26 +3,41 @@ function selectType() {
   var value = document.getElementById("sel1").value;
   if (value == "Copernicus Dataset") {
     document.getElementById('fileNetcdf').value = "";
+    document.getElementById('urlfileNetcdf').value = "";
     document.getElementById('urifield').style.display = 'block';
     document.getElementById('addbutton').style.display = 'none';
     document.getElementById('filefield').style.display = 'none';
-  }else if (value == "NetCDF Dataset"){
+    document.getElementById('urlfilefield').style.display = 'none';
+  }else if (value == "NetCDF Dataset File"){
     document.getElementById('uri').value = "";
+    document.getElementById('urlfileNetcdf').value = "";
     document.getElementById('urifield').style.display = 'none';
     document.getElementById('addbutton').style.display = 'none';
     document.getElementById('filefield').style.display = 'block';
-  }else if (value == "Other"){
-    document.getElementById('uri').value = "";
-    document.getElementById('fileNetcdf').value = "";
-    document.getElementById('urifield').style.display = 'none';
-    document.getElementById('addbutton').style.display = 'block';
-    document.getElementById('filefield').style.display = 'none';
-  }else {
+    document.getElementById('urlfilefield').style.display = 'none';
+  }else if (value == "NetCDF Dataset URL File"){
     document.getElementById('uri').value = "";
     document.getElementById('fileNetcdf').value = "";
     document.getElementById('urifield').style.display = 'none';
     document.getElementById('addbutton').style.display = 'none';
     document.getElementById('filefield').style.display = 'none';
+    document.getElementById('urlfilefield').style.display = 'block';
+  }else if (value == "Other"){
+    document.getElementById('uri').value = "";
+    document.getElementById('fileNetcdf').value = "";
+    document.getElementById('urlfileNetcdf').value = "";
+    document.getElementById('urifield').style.display = 'none';
+    document.getElementById('addbutton').style.display = 'block';
+    document.getElementById('filefield').style.display = 'none';
+    document.getElementById('urlfilefield').style.display = 'none';
+  }else {
+    document.getElementById('uri').value = "";
+    document.getElementById('fileNetcdf').value = "";
+    document.getElementById('urlfileNetcdf').value = "";
+    document.getElementById('urifield').style.display = 'none';
+    document.getElementById('addbutton').style.display = 'none';
+    document.getElementById('filefield').style.display = 'none';
+    document.getElementById('urlfilefield').style.display = 'none';
   }
 }
 
@@ -47,6 +62,16 @@ function requireUri(){
     $.alert({
         title: 'Alert!',
         content: 'Please fill the URI Field.',
+        type: 'red',
+        typeAnimated: true,
+        useBootstrap: true,
+    });
+    return false;
+  }
+  if (document.getElementById('urlfilefield').style.display == 'block' && document.getElementById('urlfileNetcdf').value == ""){
+    $.alert({
+        title: 'Alert!',
+        content: 'Please fill the URL Field.',
         type: 'red',
         typeAnimated: true,
         useBootstrap: true,
@@ -86,7 +111,13 @@ function Validate() {
                 }
                 
                 if (!blnValid) {
-                    alert("Sorry, " + sFileName + " is invalid, allowed extensions are: " + _validFileExtensions);
+                    $.alert({
+                        title: 'Alert!',
+                        content: "Sorry, " + sFileName + " is invalid, allowed extensions are: " + _validFileExtensions,
+                        type: 'red',
+                        typeAnimated: true,
+                        useBootstrap: true,
+                    });
                     return false;
                 }
             }

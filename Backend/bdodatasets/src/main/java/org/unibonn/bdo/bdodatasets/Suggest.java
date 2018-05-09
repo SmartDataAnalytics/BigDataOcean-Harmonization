@@ -48,6 +48,11 @@ public class Suggest {
 				Gson gson  =new Gson();
 				System.out.println(gson.toJson(result));
 				//log.info("Suggest of netcdf: "+gson.toJson(result));
+			}else if (type.equals("FileNetcdf")) {
+				Dataset result = BdoDatasetAnalyser.analyseDatasetFileNetcdf(Dataseturi);
+				Gson gson  =new Gson();
+				System.out.println(gson.toJson(result));
+				//log.info("Suggest of netcdf file: "+gson.toJson(result));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
