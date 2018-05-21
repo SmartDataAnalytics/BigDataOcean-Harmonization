@@ -45,7 +45,7 @@ import ucar.netcdf.NetcdfFile;*/
 
 public class BdoDatasetAnalyser {
 
-	public static Dataset analyseDatasetURI(String datasetURI) throws IOException {
+	public static Dataset analyseDatasetURI(String datasetURI) throws IOException, ParseException {
 		Dataset result = new Dataset();
 
 		String delims; //Delimiters for extracting some part of the text
@@ -137,9 +137,27 @@ public class BdoDatasetAnalyser {
 		tokens = replace.split(delims);
 		delims = tokens[0];
 		String[] list = delims.split(",");
-		for (int i=0; i<list.length; i++) {
-			variables.add(list[i]);
+		
+		//Extracting the array of variablesCF_BDO find in the json file
+		JSONParser parser = new JSONParser();
+		JSONArray variablesCF = (JSONArray) parser.parse(new FileReader(Constants.configFilePath+"/Frontend/Flask/static/json/variablesCF_BDO.json"));
+		
+		for(int j=0; j<list.length; j++) {
+			boolean flag = false;
+			for(int i=0; i<variablesCF.size(); i++){
+	        	JSONObject keyword = (JSONObject) variablesCF.get(i);
+	            String text = keyword.get("text").toString();
+	            if(text.equals(list[j])) {
+	            	variables.add(list[j] + " -- "+ keyword.get("text").toString());
+	            	flag = true;
+	            	break;
+	            }		            	
+	        }
+			if(flag == false) {
+				variables.add(list[j] + " -- "+ "");
+			}
 		}
+		
 
 		result.setTitle(title);
 		result.setDescription(description);
@@ -300,7 +318,7 @@ public class BdoDatasetAnalyser {
 				variables.clear();
 				variables.addAll(hs);
 				
-				//Extracting the array of keywords find in the json file
+				//Extracting the array of variablesCF_BDO find in the json file
 				JSONParser parser = new JSONParser();
 				JSONArray variablesCF = (JSONArray) parser.parse(new FileReader(Constants.configFilePath+"/Frontend/Flask/static/json/variablesCF_BDO.json"));
 				
@@ -509,7 +527,7 @@ public class BdoDatasetAnalyser {
 				variables.addAll(hs);
 				
 				
-				//Extracting the array of keywords and CF variable find in the json file
+				//Extracting the array of variablesCF_BDO and CF variable find in the json file
 				JSONParser parser = new JSONParser();
 				JSONArray variablesCF = (JSONArray) parser.parse(new FileReader(Constants.configFilePath+"/Frontend/Flask/static/json/variablesCF_BDO.json"));
 				
