@@ -31,8 +31,8 @@ public class Suggest {
 		//String uri_file = "hdfs://212.101.173.50:9000/user/bdo/maretec/2017091300.nc";
 		//String uri_file = "hdfs://212.101.173.50:9000/user/bdo/numerical/dataset-ibi-analysis-forecast-wav-005-005-hourly_1516980716514.nc";
 		//String uri_file = "hdfs://212.101.173.50:9000/user/bdo/buoy/IR_TS_MO_6200192.nc";
-		//String uri_file = "hdfs://212.101.173.50:9000/user/bdo/forecast/20170827_hi-HCMR-WAVES-POSEIDON-AEG-b20170827_FC01-fv01.00.nc";
-		//String type = "Netcdf";
+		//String uri_file = "/home/anatrillos/Dropbox/Documentos/BigDataOcean-Harmonization/Backend/AddDatasets/MO_LATEST_TS_MO_SARON_20180501.nc";
+		//String type = "FileNetcdf";
 		exec(uri_file, type);
 	}
 	

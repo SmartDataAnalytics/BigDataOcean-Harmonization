@@ -2,8 +2,10 @@ package org.unibonn.bdo.bdodatasets;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
@@ -185,6 +187,7 @@ public class BdoDatasetAnalyser {
 		String verticalCoverageTo = "";
 		String timeResolution = "";
 		List<String> variables = new ArrayList<>();
+		List<String> listVariables = new ArrayList<>();
 
 		//read the file
 		NetcdfFile nc = null;
@@ -239,16 +242,16 @@ public class BdoDatasetAnalyser {
 						}
 					}
 					if(attr.getShortName().toLowerCase().equals("geospatial_lon_min") || attr.getShortName().toLowerCase().equals("longitude_min")) {
-						spatialWestBoundLongitude = attr.getValues().toString();
+						spatialWestBoundLongitude = attr.getValues().toString().replaceAll(" ", "");
 					}
 					if(attr.getShortName().toLowerCase().equals("geospatial_lon_max") || attr.getShortName().toLowerCase().equals("longitude_max")) {
-						spatialEastBoundLongitude = attr.getValues().toString();
+						spatialEastBoundLongitude = attr.getValues().toString().replaceAll(" ", "");
 					}
 					if(attr.getShortName().toLowerCase().equals("geospatial_lat_min") || attr.getShortName().toLowerCase().equals("latitude_min")) {
-						spatialSouthBoundLatitude = attr.getValues().toString();
+						spatialSouthBoundLatitude = attr.getValues().toString().replaceAll(" ", "");
 					}
 					if(attr.getShortName().toLowerCase().equals("geospatial_lat_max") || attr.getShortName().toLowerCase().equals("latitude_max")) {
-						spatialNorthBoundLatitude = attr.getValues().toString();
+						spatialNorthBoundLatitude = attr.getValues().toString().replaceAll(" ", "");
 					}
 					if(attr.getShortName().toLowerCase().equals("geospatial_vertical_min")) {
 						verticalCoverageFrom = attr.getStringValue();
@@ -285,7 +288,7 @@ public class BdoDatasetAnalyser {
 					//select only the standard_name of the variables
 					Attribute standard_name = allVariables.get(i).findAttribute("standard_name");
 			    	if(standard_name !=null) {
-			    		if(standard_name.getStringValue() != "") {
+			    		if(standard_name.getStringValue() != "" && !standard_name.getStringValue().startsWith(" ")) {
 			    			//add the standard_name value if it is not null or ""
 			    			variables.add(standard_name.getStringValue());
 			    		}
@@ -299,17 +302,40 @@ public class BdoDatasetAnalyser {
 				
 				//Extracting the array of keywords find in the json file
 				JSONParser parser = new JSONParser();
+				JSONArray variablesCF = (JSONArray) parser.parse(new FileReader(Constants.configFilePath+"/Frontend/Flask/static/json/variablesCF_BDO.json"));
+				
+				for(int j=0; j<variables.size(); j++) {
+					boolean flag = false;
+					for(int i=0; i<variablesCF.size(); i++){
+			        	JSONObject keyword = (JSONObject) variablesCF.get(i);
+			            String text = keyword.get("text").toString();
+			            if(text.equals(variables.get(j))) {
+			            	listVariables.add(variables.get(j).toString() + " -- "+ keyword.get("text").toString());
+			            	flag = true;
+			            	break;
+			            }		            	
+			        }
+					if(flag == false) {
+						listVariables.add(variables.get(j).toString() + " -- "+ "");
+					}
+				}
+				
 				JSONArray keywordsArray = (JSONArray) parser.parse(new FileReader(Constants.configFilePath+"/Frontend/Flask/static/json/keywords.json"));
 	            
 				/*search if the keyword extracted from netcdf is equal to the json
 				* change the value of the keyword variable to the value of the json (http://...)
 				*/
-	            for(int i=0; i<keywordsArray.size(); i++){
+				for(int i=0; i<keywordsArray.size(); i++){
+	            	boolean flag = false;
 	                JSONObject keyword = (JSONObject) keywordsArray.get(i);
 	                String text = keyword.get("text").toString();
 	                if(text.equals(keywords)) {
 	                	keywords = keyword.get("value").toString();
+	                	flag = true;
 	                	break;
+	                }
+	                if(flag == false) {
+	                	keywords = "";
 	                }
 	            }
 	            
@@ -332,7 +358,7 @@ public class BdoDatasetAnalyser {
 				result.setTemporalCoverageBegin(temporalCoverageBegin);
 				result.setTemporalCoverageEnd(temporalCoverageEnd);
 				result.setTimeResolution(timeResolution);
-				result.setVariable(variables);
+				result.setVariable(listVariables);
 			}
 			//Delete the temporal file "file.nc"
 			hdfsSys.deleteFile(Constants.configFilePath+"/Backend/AddDatasets/file.nc");
@@ -372,6 +398,7 @@ public class BdoDatasetAnalyser {
 		String verticalCoverageTo = "";
 		String timeResolution = "";
 		List<String> variables = new ArrayList<>();
+		List<String> listVariables = new ArrayList<>() ;
 
 		//read the file
 		NetcdfFile nc = null;
@@ -423,16 +450,16 @@ public class BdoDatasetAnalyser {
 						}
 					}
 					if(attr.getShortName().toLowerCase().equals("geospatial_lon_min") || attr.getShortName().toLowerCase().equals("longitude_min")) {
-						spatialWestBoundLongitude = attr.getValues().toString();
+						spatialWestBoundLongitude = attr.getValues().toString().replace(" ", "");
 					}
 					if(attr.getShortName().toLowerCase().equals("geospatial_lon_max") || attr.getShortName().toLowerCase().equals("longitude_max")) {
-						spatialEastBoundLongitude = attr.getValues().toString();
+						spatialEastBoundLongitude = attr.getValues().toString().replace(" ", "");
 					}
 					if(attr.getShortName().toLowerCase().equals("geospatial_lat_min") || attr.getShortName().toLowerCase().equals("latitude_min")) {
-						spatialSouthBoundLatitude = attr.getValues().toString();
+						spatialSouthBoundLatitude = attr.getValues().toString().replace(" ", "");
 					}
 					if(attr.getShortName().toLowerCase().equals("geospatial_lat_max") || attr.getShortName().toLowerCase().equals("latitude_max")) {
-						spatialNorthBoundLatitude = attr.getValues().toString();
+						spatialNorthBoundLatitude = attr.getValues().toString().replace(" ", "");
 					}
 					if(attr.getShortName().toLowerCase().equals("geospatial_vertical_min")) {
 						verticalCoverageFrom = attr.getStringValue();
@@ -468,8 +495,8 @@ public class BdoDatasetAnalyser {
 				for (int i=0; i<allVariables.size(); i++) {
 					//select only the standard_name of the variables
 					Attribute standard_name = allVariables.get(i).findAttribute("standard_name");
-			    	if(standard_name !=null) {
-			    		if(standard_name.getStringValue() != "") {
+			    	if(standard_name != null) {
+			    		if(standard_name.getStringValue() != "" && !standard_name.getStringValue().startsWith(" ")) {
 			    			//add the standard_name value if it is not null or ""
 			    			variables.add(standard_name.getStringValue());
 			    		}
@@ -481,19 +508,44 @@ public class BdoDatasetAnalyser {
 				variables.clear();
 				variables.addAll(hs);
 				
-				//Extracting the array of keywords find in the json file
+				
+				//Extracting the array of keywords and CF variable find in the json file
 				JSONParser parser = new JSONParser();
+				JSONArray variablesCF = (JSONArray) parser.parse(new FileReader(Constants.configFilePath+"/Frontend/Flask/static/json/variablesCF_BDO.json"));
+				
+				for(int j=0; j<variables.size(); j++) {
+					boolean flag = false;
+					for(int i=0; i<variablesCF.size(); i++){
+			        	JSONObject keyword = (JSONObject) variablesCF.get(i);
+			            String text = keyword.get("text").toString();
+			            if(text.equals(variables.get(j))) {
+			            	listVariables.add(variables.get(j).toString() + " -- "+ keyword.get("text").toString());
+			            	flag = true;
+			            	break;
+			            }		            	
+			        }
+					if(flag == false) {
+						listVariables.add(variables.get(j).toString() + " -- "+ "");
+					}
+				}
+				
+				
 				JSONArray keywordsArray = (JSONArray) parser.parse(new FileReader(Constants.configFilePath+"/Frontend/Flask/static/json/keywords.json"));
 	            
 				/*search if the keyword extracted from netcdf is equal to the json
 				* change the value of the keyword variable to the value of the json (http://...)
 				*/
 	            for(int i=0; i<keywordsArray.size(); i++){
+	            	boolean flag = false;
 	                JSONObject keyword = (JSONObject) keywordsArray.get(i);
 	                String text = keyword.get("text").toString();
 	                if(text.equals(keywords)) {
 	                	keywords = keyword.get("value").toString();
+	                	flag = true;
 	                	break;
+	                }
+	                if(flag == false) {
+	                	keywords = "";
 	                }
 	            }
 	            
@@ -516,7 +568,7 @@ public class BdoDatasetAnalyser {
 				result.setTemporalCoverageBegin(temporalCoverageBegin);
 				result.setTemporalCoverageEnd(temporalCoverageEnd);
 				result.setTimeResolution(timeResolution);
-				result.setVariable(variables);
+				result.setVariable(listVariables);
 			}
 			//Delete the temporal file "file.nc"
 			Files.deleteIfExists(Paths.get(Constants.configFilePath+"/Backend/AddDatasets/file.nc"));

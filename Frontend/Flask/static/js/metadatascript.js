@@ -254,13 +254,15 @@ $('#json_variable-1').on("blur", function() {
 
 //Add variables to the table.
 $.each(response, function(i, item) {
+  var variable = response[i].split(" -- ");
   var content = jQuery('#sample_table tr'),
   size = jQuery('#tbl_posts >tbody >tr').length + 1,
   element = null,    
   element = content.clone();
   element.attr('id', 'rec-'+size);
-  element.find('#parser_variable').attr('value', response[i]);
+  element.find('#parser_variable').attr('value', variable[0]);
   element.find('#json_variable').attr('id', 'json_variable-'+size);
+  element.find('#json_variable-'+size).attr('value', variable[1]);
   element.find('.delete-record').attr('data-id', size);
   element.appendTo('#tbl_posts_body');
   $('#json_variable-'+size).easyAutocomplete(options);
