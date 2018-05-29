@@ -1,5 +1,6 @@
 package org.unibonn.bdo.objects;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -43,6 +44,32 @@ public class Dataset {
 	private List<String> variable; //dataset variables
 	
 	public Dataset(){
+		this.identifier = "";
+		this.title = "";
+		this.description = "";
+		this.subject = "";
+		this.keywords = "";
+		this.standards = "";
+		this.formats = "";
+		this.language = "eng";
+		this.homepage = "";
+		this.publisher = "";
+		this.accessRights = "";
+		this.issuedDate = "";
+		this.modifiedDate = "";
+		this.geoLocation = "";
+		this.spatialWest = "";
+		this.spatialEast = "";
+		this.spatialSouth = "";
+		this.spatialNorth = "";
+		this.coordinateSystem = "";
+		this.verticalCoverageFrom = "";
+		this.verticalCoverageTo = "";
+		this.verticalLevel = "";
+		this.temporalCoverageBegin = "";
+		this.temporalCoverageEnd = "";
+		this.timeResolution = "";
+		this.variable = new ArrayList<>();
 	}
 
 	public Dataset(String identifier, String title, String description, String subject, String keywords,

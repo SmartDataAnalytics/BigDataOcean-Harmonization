@@ -215,7 +215,7 @@ function cancelButton(){
   window.location.href="/"
 }
 
-function requireVariables(){
+function requireFields(){
   for (var i = 1; i <=size; i++) {
     var jsonvariable = $("#json_variable-"+i).val();
     if (jsonvariable === ""){
@@ -228,6 +228,18 @@ function requireVariables(){
       });
       return false;
     }
+  }
+  var tokenfield_subject = $("#tokenfield_subject").val();
+  var tokenfield_keywords = $("#tokenfield_keywords").val();
+  if(tokenfield_subject === "" && tokenfield_keywords === ""){
+    $.alert({
+        title: 'Alert!',
+        content: 'Please fill the mandatory fields.',
+        type: 'red',
+        typeAnimated: true,
+        useBootstrap: true,
+      });
+      return false;
   }
 }
 

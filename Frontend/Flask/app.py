@@ -113,9 +113,9 @@ def addCopernicus():
 				process = subprocess.check_output([command], shell="True")
 			except subprocess.CalledProcessError as e:
 				return render_template('500.html')
-			# metadata parsed is converted into json class datasetSuggest to be used inside the html form
+			# metadata parsed is converted into json class datasetInfo to be used inside the html form
 			parsed_output = json.loads(process.decode('utf-8'))
-			dataset = datasetSuggest(**parsed_output)
+			dataset = datasetInfo(**parsed_output)
 
 			return render_template('addMetadata.html', dataset=dataset, idFile='')
 		elif request.method == 'GET':
@@ -128,9 +128,9 @@ def addCopernicus():
 				process = subprocess.check_output([command], shell="True")
 			except subprocess.CalledProcessError as e:
 				return render_template('500.html')
-			# metadata parsed is converted into json class datasetSuggest to be used inside the html form
+			# metadata parsed is converted into json class datasetInfo to be used inside the html form
 			parsed_output = json.loads(process.decode('utf-8'))
-			dataset = datasetSuggest(**parsed_output)
+			dataset = datasetInfo(**parsed_output)
 
 			return render_template('addMetadata.html', dataset=dataset, idFile='')
 	except ValueError:  # includes simplejson.decoder.JSONDecodeError
@@ -150,9 +150,9 @@ def addNetCDF():
 					return render_template('500.html')
 				# parsing output from maven script, to avoid log comments
 				process = process.split(b'\n')
-				# metadata parsed is converted into json class datasetSuggest to be used inside the html form
+				# metadata parsed is converted into json class datasetInfo to be used inside the html form
 				parsed_output = json.loads(process[1].decode('utf-8'))
-				dataset = datasetSuggestNetcdf(**parsed_output)
+				dataset = datasetInfo(**parsed_output)
 
 				return render_template('addMetadata.html', dataset=dataset, idFile='')
 			elif file.filename != '':
@@ -169,9 +169,9 @@ def addNetCDF():
 						process = subprocess.check_output([command], shell="True")
 					except subprocess.CalledProcessError as e:
 						return render_template('500.html')
-					# metadata parsed is converted into json class datasetSuggest to be used inside the html form
+					# metadata parsed is converted into json class datasetInfo to be used inside the html form
 					parsed_output = json.loads(process.decode('utf-8'))
-					dataset = datasetSuggestNetcdf(**parsed_output)
+					dataset = datasetInfo(**parsed_output)
 
 					return render_template('addMetadata.html', dataset=dataset, idFile='')
 		elif request.method == 'GET':
@@ -184,9 +184,9 @@ def addNetCDF():
 				return render_template('500.html')
 			# parsing output from maven script, to avoid log comments
 			process = process.split(b'\n')
-			# metadata parsed is converted into json class datasetSuggest to be used inside the html form
+			# metadata parsed is converted into json class datasetInfo to be used inside the html form
 			parsed_output = json.loads(process[1].decode('utf-8'))
-			dataset = datasetSuggestNetcdf(**parsed_output)
+			dataset = datasetInfo(**parsed_output)
 
 			return render_template('addMetadata.html', dataset=dataset, idFile=idFile)
 	except ValueError:  # includes simplejson.decoder.JSONDecodeError
@@ -572,74 +572,18 @@ def searchVariable():
 		return jsonify(parsed_output)
 
 # Class for datasets parsed on shell suggest
-class datasetSuggest(object):
-	def __init__(self, identifier, title, description, language, homepage, publisher, 
-		spatialWest, spatialEast, spatialSouth, spatialNorth, issuedDate, modifiedDate,
+class datasetInfo(object):
+	def __init__(self, identifier, title, description, subject, keywords, standards, formats, language, homepage, publisher, 
+		accessRights, issuedDate, modifiedDate, geoLocation, spatialWest, spatialEast, spatialSouth, spatialNorth, 
 		coordinateSystem, verticalCoverageFrom, verticalCoverageTo, verticalLevel, temporalCoverageBegin, temporalCoverageEnd, 
 		timeResolution, variable):
 		self.identifier = identifier
 		self.title = title
 		self.description = description
-		self.language = language
-		self.homepage = homepage
-		self.issuedDate = issuedDate
-		self.modifiedDate = modifiedDate
-		self.publisher = publisher
-		self.spatialWest = spatialWest
-		self.spatialEast = spatialEast
-		self.spatialSouth = spatialSouth
-		self.spatialNorth = spatialNorth
-		self.coordinateSystem = coordinateSystem
-		self.verticalCoverageFrom = verticalCoverageFrom
-		self.verticalCoverageTo = verticalCoverageTo
-		self.verticalLevel = verticalLevel
-		self.temporalCoverageBegin = temporalCoverageBegin
-		self.temporalCoverageEnd = temporalCoverageEnd
-		self.timeResolution = timeResolution
-		self.variables = variable
-
-# Class for datasets parsed on shell suggestNetcdf
-class datasetSuggestNetcdf(object):
-	def __init__(self, identifier, title, description, keywords, standards, formats, homepage, publisher, 
-		spatialWest, spatialEast, spatialSouth, spatialNorth, issuedDate, modifiedDate,
-		verticalCoverageFrom, verticalCoverageTo, temporalCoverageBegin, temporalCoverageEnd, 
-		timeResolution, variable
-		):
-		self.identifier = identifier
-		self.title = title
-		self.description = description
+		self.subject = subject
 		self.keywords = keywords
 		self.standards = standards
-		self.formats = formats
-		self.homepage = homepage
-		self.issuedDate = issuedDate
-		self.modifiedDate = modifiedDate
-		self.publisher = publisher
-		self.spatialWest = spatialWest
-		self.spatialEast = spatialEast
-		self.spatialSouth = spatialSouth
-		self.spatialNorth = spatialNorth
-		self.verticalCoverageFrom = verticalCoverageFrom
-		self.verticalCoverageTo = verticalCoverageTo
-		self.temporalCoverageBegin = temporalCoverageBegin
-		self.temporalCoverageEnd = temporalCoverageEnd
-		self.timeResolution = timeResolution
-		self.variables = variable
-
-# Class for all dataset metadata
-class datasetInfo(object):
-	def __init__(self, identifier, title, description, subject, keywords, standards, formats, language, homepage, publisher, 
-		accessRights, issuedDate, modifiedDate, geoLocation, spatialWest, spatialEast, spatialSouth, spatialNorth, 
-		coordinateSystem, verticalCoverageFrom, verticalCoverageTo,temporalCoverageBegin, temporalCoverageEnd, 
-		verticalLevel, timeResolution, variable
-		):
-		self.identifier = identifier
-		self.title = title
-		self.description = description
-		self.subject = subject
-		self.keywords= keywords
-		self.standards = standards
-		self.formats = formats
+		self.formats =formats
 		self.language = language
 		self.homepage = homepage
 		self.publisher = publisher
@@ -660,6 +604,7 @@ class datasetInfo(object):
 		self.timeResolution = timeResolution
 		# self.variables = variables # map<string, string>
 		self.variables = variable
+
 
 if __name__ == '__main__':
 	app.run(debug=True, host='0.0.0.0')

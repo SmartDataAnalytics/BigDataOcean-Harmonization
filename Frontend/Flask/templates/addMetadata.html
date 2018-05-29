@@ -24,7 +24,7 @@
   </nav>
   {%if dataset!=""%}
   <div class="container text-center" style="margin-top:90px">
-    <form id="metadataForm" name="metadataForm" class="form-style" method="POST" action="/save" novalidate onsubmit="return requireVariables();">
+    <form id="metadataForm" name="metadataForm" class="form-style" method="POST" action="/save" novalidate onsubmit="return requireFields();">
       <div class="row content">
         <div class="col-md-1">
         </div>
@@ -88,8 +88,12 @@
                   <label class="label-table-mandatory">* </label>
                   <label class="label-table" for="subject">Subject:</label>
                 </td>
-                <td colspan="8">                            
-                  <input type="text" class="form-control" id="tokenfield_subject" name="tokenfield_subject" required value="{{ dataset.subject }}">
+                <td colspan="8">   
+                  {%if dataset.keywords|default("") != ""%}                           
+                    <input type="text" class="form-control" id="tokenfield_subject" name="tokenfield_subject" required value="{{ dataset.subject }}">
+                  {%else%}
+                    <input type="text" class="form-control" id="tokenfield_subject" name="tokenfield_subject" required>
+                  {% endif %}                         
                 </td>
               </tr>
               <tr>
@@ -97,8 +101,12 @@
                   <label class="label-table-mandatory">* </label>
                   <label class="label-table" for="keywords">Keywords:</label>
                 </td>
-                <td colspan="8">                            
-                  <input type="text" class="form-control" id="tokenfield_keywords" name="tokenfield_keywords" required value="{{ dataset.keywords }}">
+                <td colspan="8"> 
+                  {%if dataset.keywords|default("") != ""%}                           
+                    <input type="text" class="form-control" id="tokenfield_keywords" name="tokenfield_keywords" required value="{{ dataset.keywords }}">
+                  {%else%}
+                    <input type="text" class="form-control" id="tokenfield_keywords" name="tokenfield_keywords" required>
+                  {% endif %}
                 </td>
               </tr>
               <tr>
@@ -123,11 +131,7 @@
                   <label class="label-table" for="language">Language:</label>
                 </td>
                 <td colspan="8">
-                  {%if dataset.language|default("") != ""%}
-                    <input type="text" class="form-control" id="tokenfield_language" name="tokenfield_language" required value="{{dataset.language}}">
-                  {%else%}
-                    <input type="text" class="form-control" id="tokenfield_language" name="tokenfield_language" required value="eng">
-                  {% endif %}
+                  <input type="text" class="form-control" id="tokenfield_language" name="tokenfield_language" required value="{{dataset.language}}">
                 </td>
               </tr>
               <tr>
@@ -353,7 +357,7 @@
   </div>
   {%else%}
   <div class="container text-center" style="margin-top:90px">
-    <form id="metadataForm" name="metadataForm" class="form-style" method="POST" action="/save" novalidate onsubmit="return requireVariables();">
+    <form id="metadataForm" name="metadataForm" class="form-style" method="POST" action="/save" novalidate onsubmit="return requireFields();">
       <div class="row content">
         <div class="col-md-1">
         </div>

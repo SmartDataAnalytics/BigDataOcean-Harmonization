@@ -81,6 +81,7 @@ public class GetMetadata {
 				"}";
 		
 		Dataset dataset = new Dataset();
+		dataset.setLanguage("");
 		RDFNode node;
 		// executes query on Jena Fueski to get Metadata
 		ResultSet results = QueryExecutor.selectQuery(queryMetadata);
@@ -94,14 +95,14 @@ public class GetMetadata {
 			node = solution.get("desc");
 			dataset.setDescription(node.toString());
 			node = solution.get("sub");
-			if(dataset.getSubject() != null)
+			if(dataset.getSubject() != "")
 			{
 				dataset.setSubject(dataset.getSubject()+", "+node.toString());
 			}else {
 				dataset.setSubject(node.toString());
 			}
 			node = solution.get("keyw");
-			if(dataset.getKeywords() != null)
+			if(dataset.getKeywords() != "")
 			{
 				dataset.setKeywords(dataset.getKeywords()+", "+node.toString());
 			}else {
@@ -112,7 +113,7 @@ public class GetMetadata {
 			node = solution.get("format");
 			dataset.setFormats(node.toString());
 			node = solution.get("lang");
-			if(dataset.getLanguage() != null)
+			if(dataset.getLanguage() != "")
 			{
 				dataset.setLanguage(dataset.getLanguage()+", "+node.toString());
 			}else {
@@ -131,7 +132,7 @@ public class GetMetadata {
 			node = solution.get("geoLoc");
 			//if node = null then setGeoLocation to ""
 			if(node!=null) {
-				if(dataset.getGeoLocation() == null)
+				if(dataset.getGeoLocation() == "")
 				{
 					dataset.setGeoLocation(node.toString());
 				}else {
