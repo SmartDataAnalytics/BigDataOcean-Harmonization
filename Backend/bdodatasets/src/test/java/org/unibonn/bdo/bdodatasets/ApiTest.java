@@ -19,7 +19,7 @@ import org.junit.After;
  * Unit test for simple App for APIs.
  */
 public class ApiTest {
-	
+	/*
 	private List<Dataset> testList;
 	private Dataset datasetTest;
 	private List<String> listVar = new ArrayList<>();
@@ -167,5 +167,5 @@ public class ApiTest {
 	public void destroy() {
 		testList.clear();
 	}
-
+	*/
 }
