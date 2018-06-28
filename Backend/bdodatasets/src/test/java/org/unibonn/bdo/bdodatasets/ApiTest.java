@@ -12,6 +12,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.After;
 
+/**
+ * @author Jaime M Trillos
+ * @author Ana C Trillos
+ * 
+ * Unit test for simple App for APIs.
+ */
 public class ApiTest {
 	
 	private List<Dataset> testList;
