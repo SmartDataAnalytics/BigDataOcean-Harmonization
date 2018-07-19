@@ -1,6 +1,0 @@
-[
-	{"value":"http://inspire.ec.europa.eu/metadata-codelist/ResourceType/service", "text":"Spatial data service"},
-	{"value":"http://inspire.ec.europa.eu/metadata-codelist/ResourceType/services", "text":"Spatial data services"},
-	{"value":"http://inspire.ec.europa.eu/metadata-codelist/ResourceType/dataset", "text":"Spatial data set"},
-	{"value":"http://inspire.ec.europa.eu/metadata-codelist/ResourceType/series", "text":"Spatial data set series"}
-]
