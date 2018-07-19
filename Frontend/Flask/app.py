@@ -62,7 +62,7 @@ def index():
 # List of files that does not have metadata
 @app.route('/list')
 def list():
-	parsed_output = requests.get('http://212.101.173.21:8085/file/metadata/empty', headers={'Authorization': Authorization})
+	parsed_output = requests.get('http://212.101.173.21:8085/fileParser/metadata/empty', headers={'Authorization': Authorization})
 	columns = [{
 	"field": "id",
 	"title": "FileId",
