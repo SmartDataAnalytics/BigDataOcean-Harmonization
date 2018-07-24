@@ -1,6 +1,7 @@
 package org.unibonn.bdo.objects;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +26,9 @@ public class Dataset {
 	private String language; //tokenField_language
 	private String homepage; //URI of Dataset
 	private String publisher; //publisher of Dataset
+	private String source; //source of the Dataset (HCMR, ANEX, XMILE...)
+	private String observations; //Comments of the Dataset (Insitu, Timeseries...)
+	private String storageTable; //TableName used by parser tool
 	private String accessRights; //access_rights 
 	private String issuedDate; //issued_Date (AAAA-MM-DDThh:mm:ssZ)
 	private String modifiedDate; //modifierd_Data (AAAA-MM-DDThh:mm:ssZ)
@@ -40,7 +44,7 @@ public class Dataset {
 	private String temporalCoverageBegin; //temp_coverage_begin
 	private String temporalCoverageEnd; //temp_coverage_end
 	private String timeResolution; //time_reso
-	private Map<String,String> variables; //dataset variables and BDO variables
+	private Map<String,String> variables; //dataset variables (from file) and canonical variables
 	private List<String> variable; //dataset variables
 	
 	public Dataset(){
@@ -54,6 +58,9 @@ public class Dataset {
 		this.language = "eng";
 		this.homepage = "";
 		this.publisher = "";
+		this.source = "";
+		this.observations = "";
+		this.storageTable = "";
 		this.accessRights = "";
 		this.issuedDate = "";
 		this.modifiedDate = "";
@@ -69,12 +76,17 @@ public class Dataset {
 		this.temporalCoverageBegin = "";
 		this.temporalCoverageEnd = "";
 		this.timeResolution = "";
-		this.variable = new ArrayList<>();
 	}
-
+	
+	//Dataset constructor flag = true => API initialization
+	public Dataset(boolean flag){
+	}
+	
+	//Dataset constructor for List<String> variable
 	public Dataset(String identifier, String title, String description, String subject, String keywords,
-			String standards, String formats, String language, String homepage, String publisher, String accessRights,
-			String issuedDate, String modifiedDate, String geoLocation, String spatialWest, String spatialEast,
+			String standards, String formats, String language, String homepage, String publisher, 
+			String source, String observations, String storageTable, 
+			String accessRights, String issuedDate, String modifiedDate, String geoLocation, String spatialWest, String spatialEast,
 			String spatialSouth, String spatialNorth, String coordinateSystem, String verticalCoverageFrom,
 			String verticalCoverageTo, String verticalLevel, String temporalCoverageBegin, String temporalCoverageEnd,
 			String timeResolution, List<String> variable) {
@@ -89,6 +101,9 @@ public class Dataset {
 		this.language = language;
 		this.homepage = homepage;
 		this.publisher = publisher;
+		this.source = source;
+		this.observations = observations;
+		this.storageTable = storageTable;
 		this.accessRights = accessRights;
 		this.issuedDate = issuedDate;
 		this.modifiedDate = modifiedDate;
@@ -107,9 +122,11 @@ public class Dataset {
 		this.variable = variable;
 	}
 
+	//Dataset constructor for Map<String,String> variables
 	public Dataset(String identifier, String title, String description, String subject, String keywords,
-			String standards, String formats, String language, String homepage, String publisher, String accessRights,
-			String issuedDate, String modifiedDate, String geoLocation, String spatialWest, String spatialEast,
+			String standards, String formats, String language, String homepage, String publisher, 
+			String source, String observations, String storageTable, 
+			String accessRights, String issuedDate, String modifiedDate, String geoLocation, String spatialWest, String spatialEast,
 			String spatialSouth, String spatialNorth, String coordinateSystem, String verticalCoverageFrom,
 			String verticalCoverageTo, String verticalLevel, String temporalCoverageBegin, String temporalCoverageEnd,
 			String timeResolution, Map<String, String> variables) {
@@ -124,6 +141,9 @@ public class Dataset {
 		this.language = language;
 		this.homepage = homepage;
 		this.publisher = publisher;
+		this.source = source;
+		this.observations = observations;
+		this.storageTable = storageTable;
 		this.accessRights = accessRights;
 		this.issuedDate = issuedDate;
 		this.modifiedDate = modifiedDate;
@@ -140,6 +160,30 @@ public class Dataset {
 		this.temporalCoverageEnd = temporalCoverageEnd;
 		this.timeResolution = timeResolution;
 		this.variables = variables;
+	}
+
+	public String getSource() {
+		return source;
+	}
+
+	public void setSource(String source) {
+		this.source = source;
+	}
+
+	public String getObservations() {
+		return observations;
+	}
+
+	public void setObservations(String observations) {
+		this.observations = observations;
+	}
+
+	public String getStorageTable() {
+		return storageTable;
+	}
+
+	public void setStorageTable(String storageTable) {
+		this.storageTable = storageTable;
 	}
 
 	public String getIdentifier() {

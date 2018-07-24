@@ -90,6 +90,11 @@ public class InsertNewDataset {
 				"    dct:format \""+newDataset.getFormats()+"\" ; \n" +  
 				"    foaf:homepage \""+newDataset.getHomepage()+"\" ; \n" + 
 				"    dct:publisher \""+newDataset.getPublisher()+"\" ; \n" + 
+								
+				"    dct:creator \""+newDataset.getSource()+"\" ; \n" + 
+				"    rdfs:comment \""+newDataset.getObservations()+"\" ; \n" + 
+				"    bdo:storageTable \""+newDataset.getStorageTable()+"\" ; \n" + 
+				
 				"    dct:accessRights \""+newDataset.getAccessRights()+"\" ; \n" + 
 				"    dct:issued \""+newDataset.getIssuedDate()+"\"^^xsd:dateTime ; \n" + 
 				"    dct:modified \""+newDataset.getModifiedDate()+"\"^^xsd:dateTime ; \n" +				
@@ -157,20 +162,25 @@ public class InsertNewDataset {
 		insertQuery += "\n";
 		//create the triples for each variable
 		for(Entry<String, String> var : newDataset.getVariables().entrySet()) {
-			String pathFile = Constants.configFilePath+"/Frontend/Flask/static/json/variablesCF_BDO.json";
+			String pathFile = Constants.configFilePath+"/Frontend/Flask/static/json/variablesCF.json";
 			JSONParser parser = new JSONParser();
 			JSONArray variablesCF = (JSONArray) parser.parse(new FileReader(pathFile));
 	        String sameAs = null;
 			/*search if the keyword extracted from netcdf is equal to the json
 			* change the value of the keyword variable to the value of the json (http://...)
 			*/
+	        boolean flagText = false;
 	        for(int i=0; i<variablesCF.size(); i++){
 	        	JSONObject keyword = (JSONObject) variablesCF.get(i);
 	            String text = keyword.get("text").toString();
 	            if(text.equals(var.getValue())) {
 	            	sameAs = keyword.get("value").toString();
+	            	flagText = true;
 	            	break;
 	            }
+	        }
+	        if(!flagText) {
+	        	sameAs = "http://bigdataocean.eu/bdo/cf/parameter/" + var.getValue();
 	        }
 			String varKey = var.getKey().replace(" ", "_");
 			insertQuery += " bdo:"+newDataset.getIdentifier()+"_"+varKey+" a bdo:BDOVariable ; \n" + 

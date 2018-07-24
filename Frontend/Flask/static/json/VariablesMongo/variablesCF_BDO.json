@@ -1,0 +1,1004 @@
+[
+  {
+    "text": "air_pressure_at_sea_level"
+  },
+  {
+    "text": "air_pressure_at_sea_level_processing_method"
+  },
+  {
+    "text": "air_pressure_at_sea_level_quality_flag"
+  },
+  {
+    "text": "delayed_mode_or_real_time_data"
+  },
+  {
+    "text": "manually_entered_depth"
+  },
+  {
+    "text": "manually_entered_depth_processing_method"
+  },
+  {
+    "text": "manually_entered_depth_quality_flag"
+  },
+  {
+    "text": "depth"
+  },
+  {
+    "text": "profile_direction"
+  },
+  {
+    "text": "volume_fraction_of_oxygen_in_sea_water"
+  },
+  {
+    "text": "volume_fraction_of_oxygen_in_sea_water_processing_method"
+  },
+  {
+    "text": "volume_fraction_of_oxygen_in_sea_water_quality_flag"
+  },
+  {
+    "text": "air_temperature"
+  },
+  {
+    "text": "air_temperature_processing_method"
+  },
+  {
+    "text": "air_temperature_quality_flag"
+  },
+  {
+    "text": "mass_concentration_of_chlorophyll_a_fluorescence_in_sea_water"
+  },
+  {
+    "text": "mass_concentration_of_chlorophyll_a_fluorescence_in_sea_water_processing_method"
+  },
+  {
+    "text": "mass_concentration_of_chlorophyll_a_fluorescence_in_sea_water_quality_flag"
+  },
+  {
+    "text": "gust_from_direction"
+  },
+  {
+    "text": "gust_from_direction_processing_method"
+  },
+  {
+    "text": "gust_from_direction_quality_flag"
+  },
+  {
+    "text": "automatically_measured_latitude"
+  },
+  {
+    "text": "automatically_measured_longitude"
+  },
+  {
+    "text": "automatically_measured_position_quality_flag"
+  },
+  {
+    "text": "wind_speed_of_gust"
+  },
+  {
+    "text": "wind_speed_of_gust_processing_method"
+  },
+  {
+    "text": "wind_speed_of_gust_quality_flag"
+  },
+  {
+    "text": "direction_of_sea_water_velocity"
+  },
+  {
+    "text": "direction_of_sea_water_velocity_processing_method"
+  },
+  {
+    "text": "direction_of_sea_water_velocity_quality_flag"
+  },
+  {
+    "text": "sea_water_speed"
+  },
+  {
+    "text": "sea_water_speed_processing_method"
+  },
+  {
+    "text": "sea_water_speed_quality_flag"
+  },
+  {
+    "text": "latitude"
+  },
+  {
+    "text": "longitude"
+  },
+  {
+    "text": "sea_water_ph_reported_on_total_scale"
+  },
+  {
+    "text": "sea_water_ph_reported_on_total_scale_processing_method"
+  },
+  {
+    "text": "sea_water_ph_reported_on_total_scale_quality_flag"
+  },
+  {
+    "text": "position_quality_flag"
+  },
+  {
+    "text": "sea_water_potential_temperature"
+  },
+  {
+    "text": "sea_water_pressure"
+  },
+  {
+    "text": "sea_water_pressure_processing_method"
+  },
+  {
+    "text": "sea_water_pressure_quality_flag"
+  },
+  {
+    "text": "sea_water_practical_salinity"
+  },
+  {
+    "text": "sea_water_practical_salinity_processing_method"
+  },
+  {
+    "text": "sea_water_practical_salinity_quality_flag"
+  },
+  {
+    "text": "air_temperature_2m"
+  },
+  {
+    "text": "sea_water_temperature"
+  },
+  {
+    "text": "sea_water_temperature_processing_method"
+  },
+  {
+    "text": "sea_water_temperature_quality_flag"
+  },
+  {
+    "text": "time"
+  },
+  {
+    "text": "time_quality_flag"
+  },
+  {
+    "text": "sea_water_turbidity"
+  },
+  {
+    "text": "sea_water_turbidity_processing_method"
+  },
+  {
+    "text": "sea_water_turbidity_quality_flag"
+  },
+  {
+    "text": "sea_water_x_velocity"
+  },
+  {
+    "text": "sea_surface_wave_significant_height"
+  },
+  {
+    "text": "sea_surface_wave_significant_height_processing_method"
+  },
+  {
+    "text": "sea_surface_wave_significant_height_quality_flag"
+  },
+  {
+    "text": "sea_surface_wave_from_direction"
+  },
+  {
+    "text": "sea_surface_wave_from_direction_processing_method"
+  },
+  {
+    "text": "sea_surface_wave_from_direction_quality_flag"
+  },
+  {
+    "text": "sea_surface_wave_mean_period_from_variance_spectral_density_second_frequency_moment"
+  },
+  {
+    "text": "sea_surface_wave_mean_period_from_variance_spectral_density_second_frequency_moment_processing_method"
+  },
+  {
+    "text": "sea_surface_wave_mean_period_from_variance_spectral_density_second_frequency_moment_quality_flag"
+  },
+  {
+    "text": "sea_surface_wave_period_at_variance_spectral_density_maximum"
+  },
+  {
+    "text": "sea_surface_wave_period_at_variance_spectral_density_maximum_processing_method"
+  },
+  {
+    "text": "sea_surface_wave_period_at_variance_spectral_density_maximum_quality_flag"
+  },
+  {
+    "text": "wind_from_direction"
+  },
+  {
+    "text": "sea_surface_wave_to_direction"
+  },
+  {
+    "text": "wind_from_direction_processing_method"
+  },
+  {
+    "text": "wind_from_direction_quality_flag"
+  },
+  {
+    "text": "sea_water_y_velocity"
+  },
+  {
+    "text": "sea_surface_wave_zero_upcrossing_period"
+  },
+  {
+    "text": "wind_speed"
+  },
+  {
+    "text": "wind_speed_processing_method"
+  },
+  {
+    "text": "wind_speed_quality_flag"
+  },
+  {
+    "text": "x_wind"
+  },
+  {
+    "text": "y_wind"
+  },
+  {
+    "text": "sea_ice_area_fraction"
+  },
+  {
+    "text": "sea_ice_area_fraction_range"
+  },
+  {
+    "text": "sea_ice_thickness"
+  },
+  {
+    "text": "sea_ice_thickness_range"
+  },
+  {
+    "text": "fractional_saturation_of_oxygen_in_sea_water"
+  },
+  {
+    "text": "fractional_saturation_of_oxygen_in_sea_water_quality_flag"
+  },
+  {
+    "text": "fractional_saturation_of_oxygen_in_sea_water_processing_method"
+  },
+  {
+    "text": "sea_floor_depth_below_geoid"
+  },
+  {
+    "text": "x_direction_in_the_canonical_space"
+  },
+  {
+    "text": "spherical_mercator_google_maps_x"
+  },
+  {
+    "text": "spherical_mercator_google_maps_y"
+  },
+  {
+    "text": "latitude_staggered"
+  },
+  {
+    "text": "y_direction_in_the_canonical_space"
+  },
+  {
+    "text": "longitude_staggered"
+  },
+  {
+    "text": "land_binary_mask"
+  },
+  {
+    "text": "mean_wave_direction_x"
+  },
+  {
+    "text": "mean_wave_direction_y"
+  },
+  {
+    "text": "nvh"
+  },
+  {
+    "text": "fluorescence"
+  },
+  {
+    "text": "fluorescence_quality_flag"
+  },
+  {
+    "text": "fluorescence_processing_method"
+  },
+  {
+    "text": "relative_humidity"
+  },
+  {
+    "text": "relative_humidity_quality_flag"
+  },
+  {
+    "text": "relative_humidity_processing_method"
+  },
+  {
+    "text": "sea_surface_wave_maximum_height"
+  },
+  {
+    "text": "sea_surface_wave_maximum_height_quality_flag"
+  },
+  {
+    "text": "sea_surface_wave_maximum_height_processing_method"
+  },
+  {
+    "text": "sea_surface_wave_from_direction_at_variance_spectral_density_maximum"
+  },
+  {
+    "text": "sea_surface_wave_from_direction_at_variance_spectral_density_maximum_quality_flag"
+  },
+  {
+    "text": "sea_surface_wave_from_direction_at_variance_spectral_density_maximum_processing_method"
+  },
+  {
+    "text": "mole_concentration_of_dissolved_molecular_oxygen_in_sea_water"
+  },
+  {
+    "text": "mole_concentration_of_dissolved_molecular_oxygen_in_sea_water_quality_flag"
+  },
+  {
+    "text": "mole_concentration_of_dissolved_molecular_oxygen_in_sea_water_processing_method"
+  },
+  {
+    "text": "sea_surface_primary_swell_wave_mean_period"
+  },
+  {
+    "text": "sea_surface_secondary_swell_wave_mean_period"
+  },
+  {
+    "text": "sea_surface_wave_mean_period_from_variance_spectral_density_inverse_frequency_moment"
+  },
+  {
+    "text": "sea_surface_wave_stokes_drift_y_velocity"
+  },
+  {
+    "text": "sea_surface_secondary_swell_wave_significant_height"
+  },
+  {
+    "text": "sea_surface_wave_stokes_drift_x_velocity"
+  },
+  {
+    "text": "sea_surface_primary_swell_wave_significant_height"
+  },
+  {
+    "text": "sea_surface_wind_wave_mean_period"
+  },
+  {
+    "text": "sea_surface_wind_wave_significant_height"
+  },
+  {
+    "text": "sea_surface_secondary_swell_wave_from_direction"
+  },
+  {
+    "text": "sea_surface_primary_swell_wave_from_direction"
+  },
+  {
+    "text": "sea_surface_wind_wave_from_direction"
+  },
+  {
+    "text": "type"
+  },
+  {
+    "text": "wdpa_id"
+  },
+  {
+    "text": "wdpa_pid"
+  },
+  {
+    "text": "pa_def"
+  },
+  {
+    "text": "orig_name"
+  },
+  {
+    "text": "desig"
+  },
+  {
+    "text": "desig_eng"
+  },
+  {
+    "text": "desig_type"
+  },
+  {
+    "text": "iunc_cat"
+  },
+  {
+    "text": "int_crit"
+  },
+  {
+    "text": "marine"
+  },
+  {
+    "text": "rep_m_area"
+  },
+  {
+    "text": "gis_m_area"
+  },
+  {
+    "text": "rep_area"
+  },
+  {
+    "text": "gis_area"
+  },
+  {
+    "text": "no_take"
+  },
+  {
+    "text": "no_tk_area"
+  },
+  {
+    "text": "status"
+  },
+  {
+    "text": "status_yr"
+  },
+  {
+    "text": "gov_type"
+  },
+  {
+    "text": "own_type"
+  },
+  {
+    "text": "mang_auth"
+  },
+  {
+    "text": "mang_plan"
+  },
+  {
+    "text": "verif"
+  },
+  {
+    "text": "matadataid"
+  },
+  {
+    "text": "sub_loc"
+  },
+  {
+    "text": "parent_iso3"
+  },
+  {
+    "text": "iso3"
+  },
+  {
+    "text": "platform_course"
+  },
+  {
+    "text": "flag_code"
+  },
+  {
+    "text": "platform_true_heading"
+  },
+  {
+    "text": "platform_length"
+  },
+  {
+    "text": "platform_id"
+  },
+  {
+    "text": "platform_type_id"
+  },
+  {
+    "text": "platform_speed_wrt_ground"
+  },
+  {
+    "text": "navigational_status"
+  },
+  {
+    "text": "navigational_status_description"
+  },
+  {
+    "text": "platform_type_name"
+  },
+  {
+    "text": "platform_width"
+  },
+  {
+    "text": "world_port_index_number"
+  },
+  {
+    "text": "region_index"
+  },
+  {
+    "text": "port_name"
+  },
+  {
+    "text": "country_code"
+  },
+  {
+    "text": "latitude_degrees"
+  },
+  {
+    "text": "latitude_minutes"
+  },
+  {
+    "text": "latitude_hemisphere"
+  },
+  {
+    "text": "longitude_degrees"
+  },
+  {
+    "text": "longitude_minutes"
+  },
+  {
+    "text": "longitude_hemisphere"
+  },
+  {
+    "text": "publication"
+  },
+  {
+    "text": "best_scale_chart_number"
+  },
+  {
+    "text": "harbor_size_code"
+  },
+  {
+    "text": "harbor_type_code"
+  },
+  {
+    "text": "shelter_afforded_code"
+  },
+  {
+    "text": "entrance_restriction_tide"
+  },
+  {
+    "text": "entrance_restriction_swell"
+  },
+  {
+    "text": "entrance_restriction_ice"
+  },
+  {
+    "text": "entrance_restriction_other"
+  },
+  {
+    "text": "overhead_limits"
+  },
+  {
+    "text": "channel_depth"
+  },
+  {
+    "text": "anchorage_depth"
+  },
+  {
+    "text": "cargo_pier_depth"
+  },
+  {
+    "text": "oil_terminal_depth"
+  },
+  {
+    "text": "mean_tide_range"
+  },
+  {
+    "text": "vessel_code"
+  },
+  {
+    "text": "good_holding_ground"
+  },
+  {
+    "text": "turning_area"
+  },
+  {
+    "text": "port_of_entry"
+  },
+  {
+    "text": "us_representative"
+  },
+  {
+    "text": "eta_message"
+  },
+  {
+    "text": "pilotage_compulsory"
+  },
+  {
+    "text": "pilotage_available"
+  },
+  {
+    "text": "pilotage_local_assistance"
+  },
+  {
+    "text": "pilotage_advisable"
+  },
+  {
+    "text": "tugs_salvage"
+  },
+  {
+    "text": "tugs_assist"
+  },
+  {
+    "text": "quarantine_practique"
+  },
+  {
+    "text": "quarantine_deratt_cert"
+  },
+  {
+    "text": "quarantine_other"
+  },
+  {
+    "text": "telephone_communication"
+  },
+  {
+    "text": "telegraph_communication"
+  },
+  {
+    "text": "radio_communication"
+  },
+  {
+    "text": "radio_telegraph_communication"
+  },
+  {
+    "text": "air_communication"
+  },
+  {
+    "text": "rail_communication"
+  },
+  {
+    "text": "operations_at_wharves"
+  },
+  {
+    "text": "operations_at_anchorage"
+  },
+  {
+    "text": "operations_at_med_moor"
+  },
+  {
+    "text": "operations_at_beach_moor"
+  },
+  {
+    "text": "operations_at_ice_moor"
+  },
+  {
+    "text": "medical_facilities"
+  },
+  {
+    "text": "garbage_disposal"
+  },
+  {
+    "text": "degaussing_facilities"
+  },
+  {
+    "text": "dirty_ballast_facilities"
+  },
+  {
+    "text": "fixed_crane"
+  },
+  {
+    "text": "mobile_crane"
+  },
+  {
+    "text": "floating_crane"
+  },
+  {
+    "text": "lift_100_plus"
+  },
+  {
+    "text": "lift_50_100"
+  },
+  {
+    "text": "lift_25_49"
+  },
+  {
+    "text": "lift_0_24"
+  },
+  {
+    "text": "longshore_service"
+  },
+  {
+    "text": "electrical_service"
+  },
+  {
+    "text": "steam_service"
+  },
+  {
+    "text": "navigational_equipment_service"
+  },
+  {
+    "text": "electrical_repair_service"
+  },
+  {
+    "text": "provision_supply"
+  },
+  {
+    "text": "water_supply"
+  },
+  {
+    "text": "fuel_oil_supply"
+  },
+  {
+    "text": "diesel_oil_supply"
+  },
+  {
+    "text": "deck_supply"
+  },
+  {
+    "text": "engine_supply"
+  },
+  {
+    "text": "repair_code"
+  },
+  {
+    "text": "drydock"
+  },
+  {
+    "text": "railway"
+  },
+  {
+    "text": "history_id"
+  },
+  {
+    "text": "trip_identifier"
+  },
+  {
+    "text": "terminal_id"
+  },
+  {
+    "text": "terminal_start_id"
+  },
+  {
+    "text": "terminal_stop_id"
+  },
+  {
+    "text": "history_start_id"
+  },
+  {
+    "text": "history_stop_id"
+  },
+  {
+    "text": "fuel_oil_initial_supply"
+  },
+  {
+    "text": "fuel_oil_consumption"
+  },
+  {
+    "text": "diesel_oil_initial_supply"
+  },
+  {
+    "text": "diesel_oil_consumption"
+  },
+  {
+    "text": "water_initial_supply"
+  },
+  {
+    "text": "water_consumption"
+  },
+  {
+    "text": "lubricant_initial_supply"
+  },
+  {
+    "text": "lubricant_consumption"
+  },
+  {
+    "text": "draft"
+  },
+  {
+    "text": "number_of_passengers"
+  },
+  {
+    "text": "number_of_cars"
+  },
+  {
+    "text": "number_of_trucks"
+  },
+  {
+    "text": "notes"
+  },
+  {
+    "text": "distance"
+  },
+  {
+    "text": "in_stats"
+  },
+  {
+    "text": "sea_state"
+  },
+  {
+    "text": "delivery_f"
+  },
+  {
+    "text": "delivery_l"
+  },
+  {
+    "text": "delivery_d"
+  },
+  {
+    "text": "vessel_weight"
+  },
+  {
+    "text": "bts_code"
+  },
+  {
+    "text": "fuel_oil_remaining_low"
+  },
+  {
+    "text": "fuel_oil_remaining_high"
+  },
+  {
+    "text": "fuel_oil_consumption_low"
+  },
+  {
+    "text": "fuel_oil_consumption_high"
+  },
+  {
+    "text": "voyage_date"
+  },
+  {
+    "text": "voyage_leg"
+  },
+  {
+    "text": "starting_port"
+  },
+  {
+    "text": "destination_port"
+  },
+  {
+    "text": "next_port"
+  },
+  {
+    "text": "voyage_number"
+  },
+  {
+    "text": "sea_swell_condition"
+  },
+  {
+    "text": "wind_direction"
+  },
+  {
+    "text": "beaufort_wind_force"
+  },
+  {
+    "text": "slow_speed_streaming_time"
+  },
+  {
+    "text": "slow_speed_streaming_distance"
+  },
+  {
+    "text": "full_speed_streaming_time"
+  },
+  {
+    "text": "full_speed_streaming_distance"
+  },
+  {
+    "text": "time_changes"
+  },
+  {
+    "text": "average_engine_load_indicator"
+  },
+  {
+    "text": "slip"
+  },
+  {
+    "text": "average_vessel_speed"
+  },
+  {
+    "text": "average_engine_rpm"
+  },
+  {
+    "text": "distance_to_go"
+  },
+  {
+    "text": "calculated_speed"
+  },
+  {
+    "text": "consumptions_engine_fuel"
+  },
+  {
+    "text": "consumptions_engine_diesel"
+  },
+  {
+    "text": "stop_or_slow_from"
+  },
+  {
+    "text": "stop_or_slow_to"
+  },
+  {
+    "text": "stop_or_slow_speed"
+  },
+  {
+    "text": "stop_or_slow_rpm"
+  },
+  {
+    "text": "stop_or_slow_distance"
+  },
+  {
+    "text": "stop_or_slow_engine_fuel"
+  },
+  {
+    "text": "stop_or_slow_engine_diesel"
+  },
+  {
+    "text": "remaining_on_board_engine_lubricant"
+  },
+  {
+    "text": "remaining_on_board_cylinder_lubricant"
+  },
+  {
+    "text": "remaining_on_board_generator_lubricant"
+  },
+  {
+    "text": "remaining_on_board_evaporator_lubricant"
+  },
+  {
+    "text": "end_of_sea_passage_date"
+  },
+  {
+    "text": "notice_of_readiness_date"
+  },
+  {
+    "text": "estimated_time_of_berthing_date"
+  },
+  {
+    "text": "estimated_time_of_departure_date"
+  },
+  {
+    "text": "arrived_date"
+  },
+  {
+    "text": "anchored_date"
+  },
+  {
+    "text": "berthed_date"
+  },
+  {
+    "text": "full_away_date"
+  },
+  {
+    "text": "estimated_time_of_arrival_date"
+  },
+  {
+    "text": "consumptions_inward_miles"
+  },
+  {
+    "text": "consumptions_inward_duration"
+  },
+  {
+    "text": "consumptions_inward_engine_fuel"
+  },
+  {
+    "text": "consumptions_inward_engine_diesel"
+  },
+  {
+    "text": "consumptions_cruising_miles"
+  },
+  {
+    "text": "consumptions_cruising_duration"
+  },
+  {
+    "text": "consumptions_cruising_engine_fuel"
+  },
+  {
+    "text": "consumptions_cruising_engine_diesel"
+  },
+  {
+    "text": "consumptions_anchor_duration"
+  },
+  {
+    "text": "consumptions_anchor_engine_fuel"
+  },
+  {
+    "text": "consumptions_anchor_engine_diesel"
+  },
+  {
+    "text": "consumptions_out_movement_miles"
+  },
+  {
+    "text": "consumptions_out_movement_duration"
+  },
+  {
+    "text": "consumptions_out_movement_engine_fuel"
+  },
+  {
+    "text": "consumptions_out_movement_engine_diesel"
+  },
+  {
+    "text": "consumptions_shifting_miles"
+  },
+  {
+    "text": "consumptions_shifting_duration"
+  },
+  {
+    "text": "consumptions_shifting_engine_fuel"
+  },
+  {
+    "text": "consumptions_shifting_engine_diesel"
+  },
+  {
+    "text": "consumptions_berth_duration"
+  },
+  {
+    "text": "remaining_on_board_engine_oil"
+  }
+]

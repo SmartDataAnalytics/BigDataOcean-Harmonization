@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.unibonn.bdo.objects.Dataset;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 /**
  *  
@@ -26,7 +27,8 @@ public class Api {
 	public static void main(String[] args) {
 		int apiNumber = Integer.parseInt(args[0]);
 		String searchParam = args[1];
-		//int apiNumber = 7;
+		//int apiNumber = 1;
+		//String searchParam = "";
 		//String searchParam = "-6000,= -2";
 		//String searchParam = "http://inspire.ec.europa.eu/metadata-codelist/TopicCategory/oceans, http://inspire.ec.europa.eu/metadata-codelist/TopicCategory/climatologyMeteorologyAtmosphere";
 		//String searchParam = "-17.1, 36.2, 30, 45.98";
@@ -40,7 +42,7 @@ public class Api {
 				try {
 					List<Dataset> list = BdoApiAnalyser.apiListAllDatasets();
 					// Parse into JSON the Dataset instance with all metadata from a dataset
-					Gson gson  = new Gson();
+					Gson gson  = new GsonBuilder().setPrettyPrinting().create();
 					System.out.print(gson.toJson(list));
 					//log.info("Dataset's metadata: " + gson.toJson(dataset));
 				} catch (Exception e) {
@@ -52,7 +54,7 @@ public class Api {
 				try {
 					Dataset dataset = BdoApiAnalyser.apiSearchDataset(searchParam);
 					// Parse into JSON the Dataset instance with all metadata from a dataset
-					Gson gson  = new Gson();
+					Gson gson  = new GsonBuilder().setPrettyPrinting().create();
 					System.out.print(gson.toJson(dataset));
 					//log.info("Dataset's metadata: " + gson.toJson(dataset));
 				} catch (Exception e) {
@@ -64,7 +66,7 @@ public class Api {
 				try {
 					List<Dataset> list = BdoApiAnalyser.apiSearchSubjects(searchParam);
 					// Parse into JSON the Dataset instance with all metadata from a dataset
-					Gson gson  = new Gson();
+					Gson gson  = new GsonBuilder().setPrettyPrinting().create();
 					System.out.print(gson.toJson(list));
 					//log.info("Dataset's metadata: " + gson.toJson(dataset));
 				} catch (Exception e) {
@@ -76,7 +78,7 @@ public class Api {
 				try {
 					List<Dataset> list = BdoApiAnalyser.apiSearchKeywords(searchParam);
 					// Parse into JSON the Dataset instance with all metadata from a dataset
-					Gson gson  = new Gson();
+					Gson gson  = new GsonBuilder().setPrettyPrinting().create();
 					System.out.print(gson.toJson(list));
 					//log.info("Dataset's metadata: " + gson.toJson(dataset));
 				} catch (Exception e) {
@@ -88,7 +90,7 @@ public class Api {
 				try {
 					List<Dataset> list = BdoApiAnalyser.apiSearchGeoLoc(searchParam);
 					// Parse into JSON the Dataset instance with all metadata from a dataset
-					Gson gson  = new Gson();
+					Gson gson  = new GsonBuilder().setPrettyPrinting().create();
 					System.out.print(gson.toJson(list));
 					//log.info("Dataset's metadata: " + gson.toJson(dataset));
 				} catch (Exception e) {
@@ -100,7 +102,7 @@ public class Api {
 				try {
 					List<Dataset> list = BdoApiAnalyser.apisearchGeoCoverage(searchParam);
 					// Parse into JSON the Dataset instance with all metadata from a dataset
-					Gson gson  = new Gson();
+					Gson gson  = new GsonBuilder().setPrettyPrinting().create();
 					System.out.print(gson.toJson(list));
 					//log.info("Dataset's metadata: " + gson.toJson(dataset))
 				} catch (Exception e) {
@@ -113,7 +115,7 @@ public class Api {
 				try {
 					List<Dataset> list = BdoApiAnalyser.apiListDatasetByVertCov(searchParam);
 					// Parse into JSON the Dataset instance with all metadata from a dataset
-					Gson gson  = new Gson();
+					Gson gson  = new GsonBuilder().setPrettyPrinting().create();
 					System.out.print(gson.toJson(list));
 					//log.info("Dataset's metadata: " + gson.toJson(dataset))
 				} catch (IOException e) {
@@ -126,7 +128,7 @@ public class Api {
 				try {
 					List<Dataset> list = BdoApiAnalyser.apiListDatasetByTimeCov(searchParam);
 					// Parse into JSON the Dataset instance with all metadata from a dataset
-					Gson gson  = new Gson();
+					Gson gson  = new GsonBuilder().setPrettyPrinting().create();
 					System.out.print(gson.toJson(list));
 					//log.info("Dataset's metadata: " + gson.toJson(dataset))
 				} catch (IOException e) {
@@ -139,7 +141,7 @@ public class Api {
 				try {
 					Dataset dataset = BdoApiAnalyser.apiListVarOfDataset(searchParam);
 					// Parse into JSON the Dataset instance with all metadata from a dataset
-					Gson gson  = new Gson();
+					Gson gson  = new GsonBuilder().setPrettyPrinting().create();
 					System.out.print(gson.toJson(dataset));
 					//log.info("Dataset's metadata: " + gson.toJson(dataset));
 				} catch (Exception e) {
@@ -151,7 +153,7 @@ public class Api {
 				try {
 					List<Dataset> list = BdoApiAnalyser.apiListDatasetsByVar(searchParam);
 					// Parse into JSON the Dataset instance with all metadata from a dataset
-					Gson gson  = new Gson();
+					Gson gson  = new GsonBuilder().setPrettyPrinting().create();
 					System.out.print(gson.toJson(list));
 					//log.info("Dataset's metadata: " + gson.toJson(dataset))
 				} catch (IOException e) {

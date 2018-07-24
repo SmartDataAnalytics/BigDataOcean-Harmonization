@@ -2,10 +2,11 @@ package org.unibonn.bdo.bdodatasets;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.unibonn.bdo.objects.Dataset;
-
 import com.hp.hpl.jena.query.QuerySolution;
 import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.rdf.model.RDFNode;
@@ -31,7 +32,7 @@ public class BdoApiAnalyser {
 				"PREFIX dbo: <http://dbpedia.org/ontology/>\n" + 
 				"\n" + 
 				"\n" + 
-				"SELECT ?uri ?title ?subject ?keywords ?language (STR (?label) as ?variables)\n" + 
+				"SELECT ?uri ?title ?subject ?keywords ?language ?nameVariable (STR (?label) as ?canonicalVariable)\n" + 
 				"WHERE {\n" + 
 				"  ?uri a dcat:Dataset;\n" + 
 				"       dct:title ?title;\n" + 
@@ -40,6 +41,7 @@ public class BdoApiAnalyser {
 				"       dct:language ?language;\n" + 
 				"       disco:variable ?variable.\n" + 
 				"  ?variable a bdo:BDOVariable;\n" + 
+				"      dct:identifier ?nameVariable;\n" +
 				"      skos:prefLabel ?label.\n" + 
 				"}";
 		RDFNode node;
@@ -48,11 +50,11 @@ public class BdoApiAnalyser {
 		int i = 0;	
 		while(results.hasNext()) {
 			
-			Dataset dataset = new Dataset();
+			Dataset dataset = new Dataset(true);
 			QuerySolution solution = results.nextSolution();				
 			node = solution.get("uri");
+			Map<String,String> variables = new HashMap<>();
 			if(id != node.toString()) {
-				List<String> listVar = new ArrayList<>();
 				dataset.setIdentifier(node.toString());
 				id = node.toString();
 				node = solution.get("title");
@@ -78,16 +80,15 @@ public class BdoApiAnalyser {
 				}else {
 					dataset.setLanguage(node.toString());
 				}
-				node = solution.get("variables");
-				listVar.add(node.toString());
-				dataset.setVariable(listVar);
+				variables.put(solution.get("nameVariable").toString(), solution.get("canonicalVariable").toString());
+				dataset.setVariables(variables);
 				list.add(dataset);	
 				i++;
 			}else {
 				dataset = list.get(i-1);
-				List<String> listVar = dataset.getVariable();
-				node = solution.get("variables");
-				listVar.add(node.toString());
+				variables = dataset.getVariables();
+				variables.put(solution.get("nameVariable").toString(), solution.get("canonicalVariable").toString());
+				
 			}
 		}
 		return list;
@@ -139,7 +140,7 @@ public class BdoApiAnalyser {
 				" OPTIONAL {"+searchParam+" dct:spatial ?geoloc .}\n" +
 				"}";
 		
-		Dataset dataset = new Dataset();
+		Dataset dataset = new Dataset(true);
 		RDFNode node;
 		// executes query on Jena Fueski to get Metadata
 		ResultSet results = QueryExecutor.selectQuery(queryMetadata);
@@ -224,7 +225,6 @@ public class BdoApiAnalyser {
 		}
 		
 		List<String> listVariables = new ArrayList<>() ;
-		RDFNode node2, node3;
 		
 		String queryVariables = "PREFIX disco: <http://rdf-vocabulary.ddialliance.org/discovery#>\n" +
 				"PREFIX dct: <http://purl.org/dc/terms/>\n" +
@@ -276,7 +276,7 @@ public class BdoApiAnalyser {
 				"}";
 		ResultSet results = QueryExecutor.selectQuery(apiQuery);
 		while(results.hasNext()) {
-			Dataset dataset = new Dataset();
+			Dataset dataset = new Dataset(true);
 			QuerySolution solution = results.nextSolution();				
 			dataset.setIdentifier(solution.get("uri").toString());
 			dataset.setTitle(solution.get("title").toString());
@@ -312,7 +312,7 @@ public class BdoApiAnalyser {
 				"}";
 		ResultSet results = QueryExecutor.selectQuery(apiQuery);
 		while(results.hasNext()) {
-			Dataset dataset = new Dataset();
+			Dataset dataset = new Dataset(true);
 			QuerySolution solution = results.nextSolution();				
 			dataset.setIdentifier(solution.get("uri").toString());
 			dataset.setTitle(solution.get("title").toString());
@@ -349,7 +349,7 @@ public class BdoApiAnalyser {
 				"}";
 		ResultSet results = QueryExecutor.selectQuery(apiQuery);
 		while(results.hasNext()) {
-			Dataset dataset = new Dataset();
+			Dataset dataset = new Dataset(true);
 			QuerySolution solution = results.nextSolution();				
 			dataset.setIdentifier(solution.get("uri").toString());
 			dataset.setTitle(solution.get("title").toString());
@@ -401,7 +401,7 @@ public class BdoApiAnalyser {
 				"}";
 		ResultSet results = QueryExecutor.selectQuery(apiQuery);
 		while(results.hasNext()) {
-			Dataset dataset = new Dataset();
+			Dataset dataset = new Dataset(true);
 			QuerySolution solution = results.nextSolution();				
 			dataset.setIdentifier(solution.get("uri").toString());
 			dataset.setTitle(solution.get("title").toString());
@@ -444,10 +444,10 @@ public class BdoApiAnalyser {
 		ResultSet results = QueryExecutor.selectQuery(apiQuery);
 		//ResultSetFormatter.out(results);
 		while(results.hasNext()){			
-			Dataset dataset = new Dataset();
+			Dataset dataset = new Dataset(true);
 			QuerySolution solution = results.nextSolution();				
 			node = solution.get("uri");
-			List<String> listVar = new ArrayList<>();
+			//List<String> listVar = new ArrayList<>();
 			dataset.setIdentifier(node.toString());
 			node = solution.get("title");
 			dataset.setTitle(node.toString());
@@ -525,10 +525,10 @@ public class BdoApiAnalyser {
 		ResultSet results = QueryExecutor.selectQuery(apiQuery);
 		//ResultSetFormatter.out(results);
 		while(results.hasNext()){			
-			Dataset dataset = new Dataset();
+			Dataset dataset = new Dataset(true);
 			QuerySolution solution = results.nextSolution();				
 			node = solution.get("uri");
-			List<String> listVar = new ArrayList<>();
+			//List<String> listVar = new ArrayList<>();
 			dataset.setIdentifier(node.toString());
 			node = solution.get("title");
 			dataset.setTitle(node.toString());
@@ -556,7 +556,7 @@ public class BdoApiAnalyser {
 	}
 	
 	public static Dataset apiListVarOfDataset (String searchParam) throws IOException {
-		Dataset dataset = new Dataset();
+		Dataset dataset = new Dataset(true);
 		List<String> listVar = new ArrayList<>();
 		String apiQuery = "PREFIX disco: <http://rdf-vocabulary.ddialliance.org/discovery#>\n" + 
 				"PREFIX skos: <http://www.w3.org/2004/02/skos/core#>\n" + 
@@ -621,7 +621,7 @@ public class BdoApiAnalyser {
 		int i = 0;		
 		while(results.hasNext()){
 			
-			Dataset dataset = new Dataset();
+			Dataset dataset = new Dataset(true);
 			QuerySolution solution = results.nextSolution();				
 			node = solution.get("uri");
 			if(id != node.toString()) {
