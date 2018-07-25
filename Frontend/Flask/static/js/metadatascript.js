@@ -1,6 +1,6 @@
 //List of variables extracted from variablesCF_BDO.json
 var options = {
-  url: "../static/json/variablesCF_BDO.json",
+  url: "../static/json/VariablesMongo/variablesCF_BDO.json",
 
   getValue: "text",
 
@@ -17,6 +17,22 @@ size = jQuery('#tbl_posts >tbody >tr').length;
 for (i = 1; i <= size; i++) { 
     $("#json_variable-"+i).easyAutocomplete(options);
 }
+
+//List of tableStorage extracted from JWT GET request and saved in storageTable.json
+var optionsStorage = {
+  url: "/BDOHarmonization/BigDataOcean-Harmonization/Backend/AddDatasets/storageTable.json",
+
+  getValue: "tableName",
+
+  list: {
+    maxNumberOfElements: 10,
+    match: {
+      enabled: true
+    }
+  }  
+};
+
+$("storageTable").easyAutocomplete(optionsStorage);
 
 //Creation of tokenfields 
 jQuery(document).ready(function($) {

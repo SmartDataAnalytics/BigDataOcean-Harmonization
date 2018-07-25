@@ -13,8 +13,10 @@ from werkzeug.utils import secure_filename
 # GLOBAL VARIABLES
 globalPath = "/BDOHarmonization/BigDataOcean-Harmonization"
 
+GlobalURLJWT = "http://212.101.173.21:8085/"
 UPLOAD_FOLDER = globalPath+'/Backend/AddDatasets'
 ALLOWED_EXTENSIONS = set(['nc'])
+fileStorageTableJson = open(UPLOAD_FOLDER + "/storageTable.json", "w+")
 
 #JWT authorization
 Authorization = 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJiZG8iLCJleHAiOjE1NTI0ODk1ODUsInJvbGUiOiJST0xFX0FETUlOIn0.o5cZnYT3MKwfmVt06EyCMWy2qpgFPwcwZg82a3jmkNZKOVCJIbnh-LsHnEIF8BEUdj9OKrurwtknYh5ObjgLvg'
@@ -62,7 +64,7 @@ def index():
 # List of files that does not have metadata
 @app.route('/list')
 def list():
-	parsed_output = requests.get('http://212.101.173.21:8085/fileHandler/file/metadata/empty', headers={'Authorization': Authorization})
+	parsed_output = requests.get(GlobalURLJWT + 'fileHandler/file/metadata/empty', headers={'Authorization': Authorization})
 	columns = [{
 	"field": "id",
 	"title": "FileId",
@@ -95,6 +97,10 @@ def list():
 @app.route('/addMetadata', methods=['GET', 'POST'])
 def parse():
 	try:
+		JWT_output = requests.get(GlobalURLJWT + 'fileHandler/table', headers={'Authorization': Authorization})
+		dataStorageTable = JWT_output.content.decode('utf-8')
+		fileStorageTableJson.write(str(dataStorageTable))
+		fileStorageTableJson.close()
 		if request.method == 'POST':
 			return render_template('addMetadata.html', dataset='', idFile='')
 		elif request.method == 'GET':
@@ -106,6 +112,10 @@ def parse():
 @app.route('/addMetadata/Copernicus', methods=['GET', 'POST'])
 def addCopernicus():
 	try:
+		JWT_output = requests.get(GlobalURLJWT + 'fileHandler/table', headers={'Authorization': Authorization})
+		dataStorageTable = JWT_output.content.decode('utf-8')
+		fileStorageTableJson.write(str(dataStorageTable))
+		fileStorageTableJson.close()
 		if request.method == 'POST':
 			uri = request.form['uri']
 			# if adding a Copernicus dataset, the shell suggest is called to parse the xml file and get metadata
@@ -140,6 +150,10 @@ def addCopernicus():
 @app.route('/addMetadata/NetCDF', methods=['GET', 'POST'])
 def addNetCDF():
 	try:
+		JWT_output = requests.get(GlobalURLJWT + 'fileHandler/table', headers={'Authorization': Authorization})
+		dataStorageTable = JWT_output.content.decode('utf-8')
+		fileStorageTableJson.write(str(dataStorageTable))
+		fileStorageTableJson.close()
 		if request.method == 'POST':
 			urifile = request.form['urlfileNetcdf']
 			file = request.files['fileNetcdf']
@@ -210,6 +224,9 @@ def save():
 			language = request.form['tokenfield_language']
 			homepage = request.form['homepage']
 			publisher = request.form['publisher']
+			source = request.form['source']
+			observations = request.form['observations']
+			storageTable = request.form['storageTable']
 			accessRights = request.form['access_rights']
 			issuedDate = request.form['issued_date']
 			modifiedDate = request.form['modified_date']
@@ -267,7 +284,7 @@ def save():
 			# when the dataset is added to jena fuseki, redirects to the metadataInfo web page corresponding to the identifier
 			if b'Successful' in process:
 				if idFile != '':
-					result = requests.put('http://212.101.173.21:8085/fileHandler/file/' + idFile + 
+					result = requests.put(GlobalURLJWT + 'fileHandler/file/' + idFile + 
 						'/metadata/' + identifier, headers={'Authorization': Authorization})
 					if result.status_code == 200:
 						return redirect(url_for('metadataInfo', identifier=identifier))
@@ -315,6 +332,9 @@ def editing():
 			language = request.form['tokenfield_language']
 			homepage = request.form['homepage']
 			publisher = request.form['publisher']
+			source = request.form['source']
+			observations = request.form['observations']
+			storageTable = request.form['storageTable']
 			accessRights = request.form['access_rights']
 			issuedDate = request.form['issued_date']
 			modifiedDate = request.form['modified_date']
@@ -575,6 +595,7 @@ def searchVariable():
 # Class for datasets parsed on shell suggest
 class datasetInfo(object):
 	def __init__(self, identifier, title, description, subject, keywords, standards, formats, language, homepage, publisher, 
+		source, observations, storageTable,
 		accessRights, issuedDate, modifiedDate, geoLocation, spatialWest, spatialEast, spatialSouth, spatialNorth, 
 		coordinateSystem, verticalCoverageFrom, verticalCoverageTo, verticalLevel, temporalCoverageBegin, temporalCoverageEnd, 
 		timeResolution, variable):
@@ -588,6 +609,9 @@ class datasetInfo(object):
 		self.language = language
 		self.homepage = homepage
 		self.publisher = publisher
+		self.source = source
+		self.observations = observations
+		self.storageTable = storageTable
 		self.accessRights = accessRights
 		self.issuedDate = issuedDate
 		self.modifiedDate = modifiedDate

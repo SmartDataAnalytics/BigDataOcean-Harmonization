@@ -332,14 +332,18 @@ public class BdoDatasetAnalyser {
 			//return a list with all variables
 			allVariables = nc.getVariables();
 			for (int i=0; i<allVariables.size(); i++) {
+				//select only the (raw) name of the variables
+				String standard_name = allVariables.get(i).getShortName();
+				variables.add(standard_name);
+				
 				//select only the standard_name of the variables
-				Attribute standard_name = allVariables.get(i).findAttribute("standard_name");
+				/*Attribute standard_name = allVariables.get(i).findAttribute("standard_name");
 		    	if(standard_name != null) {
 		    		if(standard_name.getStringValue() != EMPTY_FIELD && !standard_name.getStringValue().startsWith(" ")) {
 		    			//add the standard_name value if it is not null or ""
 		    			variables.add(standard_name.getStringValue());
 		    		}
-		    	}
+		    	}*/
 		    }
 			//Verify and delete if there are duplicates
 			HashSet<String> hs = new HashSet<String>();
@@ -358,15 +362,16 @@ public class BdoDatasetAnalyser {
 		JSONParser parser = new JSONParser();
 		JSONArray variablesCF;
 		try {
-			variablesCF = (JSONArray) parser.parse(new FileReader(Constants.configFilePath+"/Frontend/Flask/static/json/variablesCF_BDO.json"));
+			variablesCF = (JSONArray) parser.parse(new FileReader(Constants.configFilePath+"/Frontend/Flask/static/json/VariablesMongo/variablesMongo.json"));
 			for(int j=0; j<variables.size(); j++) {
 				
 				boolean flag = false;
 				for(int i=0; i<variablesCF.size(); i++){
 		        	JSONObject keyword = (JSONObject) variablesCF.get(i);
-		            String text = keyword.get("text").toString();
-		            if(text.equals(variables.get(j))) {
-		            	listVariables.add(variables.get(j).toString() + " -- "+ keyword.get("text").toString());
+		        	String canonical_name = keyword.get("canonical_name").toString();
+		            String name = keyword.get("name").toString();
+		            if(canonical_name.equals(variables.get(j).toLowerCase()) || name.equals(variables.get(j).toLowerCase())) {
+		            	listVariables.add(variables.get(j).toString() + " -- "+ keyword.get("canonical_name").toString());
 		            	flag = true;
 		            	break;
 		            }		            	
@@ -389,14 +394,15 @@ public class BdoDatasetAnalyser {
 		JSONParser parser = new JSONParser();
 		JSONArray variablesCF;
 		try {
-			variablesCF = (JSONArray) parser.parse(new FileReader(Constants.configFilePath+"/Frontend/Flask/static/json/variablesCF_BDO.json"));
+			variablesCF = (JSONArray) parser.parse(new FileReader(Constants.configFilePath+"/Frontend/Flask/static/json/VariablesMongo/variablesMongo.json"));
 			for(int j=0; j<list.length; j++) {
 				boolean flag = false;
 				for(int i=0; i<variablesCF.size(); i++){
 		        	JSONObject keyword = (JSONObject) variablesCF.get(i);
-		            String text = keyword.get("text").toString();
-		            if(text.equals(list[j])) {
-		            	variables.add(list[j] + " -- "+ keyword.get("text").toString());
+		            String canonical_name = keyword.get("canonical_name").toString();
+		            String name = keyword.get("name").toString();
+		            if(canonical_name.equals(list[j].toLowerCase()) || name.equals(list[j].toLowerCase())) {
+		            	variables.add(list[j] + " -- "+ keyword.get("canonical_name").toString());
 		            	flag = true;
 		            	break;
 		            }		            	
