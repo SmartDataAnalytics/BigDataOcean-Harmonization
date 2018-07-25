@@ -16,7 +16,7 @@ globalPath = "/BDOHarmonization/BigDataOcean-Harmonization"
 GlobalURLJWT = "http://212.101.173.21:8085/"
 UPLOAD_FOLDER = globalPath+'/Backend/AddDatasets'
 ALLOWED_EXTENSIONS = set(['nc'])
-fileStorageTableJson = open(UPLOAD_FOLDER + "/storageTable.json", "w+")
+fileStorageTableJson = open(globalPath + "/Frontend/Flask/static/json/storageTable.json", "w+")
 
 #JWT authorization
 Authorization = 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJiZG8iLCJleHAiOjE1NTI0ODk1ODUsInJvbGUiOiJST0xFX0FETUlOIn0.o5cZnYT3MKwfmVt06EyCMWy2qpgFPwcwZg82a3jmkNZKOVCJIbnh-LsHnEIF8BEUdj9OKrurwtknYh5ObjgLvg'
@@ -81,8 +81,8 @@ def list():
 	"sortable": True,
 	},
 	{
-	"field": "dataType",
-	"title": "DataType",
+	"field": "storedAt",
+	"title": "Stored Date",
 	"sortable": True,
 	}]
 	data = json.loads(parsed_output.content.decode('utf-8'))
@@ -178,7 +178,7 @@ def addNetCDF():
 					# Saving the file in the UPLOAD_FOLDER with the filename
 					file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 					path_fileNetcdf = UPLOAD_FOLDER + "/" + filename
-					# print (path_fileNetcdf)
+					print (path_fileNetcdf)
 					command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/suggest "%s" FileNetcdf' %path_fileNetcdf
 					try:
 						process = subprocess.check_output([command], shell="True")
@@ -252,6 +252,8 @@ def save():
 			# zip the two list in one called variables
 			variables = dict(zip(parserlist, jsonlist))
 
+			profileName = request.form['nameProfile']
+
 			if identifier  != "":
 				check_existance = "<http://bigdataocean.eu/bdo/"+identifier+"> \n"
 				datasetType = ""	
@@ -262,9 +264,10 @@ def save():
 
 			# add the values to the datasetInfo class
 			dataset = datasetInfo (identifier, title, description, subject, keywords, standards, formats, language, homepage, publisher, 
+				source, observations, storageTable,
 				accessRights, issuedDate, modifiedDate, geoLocation, spatialWest, spatialEast, spatialSouth, spatialNorth, 
 				coordinateSystem, verticalCoverageFrom, verticalCoverageTo,temporalCoverageBegin, temporalCoverageEnd, 
-				verticalLevel, timeResolution, variables)
+				verticalLevel, timeResolution, variables, profileName)
 			# create the json of the datasetInfo class
 			datasetJson = json.dumps(dataset.__dict__)
 			with open(globalPath+'/Backend/AddDatasets/jsonDataset.json','w') as file:
@@ -301,6 +304,10 @@ def save():
 @app.route('/modify/<identifier>', methods=['GET', 'POST'])
 def edit(identifier):
 	try:
+		JWT_output = requests.get(GlobalURLJWT + 'fileHandler/table', headers={'Authorization': Authorization})
+		dataStorageTable = JWT_output.content.decode('utf-8')
+		fileStorageTableJson.write(str(dataStorageTable))
+		fileStorageTableJson.close()
 		if request.method == 'GET':
 			uri = "<http://bigdataocean.eu/bdo/"+identifier+"> \n"
 			comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/getDataset "%s"' %uri
@@ -371,6 +378,7 @@ def editing():
 
 			# add the values to the datasetInfo class
 			dataset = datasetInfo (identifier, title, description, subject, keywords, standards, formats, language, homepage, publisher, 
+				source, observations, storageTable,
 				accessRights, issuedDate, modifiedDate, geoLocation, spatialWest, spatialEast, spatialSouth, spatialNorth, 
 				coordinateSystem, verticalCoverageFrom, verticalCoverageTo,temporalCoverageBegin, temporalCoverageEnd, 
 				verticalLevel, timeResolution, variables)
@@ -598,7 +606,7 @@ class datasetInfo(object):
 		source, observations, storageTable,
 		accessRights, issuedDate, modifiedDate, geoLocation, spatialWest, spatialEast, spatialSouth, spatialNorth, 
 		coordinateSystem, verticalCoverageFrom, verticalCoverageTo, verticalLevel, temporalCoverageBegin, temporalCoverageEnd, 
-		timeResolution, variable):
+		timeResolution, variable, profileName):
 		self.identifier = identifier
 		self.title = title
 		self.description = description
@@ -629,6 +637,7 @@ class datasetInfo(object):
 		self.timeResolution = timeResolution
 		# self.variables = variables # map<string, string>
 		self.variables = variable
+		self.profileName = profileName
 
 
 if __name__ == '__main__':

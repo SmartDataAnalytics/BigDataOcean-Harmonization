@@ -20,7 +20,7 @@ for (i = 1; i <= size; i++) {
 
 //List of tableStorage extracted from JWT GET request and saved in storageTable.json
 var optionsStorage = {
-  url: "/BDOHarmonization/BigDataOcean-Harmonization/Backend/AddDatasets/storageTable.json",
+  url: "../static/json/storageTable.json",
 
   getValue: "tableName",
 
@@ -32,7 +32,7 @@ var optionsStorage = {
   }  
 };
 
-$("storageTable").easyAutocomplete(optionsStorage);
+$("#storageTable").easyAutocomplete(optionsStorage);
 
 //Creation of tokenfields 
 jQuery(document).ready(function($) {
@@ -204,7 +204,7 @@ jQuery(document).delegate('a.add-record', 'click', function(e) {
 
   element.find('.sn').html(size);
   $('#json_variable-'+size).prop('required',true);
-  $('parser_variable').prop('required',true);
+  $('#parser_variable').prop('required',true);
 });
 
 //Deletion of rows for the table variables
@@ -257,6 +257,23 @@ function requireFields(){
       });
       return false;
   }
+
+  elem = document.getElementById( "div_profileinfo" );
+  vis = elem.style
+  if(vis.display === "block"){
+    var nameProfile = $("#nameProfile").val();
+    if (nameProfile === ""){
+      $.alert({
+        title: 'Alert!',
+        content: 'Please choose the name of the profile.',
+        type: 'red',
+        typeAnimated: true,
+        useBootstrap: true,
+      });
+      return false;
+    }
+  }
+
 }
 
 // avoid free text in easy autocomplete field (BDO variables)
@@ -317,5 +334,24 @@ $.each(response, function(i, item) {
 
   element.find('.sn').html(size);
   $('#json_variable-'+size).prop('required',true);
-  $('parser_variable').prop('required',true);
+  $('#parser_variable').prop('required',true);
 });
+
+//When the user click on add a new container is shown
+function toggleLayer( whichLayer ){
+    var elem, vis;
+    if( document.getElementById ) // this is the way the standards work
+        elem = document.getElementById( whichLayer );
+    else if( document.all ) // this is the way old msie versions work
+        elem = document.all[whichLayer];
+    else if( document.layers ) // this is the way nn4 works
+        elem = document.layers[whichLayer];
+    vis = elem.style;
+    // if the style.display value is blank we try to figure it out here
+    if(vis.display===''&&elem.offsetWidth!==undefined&&elem.offsetHeight!==undefined)
+        vis.display = (elem.offsetWidth!==0&&elem.offsetHeight!==0)?'block':'none';
+    vis.display = (vis.display===''||vis.display==='block')?'none':'block';
+}
+
+
+

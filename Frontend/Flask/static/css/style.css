@@ -121,6 +121,14 @@ body {
     text-align: inherit;
 }
 
+.field-profileInfo {
+    text-align: left;
+    background-color: #ec971f;
+    height: 100%;
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+
 .metadata-info {
     text-align: left;
     background-color: #25aae1;
@@ -172,6 +180,12 @@ body {
   width: 420px;
   font-size: 14px;
 }
+
+.form-control-autocomplete-storage {
+  width: 804px;
+  font-size: 14px;
+}
+
 
 .form-control-input {
     display: block;

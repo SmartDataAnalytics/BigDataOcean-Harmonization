@@ -21,7 +21,7 @@ $( function() {
 jQuery(document).ready(function($) {
 
 	var resourceVariables = new Bloodhound({
-	  prefetch: 'static/json/variablesCF_BDO_tokenfield.json',
+	  prefetch: 'static/json/VariablesMongo/variablesCF_BDO_tokenfield.json',
 	  datumTokenizer: function(d) {
 	    return Bloodhound.tokenizers.whitespace(d.value);
 	  },

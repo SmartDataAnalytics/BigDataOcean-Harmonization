@@ -12,6 +12,22 @@ var options = {
   }  
 };
 
+//List of tableStorage extracted from JWT GET request and saved in storageTable.json
+var optionsStorage = {
+  url: "../static/json/storageTable.json",
+
+  getValue: "tableName",
+
+  list: {
+    maxNumberOfElements: 10,
+    match: {
+      enabled: true
+    }
+  }  
+};
+
+$("#storageTable").easyAutocomplete(optionsStorage);
+
 $( document ).ready(function() {
   //Enable easyautocomplete (List) to field json_variable-#
   size = jQuery('#tbl_posts >tbody >tr').length;
@@ -38,7 +54,7 @@ $( document ).ready(function() {
 
     });
     $('#json_variable-'+i).prop('required',true);
-    $('parser_variable').prop('required',true);
+    $('#parser_variable').prop('required',true);
   }
 });
 
@@ -212,7 +228,7 @@ jQuery(document).delegate('a.add-record', 'click', function(e) {
 
   element.find('.sn').html(size);
   $('#json_variable-'+size).prop('required',true);
-  $('parser_variable').prop('required',true);
+  $('#parser_variable').prop('required',true);
   $("#btnSave").removeAttr("disabled");
   $("#btnSave1").removeAttr("disabled");
 });
@@ -330,5 +346,5 @@ $.each(response, function(i, item) {
 
   element.find('.sn').html(size);
   $('#json_variable-'+size).prop('required',true);
-  $('parser_variable').prop('required',true);
+  $('#parser_variable').prop('required',true);
 });

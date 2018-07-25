@@ -173,7 +173,7 @@
                   <label class="label-table" for="storageTable">Storage Table:</label>
                 </td>
                 <td colspan="8">
-                  <input type="text" class="form-control-autocomplete" id="storageTable" name="storageTable" required value="{{dataset.storageTable}}">
+                  <input type="text" class="form-control-autocomplete-storage" id="storageTable" name="storageTable" required value="{{dataset.storageTable}}">
                 </td>
               </tr>
               <tr>
@@ -371,7 +371,32 @@
       <div class="row content">
         <div class="col-md-1">
         </div>
+        <div class="col-md-10 field-profileInfo" id='div_profileinfo' style='display: none;'>
+          <table class="tableMetadata">
+            <thead>
+              <th class="labels-table-addmetadata"></th>
+              <th class="info-table"></th>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <label class="label-table" for="nameProfile">Name of the profile:</label>
+                </td>
+                <td colspan="8">
+                  <input type="text" class="form-control" id="nameProfile" name="nameProfile">
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-md-1">
+        </div>
+      </div>
+      <div class="row content">
+        <div class="col-md-1">
+        </div>
         <div class="buttonForm">
+          <button type="submit" class="btn btn-warning" onclick="this.disabled=true; toggleLayer( 'div_profileinfo' )"><i class="glyphicon glyphicon-plus"></i> Add Profile</button>
           <button type="submit" class="btn btn-default">Save</button>
           <button type="button" class="btn btn-danger" onclick="cancelButton()">Cancel</button>
         </div>
@@ -523,7 +548,7 @@
                   <label class="label-table" for="storageTable">Storage Table:</label>
                 </td>
                 <td colspan="8">
-                  <input type="text" class="form-control-autocomplete" id="storageTable" name="storageTable" required>
+                  <input type="text" class="form-control-autocomplete-storage" id="storageTable" name="storageTable" required>
                 </td>
               </tr>
               <tr>
@@ -729,9 +754,35 @@
         </div>
       </div>
       <div class="row content">
+          <div class="col-md-1">
+          </div>
+          <div class="col-md-10 field-profileInfo" id='div_profileinfo' style='display: none;'>
+            <table class="tableMetadata">
+              <thead>
+                <th class="labels-table-addmetadata"></th>
+                <th class="info-table"></th>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <label class="label-table" for="nameProfile">Name of the profile:</label>
+                  </td>
+                  <td colspan="8">
+                    <input type="text" class="form-control" id="nameProfile" name="nameProfile">
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="col-md-1">
+          </div>
+        </div>
+      </div>
+      <div class="row content">
         <div class="col-md-1">
         </div>
         <div class="buttonForm">
+          <button type="submit" class="btn btn-warning" onclick="this.disabled=true; toggleLayer( 'div_profileinfo' )"><i class="glyphicon glyphicon-plus"></i> Add Profile</button>
           <button type="submit" class="btn btn-default">Save</button>
           <button type="button" class="btn btn-danger" onclick="cancelButton()">Cancel</button>
         </div>
@@ -741,6 +792,7 @@
     </form>
   </div>
   {%endif%}
+
   <footer class="container-fluid text-center">
     <div class="wrpl"><a href="http://www.bigdataocean.eu/site/">
         <dl>
