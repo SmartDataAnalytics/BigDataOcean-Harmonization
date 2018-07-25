@@ -327,6 +327,12 @@ public class BdoDatasetAnalyser {
 				if(attr.getShortName().toLowerCase().equals("update_interval")) {
 					result.setTimeResolution(attr.getStringValue());
 				}
+				if(attr.getShortName().toLowerCase().equals("cdm_data_type")) {
+					result.setObservations(attr.getStringValue());
+				}
+				if(attr.getShortName().toLowerCase().equals("source")) {
+					result.setSource(attr.getStringValue());
+				}
 			}
 			
 			//return a list with all variables

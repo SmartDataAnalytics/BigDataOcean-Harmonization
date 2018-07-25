@@ -27,8 +27,8 @@ public class GetMetadata {
 
 
 	public static void main(String[] args) {
-		String uri = args[0];
-		//String uri = "<http://bigdataocean.eu/bdo/MEDSEA_ANALYSIS_FORECAST_PHY_006_013>";
+		//String uri = args[0];
+		String uri = "<http://bigdataocean.eu/bdo/MEDSEA_ANALYSIS_FORECAST_WAV_006_011>";
 		exec(uri);
 
 	}
@@ -37,11 +37,12 @@ public class GetMetadata {
 		
 		String queryMetadata = "PREFIX dct: <http://purl.org/dc/terms/>\n" + 
 				"PREFIX dcat: <https://www.w3.org/TR/vocab-dcat/>\n" + 
+				"PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> \n" + 
 				"PREFIX ignf: <http://data.ign.fr/def/ignf#>\n" + 
 				"PREFIX foaf: <http://xmlns.com/foaf/0.1/>\n" + 
 				"PREFIX bdo: <http://bigdataocean.eu/bdo/>\n" + 
 				"PREFIX ids: <http://industrialdataspace/information-model/>\n" + 
-				"SELECT ?uri ?ident ?title ?desc ?sub ?keyw ?standard ?format ?lang ?homep ?publi ?rights (STR(?issued) AS ?issuedDate)  (STR(?modified) AS ?modifiedDate) ?geoLoc ?timeReso (STR(?verFrom) AS ?vFrom) (STR(?verTo) AS ?vTo) (STR(?west) AS ?spatialWest) (STR(?east) AS ?spatialEast) (STR(?south) AS ?spatialSouth) (STR(?north) AS ?spatialNorth) (STR(?tempCovB) AS ?timeCovBeg) (STR(?tempCovE) AS ?timeCovEnd) ?vLevel ?coorSys\n" + 
+				"SELECT ?uri ?ident ?title ?desc ?sub ?keyw ?standard ?format ?lang ?homep ?publi ?rights (STR(?issued) AS ?issuedDate)  (STR(?modified) AS ?modifiedDate) ?geoLoc ?timeReso (STR(?verFrom) AS ?vFrom) (STR(?verTo) AS ?vTo) (STR(?west) AS ?spatialWest) (STR(?east) AS ?spatialEast) (STR(?south) AS ?spatialSouth) (STR(?north) AS ?spatialNorth) (STR(?tempCovB) AS ?timeCovBeg) (STR(?tempCovE) AS ?timeCovEnd) ?vLevel ?coorSys ?source ?observation ?storageTable\n" + 
 				"WHERE{ \n" + 
 				"  "+Uri+" a dcat:Dataset ;\n" + 
 				"       dct:identifier ?ident ;\n" + 
@@ -60,6 +61,9 @@ public class GetMetadata {
 				"       dct:modified ?modified ;\n" + 
 				"       bdo:timeResolution ?timeReso ;\n" + 
 				"       bdo:GeographicalCoverage ?spatial ;\n" + 
+				"       dct:creator ?source ; \n" +
+				"       rdfs:comment ?observation; \n" +
+				"       bdo:storageTable ?storageTable; \n" +
 				"       bdo:verticalLevel ?vLevel ;\n" + 
 				"       dct:conformsTo ?coorSys ;\n" + 
 				"       bdo:timeCoverage ?temp .\n" + 
@@ -129,6 +133,12 @@ public class GetMetadata {
 			dataset.setIssuedDate(node.toString());
 			node = solution.get("modifiedDate");
 			dataset.setModifiedDate(node.toString());
+			node = solution.get("source");
+			dataset.setSource(node.toString());
+			node = solution.get("observation");
+			dataset.setObservations(node.toString());
+			node = solution.get("storageTable");
+			dataset.setStorageTable(node.toString());
 			node = solution.get("geoLoc");
 			//if node = null then setGeoLocation to ""
 			if(node!=null) {

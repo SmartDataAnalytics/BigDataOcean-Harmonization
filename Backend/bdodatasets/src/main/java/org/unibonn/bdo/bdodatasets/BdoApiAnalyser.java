@@ -224,16 +224,17 @@ public class BdoApiAnalyser {
 			dataset.setCoordinateSystem(node.toString());
 		}
 		
-		List<String> listVariables = new ArrayList<>() ;
+		Map<String,String> variables = new HashMap<>();
 		
 		String queryVariables = "PREFIX disco: <http://rdf-vocabulary.ddialliance.org/discovery#>\n" +
 				"PREFIX dct: <http://purl.org/dc/terms/>\n" +
 				"PREFIX bdo: <http://bigdataocean.eu/bdo/>\n" +
 				"PREFIX skos: <http://www.w3.org/2004/02/skos/core#>\n" +
-				"SELECT ?uri ?identifierVariable (STR(?label) AS ?variables)\n" + 
+				"SELECT ?nameVariable (STR(?label) AS ?canonicalVariable)\n" + 
 				"WHERE {\n" +
 				"  "+searchParam+" disco:variable ?variable.\n" + 
 				"  ?variable a bdo:BDOVariable;\n" + 
+				"      dct:identifier ?nameVariable;\n" +
 				"      skos:prefLabel ?label.\n" + 
 				"  FILTER(lang(?label) = \"en\")\n" + 
 				"}";
@@ -242,12 +243,11 @@ public class BdoApiAnalyser {
 		ResultSet rsVariables = QueryExecutor.selectQuery(queryVariables);
 		while(rsVariables.hasNext()){
 			QuerySolution solution = rsVariables.nextSolution();
-			node = solution.get("variables");
-			listVariables.add(node.toString());
-			dataset.setVariable(listVariables);
+			variables.put(solution.get("nameVariable").toString(), solution.get("canonicalVariable").toString());
+			dataset.setVariables(variables);
 		}
 		
-		dataset.setVariable(listVariables);
+		dataset.setVariables(variables);
 		return dataset;
 	}
 	
@@ -557,7 +557,7 @@ public class BdoApiAnalyser {
 	
 	public static Dataset apiListVarOfDataset (String searchParam) throws IOException {
 		Dataset dataset = new Dataset(true);
-		List<String> listVar = new ArrayList<>();
+		Map<String,String> variables = new HashMap<>();
 		String apiQuery = "PREFIX disco: <http://rdf-vocabulary.ddialliance.org/discovery#>\n" + 
 				"PREFIX skos: <http://www.w3.org/2004/02/skos/core#>\n" + 
 				"PREFIX dct: <http://purl.org/dc/terms/>\n" + 
@@ -565,11 +565,12 @@ public class BdoApiAnalyser {
 				"PREFIX bdo: <http://bigdataocean.eu/bdo/>\n" + 
 				"\n" + 
 				"\n" + 
-				"SELECT distinct ?uri ?title (STR(?label) AS ?variables)\n" + 
+				"SELECT distinct ?uri ?title ?nameVariable (STR(?label) AS ?canonicalVariable)\n" + 
 				"WHERE {  \n" + 
 				"  bdo:"+searchParam+" disco:variable ?variable;\n" + 
 				"       dct:title ?title.\n" + 
 				"  ?variable a bdo:BDOVariable;\n" + 
+				"      dct:identifier ?nameVariable;\n" +
 				"      skos:prefLabel ?label.\n" + 
 				"}";
 		RDFNode node;
@@ -579,9 +580,8 @@ public class BdoApiAnalyser {
 			QuerySolution solution = results.nextSolution();				
 			node = solution.get("title");
 			dataset.setTitle(node.toString());
-			node = solution.get("variables");
-			listVar.add(node.toString());
-			dataset.setVariable(listVar);	
+			variables.put(solution.get("nameVariable").toString(), solution.get("canonicalVariable").toString());
+			dataset.setVariables(variables);
 		}
 		return dataset;
 	}
@@ -603,16 +603,18 @@ public class BdoApiAnalyser {
 				"PREFIX bdo: <http://bigdataocean.eu/bdo/>\n" + 
 				"\n" + 
 				"\n" + 
-				"SELECT distinct ?uri ?title ?subject ?language (STR(?var) AS ?variables)\n" + 
+				"SELECT distinct ?uri ?title ?subject ?language ?nameVariable (STR(?var) AS ?canonicalVariable)\n" + 
 				"WHERE {\n" + 
 				"  ?uriVar a bdo:BDOVariable;\n" + 
+				"      dct:identifier ?nameVariable;\n "+
 				"      skos:prefLabel ?var.\n" + 
 				values + 
 				"  ?uri disco:variable ?uriVar;\n" + 
 				"       dct:title ?title;\n" + 
 				"       dcat:subject ?subject;\n" + 
 				"       dct:language ?language.\n" + 
-				"}";
+				"}\n" +
+				"ORDER BY ?uri";
 		
 		RDFNode node;
 		ResultSet results = QueryExecutor.selectQuery(apiQuery);
@@ -625,7 +627,7 @@ public class BdoApiAnalyser {
 			QuerySolution solution = results.nextSolution();				
 			node = solution.get("uri");
 			if(id != node.toString()) {
-				List<String> listVar = new ArrayList<>();
+				Map<String,String> variables = new HashMap<>();
 				dataset.setIdentifier(node.toString());
 				id = node.toString();
 				node = solution.get("title");
@@ -644,16 +646,15 @@ public class BdoApiAnalyser {
 				}else {
 					dataset.setLanguage(node.toString());
 				}
-				node = solution.get("variables");
-				listVar.add(node.toString());
-				dataset.setVariable(listVar);
+				variables.put(solution.get("nameVariable").toString(), solution.get("canonicalVariable").toString());
+				dataset.setVariables(variables);
 				list.add(dataset);	
 				i++;
 			}else {
 				dataset = list.get(i-1);
-				List<String> listVar = dataset.getVariable();
-				node = solution.get("variables");
-				listVar.add(node.toString());
+				Map<String,String> variables = dataset.getVariables();
+				variables.put(solution.get("nameVariable").toString(), solution.get("canonicalVariable").toString());
+				dataset.setVariables(variables);
 			}
 		}
 		return list;

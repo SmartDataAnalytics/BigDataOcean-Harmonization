@@ -46,6 +46,7 @@ public class Dataset {
 	private String timeResolution; //time_reso
 	private Map<String,String> variables; //dataset variables (from file) and canonical variables
 	private List<String> variable; //dataset variables
+	private String profileName;
 	
 	public Dataset(){
 		this.identifier = "";
@@ -76,6 +77,7 @@ public class Dataset {
 		this.temporalCoverageBegin = "";
 		this.temporalCoverageEnd = "";
 		this.timeResolution = "";
+		this.profileName = "";
 	}
 	
 	//Dataset constructor flag = true => API initialization
@@ -89,7 +91,7 @@ public class Dataset {
 			String accessRights, String issuedDate, String modifiedDate, String geoLocation, String spatialWest, String spatialEast,
 			String spatialSouth, String spatialNorth, String coordinateSystem, String verticalCoverageFrom,
 			String verticalCoverageTo, String verticalLevel, String temporalCoverageBegin, String temporalCoverageEnd,
-			String timeResolution, List<String> variable) {
+			String timeResolution, List<String> variable, String profileName) {
 		super();
 		this.identifier = identifier;
 		this.title = title;
@@ -120,6 +122,7 @@ public class Dataset {
 		this.temporalCoverageEnd = temporalCoverageEnd;
 		this.timeResolution = timeResolution;
 		this.variable = variable;
+		this.profileName = profileName;
 	}
 
 	//Dataset constructor for Map<String,String> variables
@@ -129,7 +132,7 @@ public class Dataset {
 			String accessRights, String issuedDate, String modifiedDate, String geoLocation, String spatialWest, String spatialEast,
 			String spatialSouth, String spatialNorth, String coordinateSystem, String verticalCoverageFrom,
 			String verticalCoverageTo, String verticalLevel, String temporalCoverageBegin, String temporalCoverageEnd,
-			String timeResolution, Map<String, String> variables) {
+			String timeResolution, Map<String, String> variables, String profileName) {
 		super();
 		this.identifier = identifier;
 		this.title = title;
@@ -160,6 +163,7 @@ public class Dataset {
 		this.temporalCoverageEnd = temporalCoverageEnd;
 		this.timeResolution = timeResolution;
 		this.variables = variables;
+		this.profileName = profileName;
 	}
 
 	public String getSource() {
@@ -400,7 +404,16 @@ public class Dataset {
 
 	public void setVariable(List<String> variable) {
 		this.variable = variable;
+	}
+
+	public String getProfileName() {
+		return profileName;
+	}
+
+	public void setProfileName(String profileName) {
+		this.profileName = profileName;
 	}	
+	
 	
 	
 }
