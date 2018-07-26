@@ -286,9 +286,17 @@ def save():
 				return render_template('500.html')
 			# when the dataset is added to jena fuseki, redirects to the metadataInfo web page corresponding to the identifier
 			if b'Successful' in process:
-				if idFile != '':
-					result = requests.put(GlobalURLJWT + 'fileHandler/file/' + idFile + 
-						'/metadata/' + identifier, headers={'Authorization': Authorization})
+				if idFile == '':
+					if b' Profile= ' in process:
+						# send profileString[1] to kafka with the idFile and the identifier.
+						profileString = process.split(b' Profile= ')
+						print ("The profile is: " + str(profileString[1].decode('utf-8')))
+						result = requests.put(GlobalURLJWT + 'fileHandler/file/' + idFile + 
+							'/metadata/' + identifier, headers={'Authorization': Authorization})
+					else:
+						# NO send the profileString because there is no profileName given.
+						result = requests.put(GlobalURLJWT + 'fileHandler/file/' + idFile + 
+							'/metadata/' + identifier, headers={'Authorization': Authorization})
 					if result.status_code == 200:
 						return redirect(url_for('metadataInfo', identifier=identifier))
 					else:

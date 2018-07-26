@@ -3,8 +3,11 @@ package org.unibonn.bdo.bdodatasets;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.commons.collections.map.HashedMap;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -14,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.unibonn.bdo.objects.Dataset;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
 
 
@@ -202,6 +206,10 @@ public class InsertNewDataset {
 				//Add the dataset to Jena Fueski
 				QueryExecutor.insertQuery(insertQuery);
 				System.out.print("Successful");
+				if(newDataset.getProfileName() != "") {
+					System.out.println(" Profile= " + printJsonProfile(newDataset));
+					//log.info("Dataset profile is" + printJsonProfile(newDataset));
+				}
 				//log.info("Inserting dataset successfully");
 			}else{
 				System.out.print(String.format("Error!   URI already exists."));
@@ -225,6 +233,10 @@ public class InsertNewDataset {
 				//Add the dataset to Jena Fueski
 				QueryExecutor.insertQuery(insertQuery);
 				System.out.print("Successful");
+				if(newDataset.getProfileName() != "") {
+					System.out.println(" Profile= " + printJsonProfile(newDataset));
+					//log.info("Dataset profile is" + printJsonProfile(newDataset));
+				}
 				//log.info("Datasets was inserted successfully");
 			}else{
 				System.out.print(String.format("Error!   URI already exists."));
@@ -242,5 +254,20 @@ public class InsertNewDataset {
 		return data;
 		
 	}
+	
+	private static String printJsonProfile(Dataset dataset) throws FileNotFoundException {
+		Gson gson  = new Gson();
+		Dataset datasetProfile = new Dataset(dataset.getProfileName(), dataset.getTitle(), dataset.getDescription(), 
+				dataset.getSubject(), dataset.getKeywords(), dataset.getStandards(), dataset.getFormats(), dataset.getLanguage(), 
+				dataset.getHomepage(), dataset.getPublisher(), dataset.getSource(), dataset.getObservations(), dataset.getStorageTable(), 
+				dataset.getAccessRights(), dataset.getGeoLocation(), dataset.getSpatialWest(), dataset.getSpatialEast(),
+				dataset.getSpatialSouth(), dataset.getSpatialNorth(), dataset.getCoordinateSystem(), dataset.getVerticalCoverageFrom(),
+				dataset.getVerticalCoverageTo(), dataset.getVerticalLevel(), dataset.getTemporalCoverageBegin(), dataset.getTemporalCoverageEnd(),
+				dataset.getTimeResolution(), dataset.getVariables());
+		String profile = gson.toJson(datasetProfile).toString();
+		return profile;
+		
+	}
+	
 
 }

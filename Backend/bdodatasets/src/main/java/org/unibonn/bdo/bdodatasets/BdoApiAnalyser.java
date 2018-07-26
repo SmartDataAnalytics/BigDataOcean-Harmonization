@@ -50,7 +50,7 @@ public class BdoApiAnalyser {
 		int i = 0;	
 		while(results.hasNext()) {
 			
-			Dataset dataset = new Dataset(true);
+			Dataset dataset = new Dataset("");
 			QuerySolution solution = results.nextSolution();				
 			node = solution.get("uri");
 			Map<String,String> variables = new HashMap<>();
@@ -140,7 +140,7 @@ public class BdoApiAnalyser {
 				" OPTIONAL {"+searchParam+" dct:spatial ?geoloc .}\n" +
 				"}";
 		
-		Dataset dataset = new Dataset(true);
+		Dataset dataset = new Dataset("");
 		RDFNode node;
 		// executes query on Jena Fueski to get Metadata
 		ResultSet results = QueryExecutor.selectQuery(queryMetadata);
@@ -276,7 +276,7 @@ public class BdoApiAnalyser {
 				"}";
 		ResultSet results = QueryExecutor.selectQuery(apiQuery);
 		while(results.hasNext()) {
-			Dataset dataset = new Dataset(true);
+			Dataset dataset = new Dataset("");
 			QuerySolution solution = results.nextSolution();				
 			dataset.setIdentifier(solution.get("uri").toString());
 			dataset.setTitle(solution.get("title").toString());
@@ -312,7 +312,7 @@ public class BdoApiAnalyser {
 				"}";
 		ResultSet results = QueryExecutor.selectQuery(apiQuery);
 		while(results.hasNext()) {
-			Dataset dataset = new Dataset(true);
+			Dataset dataset = new Dataset("");
 			QuerySolution solution = results.nextSolution();				
 			dataset.setIdentifier(solution.get("uri").toString());
 			dataset.setTitle(solution.get("title").toString());
@@ -349,7 +349,7 @@ public class BdoApiAnalyser {
 				"}";
 		ResultSet results = QueryExecutor.selectQuery(apiQuery);
 		while(results.hasNext()) {
-			Dataset dataset = new Dataset(true);
+			Dataset dataset = new Dataset("");
 			QuerySolution solution = results.nextSolution();				
 			dataset.setIdentifier(solution.get("uri").toString());
 			dataset.setTitle(solution.get("title").toString());
@@ -401,7 +401,7 @@ public class BdoApiAnalyser {
 				"}";
 		ResultSet results = QueryExecutor.selectQuery(apiQuery);
 		while(results.hasNext()) {
-			Dataset dataset = new Dataset(true);
+			Dataset dataset = new Dataset("");
 			QuerySolution solution = results.nextSolution();				
 			dataset.setIdentifier(solution.get("uri").toString());
 			dataset.setTitle(solution.get("title").toString());
@@ -444,7 +444,7 @@ public class BdoApiAnalyser {
 		ResultSet results = QueryExecutor.selectQuery(apiQuery);
 		//ResultSetFormatter.out(results);
 		while(results.hasNext()){			
-			Dataset dataset = new Dataset(true);
+			Dataset dataset = new Dataset("");
 			QuerySolution solution = results.nextSolution();				
 			node = solution.get("uri");
 			//List<String> listVar = new ArrayList<>();
@@ -525,7 +525,7 @@ public class BdoApiAnalyser {
 		ResultSet results = QueryExecutor.selectQuery(apiQuery);
 		//ResultSetFormatter.out(results);
 		while(results.hasNext()){			
-			Dataset dataset = new Dataset(true);
+			Dataset dataset = new Dataset("");
 			QuerySolution solution = results.nextSolution();				
 			node = solution.get("uri");
 			//List<String> listVar = new ArrayList<>();
@@ -556,7 +556,7 @@ public class BdoApiAnalyser {
 	}
 	
 	public static Dataset apiListVarOfDataset (String searchParam) throws IOException {
-		Dataset dataset = new Dataset(true);
+		Dataset dataset = new Dataset("");
 		Map<String,String> variables = new HashMap<>();
 		String apiQuery = "PREFIX disco: <http://rdf-vocabulary.ddialliance.org/discovery#>\n" + 
 				"PREFIX skos: <http://www.w3.org/2004/02/skos/core#>\n" + 
@@ -623,7 +623,7 @@ public class BdoApiAnalyser {
 		int i = 0;		
 		while(results.hasNext()){
 			
-			Dataset dataset = new Dataset(true);
+			Dataset dataset = new Dataset("");
 			QuerySolution solution = results.nextSolution();				
 			node = solution.get("uri");
 			if(id != node.toString()) {

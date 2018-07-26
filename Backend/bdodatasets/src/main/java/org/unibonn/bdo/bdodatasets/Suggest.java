@@ -14,8 +14,8 @@ import com.google.gson.Gson;
  * @author Ana C Trillos
  *
  * Receives 2 parameter, 
- * 1. the URI/homepage or file (.nc) of the dataset to be parsed
- * 2. type of dataset (Coppernicus, Netcdf)
+ * 1. the URI/homepage or file (.nc, .csv) of the dataset to be parsed
+ * 2. type of dataset (Coppernicus, Netcdf, CSV)
  * 
  */
 
@@ -33,6 +33,8 @@ public class Suggest {
 		//String uri_file = "hdfs://212.101.173.50:9000/user/bdo/buoy/IR_TS_MO_6200192.nc";
 		//String uri_file = "/home/jaimetrillos/Dropbox/BDO/NESTER/IR_TS_MO_6200199.nc";
 		//String type = "FileNetcdf";
+		//String uri_file = "/home/jaimetrillos/Dropbox/BDO/NESTER/KRITI_JADE.csv";
+		//String type = "FileCSV";
 		exec(uri_file, type);
 	}
 	
@@ -53,6 +55,16 @@ public class Suggest {
 				Gson gson  =new Gson();
 				System.out.println(gson.toJson(result));
 				//log.info("Suggest of netcdf file: "+gson.toJson(result));
+			}else if (type.equals("FileCSV")) {
+				Dataset result = BdoDatasetAnalyser.analyseDatasetFileCsv(Dataseturi);
+				Gson gson  =new Gson();
+				System.out.println(gson.toJson(result));
+				//log.info("Suggest of netcdf file: "+gson.toJson(result));
+			}else if (type.equals("CSV")) {
+				Dataset result = BdoDatasetAnalyser.analyseDatasetCsv(Dataseturi);
+				Gson gson  =new Gson();
+				System.out.println(gson.toJson(result));
+				//log.info("Suggest of netcdf: "+gson.toJson(result));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

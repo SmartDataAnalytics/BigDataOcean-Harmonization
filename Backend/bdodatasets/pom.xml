@@ -156,6 +156,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
+    	<version>3.1.0</version>
         <configuration>
           <archive>
             <manifest>
@@ -180,6 +181,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
+        <version>3.0.1</version>
         <configuration>
           <additionalparam>-Xdoclint:none</additionalparam>
         </configuration>
@@ -195,49 +197,49 @@
           <programs>
             <program>
               <mainClass>org.unibonn.bdo.bdodatasets.Suggest</mainClass>
-              <name>suggest</name>
+              <id>suggest</id>
               <jvmSettings>
                 <maxMemorySize>512m</maxMemorySize>
               </jvmSettings>
             </program>
             <program>
               <mainClass>org.unibonn.bdo.bdodatasets.SuggestNetcdf</mainClass>
-              <name>suggestNetcdf</name>
+              <id>suggestNetcdf</id>
               <jvmSettings>
                 <maxMemorySize>512m</maxMemorySize>
               </jvmSettings>
             </program>
             <program>
               <mainClass>org.unibonn.bdo.bdodatasets.InsertNewDataset</mainClass>
-              <name>insertDataset</name>
+              <id>insertDataset</id>
               <jvmSettings>
                 <maxMemorySize>512m</maxMemorySize>
               </jvmSettings>
             </program>
             <program>
               <mainClass>org.unibonn.bdo.bdodatasets.Api</mainClass>
-              <name>api</name>
+              <id>api</id>
               <jvmSettings>
                 <maxMemorySize>512m</maxMemorySize>
               </jvmSettings>
             </program>
             <program>
               <mainClass>org.unibonn.bdo.bdodatasets.GetMetadata</mainClass>
-              <name>getDataset</name>
+              <id>getDataset</id>
               <jvmSettings>
                 <maxMemorySize>512m</maxMemorySize>
               </jvmSettings>
             </program>
             <program>
               <mainClass>org.unibonn.bdo.bdodatasets.ListDatasets</mainClass>
-              <name>listDatasets</name>
+              <id>listDatasets</id>
               <jvmSettings>
                 <maxMemorySize>512m</maxMemorySize>
               </jvmSettings>
             </program>
             <program>
               <mainClass>org.unibonn.bdo.bdodatasets.DeleteDataset</mainClass>
-              <name>deleteDataset</name>
+              <id>deleteDataset</id>
               <jvmSettings>
                 <maxMemorySize>512m</maxMemorySize>
               </jvmSettings>

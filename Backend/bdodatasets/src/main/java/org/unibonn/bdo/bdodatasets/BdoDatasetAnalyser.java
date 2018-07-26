@@ -69,7 +69,9 @@ public class BdoDatasetAnalyser {
 		String verticalCoverageTo;
 		String verticalLevel;
 		String timeResolution;
+		Elements observationsElements;
 		Elements variablesElements;
+		String observations;
 		List<String> variables = new ArrayList<>();
 
 		//Read the URI and return the HTML/XML document
@@ -141,6 +143,15 @@ public class BdoDatasetAnalyser {
 		
 		//obtaining the corresponding variable name from the standard CF
 		variables = parserDatasetVariables(list);
+		
+		Element item8 = doc.getElementsByTag("gmd:descriptiveKeywords").get(1);
+		observationsElements = item8.getElementsByTag("gmx:Anchor");
+		
+		replace = observationsElements.text().replaceAll(" ", ",");
+		
+		delims = ",geonetwork.thesaurus.local.discipline.myocean.discipline";
+		tokens = replace.split(delims);
+		observations = tokens[0]; 
 
 		result.setTitle(title);
 		result.setDescription(description);
@@ -149,6 +160,8 @@ public class BdoDatasetAnalyser {
 		result.setIssuedDate(issued);
 		result.setModifiedDate(issued);
 		result.setLanguage(language);
+		result.setFormats("XML");
+		result.setObservations(observations);
 		result.setCoordinateSystem(coordinateSystem);
 		result.setSpatialWest(spatialWestBoundLongitude);
 		result.setSpatialEast(spatialEastBoundLongitude);
@@ -237,6 +250,81 @@ public class BdoDatasetAnalyser {
 
 			}
 		}
+
+		return result;
+	}
+	
+	public static Dataset analyseDatasetCsv(String filename) throws IOException, ParseException {
+		Dataset result = new Dataset();
+		String keywords = EMPTY_FIELD;
+		List<String> listVariables = new ArrayList<>() ;
+
+		/*//read the file
+		NetcdfFile nc = null;
+		try {
+			HDFSFileSystem hdfsSys = new HDFSFileSystem(filename);
+			Path localFile = hdfsSys.copyFile(filename,Constants.configFilePath+"/Backend/AddDatasets/file.nc");
+			//read NetCDF file to get its metadata
+			nc = NetcdfDataset.openFile(localFile.toString(), null);
+			
+			result = netcdMetadatExtractor(nc);
+			
+			listVariables = result.getVariable();
+			//obtaining the corresponding variable name from the standard CF
+			result.setVariable(parserDatasetVariables(listVariables));
+			
+			keywords = result.getKeywords();
+			//obtaining the corresponding linked data for keywords
+			result.setKeywords(parserDatasetKeywords(keywords));
+			
+			//Delete the temporal file "file.nc"
+			hdfsSys.deleteFile(Constants.configFilePath+"/Backend/AddDatasets/file.csv");
+			
+		} catch (IOException ioe) {
+
+		} finally { 
+			if (null != nc) try {
+				nc.close();
+			} catch (IOException ioe) {
+
+			}
+		}*/
+
+		return result;
+	}
+	
+	public static Dataset analyseDatasetFileCsv(String filename) throws IOException, ParseException {
+		Dataset result = new Dataset();
+		String keywords = EMPTY_FIELD;
+		List<String> listVariables = new ArrayList<>() ;
+
+		/*//read the file
+		NetcdfFile nc = null;
+		try {
+			nc = NetcdfDataset.openFile(filename, null);
+			
+			result = netcdMetadatExtractor(nc);
+			
+			listVariables = result.getVariable();
+			//obtaining the corresponding variable name from the standard CF
+			result.setVariable(parserDatasetVariables(listVariables));
+			
+			keywords = result.getKeywords();
+			//obtaining the corresponding linked data for keywords
+			result.setKeywords(parserDatasetKeywords(keywords));
+			
+			//Delete the temporal file "file.nc"
+			Files.deleteIfExists(Paths.get(Constants.configFilePath+"/Backend/AddDatasets/file.csv"));
+			
+		} catch (IOException ioe) {
+
+		} finally { 
+			if (null != nc) try {
+				nc.close();
+			} catch (IOException ioe) {
+
+			}
+		}*/
 
 		return result;
 	}
@@ -334,6 +422,8 @@ public class BdoDatasetAnalyser {
 					result.setSource(attr.getStringValue());
 				}
 			}
+			
+			result.setFormats("NetCDF");
 			
 			//return a list with all variables
 			allVariables = nc.getVariables();

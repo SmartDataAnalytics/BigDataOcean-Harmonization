@@ -1,7 +1,5 @@
 package org.unibonn.bdo.objects;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -80,8 +78,9 @@ public class Dataset {
 		this.profileName = "";
 	}
 	
-	//Dataset constructor flag = true => API initialization
-	public Dataset(boolean flag){
+	//Dataset constructor for APIs
+	public Dataset(String identifier){
+		this.identifier = identifier;
 	}
 	
 	//Dataset constructor for List<String> variable
@@ -165,6 +164,43 @@ public class Dataset {
 		this.variables = variables;
 		this.profileName = profileName;
 	}
+	
+	//Dataset constructor for Profiles (NOT contain identifier, issuedDate, modifiedDate)
+		public Dataset(String profileName, String title, String description, String subject, String keywords,
+				String standards, String formats, String language, String homepage, String publisher, 
+				String source, String observations, String storageTable, 
+				String accessRights, String geoLocation, String spatialWest, String spatialEast,
+				String spatialSouth, String spatialNorth, String coordinateSystem, String verticalCoverageFrom,
+				String verticalCoverageTo, String verticalLevel, String temporalCoverageBegin, String temporalCoverageEnd,
+				String timeResolution, Map<String, String> variables) {
+			this.profileName = profileName;
+			this.title = title;
+			this.description = description;
+			this.subject = subject;
+			this.keywords = keywords;
+			this.standards = standards;
+			this.formats = formats;
+			this.language = language;
+			this.homepage = homepage;
+			this.publisher = publisher;
+			this.source = source;
+			this.observations = observations;
+			this.storageTable = storageTable;
+			this.accessRights = accessRights;
+			this.geoLocation = geoLocation;
+			this.spatialWest = spatialWest;
+			this.spatialEast = spatialEast;
+			this.spatialSouth = spatialSouth;
+			this.spatialNorth = spatialNorth;
+			this.coordinateSystem = coordinateSystem;
+			this.verticalCoverageFrom = verticalCoverageFrom;
+			this.verticalCoverageTo = verticalCoverageTo;
+			this.verticalLevel = verticalLevel;
+			this.temporalCoverageBegin = temporalCoverageBegin;
+			this.temporalCoverageEnd = temporalCoverageEnd;
+			this.timeResolution = timeResolution;
+			this.variables = variables;
+		}
 
 	public String getSource() {
 		return source;
