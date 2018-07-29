@@ -3,41 +3,41 @@ function selectType() {
   var value = document.getElementById("sel1").value;
   if (value == "Copernicus Dataset") {
     document.getElementById('fileNetcdf').value = "";
-    document.getElementById('urlfileNetcdf').value = "";
-    document.getElementById('urifield').style.display = 'block';
-    document.getElementById('addbutton').style.display = 'none';
-    document.getElementById('filefield').style.display = 'none';
-    document.getElementById('urlfilefield').style.display = 'none';
+    document.getElementById('fileCsv').value = "";
+    document.getElementById('copernicusDiv').style.display = 'block';
+    document.getElementById('otherDiv').style.display = 'none';
+    document.getElementById('netcdfDiv').style.display = 'none';
+    document.getElementById('csvDiv').style.display = 'none';
   }else if (value == "NetCDF Dataset File"){
     document.getElementById('uri').value = "";
-    document.getElementById('urlfileNetcdf').value = "";
-    document.getElementById('urifield').style.display = 'none';
-    document.getElementById('addbutton').style.display = 'none';
-    document.getElementById('filefield').style.display = 'block';
-    document.getElementById('urlfilefield').style.display = 'none';
-  }else if (value == "NetCDF Dataset URL File"){
+    document.getElementById('fileCsv').value = "";
+    document.getElementById('copernicusDiv').style.display = 'none';
+    document.getElementById('otherDiv').style.display = 'none';
+    document.getElementById('netcdfDiv').style.display = 'block';
+    document.getElementById('csvDiv').style.display = 'none';
+  }else if (value == "CSV Dataset File"){
     document.getElementById('uri').value = "";
     document.getElementById('fileNetcdf').value = "";
-    document.getElementById('urifield').style.display = 'none';
-    document.getElementById('addbutton').style.display = 'none';
-    document.getElementById('filefield').style.display = 'none';
-    document.getElementById('urlfilefield').style.display = 'block';
+    document.getElementById('copernicusDiv').style.display = 'none';
+    document.getElementById('otherDiv').style.display = 'none';
+    document.getElementById('netcdfDiv').style.display = 'none';
+    document.getElementById('csvDiv').style.display = 'block';
   }else if (value == "Other"){
     document.getElementById('uri').value = "";
     document.getElementById('fileNetcdf').value = "";
-    document.getElementById('urlfileNetcdf').value = "";
-    document.getElementById('urifield').style.display = 'none';
-    document.getElementById('addbutton').style.display = 'block';
-    document.getElementById('filefield').style.display = 'none';
-    document.getElementById('urlfilefield').style.display = 'none';
+    document.getElementById('fileCsv').value = "";
+    document.getElementById('copernicusDiv').style.display = 'none';
+    document.getElementById('otherDiv').style.display = 'block';
+    document.getElementById('netcdfDiv').style.display = 'none';
+    document.getElementById('csvDiv').style.display = 'none';
   }else {
     document.getElementById('uri').value = "";
     document.getElementById('fileNetcdf').value = "";
-    document.getElementById('urlfileNetcdf').value = "";
-    document.getElementById('urifield').style.display = 'none';
-    document.getElementById('addbutton').style.display = 'none';
-    document.getElementById('filefield').style.display = 'none';
-    document.getElementById('urlfilefield').style.display = 'none';
+    document.getElementById('fileCsv').value = "";
+    document.getElementById('copernicusDiv').style.display = 'none';
+    document.getElementById('otherDiv').style.display = 'none';
+    document.getElementById('netcdfDiv').style.display = 'none';
+    document.getElementById('csvDiv').style.display = 'none';
   }
 }
 
@@ -58,7 +58,7 @@ function toggleLayer( whichLayer ){
 }
 
 function requireUri(){
-  if (document.getElementById('urifield').style.display == 'block' && document.getElementById('uri').value == ""){
+  if (document.getElementById('copernicusDiv').style.display == 'block' && document.getElementById('uri').value == ""){
     $.alert({
         title: 'Alert!',
         content: 'Please fill the URI Field.',
@@ -68,7 +68,7 @@ function requireUri(){
     });
     return false;
   }
-  if (document.getElementById('urlfilefield').style.display == 'block' && document.getElementById('urlfileNetcdf').value == ""){
+  if (document.getElementById('csvDiv').style.display == 'block' && document.getElementById('fileCsv').value == ""){
     $.alert({
         title: 'Alert!',
         content: 'Please fill the URL Field.',
@@ -78,7 +78,7 @@ function requireUri(){
     });
     return false;
   }
-  if (document.getElementById('filefield').style.display == 'block' && document.getElementById('fileNetcdf').value == ""){
+  if (document.getElementById('netcdfDiv').style.display == 'block' && document.getElementById('fileNetcdf').value == ""){
     $.alert({
         title: 'Alert!',
         content: 'Please choose a file in the File Field.',
@@ -88,7 +88,7 @@ function requireUri(){
     });
     return false;
   }
-  if (document.getElementById('filefield').style.display == 'block' && document.getElementById('fileNetcdf').value != ""){
+  if (document.getElementById('netcdfDiv').style.display == 'block' && document.getElementById('fileNetcdf').value != ""){
     return Validate();
   }
 }

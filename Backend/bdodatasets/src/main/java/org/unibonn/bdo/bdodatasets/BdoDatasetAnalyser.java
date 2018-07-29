@@ -4,6 +4,7 @@ package org.unibonn.bdo.bdodatasets;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -23,6 +24,7 @@ import org.jsoup.parser.Parser;
 import org.jsoup.select.Elements;
 import org.unibonn.bdo.objects.Dataset;
 
+import au.com.bytecode.opencsv.CSVReader;
 import ucar.nc2.Attribute;
 import ucar.nc2.NetcdfFile;
 import ucar.nc2.Variable;
@@ -256,76 +258,56 @@ public class BdoDatasetAnalyser {
 	
 	public static Dataset analyseDatasetCsv(String filename) throws IOException, ParseException {
 		Dataset result = new Dataset();
-		String keywords = EMPTY_FIELD;
-		List<String> listVariables = new ArrayList<>() ;
 
-		/*//read the file
-		NetcdfFile nc = null;
-		try {
-			HDFSFileSystem hdfsSys = new HDFSFileSystem(filename);
-			Path localFile = hdfsSys.copyFile(filename,Constants.configFilePath+"/Backend/AddDatasets/file.nc");
-			//read NetCDF file to get its metadata
-			nc = NetcdfDataset.openFile(localFile.toString(), null);
-			
-			result = netcdMetadatExtractor(nc);
-			
-			listVariables = result.getVariable();
-			//obtaining the corresponding variable name from the standard CF
-			result.setVariable(parserDatasetVariables(listVariables));
-			
-			keywords = result.getKeywords();
-			//obtaining the corresponding linked data for keywords
-			result.setKeywords(parserDatasetKeywords(keywords));
-			
-			//Delete the temporal file "file.nc"
-			hdfsSys.deleteFile(Constants.configFilePath+"/Backend/AddDatasets/file.csv");
-			
-		} catch (IOException ioe) {
-
-		} finally { 
-			if (null != nc) try {
-				nc.close();
-			} catch (IOException ioe) {
-
-			}
-		}*/
+		//read the file
+		HDFSFileSystem hdfsSys = new HDFSFileSystem(filename);
+		Path localFile = hdfsSys.copyFile(filename,Constants.configFilePath+"/Backend/AddDatasets/file.csv");
+		
+		result = analyseDatasetFileCsv(localFile.toString());
+		
+		//Delete the temporal file "file.nc"
+		hdfsSys.deleteFile(Constants.configFilePath+"/Backend/AddDatasets/file.csv");
 
 		return result;
 	}
 	
 	public static Dataset analyseDatasetFileCsv(String filename) throws IOException, ParseException {
 		Dataset result = new Dataset();
-		String keywords = EMPTY_FIELD;
 		List<String> listVariables = new ArrayList<>() ;
+		String name;
+		String[] title;
+		
+		//Get the name of the file
+		name = new File(filename).getName();
+		title = name.split(".csv");
+		//Take only the name of the file
+		result.setTitle(title[0]);
+		
+		result.setFormats("CSV");
+		
+		//Read the first line of the csv where the header (variables) are separated by ;
+	    CSVReader reader = new CSVReader(new FileReader(filename), ';');
+	    
+	    //Read CSV line by line and use the string array as you want
+	    String[] nextLine;
+	    nextLine = reader.readNext();
+	    //Verify if the file has ; delimiter
+	    if(nextLine.length == 1) {
+	    	reader = new CSVReader(new FileReader(filename), ',');
+		    nextLine = reader.readNext();
+	    }
+	    
+	    for(int i = 0; i<nextLine.length; i++) {
+	    	listVariables.add(nextLine[i]);
+	    }
+	    reader.close();
 
-		/*//read the file
-		NetcdfFile nc = null;
-		try {
-			nc = NetcdfDataset.openFile(filename, null);
-			
-			result = netcdMetadatExtractor(nc);
-			
-			listVariables = result.getVariable();
-			//obtaining the corresponding variable name from the standard CF
-			result.setVariable(parserDatasetVariables(listVariables));
-			
-			keywords = result.getKeywords();
-			//obtaining the corresponding linked data for keywords
-			result.setKeywords(parserDatasetKeywords(keywords));
-			
-			//Delete the temporal file "file.nc"
-			Files.deleteIfExists(Paths.get(Constants.configFilePath+"/Backend/AddDatasets/file.csv"));
-			
-		} catch (IOException ioe) {
-
-		} finally { 
-			if (null != nc) try {
-				nc.close();
-			} catch (IOException ioe) {
-
-			}
-		}*/
-
+		//obtaining the corresponding variable name from the standard CF
+		result.setVariable(parserDatasetVariables(listVariables));
+		
+		//Delete the temporal file "file.nc"
+		Files.deleteIfExists(Paths.get(Constants.configFilePath+"/Backend/AddDatasets/" + name));
+		
 		return result;
 	}
 	

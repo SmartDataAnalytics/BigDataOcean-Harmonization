@@ -15,7 +15,7 @@ globalPath = "/BDOHarmonization/BigDataOcean-Harmonization"
 
 GlobalURLJWT = "http://212.101.173.21:8085/"
 UPLOAD_FOLDER = globalPath+'/Backend/AddDatasets'
-ALLOWED_EXTENSIONS = set(['nc'])
+ALLOWED_EXTENSIONS = set(['nc', 'csv'])
 fileStorageTableJson = open(globalPath + "/Frontend/Flask/static/json/storageTable.json", "w+")
 
 #JWT authorization
@@ -155,22 +155,8 @@ def addNetCDF():
 		fileStorageTableJson.write(str(dataStorageTable))
 		fileStorageTableJson.close()
 		if request.method == 'POST':
-			urifile = request.form['urlfileNetcdf']
 			file = request.files['fileNetcdf']
-			if urifile != '':
-				command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/suggest "%s" Netcdf' %urifile
-				try:
-					process = subprocess.check_output([command], shell="True")
-				except subprocess.CalledProcessError as e:
-					return render_template('500.html')
-				# parsing output from maven script, to avoid log comments
-				process = process.split(b'\n')
-				# metadata parsed is converted into json class datasetInfo to be used inside the html form
-				parsed_output = json.loads(process[1].decode('utf-8'))
-				dataset = datasetInfo(**parsed_output)
-
-				return render_template('addMetadata.html', dataset=dataset, idFile='')
-			elif file.filename != '':
+			if file.filename != '':
 				# Verify if the file is .nc
 				if file and allowed_file(file.filename):
 					# Create a general filename
@@ -178,7 +164,7 @@ def addNetCDF():
 					# Saving the file in the UPLOAD_FOLDER with the filename
 					file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 					path_fileNetcdf = UPLOAD_FOLDER + "/" + filename
-					print (path_fileNetcdf)
+					# print (path_fileNetcdf)
 					command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/suggest "%s" FileNetcdf' %path_fileNetcdf
 					try:
 						process = subprocess.check_output([command], shell="True")
@@ -189,6 +175,7 @@ def addNetCDF():
 					dataset = datasetInfo(**parsed_output)
 
 					return render_template('addMetadata.html', dataset=dataset, idFile='')
+
 		elif request.method == 'GET':
 			file = request.args['file']
 			idFile = request.args['idFile']
@@ -207,6 +194,52 @@ def addNetCDF():
 	except ValueError:  # includes simplejson.decoder.JSONDecodeError
 		return render_template('500.html')
 
+@app.route('/addMetadata/CSV', methods=['GET', 'POST'])
+def addCsv():
+	try:
+		JWT_output = requests.get(GlobalURLJWT + 'fileHandler/table', headers={'Authorization': Authorization})
+		dataStorageTable = JWT_output.content.decode('utf-8')
+		fileStorageTableJson.write(str(dataStorageTable))
+		fileStorageTableJson.close()
+		if request.method == 'POST':
+			file = request.files['fileCsv']
+			if file.filename != '':
+				# Verify if the file is .csv
+				if file and allowed_file(file.filename):
+					# Create a general filename
+					filename = file.filename
+					# Saving the file in the UPLOAD_FOLDER with the filename
+					file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+					path_fileCsv = UPLOAD_FOLDER + "/" + filename
+					# print (path_fileNetcdf)
+					command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/suggest "%s" FileCSV' %path_fileCsv
+					try:
+						process = subprocess.check_output([command], shell="True")
+					except subprocess.CalledProcessError as e:
+						return render_template('500.html')
+					# metadata parsed is converted into json class datasetInfo to be used inside the html form
+					parsed_output = json.loads(process.decode('utf-8'))
+					dataset = datasetInfo(**parsed_output)
+
+					return render_template('addMetadata.html', dataset=dataset, idFile='')
+			
+		elif request.method == 'GET':
+			file = request.args['file']
+			idFile = request.args['idFile']
+			command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/suggest "%s" CSV' %file
+			try:
+				process = subprocess.check_output([command], shell="True")
+			except subprocess.CalledProcessError as e:
+				return render_template('500.html')
+			# parsing output from maven script, to avoid log comments
+			process = process.split(b'\n')
+			# metadata parsed is converted into json class datasetInfo to be used inside the html form
+			parsed_output = json.loads(process[1].decode('utf-8'))
+			dataset = datasetInfo(**parsed_output)
+
+			return render_template('addMetadata.html', dataset=dataset, idFile=idFile)
+	except ValueError:  # includes simplejson.decoder.JSONDecodeError
+		return render_template('500.html')
 
 # Routing to save new dataset
 @app.route('/save', methods=['GET','POST'])
@@ -288,11 +321,17 @@ def save():
 			if b'Successful' in process:
 				if idFile == '':
 					if b' Profile= ' in process:
-						# send profileString[1] to kafka with the idFile and the identifier.
 						profileString = process.split(b' Profile= ')
-						print ("The profile is: " + str(profileString[1].decode('utf-8')))
-						result = requests.put(GlobalURLJWT + 'fileHandler/file/' + idFile + 
+						#print ("The profile is: " + str(profileString[1].decode('utf-8')))
+						# send the profile to the define API
+						resultProfile = requests.put(GlobalURLJWT + 'fileHandler/metadataProfile/' + 
+							str(profileString[1].decode('utf-8')), headers={'Authorization': Authorization})
+						# if the request is success then send the idmetadata to the corresponding API
+						if resultProfile.status_code == 200:
+							result = requests.put(GlobalURLJWT + 'fileHandler/file/' + idFile + 
 							'/metadata/' + identifier, headers={'Authorization': Authorization})
+						else:
+							return render_template('500.html')
 					else:
 						# NO send the profileString because there is no profileName given.
 						result = requests.put(GlobalURLJWT + 'fileHandler/file/' + idFile + 

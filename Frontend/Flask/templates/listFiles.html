@@ -113,9 +113,11 @@
         $('#addButton').click(function () {
           // veriy if user select a row
           if(getSelectedRow() != undefined){
-            var extension = getSelectedRow().dataType;
+            var fullPath = getSelectedRow().hdfsFullURI;
+            var filename = fullPath.replace(/^.*[\\\/]/, '')
+            var extension = filename.split('.').pop().toLowerCase();
             //verify if the selected row is netcdf dataType or other
-            if(extension == "netcdf"){
+            if(extension == "nc"){
               $.confirm({
                 title: 'Warning!',
                 content: 'Parsing the dataset might take a little time. Please be patient.',
@@ -135,7 +137,27 @@
                   }
                 }
               });
-            } else if(extension != ""){
+            } else if(extension == "csv"){
+              $.confirm({
+                title: 'Warning!',
+                content: 'Parsing the dataset might take a little time. Please be patient.',
+                type: 'orange',
+                useBootstrap: true,
+                typeAnimated: true,
+                buttons: {
+                  delete: {
+                    text: 'Ok',
+                    btnClass: 'btn-green',
+                    action: function(){
+                      return location.href = '/addMetadata/CSV?file=' + getSelectedRow().hdfsFullURI + '&idFile=' +
+                      getSelectedRow().id;
+                    }
+                  },
+                  cancel: function(){
+                  }
+                }
+              });
+            } else {
               $.confirm({
                 title: 'Warning!',
                 content: 'Parsing the dataset might take a little time. Please be patient.',
