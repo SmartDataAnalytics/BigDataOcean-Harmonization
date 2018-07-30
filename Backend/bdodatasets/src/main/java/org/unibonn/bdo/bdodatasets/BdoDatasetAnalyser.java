@@ -31,16 +31,14 @@ import ucar.nc2.Variable;
 import ucar.nc2.dataset.NetcdfDataset;
 
 import org.unibonn.bdo.bdodatasets.Constants;
-
-/*import ucar.netcdf.Attribute;
-import ucar.netcdf.NetcdfFile;*/
+import org.unibonn.bdo.connections.HDFSFileSystem;
 
 /**
  * 
  * @author Jaime M Trillos
  * @author Ana C Trillos
  *
- * Parse XML file from Copernicus dataset and NetCDF to obtain Metadata
+ * Parse XML file from Copernicus datase, NetCDF and CSV to obtain Metadata
  *
  */
 
@@ -258,15 +256,30 @@ public class BdoDatasetAnalyser {
 	
 	public static Dataset analyseDatasetCsv(String filename) throws IOException, ParseException {
 		Dataset result = new Dataset();
-
+		String[] splitName;
+		String issuedDate;
+		String modifiedDate;
+		
 		//read the file
+		String name = new File(filename).getName();
+		splitName = name.split("_");
+		
 		HDFSFileSystem hdfsSys = new HDFSFileSystem(filename);
-		Path localFile = hdfsSys.copyFile(filename,Constants.configFilePath+"/Backend/AddDatasets/file.csv");
+		Path localFile = hdfsSys.copyFile(filename,Constants.configFilePath+"/Backend/AddDatasets/" + name);
 		
 		result = analyseDatasetFileCsv(localFile.toString());
 		
-		//Delete the temporal file "file.nc"
-		hdfsSys.deleteFile(Constants.configFilePath+"/Backend/AddDatasets/file.csv");
+		result.setTitle(splitName[0]);
+		
+		issuedDate = splitName[1];
+		modifiedDate = splitName[2];
+		String[] tokens = modifiedDate.split("\\.(?=[^\\.]+$)");
+		
+		result.setIssuedDate(issuedDate);
+		result.setModifiedDate(tokens[0]);
+		
+		//Delete the temporal file
+		hdfsSys.deleteFile(Constants.configFilePath+"/Backend/AddDatasets/" + name);
 
 		return result;
 	}
@@ -279,7 +292,7 @@ public class BdoDatasetAnalyser {
 		
 		//Get the name of the file
 		name = new File(filename).getName();
-		title = name.split(".csv");
+		title = name.split("\\.(?=[^\\.]+$)");
 		//Take only the name of the file
 		result.setTitle(title[0]);
 		
@@ -305,7 +318,7 @@ public class BdoDatasetAnalyser {
 		//obtaining the corresponding variable name from the standard CF
 		result.setVariable(parserDatasetVariables(listVariables));
 		
-		//Delete the temporal file "file.nc"
+		//Delete the temporal file
 		Files.deleteIfExists(Paths.get(Constants.configFilePath+"/Backend/AddDatasets/" + name));
 		
 		return result;

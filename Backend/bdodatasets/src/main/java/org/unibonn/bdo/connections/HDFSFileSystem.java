@@ -1,4 +1,4 @@
-package org.unibonn.bdo.bdodatasets;
+package org.unibonn.bdo.connections;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.hadoop.conf.Configuration;

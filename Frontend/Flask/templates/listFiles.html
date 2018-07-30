@@ -115,7 +115,7 @@
           if(getSelectedRow() != undefined){
             var fullPath = getSelectedRow().hdfsFullURI;
             var filename = fullPath.replace(/^.*[\\\/]/, '')
-            var extension = filename.split('.').pop().toLowerCase();
+            var extension = filename.split("\\.(?=[^\\.]+$)").pop().toLowerCase();
             //verify if the selected row is netcdf dataType or other
             if(extension == "nc"){
               $.confirm({

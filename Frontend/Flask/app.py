@@ -324,8 +324,9 @@ def save():
 						profileString = process.split(b' Profile= ')
 						#print ("The profile is: " + str(profileString[1].decode('utf-8')))
 						# send the profile to the define API
-						resultProfile = requests.put(GlobalURLJWT + 'fileHandler/metadataProfile/' + 
-							str(profileString[1].decode('utf-8')), headers={'Authorization': Authorization})
+						resultProfile = requests.post(GlobalURLJWT + 'fileHandler/metadataProfile/', 
+							json = {str(profileString[1].decode('utf-8'))}, 
+							headers={'Authorization': Authorization}
 						# if the request is success then send the idmetadata to the corresponding API
 						if resultProfile.status_code == 200:
 							result = requests.put(GlobalURLJWT + 'fileHandler/file/' + idFile + 

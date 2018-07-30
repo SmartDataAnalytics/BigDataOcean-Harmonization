@@ -3,11 +3,8 @@ package org.unibonn.bdo.bdodatasets;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Map.Entry;
 
-import org.apache.commons.collections.map.HashedMap;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -17,7 +14,6 @@ import org.slf4j.LoggerFactory;
 import org.unibonn.bdo.objects.Dataset;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
 
 
@@ -48,6 +44,11 @@ public class InsertNewDataset {
 
 	private static void exec(String flag, String parameter, String jsonDataset) throws FileNotFoundException, IOException, ParseException {
 		Dataset newDataset = convertToObjectDataset(jsonDataset);
+		insertDataset(flag, parameter, newDataset);
+	}
+	
+	public static boolean insertDataset (String flag, String parameter, Dataset newDataset) throws IOException, ParseException {
+		boolean resultFlag = false;
 		
 		//construct the SPARQL query to insert dataset
 		String insertQuery = "PREFIX dct: <http://purl.org/dc/terms/> \n" + 
@@ -205,6 +206,7 @@ public class InsertNewDataset {
 			if(results == false){
 				//Add the dataset to Jena Fueski
 				QueryExecutor.insertQuery(insertQuery);
+				resultFlag = true;
 				System.out.print("Successful");
 				if(newDataset.getProfileName() != "") {
 					System.out.println(" Profile= " + printJsonProfile(newDataset));
@@ -212,6 +214,7 @@ public class InsertNewDataset {
 				}
 				//log.info("Inserting dataset successfully");
 			}else{
+				resultFlag = false;
 				System.out.print(String.format("Error!   URI already exists."));
 				//log.error("Error!   URI already exists.");
 			}
@@ -232,6 +235,7 @@ public class InsertNewDataset {
 			if(results == false){
 				//Add the dataset to Jena Fueski
 				QueryExecutor.insertQuery(insertQuery);
+				resultFlag = true;
 				System.out.print("Successful");
 				if(newDataset.getProfileName() != "") {
 					System.out.println(" Profile= " + printJsonProfile(newDataset));
@@ -239,13 +243,15 @@ public class InsertNewDataset {
 				}
 				//log.info("Datasets was inserted successfully");
 			}else{
+				resultFlag = false;
 				System.out.print(String.format("Error!   URI already exists."));
 				//log.error("Error!   URI already exists.");
 			}
 		}
+		return resultFlag;
 	}
 
-	private static Dataset convertToObjectDataset(String jsonDataset) throws FileNotFoundException {
+	public static Dataset convertToObjectDataset(String jsonDataset) throws FileNotFoundException {
 		// Parse into JSON the Dataset instance with all metadata from a dataset
 		// System.out.println("java "+jsonDataset);
 		JsonReader reader = new JsonReader(new FileReader(jsonDataset));
@@ -269,5 +275,4 @@ public class InsertNewDataset {
 		
 	}
 	
-
 }
