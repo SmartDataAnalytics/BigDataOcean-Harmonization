@@ -292,7 +292,7 @@ def save():
 				datasetType = ""	
 			else:
 				identifier = str(uuid.uuid4())
-				check_existance = title+">"+publisher+">"+issuedDate
+				check_existance = title+">"+publisher+">"+issuedDate+">"+idFile
 				datasetType = "other"
 
 			# add the values to the datasetInfo class
@@ -319,24 +319,22 @@ def save():
 				return render_template('500.html')
 			# when the dataset is added to jena fuseki, redirects to the metadataInfo web page corresponding to the identifier
 			if b'Successful' in process:
-				if idFile == '':
-					if b' Profile= ' in process:
-						profileString = process.split(b' Profile= ')
-						#print ("The profile is: " + str(profileString[1].decode('utf-8')))
-						# send the profile to the define API
-						resultProfile = requests.post(GlobalURLJWT + 'fileHandler/metadataProfile/', 
-							json = {str(profileString[1].decode('utf-8'))}, 
-							headers={'Authorization': Authorization}
-						# if the request is success then send the idmetadata to the corresponding API
-						if resultProfile.status_code == 200:
-							result = requests.put(GlobalURLJWT + 'fileHandler/file/' + idFile + 
-							'/metadata/' + identifier, headers={'Authorization': Authorization})
-						else:
-							return render_template('500.html')
-					else:
-						# NO send the profileString because there is no profileName given.
+				if b' Profile= ' in process:
+					profileString = process.split(b' Profile= ')
+					#print ("The profile is: " + str(profileString[1].decode('utf-8')))
+					# send the profile to the define API
+					resultProfile = requests.post(GlobalURLJWT + 'fileHandler/metadataProfile/', 
+						json = {str(profileString[1].decode('utf-8'))}, 
+						headers={'Authorization': Authorization})
+					if resultProfile.status_code == 200:
 						result = requests.put(GlobalURLJWT + 'fileHandler/file/' + idFile + 
-							'/metadata/' + identifier, headers={'Authorization': Authorization})
+						'/metadata/' + identifier, headers={'Authorization': Authorization})
+					else:
+						return render_template('500.html')
+				if idFile != '':
+					# send the identifier to the corresponding API
+					result = requests.put(GlobalURLJWT + 'fileHandler/file/' + idFile + 
+						'/metadata/' + identifier, headers={'Authorization': Authorization})
 					if result.status_code == 200:
 						return redirect(url_for('metadataInfo', identifier=identifier))
 					else:

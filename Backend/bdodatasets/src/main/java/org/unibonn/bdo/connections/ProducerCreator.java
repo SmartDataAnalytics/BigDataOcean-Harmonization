@@ -8,6 +8,13 @@ import org.apache.kafka.common.serialization.LongSerializer;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.unibonn.bdo.bdodatasets.Constants;
 
+/**
+ * 
+ * Class for the Producer Creator
+ * Creates a Kafka producer with some properties
+ *
+ */
+
 public class ProducerCreator {
     public static Producer<Long, String> createProducer() {
         Properties props = new Properties();

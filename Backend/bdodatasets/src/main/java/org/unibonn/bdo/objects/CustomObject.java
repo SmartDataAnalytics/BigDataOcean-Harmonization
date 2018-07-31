@@ -2,11 +2,14 @@ package org.unibonn.bdo.objects;
 
 import java.io.Serializable;
 
+/**
+ * 
+ * Object of the Kafka Connection
+ *
+ */
+
 public class CustomObject implements Serializable{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
 	private String id;

@@ -254,7 +254,7 @@ public class BdoDatasetAnalyser {
 		return result;
 	}
 	
-	public static Dataset analyseDatasetCsv(String filename) throws IOException, ParseException {
+	public static Dataset analyseDatasetCsv(String filename) throws IOException, ParseException, java.text.ParseException {
 		Dataset result = new Dataset();
 		String[] splitName;
 		String issuedDate;
@@ -284,17 +284,29 @@ public class BdoDatasetAnalyser {
 		return result;
 	}
 	
-	public static Dataset analyseDatasetFileCsv(String filename) throws IOException, ParseException {
+	public static Dataset analyseDatasetFileCsv(String filename) throws IOException, ParseException, java.text.ParseException {
 		Dataset result = new Dataset();
 		List<String> listVariables = new ArrayList<>() ;
-		String name;
-		String[] title;
+		String nameExtension;
 		
-		//Get the name of the file
-		name = new File(filename).getName();
-		title = name.split("\\.(?=[^\\.]+$)");
-		//Take only the name of the file
-		result.setTitle(title[0]);
+		//Get the name of the file with extension
+		nameExtension = new File(filename).getName();
+		String[] tokens = nameExtension.split("\\.(?=[^\\.]+$)");
+		//Get only the name
+		String name = tokens[0];
+		//Extract the issuedDate and modifiedDate that contains the name iff the name has "_"
+		if (name.contains("_")) {
+			String[] splitName = name.split("_");
+			name = splitName[0];
+			String issuedDate = splitName[1];
+			String modifiedDate = splitName[2];
+			result.setTitle(name);
+			result.setIssuedDate(convertDate(issuedDate));
+			result.setModifiedDate(convertDate(modifiedDate));
+		}else {
+			//Take only the name of the file
+			result.setTitle(name);
+		}
 		
 		result.setFormats("CSV");
 		
@@ -417,8 +429,6 @@ public class BdoDatasetAnalyser {
 					result.setSource(attr.getStringValue());
 				}
 			}
-			
-			result.setFormats("NetCDF");
 			
 			//return a list with all variables
 			allVariables = nc.getVariables();
@@ -544,5 +554,25 @@ public class BdoDatasetAnalyser {
 		return keywords;
 		
 	}
+	
+	// Convert yyyyMMddTHHmmss into yyyy-MM-ddTHH:mm:ss
+    public static String convertDate(String date) throws java.text.ParseException {
+    	String newDate = "";    	
+    	String[] tokens = date.split("T");
+    	String yMd = tokens[0];
+    	String Hms = tokens[1];
+    	
+    	String year = yMd.substring(0, 4);
+    	String month = yMd.substring(4, 6);
+    	String day = yMd.substring(6, 8);
+    	
+    	String hour = Hms.substring(0, 2);
+    	String minute = Hms.substring(2, 4);
+    	String second = Hms.substring(4, 6);
+    	
+    	newDate = year + "-" + month + "-" + day  + "T" + hour + ":" + minute + ":" + second;
+    	
+    	return newDate;
+    }
 
 }

@@ -9,6 +9,14 @@ import org.apache.kafka.common.serialization.LongDeserializer;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.unibonn.bdo.bdodatasets.Constants;
 
+/**
+ * 
+ * Class for the Consumer Creator
+ * Creates a Kafka consumer with some properties
+ * For the TOPIC1 (files_without_metadata)
+ *
+ */
+
 public class ConsumerCreator {
     public static Consumer<Long, String> createConsumer() {
         Properties props = new Properties();

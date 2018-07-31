@@ -3,6 +3,10 @@ package org.unibonn.bdo.bdodatasets;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import org.json.simple.JSONArray;
@@ -12,6 +16,7 @@ import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.unibonn.bdo.objects.Dataset;
+import org.unibonn.bdo.objects.ProfileDataset;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
@@ -22,8 +27,8 @@ import com.google.gson.stream.JsonReader;
  * @author Jaime M Trillos
  * @author Ana C Trillos
  *
- * Receives 3 parameters: flag ("" if copernicus or netcdf, "other" if not copernicus or netcdf)
- * parameter (it is the uri, or the combination of data to be queried)
+ * Receives 3 parameters: flag ("" if contains an identifier, "other" if not contains an identifier)
+ * parameter (it is the uri, or the combination of data to be queried (title>publisher>issuedDate>idFile))
  * jsonDataset (the Dataset object to be added in JSON format)
  *
  */
@@ -37,8 +42,11 @@ public class InsertNewDataset {
 		String parameter = args[1];
 		String jsonDataset = args[2];
 		//String flag = "";
+		//String flag = "other";
+		//String parameter = "KRITI_JADE>a>2018-11-29T12:59:59>idFile";
 		//String parameter = "<http://bigdataocean.eu/bdo/MEDSEA_ANALYSIS_mmmmFORECAST_PHY_006_013>";
 		//String jsonDataset = Constants.configFilePath+"/Backend/AddDatasets/jsonDataset.json";
+		
 		exec(flag, parameter, jsonDataset);
 	}
 
@@ -241,6 +249,10 @@ public class InsertNewDataset {
 					System.out.println(" Profile= " + printJsonProfile(newDataset));
 					//log.info("Dataset profile is" + printJsonProfile(newDataset));
 				}
+				if(param[3] != "") {
+					//Send to the kafka producer the idFile TOPIC2
+					InsertDatasetAutomatic.runProducer(param[3]);
+				}
 				//log.info("Datasets was inserted successfully");
 			}else{
 				resultFlag = false;
@@ -261,15 +273,26 @@ public class InsertNewDataset {
 		
 	}
 	
+	// Take the Dataset of the profile and return the json
 	private static String printJsonProfile(Dataset dataset) throws FileNotFoundException {
 		Gson gson  = new Gson();
-		Dataset datasetProfile = new Dataset(dataset.getProfileName(), dataset.getTitle(), dataset.getDescription(), 
+		List<Map<String, String>> variablesList = new ArrayList<>();
+		Map<String, String> mMap = new HashMap<String, String>();
+		
+		for (Entry<String, String> var : dataset.getVariables().entrySet()) {
+			mMap = new HashMap<String, String>();
+			mMap.put("name",var.getKey());
+			mMap.put("canonicalName",var.getValue());
+			variablesList.add(mMap); 
+		}
+		
+		ProfileDataset datasetProfile = new ProfileDataset(dataset.getProfileName(), dataset.getTitle(), dataset.getDescription(), 
 				dataset.getSubject(), dataset.getKeywords(), dataset.getStandards(), dataset.getFormats(), dataset.getLanguage(), 
 				dataset.getHomepage(), dataset.getPublisher(), dataset.getSource(), dataset.getObservations(), dataset.getStorageTable(), 
 				dataset.getAccessRights(), dataset.getGeoLocation(), dataset.getSpatialWest(), dataset.getSpatialEast(),
 				dataset.getSpatialSouth(), dataset.getSpatialNorth(), dataset.getCoordinateSystem(), dataset.getVerticalCoverageFrom(),
 				dataset.getVerticalCoverageTo(), dataset.getVerticalLevel(), dataset.getTemporalCoverageBegin(), dataset.getTemporalCoverageEnd(),
-				dataset.getTimeResolution(), dataset.getVariables());
+				dataset.getTimeResolution(), variablesList);
 		String profile = gson.toJson(datasetProfile).toString();
 		return profile;
 		

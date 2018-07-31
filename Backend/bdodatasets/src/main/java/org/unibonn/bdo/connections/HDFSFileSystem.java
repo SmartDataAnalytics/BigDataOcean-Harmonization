@@ -10,6 +10,12 @@ import java.io.*;
 import java.net.URI;
 import java.util.logging.Logger;
 
+/**
+ * 
+ * Class for the HDFSFileSystems
+ *
+ */
+
 public class HDFSFileSystem {
     private final static Logger logger = Logger.getLogger(HDFSFileSystem.class.getName());
 

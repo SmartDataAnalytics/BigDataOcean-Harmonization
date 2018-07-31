@@ -4,6 +4,12 @@ import java.util.Map;
 import org.apache.kafka.clients.producer.Partitioner;
 import org.apache.kafka.common.Cluster;
 
+/**
+ * 
+ * Class for the CustomPartitioner
+ *
+ */
+
 public class CustomPartitioner implements Partitioner{
 	
   private static final int PARTITION_COUNT=50;

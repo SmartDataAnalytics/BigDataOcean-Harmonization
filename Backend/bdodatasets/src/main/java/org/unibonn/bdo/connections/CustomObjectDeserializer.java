@@ -8,6 +8,12 @@ import org.unibonn.bdo.objects.CustomObject;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/**
+ * 
+ * Class for the CustomObjectDeserializer
+ *
+ */
+
 public class CustomObjectDeserializer implements Deserializer<CustomObject> {
 	
     @Override
