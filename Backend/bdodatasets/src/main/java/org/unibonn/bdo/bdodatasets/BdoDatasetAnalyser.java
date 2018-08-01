@@ -256,27 +256,14 @@ public class BdoDatasetAnalyser {
 	
 	public static Dataset analyseDatasetCsv(String filename) throws IOException, ParseException, java.text.ParseException {
 		Dataset result = new Dataset();
-		String[] splitName;
-		String issuedDate;
-		String modifiedDate;
 		
 		//read the file
 		String name = new File(filename).getName();
-		splitName = name.split("_");
 		
 		HDFSFileSystem hdfsSys = new HDFSFileSystem(filename);
 		Path localFile = hdfsSys.copyFile(filename,Constants.configFilePath+"/Backend/AddDatasets/" + name);
 		
 		result = analyseDatasetFileCsv(localFile.toString());
-		
-		result.setTitle(splitName[0]);
-		
-		issuedDate = splitName[1];
-		modifiedDate = splitName[2];
-		String[] tokens = modifiedDate.split("\\.(?=[^\\.]+$)");
-		
-		result.setIssuedDate(issuedDate);
-		result.setModifiedDate(tokens[0]);
 		
 		//Delete the temporal file
 		hdfsSys.deleteFile(Constants.configFilePath+"/Backend/AddDatasets/" + name);
@@ -323,7 +310,8 @@ public class BdoDatasetAnalyser {
 	    }
 	    
 	    for(int i = 0; i<nextLine.length; i++) {
-	    	listVariables.add(nextLine[i]);
+	    	String var = removeUTF8BOM(nextLine[i]);
+	    	listVariables.add(var);
 	    }
 	    reader.close();
 
@@ -331,7 +319,7 @@ public class BdoDatasetAnalyser {
 		result.setVariable(parserDatasetVariables(listVariables));
 		
 		//Delete the temporal file
-		Files.deleteIfExists(Paths.get(Constants.configFilePath+"/Backend/AddDatasets/" + name));
+		Files.deleteIfExists(Paths.get(Constants.configFilePath+"/Backend/AddDatasets/" + nameExtension));
 		
 		return result;
 	}
@@ -573,6 +561,14 @@ public class BdoDatasetAnalyser {
     	newDate = year + "-" + month + "-" + day  + "T" + hour + ":" + minute + ":" + second;
     	
     	return newDate;
+    }
+    
+    // Remove the char "\uFEFF" that starts in the variables
+    public static String removeUTF8BOM(String s) {
+        if (s.startsWith("\uFEFF")) {
+            s = s.substring(1);
+        }
+        return s;
     }
 
 }

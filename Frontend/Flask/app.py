@@ -16,7 +16,6 @@ globalPath = "/BDOHarmonization/BigDataOcean-Harmonization"
 GlobalURLJWT = "http://212.101.173.21:8085/"
 UPLOAD_FOLDER = globalPath+'/Backend/AddDatasets'
 ALLOWED_EXTENSIONS = set(['nc', 'csv'])
-fileStorageTableJson = open(globalPath + "/Frontend/Flask/static/json/storageTable.json", "w+")
 
 #JWT authorization
 Authorization = 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJiZG8iLCJleHAiOjE1NTI0ODk1ODUsInJvbGUiOiJST0xFX0FETUlOIn0.o5cZnYT3MKwfmVt06EyCMWy2qpgFPwcwZg82a3jmkNZKOVCJIbnh-LsHnEIF8BEUdj9OKrurwtknYh5ObjgLvg'
@@ -57,8 +56,10 @@ def index():
 			data=data,
 			columns=columns)
 	except subprocess.CalledProcessError as e:
+		print(e)
 		return render_template('500.html')
-	except ValueError:  # includes simplejson.decoder.JSONDecodeError
+	except ValueError as e:  # includes simplejson.decoder.JSONDecodeError
+		print(e)
 		return render_template('500.html')
 
 # List of files that does not have metadata
@@ -97,6 +98,7 @@ def list():
 @app.route('/addMetadata', methods=['GET', 'POST'])
 def parse():
 	try:
+		fileStorageTableJson = open(globalPath + "/Frontend/Flask/static/json/storageTable.json", "w+")
 		JWT_output = requests.get(GlobalURLJWT + 'fileHandler/table', headers={'Authorization': Authorization})
 		dataStorageTable = JWT_output.content.decode('utf-8')
 		fileStorageTableJson.write(str(dataStorageTable))
@@ -106,12 +108,14 @@ def parse():
 		elif request.method == 'GET':
 			idFile = request.args['idFile']
 			return render_template('addMetadata.html', dataset='', idFile=idFile)
-	except ValueError:  # includes simplejson.decoder.JSONDecodeError
+	except ValueError as e:  # includes simplejson.decoder.JSONDecodeError
+		print(e)
 		return render_template('500.html')
 
 @app.route('/addMetadata/Copernicus', methods=['GET', 'POST'])
 def addCopernicus():
 	try:
+		fileStorageTableJson = open(globalPath + "/Frontend/Flask/static/json/storageTable.json", "w+")
 		JWT_output = requests.get(GlobalURLJWT + 'fileHandler/table', headers={'Authorization': Authorization})
 		dataStorageTable = JWT_output.content.decode('utf-8')
 		fileStorageTableJson.write(str(dataStorageTable))
@@ -123,6 +127,7 @@ def addCopernicus():
 			try:
 				process = subprocess.check_output([command], shell="True")
 			except subprocess.CalledProcessError as e:
+				print(e)
 				return render_template('500.html')
 			# metadata parsed is converted into json class datasetInfo to be used inside the html form
 			parsed_output = json.loads(process.decode('utf-8'))
@@ -138,18 +143,21 @@ def addCopernicus():
 			try:
 				process = subprocess.check_output([command], shell="True")
 			except subprocess.CalledProcessError as e:
+				print(e)
 				return render_template('500.html')
 			# metadata parsed is converted into json class datasetInfo to be used inside the html form
 			parsed_output = json.loads(process.decode('utf-8'))
 			dataset = datasetInfo(**parsed_output)
 
 			return render_template('addMetadata.html', dataset=dataset, idFile='')
-	except ValueError:  # includes simplejson.decoder.JSONDecodeError
+	except ValueError as e:  # includes simplejson.decoder.JSONDecodeError
+		print(e)
 		return render_template('500.html')
 
 @app.route('/addMetadata/NetCDF', methods=['GET', 'POST'])
 def addNetCDF():
 	try:
+		fileStorageTableJson = open(globalPath + "/Frontend/Flask/static/json/storageTable.json", "w+")
 		JWT_output = requests.get(GlobalURLJWT + 'fileHandler/table', headers={'Authorization': Authorization})
 		dataStorageTable = JWT_output.content.decode('utf-8')
 		fileStorageTableJson.write(str(dataStorageTable))
@@ -169,6 +177,7 @@ def addNetCDF():
 					try:
 						process = subprocess.check_output([command], shell="True")
 					except subprocess.CalledProcessError as e:
+						print(e)
 						return render_template('500.html')
 					# metadata parsed is converted into json class datasetInfo to be used inside the html form
 					parsed_output = json.loads(process.decode('utf-8'))
@@ -183,6 +192,7 @@ def addNetCDF():
 			try:
 				process = subprocess.check_output([command], shell="True")
 			except subprocess.CalledProcessError as e:
+				print(e)
 				return render_template('500.html')
 			# parsing output from maven script, to avoid log comments
 			process = process.split(b'\n')
@@ -191,12 +201,14 @@ def addNetCDF():
 			dataset = datasetInfo(**parsed_output)
 
 			return render_template('addMetadata.html', dataset=dataset, idFile=idFile)
-	except ValueError:  # includes simplejson.decoder.JSONDecodeError
+	except ValueError as e:  # includes simplejson.decoder.JSONDecodeError
+		print(e)
 		return render_template('500.html')
 
 @app.route('/addMetadata/CSV', methods=['GET', 'POST'])
 def addCsv():
 	try:
+		fileStorageTableJson = open(globalPath + "/Frontend/Flask/static/json/storageTable.json", "w+")
 		JWT_output = requests.get(GlobalURLJWT + 'fileHandler/table', headers={'Authorization': Authorization})
 		dataStorageTable = JWT_output.content.decode('utf-8')
 		fileStorageTableJson.write(str(dataStorageTable))
@@ -216,6 +228,7 @@ def addCsv():
 					try:
 						process = subprocess.check_output([command], shell="True")
 					except subprocess.CalledProcessError as e:
+						print(e)
 						return render_template('500.html')
 					# metadata parsed is converted into json class datasetInfo to be used inside the html form
 					parsed_output = json.loads(process.decode('utf-8'))
@@ -230,6 +243,7 @@ def addCsv():
 			try:
 				process = subprocess.check_output([command], shell="True")
 			except subprocess.CalledProcessError as e:
+				print(e)
 				return render_template('500.html')
 			# parsing output from maven script, to avoid log comments
 			process = process.split(b'\n')
@@ -238,7 +252,8 @@ def addCsv():
 			dataset = datasetInfo(**parsed_output)
 
 			return render_template('addMetadata.html', dataset=dataset, idFile=idFile)
-	except ValueError:  # includes simplejson.decoder.JSONDecodeError
+	except ValueError as e:  # includes simplejson.decoder.JSONDecodeError
+		print(e)
 		return render_template('500.html')
 
 # Routing to save new dataset
@@ -288,7 +303,7 @@ def save():
 			profileName = request.form['nameProfile']
 
 			if identifier  != "":
-				check_existance = "<http://bigdataocean.eu/bdo/"+identifier+"> \n"
+				check_existance = "<http://bigdataocean.eu/bdo/"+identifier+"> "+idFile
 				datasetType = ""	
 			else:
 				identifier = str(uuid.uuid4())
@@ -299,8 +314,8 @@ def save():
 			dataset = datasetInfo (identifier, title, description, subject, keywords, standards, formats, language, homepage, publisher, 
 				source, observations, storageTable,
 				accessRights, issuedDate, modifiedDate, geoLocation, spatialWest, spatialEast, spatialSouth, spatialNorth, 
-				coordinateSystem, verticalCoverageFrom, verticalCoverageTo,temporalCoverageBegin, temporalCoverageEnd, 
-				verticalLevel, timeResolution, variables, profileName)
+				coordinateSystem, verticalCoverageFrom, verticalCoverageTo, verticalLevel, temporalCoverageBegin, 
+				temporalCoverageEnd, timeResolution, variables, profileName)
 			# create the json of the datasetInfo class
 			datasetJson = json.dumps(dataset.__dict__)
 			with open(globalPath+'/Backend/AddDatasets/jsonDataset.json','w') as file:
@@ -316,20 +331,18 @@ def save():
 				process = subprocess.check_output([command], shell="True")
 				
 			except subprocess.CalledProcessError as e:
+				print(e)
 				return render_template('500.html')
 			# when the dataset is added to jena fuseki, redirects to the metadataInfo web page corresponding to the identifier
 			if b'Successful' in process:
 				if b' Profile= ' in process:
 					profileString = process.split(b' Profile= ')
-					#print ("The profile is: " + str(profileString[1].decode('utf-8')))
+					# print ("The profile is: " + str(json.loads(profileString[1].decode('utf-8'))))
 					# send the profile to the define API
 					resultProfile = requests.post(GlobalURLJWT + 'fileHandler/metadataProfile/', 
-						json = {str(profileString[1].decode('utf-8'))}, 
+						json = json.loads(profileString[1].decode('utf-8')), 
 						headers={'Authorization': Authorization})
-					if resultProfile.status_code == 200:
-						result = requests.put(GlobalURLJWT + 'fileHandler/file/' + idFile + 
-						'/metadata/' + identifier, headers={'Authorization': Authorization})
-					else:
+					if resultProfile.status_code != 200:
 						return render_template('500.html')
 				if idFile != '':
 					# send the identifier to the corresponding API
@@ -343,13 +356,15 @@ def save():
 					return redirect(url_for('metadataInfo', identifier=identifier))
 			else:
 				return render_template('404.html', error='URI already exists.')
-	except ValueError:  # includes simplejson.decoder.JSONDecodeError
+	except ValueError as e:  # includes simplejson.decoder.JSONDecodeError
+		print(e)
 		return render_template('500.html')
 
 # Routing to modify a corresponding dataset
 @app.route('/modify/<identifier>', methods=['GET', 'POST'])
 def edit(identifier):
 	try:
+		fileStorageTableJson = open(globalPath + "/Frontend/Flask/static/json/storageTable.json", "w+")
 		JWT_output = requests.get(GlobalURLJWT + 'fileHandler/table', headers={'Authorization': Authorization})
 		dataStorageTable = JWT_output.content.decode('utf-8')
 		fileStorageTableJson.write(str(dataStorageTable))
@@ -360,14 +375,15 @@ def edit(identifier):
 			try:
 				process = subprocess.check_output([comm], shell="True")
 			except subprocess.CalledProcessError as e:
+				print(e)
 				return render_template('500.html')
 			# metadata parsed is converted into json class datasetInfo to be used inside the html form
 			parsed_output = json.loads(process.decode('utf-8'))
 			dataset = datasetInfo(**parsed_output)
-			# print(dataset.variables)
 			return render_template('editMetadata.html', dataset=dataset)
 			
-	except ValueError:  # includes simplejson.decoder.JSONDecodeError
+	except ValueError as e:  # includes simplejson.decoder.JSONDecodeError
+		print(e)
 		return render_template('500.html')
 
 # Routing to save new dataset
@@ -415,11 +431,11 @@ def editing():
 			variables = dict(zip(parserlist, jsonlist))
 			
 			if identifier  != "":
-				check_existance = "<http://bigdataocean.eu/bdo/"+identifier+"> \n"
+				check_existance = "<http://bigdataocean.eu/bdo/"+identifier+"> "
 				datasetType = ""	
 			else:
 				identifier = str(uuid.uuid4())
-				check_existance = title+">"+publisher+">"+issuedDate
+				check_existance = title+">"+publisher+">"+issuedDate+">"
 				datasetType = "other"
 
 			# add the values to the datasetInfo class
@@ -427,7 +443,7 @@ def editing():
 				source, observations, storageTable,
 				accessRights, issuedDate, modifiedDate, geoLocation, spatialWest, spatialEast, spatialSouth, spatialNorth, 
 				coordinateSystem, verticalCoverageFrom, verticalCoverageTo,temporalCoverageBegin, temporalCoverageEnd, 
-				verticalLevel, timeResolution, variables)
+				verticalLevel, timeResolution, variables, "")
 			# create the json of the datasetInfo class
 			datasetJson = json.dumps(dataset.__dict__)
 			with open(globalPath+'/Backend/AddDatasets/jsonDataset.json','w') as file:
@@ -441,6 +457,7 @@ def editing():
 				process = subprocess.check_output([command], shell="True")
 				
 			except subprocess.CalledProcessError as e:
+				print(e)
 				return render_template('500.html')
 			# when the dataset is added to jena fuseki, redirects to the metadataInfo web page corresponding to the identifier
 			if b'Successful' in process:
@@ -451,6 +468,7 @@ def editing():
 					process = subprocess.check_output([command2], shell="True")
 					
 				except subprocess.CalledProcessError as e:
+					print(e)
 					return render_template('500.html')
 				# when the dataset is added to jena fuseki, redirects to the metadataInfo web page corresponding to the identifier
 				if b'Successful' in process:
@@ -461,6 +479,7 @@ def editing():
 				return render_template('404.html', error='There was an error while modifying the dataset.')
 
 	except ValueError:  # includes simplejson.decoder.JSONDecodeError
+		print(e)
 		return render_template('500.html')
 
 # Routing to delete a corresponding dataset
@@ -472,6 +491,7 @@ def delete(identifier):
 		process = subprocess.check_output([command], shell="True")
 		
 	except subprocess.CalledProcessError as e:
+		print(e)
 		return render_template('500.html')
 	# when the dataset is added to jena fuseki, redirects to the metadataInfo web page corresponding to the identifier
 	if b'Successful' in process:
@@ -494,12 +514,14 @@ def metadataInfo(identifier):
 			try:
 				process = subprocess.check_output([comm], shell="True")
 			except subprocess.CalledProcessError as e:
+				print(e)
 				return render_template('500.html')
 			# metadata parsed is converted into json class datasetInfo to be used inside the html form
 			parsed_output = json.loads(process.decode('utf-8'))
 			dataset = datasetInfo(**parsed_output)
 			return render_template('metadataInfo.html', dataset=dataset, variables=variablesCF)
 	except ValueError:  # includes simplejson.decoder.JSONDecodeError
+		print(e)
 		return render_template('500.html')
 
 @app.route('/endpoint', methods=['GET', 'POST'])
@@ -519,6 +541,7 @@ def listDataset():
 		try:
 			process = subprocess.check_output([comm], shell="True")
 		except subprocess.CalledProcessError as e:
+			print(e)
 			return render_template('500.html')
 		# metadata parsed is converted into json class datasetInfo to be used inside the html form
 		parsed_output = json.loads(process.decode('utf-8'))
@@ -534,6 +557,7 @@ def searchDataset():
 		try:
 			process = subprocess.check_output([comm], shell="True")
 		except subprocess.CalledProcessError as e:
+			print(e)
 			return render_template('500.html')
 		# metadata parsed is converted into json class datasetInfo to be used inside the html form
 		parsed_output = json.loads(process.decode('utf-8'))
@@ -547,6 +571,7 @@ def searchSubject():
 		try:
 			process = subprocess.check_output([comm], shell="True")
 		except subprocess.CalledProcessError as e:
+			print(e)
 			return render_template('500.html')
 		# metadata parsed is converted into json class datasetInfo to be used inside the html form
 		parsed_output = json.loads(process.decode('utf-8'))
@@ -560,6 +585,7 @@ def searchKeyword():
 		try:
 			process = subprocess.check_output([comm], shell="True")
 		except subprocess.CalledProcessError as e:
+			print(e)
 			return render_template('500.html')
 		# metadata parsed is converted into json class datasetInfo to be used inside the html form
 		parsed_output = json.loads(process.decode('utf-8'))
@@ -573,6 +599,7 @@ def searchGeoLocation():
 		try:
 			process = subprocess.check_output([comm], shell="True")
 		except subprocess.CalledProcessError as e:
+			print(e)
 			return render_template('500.html')
 		# metadata parsed is converted into json class datasetInfo to be used inside the html form
 		parsed_output = json.loads(process.decode('utf-8'))
@@ -587,6 +614,7 @@ def searchGeoCoverage():
 		try:
 			process = subprocess.check_output([comm], shell="True")
 		except subprocess.CalledProcessError as e:
+			print(e)
 			return render_template('500.html')
 		# metadata parsed is converted into json class datasetInfo to be used inside the html form
 		parsed_output = json.loads(process.decode('utf-8'))
@@ -601,6 +629,7 @@ def searchVerticalCoverage():
 		try:
 			process = subprocess.check_output([comm], shell="True")
 		except subprocess.CalledProcessError as e:
+			print(e)
 			return render_template('500.html')
 		# metadata parsed is converted into json class datasetInfo to be used inside the html form
 		parsed_output = json.loads(process.decode('utf-8'))
@@ -615,6 +644,7 @@ def searchTemporalCoverage():
 		try:
 			process = subprocess.check_output([comm], shell="True")
 		except subprocess.CalledProcessError as e:
+			print(e)
 			return render_template('500.html')
 		# metadata parsed is converted into json class datasetInfo to be used inside the html form
 		parsed_output = json.loads(process.decode('utf-8'))
@@ -628,6 +658,7 @@ def listVariables():
 		try:
 			process = subprocess.check_output([comm], shell="True")
 		except subprocess.CalledProcessError as e:
+			print(e)
 			return render_template('500.html')
 		# metadata parsed is converted into json class datasetInfo to be used inside the html form
 		parsed_output = json.loads(process.decode('utf-8'))
@@ -641,6 +672,7 @@ def searchVariable():
 		try:
 			process = subprocess.check_output([comm], shell="True")
 		except subprocess.CalledProcessError as e:
+			print(e)
 			return render_template('500.html')
 		# metadata parsed is converted into json class datasetInfo to be used inside the html form
 		parsed_output = json.loads(process.decode('utf-8'))

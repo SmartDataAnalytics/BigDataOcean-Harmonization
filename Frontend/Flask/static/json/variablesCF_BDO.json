@@ -148,10 +148,6 @@
     "value": "http://bigdataocean.eu/bdo/cf/parameter/sea_water_turbidity_quality_flag"
   },
   {
-    "text": "sea_water_x_velocity",
-    "value": "http://bigdataocean.eu/bdo/cf/parameter/sea_water_x_velocity"
-  },
-  {
     "text": "sea_surface_wave_significant_height_processing_method",
     "value": "http://bigdataocean.eu/bdo/cf/parameter/sea_surface_wave_significant_height_processing_method"
   },
@@ -192,24 +188,12 @@
     "value": "http://bigdataocean.eu/bdo/cf/parameter/wind_from_direction_quality_flag"
   },
   {
-    "text": "sea_water_y_velocity",
-    "value": "http://bigdataocean.eu/bdo/cf/parameter/sea_water_y_velocity"
-  },
-  {
     "text": "wind_speed_processing_method",
     "value": "http://bigdataocean.eu/bdo/cf/parameter/wind_speed_processing_method"
   },
   {
     "text": "wind_speed_quality_flag",
     "value": "http://bigdataocean.eu/bdo/cf/parameter/wind_speed_quality_flag"
-  },
-  {
-    "text": "x_wind",
-    "value": "http://bigdataocean.eu/bdo/cf/parameter/x_wind"
-  },
-  {
-    "text": "y_wind",
-    "value": "http://bigdataocean.eu/bdo/cf/parameter/y_wind"
   },
   {
     "text": "x_direction_in_the_canonical_space",
@@ -298,10 +282,6 @@
   {
     "text": "platform_length",
     "value": "http://bigdataocean.eu/bdo/cf/parameter/platform_length"
-  },
-  {
-    "text": "platform_id",
-    "value": "http://bigdataocean.eu/bdo/cf/parameter/platform_id"
   },
   {
     "text": "platform_type_id",
@@ -9669,5 +9649,173 @@
     "value":"http://vocab.nerc.ac.uk/collection/P07/current/CFV8N18/"},
  
   {"text":"tendency_of_atmosphere_mass_content_of_ethyne_due_to_emission_from_land_transport",
-    "value":"http://vocab.nerc.ac.uk/collection/P07/current/CAGCHGGC/"}
+    "value":"http://vocab.nerc.ac.uk/collection/P07/current/CAGCHGGC/"},
+  {
+    "text": "air_pressure_at_sea_level",
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/air_pressure_at_sea_level"
+  },
+  {
+    "text": "desig",
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/desig"
+  },
+  {
+    "text": "desig_eng",
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/desig_eng"
+  },
+  {
+    "text": "desig_type",
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/desig_type"
+  },
+  {
+    "text": "direction_of_sea_water_velocity",
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/direction_of_sea_water_velocity"
+  },
+  {
+    "text": "fractional_saturation_of_oxygen_in_sea_water_processing_method",
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/fractional_saturation_of_oxygen_in_sea_water_processing_method"
+  },
+  {
+    "text": "fractional_saturation_of_oxygen_in_sea_water_quality_flag",
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/fractional_saturation_of_oxygen_in_sea_water_quality_flag"
+  },
+  {
+    "text": "gis_area",
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/gis_area"
+  },
+  {
+    "text": "gis_m_area",
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/gis_m_area"
+  },
+  {
+    "text": "gov_type",
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/gov_type"
+  },
+  {
+    "text": "gust_from_direction",
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/gust_from_direction"
+  },
+  {
+    "text": "history_start_id",
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/history_start_id"
+  },
+  {
+    "text": "int_crit",
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/int_crit"
+  },
+  {
+    "text": "iso3",
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/iso3"
+  },
+  {
+    "text": "iunc_cat",
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/iunc_cat"
+  },
+  {
+    "text": "mang_auth",
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/mang_auth"
+  },
+  {
+    "text": "mang_plan",
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/mang_plan"
+  },
+  {
+    "text": "marine",
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/marine"
+  },
+  {
+    "text": "mass_concentration_of_chlorophyll_a_fluorescence_in_sea_water",
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/mass_concentration_of_chlorophyll_a_fluorescence_in_sea_water"
+  },
+  {
+    "text": "matadataid",
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/matadataid"
+  },
+  {
+    "text": "no_take",
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/no_take"
+  },
+  {
+    "text": "no_tk_area",
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/no_tk_area"
+  },
+  {
+    "text": "number_of_cars",
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/number_of_cars"
+  },
+  {
+    "text": "number_of_passengers",
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/number_of_passengers"
+  },
+  {
+    "text": "number_of_trucks",
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/number_of_trucks"
+  },
+  {
+    "text": "nvh",
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/nvh"
+  },
+  {
+    "text": "orig_name",
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/orig_name"
+  },
+  {
+    "text": "own_type",
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/own_type"
+  },
+  {
+    "text": "pa_def",
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/pa_def"
+  },
+  {
+    "text": "parent_iso3",
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/parent_iso3"
+  },
+  {
+    "text": "rep_area",
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/rep_area"
+  },
+  {
+    "text": "rep_m_area",
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/rep_m_area"
+  },
+  {
+    "text": "sea_ice_area_fraction_range",
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/sea_ice_area_fraction_range"
+  },
+  {
+    "text": "sea_ice_thickness_range",
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/sea_ice_thickness_range"
+  },
+  {
+    "text": "sea_surface_wave_zero_upcrossing_period",
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/sea_surface_wave_zero_upcrossing_period"
+  },
+  {
+    "text": "status",
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/status"
+  },
+  {
+    "text": "status_yr",
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/status_yr"
+  },
+  {
+    "text": "sub_loc",
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/sub_loc"
+  },
+  {
+    "text": "type",
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/type"
+  },
+  {
+    "text": "verif",
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/verif"
+  },
+  {
+    "text": "wdpa_id",
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/wdpa_id"
+  },
+  {
+    "text": "wdpa_pid",
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/wdpa_pid"
+  }
 ]

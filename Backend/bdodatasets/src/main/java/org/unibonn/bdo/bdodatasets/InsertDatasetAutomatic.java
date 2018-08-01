@@ -135,14 +135,20 @@ public class InsertDatasetAutomatic {
 		String[] splitName;
 		String issuedDate = "";
 		String modifiedDate = "";
-		HttpResponse<JsonNode> response;
+		HttpResponse<JsonNode> response; //Get the profileJson
+		HttpResponse<String> response1; //Put the identifier to an idFile
+		String jsonProfile = "";
 		
 		//Get the jsonProfile by the idProfile (API)
 		response = Unirest.get(Constants.HTTPJWT + "fileHandler/metadataProfile/id/" + idProfile)
 			.header("Content-Type", "application/json")
 			.header("Authorization", Constants.tokenAuthorization)
 			.asJson();
-		String jsonProfile = response.getBody().getObject().toString();
+		if(response.getStatus() == 200) {
+			jsonProfile = response.getBody().getObject().toString();
+		}else {
+			return false;
+		}
 		
 		//Convert json into Dataset
 		result = convertProfileToDataset(jsonProfile);
@@ -181,12 +187,12 @@ public class InsertDatasetAutomatic {
 		
 		// if metadata is successful added in Fuseki then send the identifier(API)
 		if (resultInsert) {
-			response = Unirest.put(Constants.HTTPJWT + "fileHandler/file/" + idFile + 
-					"/metadata/" + identifier)
+			response1 = Unirest.put(Constants.HTTPJWT + "fileHandler/file/" + idFile + 
+					"/metadata/" + result.getIdentifier())
 					.header("Content-Type", "application/json")
 					.header("Authorization", Constants.tokenAuthorization)
-					.asJson();
-			if(response.getStatus() == 200) {
+					.asString();
+			if(response1.getStatus() == 200) {
 				resultFlag = true;
 			}else {
 				System.out.println("Error!  fileHandler/file/{idFile}/metadata/{identifier} returns status code = " + response.getStatus());
@@ -202,6 +208,7 @@ public class InsertDatasetAutomatic {
 		return resultFlag;
 	}
     
+    // Extract dates (issued, modified) and identifier from Datasets Netcdf
     public static Dataset extractionDatesNetcdf(Dataset result, String filename) throws IOException, ParseException {
 		//read the file
 		NetcdfFile nc = null;
@@ -215,8 +222,10 @@ public class InsertDatasetAutomatic {
 			List<Attribute> listFileMetadata = nc.getGlobalAttributes();
 			if(listFileMetadata != null)
 			{
-				for(Attribute attr : listFileMetadata) {					
-					
+				for(Attribute attr : listFileMetadata) {	
+					if(attr.getShortName().toLowerCase().equals("id")) {
+						result.setIdentifier(attr.getStringValue());
+					}
 					if(attr.getShortName().toLowerCase().equals("history")) {
 						result.setIssuedDate(attr.getStringValue().substring(0, 19));
 						if(!(result.getIssuedDate().substring(4,5).equals("-") && result.getIssuedDate().substring(7,8).equals("-") && result.getIssuedDate().substring(10,11).equals("T") && result.getIssuedDate().substring(13,14).equals(":") && result.getIssuedDate().substring(16,17).equals(":"))) {

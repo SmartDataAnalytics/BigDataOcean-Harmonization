@@ -21,7 +21,6 @@ import org.unibonn.bdo.objects.ProfileDataset;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 
-
 /**
  *  
  * @author Jaime M Trillos
@@ -43,8 +42,8 @@ public class InsertNewDataset {
 		String jsonDataset = args[2];
 		//String flag = "";
 		//String flag = "other";
-		//String parameter = "KRITI_JADE>a>2018-11-29T12:59:59>idFile";
-		//String parameter = "<http://bigdataocean.eu/bdo/MEDSEA_ANALYSIS_mmmmFORECAST_PHY_006_013>";
+		//String parameter = "KRITIJADE>JM>2018-08-28T12:59:59>";
+		//String parameter = "<http://bigdataocean.eu/bdo/MEDSEA_ANALYSIS_mmmmFORECAST_PHY_006_013> ";
 		//String jsonDataset = Constants.configFilePath+"/Backend/AddDatasets/jsonDataset.json";
 		
 		exec(flag, parameter, jsonDataset);
@@ -206,7 +205,8 @@ public class InsertNewDataset {
 		
 		//if the dataset to be added is copernicus or netcdf, queries by URI
 		if(flag.equals("")) {
-			String query = "ASK {"+parameter+" ?p ?o}";
+			String []param = parameter.split(" ");
+			String query = "ASK {"+param[0]+" ?p ?o}";
 			
 			//Query Jena Fueski to see if the URI to be added already exists
 			boolean results = QueryExecutor.askQuery(query);
@@ -216,9 +216,13 @@ public class InsertNewDataset {
 				QueryExecutor.insertQuery(insertQuery);
 				resultFlag = true;
 				System.out.print("Successful");
-				if(newDataset.getProfileName() != "") {
+				if(!newDataset.getProfileName().equals("")) {
 					System.out.println(" Profile= " + printJsonProfile(newDataset));
 					//log.info("Dataset profile is" + printJsonProfile(newDataset));
+				}
+				if(param.length == 2) {
+					//Send to the kafka producer the idFile TOPIC2
+					InsertDatasetAutomatic.runProducer(param[1]);
 				}
 				//log.info("Inserting dataset successfully");
 			}else{
@@ -245,11 +249,11 @@ public class InsertNewDataset {
 				QueryExecutor.insertQuery(insertQuery);
 				resultFlag = true;
 				System.out.print("Successful");
-				if(newDataset.getProfileName() != "") {
+				if(!newDataset.getProfileName().equals("")) {
 					System.out.println(" Profile= " + printJsonProfile(newDataset));
 					//log.info("Dataset profile is" + printJsonProfile(newDataset));
 				}
-				if(param[3] != "") {
+				if(param.length == 4) {
 					//Send to the kafka producer the idFile TOPIC2
 					InsertDatasetAutomatic.runProducer(param[3]);
 				}

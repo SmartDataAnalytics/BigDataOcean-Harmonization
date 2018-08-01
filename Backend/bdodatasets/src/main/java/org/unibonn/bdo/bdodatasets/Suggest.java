@@ -34,7 +34,7 @@ public class Suggest {
 		//String uri_file = "hdfs://212.101.173.50:9000/user/bdo/buoy/IR_TS_MO_6200192.nc";
 		//String uri_file = "/home/jaimetrillos/Dropbox/BDO/NESTER/IR_TS_MO_6200199.nc";
 		//String type = "FileNetcdf";
-		//String uri_file = "/home/jaimetrillos/Dropbox/BDO/NESTER/KRITI_JADE.csv";
+		//String uri_file = "/home/jaimetrillos/Dropbox/BDO/NESTER/KRITIJADE.csv";
 		//String type = "FileCSV";
 		exec(uri_file, type);
 	}

@@ -6,4 +6,9 @@ Tool for harmonization of datasets in BigDataOcean
 $ docker-compose up
 ```
 
+- Run the API for adding metadata automatically (Kafka)
+```sh
+$ ./initHarmonization
+```
+
 Then visit http://localhost:5000/

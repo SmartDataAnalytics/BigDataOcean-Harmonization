@@ -1,6 +1,6 @@
 //List of variables extracted from variablesCF_BDO.json
 var options = {
-  url: "../static/json/VariablesMongo/variablesCF_BDO.json",
+  url: "../static/json/variablesCF_BDO.json",
 
   getValue: "text",
 
