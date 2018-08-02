@@ -695,15 +695,28 @@ def insertAutomatic():
 		process = subprocess.check_output([comm], shell="True")
 	except subprocess.CalledProcessError as e:
 		return (500)
-	# split the messages successful or error and only loads in json the result
-	process = process.split(b'\n')
 	# metadata parsed is converted into json class datasetInfo to be used inside the html form
 	# return sucess 200 or error 500
-	parsed_output = json.loads(process[1].decode('utf-8'))
-	if b'Successful' in process[0]:
-		return jsonify(parsed_output), 201
-	else:
-		return jsonify(parsed_output), 500
+	if b'Successful' and not b'Error' in process: 
+		result = { 
+			'fileName' : filename,  
+			'idFile' : idFile,  
+			'idProfile' : idProfile,  
+			'produce' : produce,  
+			'done' : True,  
+			'message' :  'Successful!  Metadata has been added correctly' 
+		} 
+		return jsonify({'result':result}), 201 
+	else: 
+		result = { 
+			'fileName' : filename,  
+			'idFile' : idFile,  
+			'idProfile' : idProfile,  
+			'produce' : produce,  
+			'done' : False,  
+			'message' : 'Error!   URI already exists'  
+		} 
+		return jsonify({'result':result}), 500 
 
 # Class for datasets parsed on shell suggest
 class datasetInfo(object):

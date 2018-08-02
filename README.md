@@ -11,4 +11,4 @@ $ docker-compose up
 $ ./initHarmonization
 ```
 
-Then visit http://localhost:5000/
+Then visit http://212.101.173.21:5000/

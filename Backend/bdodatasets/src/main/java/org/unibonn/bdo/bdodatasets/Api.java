@@ -173,28 +173,11 @@ public class Api {
 					String idFile = parameters[1];
 					String idProfile = parameters[2];
 					Boolean produce = Boolean.parseBoolean(parameters[3]);
-					String message = "Successful!  Metadata has been added correctly";
-					
 					Boolean response = InsertDatasetAutomatic.analyseInsertDatasetAutomatic(filename, idFile, idProfile);
 					if(response && produce) {
-						message = "Successful!  Metadata has been added correctly; idFile was added into Topic: " + Constants.TOPIC_NAME2;
 						// if insertion was successful and produce = true then send message to TOPIC2
 						InsertDatasetAutomatic.runProducer(idFile);
-					}else {
-						message = "Error!   URI already exists";
 					}
-					// Response
-					String result = "{" + 
-							"fileName: " + filename + "," + 
-							" idFile: " + idFile + "," + 
-							" idProfile: " + idProfile + "," + 
-							" produce: " + produce + "," + 
-							" done: " + response  + "," + 
-							" message: " + message  + 
-							" }";
-					Gson gson  = new GsonBuilder().setPrettyPrinting().create();
-					System.out.print(gson.toJson(result));
-					//log.info("Dataset's metadata: " + gson.toJson(dataset))
 				} catch (IOException | ParseException | UnirestException | java.text.ParseException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
