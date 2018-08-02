@@ -678,6 +678,33 @@ def searchVariable():
 		parsed_output = json.loads(process.decode('utf-8'))
 		return jsonify(parsed_output)
 
+# API POST for insert dataset's metadata automatically into Harmonization
+# Parameters: filename,idfile,idprofile in json 
+@app.route('/api/v1/dataset/insertAutomatic', methods=['POST'])
+def insertAutomatic():
+	if not request.json or not 'fileName' in request.json:
+		abort(400)
+	filename = request.json['fileName']
+	idFile = request.json['idFile']
+	idProfile = request.json['idProfile']
+	produce = request.json['produce']
+	param = filename + "," + idFile + "," + idProfile + "," + produce
+	# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
+	comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("11", param)
+	try:
+		process = subprocess.check_output([comm], shell="True")
+	except subprocess.CalledProcessError as e:
+		return (500)
+	# split the messages successful or error and only loads in json the result
+	process = process.split(b'\n')
+	# metadata parsed is converted into json class datasetInfo to be used inside the html form
+	# return sucess 200 or error 500
+	parsed_output = json.loads(process[1].decode('utf-8'))
+	if b'Successful' in process[0]:
+		return jsonify(parsed_output), 201
+	else:
+		return jsonify(parsed_output), 500
+
 # Class for datasets parsed on shell suggest
 class datasetInfo(object):
 	def __init__(self, identifier, title, description, subject, keywords, standards, formats, language, homepage, publisher, 

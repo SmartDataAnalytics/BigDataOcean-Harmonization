@@ -63,7 +63,7 @@ public class InsertDatasetAutomatic {
     	Consumer<Long, String> consumer = ConsumerCreator.createConsumer();
         int noMessageFound = 0;
         while (true) {
-        	Duration timeout = Duration.ofMillis(1000);
+        	Duration timeout = Duration.ofMillis(5000);
         	// 1000 is the time in milliseconds consumer will wait if no record is found at broker.
         	ConsumerRecords<Long, String> consumerRecords = consumer.poll(timeout);
         	if (consumerRecords.count() == 0) {
@@ -171,7 +171,7 @@ public class InsertDatasetAutomatic {
 				result.setIssuedDate(BdoDatasetAnalyser.convertDate(issuedDate));
 				result.setModifiedDate(BdoDatasetAnalyser.convertDate(modifiedDate));
 			}else {
-				System.out.println("Error!  the file name does not have issuedDate and modifiedDate");
+				System.out.println(" Error!  the file name does not have issuedDate and modifiedDate");
 				//log.error("Error!  the file name does not have issuedDate and modifiedDate");
 				return false;
 			}
@@ -195,12 +195,12 @@ public class InsertDatasetAutomatic {
 			if(response1.getStatus() == 200) {
 				resultFlag = true;
 			}else {
-				System.out.println("Error!  fileHandler/file/{idFile}/metadata/{identifier} returns status code = " + response.getStatus());
+				System.out.println(" Error!  fileHandler/file/{idFile}/metadata/{identifier} returns status code = " + response.getStatus());
 				//log.error("Error!  fileHandler/file/{idFile}/metadata/{identifier} returns status code = " + response.getStatus());
 				resultFlag = false;
 			}
 		}else {
-			System.out.println("Error!  insertDataset method has return false");
+			System.out.println(" Error!  insertDataset method has return false");
 			//log.error("Error!  insertDataset method has return false");
 			return false;
 		}
