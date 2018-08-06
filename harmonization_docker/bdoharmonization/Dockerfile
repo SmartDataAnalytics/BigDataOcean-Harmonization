@@ -33,7 +33,7 @@ RUN chmod +x apache-jena-fuseki-3.4.0/bin/s-*
 
 #Security in Fuseki
 WORKDIR /apache-jena-fuseki-3.4.0/run/
-ADD shiro.ini /shiro.ini
+ADD shiro.ini shiro.ini
 
 WORKDIR /
 ADD bdoHarmonization.ttl /fuseki/configuration/bdoHarmonization.ttl
