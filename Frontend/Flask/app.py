@@ -8,6 +8,8 @@ from flask import Flask, render_template, request, redirect, url_for, flash, jso
 from flask_bootstrap import Bootstrap
 from pprint import pprint
 import numpy as np
+from flask_jwt import JWT, jwt_required, current_identity
+from werkzeug.security import safe_str_cmp
 from werkzeug.utils import secure_filename
 
 # GLOBAL VARIABLES
@@ -20,11 +22,47 @@ ALLOWED_EXTENSIONS = set(['nc', 'csv'])
 #JWT authorization
 Authorization = 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJiZG8iLCJleHAiOjE1NTI0ODk1ODUsInJvbGUiOiJST0xFX0FETUlOIn0.o5cZnYT3MKwfmVt06EyCMWy2qpgFPwcwZg82a3jmkNZKOVCJIbnh-LsHnEIF8BEUdj9OKrurwtknYh5ObjgLvg'
 
+# Authentication JWT for APIs
+# Class for security authentication JWT
+class User(object):
+	def __init__(self, id, username, password):
+		self.id = id
+		self.username = username
+		self.password = password
+
+	def __str__(self):
+		return "User(id='%s')" % self.id
+
+users = [
+	User(1, 'admin', 'qNkYUXzGbIu4nwU3'),
+	User(2, 'apiuser', 'gzGhwpqjE3Mj4eNE'),
+]
+
+username_table = {u.username: u for u in users}
+userid_table = {u.id: u for u in users}
+
 app = Flask(__name__)
 bootstrap = Bootstrap(app)
 # configuring the path of the upload folder
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['SECRET_KEY'] = 'super-secret'
 
+# Authentication JWT for APIs
+def authenticate(username, password):
+    user = username_table.get(username, None)
+    if user and safe_str_cmp(user.password.encode('utf-8'), password.encode('utf-8')):
+        return user
+
+def identity(payload):
+    user_id = payload['identity']
+    return userid_table.get(user_id, None)
+
+jwt = JWT(app, authenticate, identity)
+
+# check if an extension is valid
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 # check if an extension is valid
 def allowed_file(filename):
@@ -534,6 +572,7 @@ def api():
 	return render_template('api.html')
 
 @app.route('/api/v1/dataset/list', methods=['GET'])
+@jwt_required()
 def listDataset():
 	if request.method == 'GET':
 		# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
@@ -548,6 +587,7 @@ def listDataset():
 		return jsonify(parsed_output)
 
 @app.route('/api/v1/dataset/searchDataset', methods=['GET'])
+@jwt_required()
 def searchDataset():
 	if request.method == 'GET':
 		# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
@@ -564,6 +604,7 @@ def searchDataset():
 		return jsonify(parsed_output)
 
 @app.route('/api/v1/dataset/searchSubject', methods=['GET'])
+@jwt_required()
 def searchSubject():
 	if request.method == 'GET':
 		# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
@@ -578,6 +619,7 @@ def searchSubject():
 		return jsonify(parsed_output)
 
 @app.route('/api/v1/dataset/searchKeyword', methods=['GET'])
+@jwt_required()
 def searchKeyword():
 	if request.method == 'GET':
 		# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
@@ -592,6 +634,7 @@ def searchKeyword():
 		return jsonify(parsed_output)	
 
 @app.route('/api/v1/dataset/searchGeoLocation', methods=['GET'])
+@jwt_required()
 def searchGeoLocation():
 	if request.method == 'GET':
 		# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
@@ -606,6 +649,7 @@ def searchGeoLocation():
 		return jsonify(parsed_output)	
 
 @app.route('/api/v1/dataset/searchGeoCoverage', methods=['GET'])
+@jwt_required()
 def searchGeoCoverage():
 	if request.method == 'GET':
 		# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
@@ -621,6 +665,7 @@ def searchGeoCoverage():
 		return jsonify(parsed_output)		
 
 @app.route('/api/v1/dataset/searchVerticalCoverage', methods=['GET'])
+@jwt_required()
 def searchVerticalCoverage():
 	if request.method == 'GET':
 		# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
@@ -636,6 +681,7 @@ def searchVerticalCoverage():
 		return jsonify(parsed_output)
 
 @app.route('/api/v1/dataset/searchTemporalCoverage', methods=['GET'])
+@jwt_required()
 def searchTemporalCoverage():
 	if request.method == 'GET':
 		# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
@@ -651,6 +697,7 @@ def searchTemporalCoverage():
 		return jsonify(parsed_output)
 
 @app.route('/api/v1/dataset/listVariables', methods=['GET'])
+@jwt_required()
 def listVariables():
 	if request.method == 'GET':
 		# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
@@ -665,6 +712,7 @@ def listVariables():
 		return jsonify(parsed_output)
 
 @app.route('/api/v1/dataset/searchVariable', methods=['GET'])
+@jwt_required()
 def searchVariable():
 	if request.method == 'GET':
 		# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
@@ -681,6 +729,7 @@ def searchVariable():
 # API POST for insert dataset's metadata automatically into Harmonization
 # Parameters: filename,idfile,idprofile in json 
 @app.route('/api/v1/dataset/insertAutomatic', methods=['POST'])
+@jwt_required()
 def insertAutomatic():
 	if not request.json or not 'fileName' in request.json:
 		abort(400)
@@ -756,7 +805,6 @@ class datasetInfo(object):
 		# self.variables = variables # map<string, string>
 		self.variables = variable
 		self.profileName = profileName
-
 
 if __name__ == '__main__':
 	app.run(debug=True, host='0.0.0.0')

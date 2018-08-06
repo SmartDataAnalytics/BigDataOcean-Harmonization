@@ -9,13 +9,13 @@ RUN apt-get update \
   && pip3 install --upgrade pip 
 
 
-# Install flask, flask bootstrap, requests, numpy, flask-testing
+# Install flask, flask bootstrap, requests, numpy, flask-testing, JWT
 RUN pip install flask
 RUN pip install flask-bootstrap
 RUN pip install requests 
 RUN pip install numpy
 RUN pip install Flask-Testing
-
+RUN pip install Flask-JWT
 
 # Install bdoHarmonization
 WORKDIR /BDOHarmonization
@@ -30,6 +30,10 @@ RUN apt-get install -y ruby
 RUN wget http://archive.apache.org/dist/jena/binaries/apache-jena-fuseki-3.4.0.zip
 RUN unzip apache-jena-fuseki-3.4.0.zip && rm apache-jena-fuseki-3.4.0.zip
 RUN chmod +x apache-jena-fuseki-3.4.0/bin/s-*
+
+#Security in Fuseki
+WORKDIR /apache-jena-fuseki-3.4.0/run/
+ADD shiro.ini /shiro.ini
 
 WORKDIR /
 ADD bdoHarmonization.ttl /fuseki/configuration/bdoHarmonization.ttl
