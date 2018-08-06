@@ -17,50 +17,60 @@
   </properties>
 
   <dependencies>
-  	<dependency>
-	    <groupId>org.apache.kafka</groupId>
-	    <artifactId>connect-api</artifactId>
-	    <version>2.0.0</version>
-	</dependency>
-  	<dependency>
-	    <groupId>net.sf.opencsv</groupId>
-	    <artifactId>opencsv</artifactId>
-	    <version>2.3</version>
-	</dependency>
-	<dependency>
-	    <groupId>com.mashape.unirest</groupId>
-	    <artifactId>unirest-java</artifactId>
-	    <version>1.4.9</version>
-	</dependency>
-	<dependency>
-	  <groupId>org.apache.httpcomponents</groupId>
-	  <artifactId>httpclient</artifactId>
-	  <version>4.3.6</version>
-	</dependency>
-	<dependency>
-	  <groupId>org.apache.httpcomponents</groupId>
-	  <artifactId>httpasyncclient</artifactId>
-	  <version>4.0.2</version>
-	</dependency>
-	<dependency>
-	  <groupId>org.apache.httpcomponents</groupId>
-	  <artifactId>httpmime</artifactId>
-	  <version>4.3.6</version>
-	</dependency>
-	<dependency>
-	  <groupId>org.json</groupId>
-	  <artifactId>json</artifactId>
-	  <version>20140107</version>
-	</dependency>
-  	<dependency>
-		<groupId>org.apache.hadoop</groupId>
-        <artifactId>hadoop-client</artifactId>
-        <version>2.9.0</version>
+    <dependency>
+      <groupId>org.apache.poi</groupId>
+      <artifactId>poi</artifactId>
+      <version>3.17</version>
     </dependency>
     <dependency>
-		<groupId>commons-io</groupId>
-        <artifactId>commons-io</artifactId>
-        <version>2.6</version>
+      <groupId>org.apache.poi</groupId>
+      <artifactId>poi-ooxml</artifactId>
+      <version>3.17</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.kafka</groupId>
+      <artifactId>connect-api</artifactId>
+      <version>2.0.0</version>
+    </dependency>
+    <dependency>
+      <groupId>net.sf.opencsv</groupId>
+      <artifactId>opencsv</artifactId>
+      <version>2.3</version>
+    </dependency>
+    <dependency>
+      <groupId>com.mashape.unirest</groupId>
+      <artifactId>unirest-java</artifactId>
+      <version>1.4.9</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpclient</artifactId>
+      <version>4.3.6</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpasyncclient</artifactId>
+      <version>4.0.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpmime</artifactId>
+      <version>4.3.6</version>
+    </dependency>
+    <dependency>
+      <groupId>org.json</groupId>
+      <artifactId>json</artifactId>
+      <version>20140107</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.hadoop</groupId>
+      <artifactId>hadoop-client</artifactId>
+      <version>2.9.0</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>2.6</version>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
@@ -69,14 +79,14 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-	  <groupId>com.googlecode.json-simple</groupId>
-	  <artifactId>json-simple</artifactId>
-	  <version>1.1.1</version>
-	</dependency>
+      <groupId>com.googlecode.json-simple</groupId>
+      <artifactId>json-simple</artifactId>
+      <version>1.1.1</version>
+    </dependency>
     <dependency>
-    	<groupId>org.jsoup</groupId>
-    	<artifactId>jsoup</artifactId>
-    	<version>1.10.3</version>
+      <groupId>org.jsoup</groupId>
+      <artifactId>jsoup</artifactId>
+      <version>1.10.3</version>
     </dependency>
     <dependency>
       <groupId>com.google.code.gson</groupId>
@@ -89,7 +99,7 @@
       <type>pom</type>
       <version>2.13.0</version>
     </dependency>
-     <dependency>
+    <dependency>
       <groupId>edu.ucar</groupId>
       <artifactId>cdm</artifactId> 
       <version>${netcdf.version}</version>
@@ -145,9 +155,9 @@
   
   <repositories>
     <repository>
-        <id>unidata-all</id>
-        <name>Unidata All</name>
-        <url>https://artifacts.unidata.ucar.edu/repository/unidata-all/</url>
+      <id>unidata-all</id>
+      <name>Unidata All</name>
+      <url>https://artifacts.unidata.ucar.edu/repository/unidata-all/</url>
     </repository>
   </repositories>
 
@@ -166,7 +176,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
-    	<version>3.1.0</version>
+      <version>3.1.0</version>
         <configuration>
           <archive>
             <manifest>

@@ -162,12 +162,13 @@ public class InsertDatasetAutomatic {
 		String[] tokens = nameExtension.split("\\.(?=[^\\.]+$)");
 		String name = tokens[0];
 		String extension = tokens[1];
-		if(extension.equals("csv")) {
+		if(extension.equals("csv") || extension.equals("xls") || extension.equals("xlsx")) {
 			//Extract the issuedDate and modifiedDate that contains the fileName iff the fileName has "_"
 			if (name.contains("_")) {
 				splitName = name.split("_");
-				issuedDate = splitName[1];
-				modifiedDate = splitName[2];
+				int size = splitName.length;
+				issuedDate = splitName[size-2];
+				modifiedDate = splitName[size-1];
 				result.setIssuedDate(BdoDatasetAnalyser.convertDate(issuedDate));
 				result.setModifiedDate(BdoDatasetAnalyser.convertDate(modifiedDate));
 			}else {

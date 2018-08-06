@@ -5,14 +5,21 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import org.apache.hadoop.fs.Path;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -281,19 +288,7 @@ public class BdoDatasetAnalyser {
 		String[] tokens = nameExtension.split("\\.(?=[^\\.]+$)");
 		//Get only the name
 		String name = tokens[0];
-		//Extract the issuedDate and modifiedDate that contains the name iff the name has "_"
-		if (name.contains("_")) {
-			String[] splitName = name.split("_");
-			name = splitName[0];
-			String issuedDate = splitName[1];
-			String modifiedDate = splitName[2];
-			result.setTitle(name);
-			result.setIssuedDate(convertDate(issuedDate));
-			result.setModifiedDate(convertDate(modifiedDate));
-		}else {
-			//Take only the name of the file
-			result.setTitle(name);
-		}
+		result = extractDatesFiles(name, result);
 		
 		result.setFormats("CSV");
 		
@@ -323,6 +318,92 @@ public class BdoDatasetAnalyser {
 		
 		return result;
 	}
+	
+	public static Dataset analyseDatasetExcel(String filename) throws IOException, ParseException, java.text.ParseException {
+		Dataset result = new Dataset();
+		
+		//read the file
+		String name = new File(filename).getName();
+		
+		HDFSFileSystem hdfsSys = new HDFSFileSystem(filename);
+		Path localFile = hdfsSys.copyFile(filename,Constants.configFilePath+"/Backend/AddDatasets/" + name);
+		
+		result = analyseDatasetFileExcel(localFile.toString());
+		
+		//Delete the temporal file
+		hdfsSys.deleteFile(Constants.configFilePath+"/Backend/AddDatasets/" + name);
+
+		return result;
+	}
+	
+	public static Dataset analyseDatasetFileExcel(String filename) throws IOException, ParseException, java.text.ParseException {
+		Dataset result = new Dataset();
+		List<String> listVariables = new ArrayList<>() ;
+		String nameExtension;
+		
+		//Get the name of the file with extension
+		nameExtension = new File(filename).getName();
+		String[] tokens = nameExtension.split("\\.(?=[^\\.]+$)");
+		//Get only the name
+		String name = tokens[0];
+		result = extractDatesFiles(name, result);
+		
+		result.setFormats("Excel");
+		
+		InputStream inp = null;
+		inp = new FileInputStream(filename);
+		try {
+			Workbook wb = WorkbookFactory.create(inp);
+	        listVariables = extractVariablesExcel(wb.getSheetAt(0));
+	        inp.close();
+		} catch (InvalidFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		//obtaining the corresponding variable name from the standard CF
+		result.setVariable(parserDatasetVariables(listVariables));
+		
+		//Delete the temporal file
+		Files.deleteIfExists(Paths.get(Constants.configFilePath+"/Backend/AddDatasets/" + nameExtension));
+		
+		return result;
+	}
+
+	//Extract the issuedDate and modifiedDate that contains the name iff the name has "_"
+	public static Dataset extractDatesFiles(String name, Dataset result) {
+		if (name.contains("_")) {
+			String[] splitName = name.split("_");
+			int size = splitName.length;
+			name = splitName[0];
+			String issuedDate = splitName[size-2];
+			String modifiedDate = splitName[size-1];
+			result.setTitle(name);
+			try {
+				result.setIssuedDate(convertDate(issuedDate));
+				result.setModifiedDate(convertDate(modifiedDate));
+			} catch (java.text.ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}else {
+			//Take only the name of the file
+			result.setTitle(name);
+		}
+		return result;
+	}
+	
+	// Extract the raw variables of the excel file
+	public static List<String> extractVariablesExcel(Sheet sheet) {
+        Row row = null;
+        row = sheet.getRow(0);
+		List<String> listVariables = new ArrayList<>() ;
+        for (int j = 0; j < row.getLastCellNum(); j++) {
+        	listVariables.add(row.getCell(j).toString());
+        }
+        System.out.println();
+        return listVariables;
+    }
 	
 	public static Dataset netcdMetadatExtractor(NetcdfFile nc) {
 		Dataset result = new Dataset();

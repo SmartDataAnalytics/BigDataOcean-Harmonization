@@ -17,7 +17,7 @@ globalPath = "/BDOHarmonization/BigDataOcean-Harmonization"
 
 GlobalURLJWT = "http://212.101.173.21:8085/"
 UPLOAD_FOLDER = globalPath+'/Backend/AddDatasets'
-ALLOWED_EXTENSIONS = set(['nc', 'csv'])
+ALLOWED_EXTENSIONS = set(['nc', 'csv', 'xlsx', 'xls'])
 
 #JWT authorization
 Authorization = 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJiZG8iLCJleHAiOjE1NTI0ODk1ODUsInJvbGUiOiJST0xFX0FETUlOIn0.o5cZnYT3MKwfmVt06EyCMWy2qpgFPwcwZg82a3jmkNZKOVCJIbnh-LsHnEIF8BEUdj9OKrurwtknYh5ObjgLvg'
@@ -278,6 +278,57 @@ def addCsv():
 			file = request.args['file']
 			idFile = request.args['idFile']
 			command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/suggest "%s" CSV' %file
+			try:
+				process = subprocess.check_output([command], shell="True")
+			except subprocess.CalledProcessError as e:
+				print(e)
+				return render_template('500.html')
+			# parsing output from maven script, to avoid log comments
+			process = process.split(b'\n')
+			# metadata parsed is converted into json class datasetInfo to be used inside the html form
+			parsed_output = json.loads(process[1].decode('utf-8'))
+			dataset = datasetInfo(**parsed_output)
+
+			return render_template('addMetadata.html', dataset=dataset, idFile=idFile)
+	except ValueError as e:  # includes simplejson.decoder.JSONDecodeError
+		print(e)
+		return render_template('500.html')
+
+@app.route('/addMetadata/EXCEL', methods=['GET', 'POST'])
+def addExcel():
+	try:
+		fileStorageTableJson = open(globalPath + "/Frontend/Flask/static/json/storageTable.json", "w+")
+		JWT_output = requests.get(GlobalURLJWT + 'fileHandler/table', headers={'Authorization': Authorization})
+		dataStorageTable = JWT_output.content.decode('utf-8')
+		fileStorageTableJson.write(str(dataStorageTable))
+		fileStorageTableJson.close()
+		if request.method == 'POST':
+			file = request.files['fileExcel']
+			if file.filename != '':
+				# Verify if the file is .csv
+				if file and allowed_file(file.filename):
+					# Create a general filename
+					filename = file.filename
+					# Saving the file in the UPLOAD_FOLDER with the filename
+					file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+					path_fileCsv = UPLOAD_FOLDER + "/" + filename
+					# print (path_fileNetcdf)
+					command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/suggest "%s" FileExcel' %path_fileCsv
+					try:
+						process = subprocess.check_output([command], shell="True")
+					except subprocess.CalledProcessError as e:
+						print(e)
+						return render_template('500.html')
+					# metadata parsed is converted into json class datasetInfo to be used inside the html form
+					parsed_output = json.loads(process.decode('utf-8'))
+					dataset = datasetInfo(**parsed_output)
+
+					return render_template('addMetadata.html', dataset=dataset, idFile='')
+			
+		elif request.method == 'GET':
+			file = request.args['file']
+			idFile = request.args['idFile']
+			command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/suggest "%s" Excel' %file
 			try:
 				process = subprocess.check_output([command], shell="True")
 			except subprocess.CalledProcessError as e:

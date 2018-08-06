@@ -4,33 +4,31 @@ function selectType() {
   if (value == "Copernicus Dataset") {
     document.getElementById('fileNetcdf').value = "";
     document.getElementById('fileCsv').value = "";
+    document.getElementById('fileExcel').value = "";
     document.getElementById('copernicusDiv').style.display = 'block';
     document.getElementById('otherDiv').style.display = 'none';
     document.getElementById('netcdfDiv').style.display = 'none';
     document.getElementById('csvDiv').style.display = 'none';
+    document.getElementById('excelDiv').style.display = 'none';
   }else if (value == "NetCDF Dataset File"){
     document.getElementById('uri').value = "";
     document.getElementById('fileCsv').value = "";
+    document.getElementById('fileExcel').value = "";
     document.getElementById('copernicusDiv').style.display = 'none';
     document.getElementById('otherDiv').style.display = 'none';
     document.getElementById('netcdfDiv').style.display = 'block';
     document.getElementById('csvDiv').style.display = 'none';
+    document.getElementById('excelDiv').style.display = 'none';
   }else if (value == "CSV Dataset File"){
     document.getElementById('uri').value = "";
     document.getElementById('fileNetcdf').value = "";
+    document.getElementById('fileExcel').value = "";
     document.getElementById('copernicusDiv').style.display = 'none';
     document.getElementById('otherDiv').style.display = 'none';
     document.getElementById('netcdfDiv').style.display = 'none';
     document.getElementById('csvDiv').style.display = 'block';
-  }else if (value == "Other"){
-    document.getElementById('uri').value = "";
-    document.getElementById('fileNetcdf').value = "";
-    document.getElementById('fileCsv').value = "";
-    document.getElementById('copernicusDiv').style.display = 'none';
-    document.getElementById('otherDiv').style.display = 'block';
-    document.getElementById('netcdfDiv').style.display = 'none';
-    document.getElementById('csvDiv').style.display = 'none';
-  }else {
+    document.getElementById('excelDiv').style.display = 'none';
+  }else if (value == "Excel Dataset File"){
     document.getElementById('uri').value = "";
     document.getElementById('fileNetcdf').value = "";
     document.getElementById('fileCsv').value = "";
@@ -38,6 +36,27 @@ function selectType() {
     document.getElementById('otherDiv').style.display = 'none';
     document.getElementById('netcdfDiv').style.display = 'none';
     document.getElementById('csvDiv').style.display = 'none';
+    document.getElementById('excelDiv').style.display = 'block';
+  }else if (value == "Other"){
+    document.getElementById('uri').value = "";
+    document.getElementById('fileNetcdf').value = "";
+    document.getElementById('fileCsv').value = "";
+    document.getElementById('fileExcel').value = "";
+    document.getElementById('copernicusDiv').style.display = 'none';
+    document.getElementById('otherDiv').style.display = 'block';
+    document.getElementById('netcdfDiv').style.display = 'none';
+    document.getElementById('csvDiv').style.display = 'none';
+    document.getElementById('excelDiv').style.display = 'none';
+  }else {
+    document.getElementById('uri').value = "";
+    document.getElementById('fileNetcdf').value = "";
+    document.getElementById('fileCsv').value = "";
+    document.getElementById('fileExcel').value = "";
+    document.getElementById('copernicusDiv').style.display = 'none';
+    document.getElementById('otherDiv').style.display = 'none';
+    document.getElementById('netcdfDiv').style.display = 'none';
+    document.getElementById('csvDiv').style.display = 'none';
+    document.getElementById('excelDiv').style.display = 'none';
   }
 }
 
@@ -69,6 +88,16 @@ function requireUri(){
     return false;
   }
   if (document.getElementById('csvDiv').style.display == 'block' && document.getElementById('fileCsv').value == ""){
+    $.alert({
+        title: 'Alert!',
+        content: 'Please fill the URL Field.',
+        type: 'red',
+        typeAnimated: true,
+        useBootstrap: true,
+    });
+    return false;
+  }
+  if (document.getElementById('excelDiv').style.display == 'block' && document.getElementById('fileExcel').value == ""){
     $.alert({
         title: 'Alert!',
         content: 'Please fill the URL Field.',
