@@ -6,6 +6,11 @@ Tool for harmonization of datasets in BigDataOcean
 $ docker-compose up
 ```
 
+- Run the Fuseki Server
+```sh
+$ ./initFuseki
+```
+
 - Run the API for adding metadata automatically (Kafka)
 ```sh
 $ ./initHarmonization

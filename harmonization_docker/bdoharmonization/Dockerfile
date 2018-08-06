@@ -31,6 +31,10 @@ RUN wget http://archive.apache.org/dist/jena/binaries/apache-jena-fuseki-3.4.0.z
 RUN unzip apache-jena-fuseki-3.4.0.zip && rm apache-jena-fuseki-3.4.0.zip
 RUN chmod +x apache-jena-fuseki-3.4.0/bin/s-*
 
+WORKDIR /
+ADD bdoHarmonization.ttl /fuseki/configuration/bdoHarmonization.ttl
+ADD TripleStore/ /fuseki/TripleStore/
+
 WORKDIR /BDOHarmonization/BigDataOcean-Harmonization/Frontend/Flask/
 ENTRYPOINT ["python"]
 CMD ["app.py"]

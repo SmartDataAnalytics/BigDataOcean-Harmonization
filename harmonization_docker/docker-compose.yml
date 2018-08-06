@@ -1,14 +1,7 @@
 version: '2'
 services:
-  fuseki:
-    build: "./fuseki"
-    ports:
-      - 3031:3030
-    environment:
-      - ADMIN_PASSWORD=bd0
   bdoharmonization:
     build: "./bdoharmonization"
     ports:
       - 5000:5000
-    links:
-      - fuseki
+    network_mode: "host"
