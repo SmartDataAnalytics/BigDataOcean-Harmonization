@@ -8,6 +8,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash, jso
 from flask_bootstrap import Bootstrap
 from pprint import pprint
 import numpy as np
+from datetime import datetime, timedelta
 from flask_jwt import JWT, jwt_required, current_identity
 from werkzeug.security import safe_str_cmp
 from werkzeug.utils import secure_filename
@@ -46,6 +47,7 @@ bootstrap = Bootstrap(app)
 # configuring the path of the upload folder
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['SECRET_KEY'] = 'super-secret'
+app.config['JWT_EXPIRATION_DELTA'] = timedelta(days = 365) # Expiration time of JWT token is for 1 year
 
 # Authentication JWT for APIs
 def authenticate(username, password):
