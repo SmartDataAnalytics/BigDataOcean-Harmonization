@@ -158,6 +158,26 @@
                   }
                 }
               });
+            } else if(extension == "xls" || extension == "xlsx"){
+              $.confirm({
+                title: 'Warning!',
+                content: 'Parsing the dataset might take a little time. Please be patient.',
+                type: 'orange',
+                useBootstrap: true,
+                typeAnimated: true,
+                buttons: {
+                  delete: {
+                    text: 'Ok',
+                    btnClass: 'btn-green',
+                    action: function(){
+                      return location.href = '/addMetadata/EXCEL?file=' + getSelectedRow().hdfsFullURI + '&idFile=' +
+                      getSelectedRow().id;
+                    }
+                  },
+                  cancel: function(){
+                  }
+                }
+              });
             } else {
               $.confirm({
                 title: 'Warning!',
