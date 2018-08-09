@@ -425,27 +425,13 @@ def save():
 				print(e)
 				return render_template('500.html')
 			# when the dataset is added to jena fuseki, redirects to the metadataInfo web page corresponding to the identifier
-			if b'Successful' in process:
-				if b' Profile= ' in process:
-					profileString = process.split(b' Profile= ')
-					# print ("The profile is: " + str(json.loads(profileString[1].decode('utf-8'))))
-					# send the profile to the define API
-					resultProfile = requests.post(GlobalURLJWT + 'fileHandler/metadataProfile/', 
-						json = json.loads(profileString[1].decode('utf-8')), 
-						headers={'Authorization': Authorization})
-					if resultProfile.status_code != 200:
-						return render_template('500.html')
-				if idFile != '':
-					# send the identifier to the corresponding API
-					result = requests.put(GlobalURLJWT + 'fileHandler/file/' + idFile + 
-						'/metadata/' + identifier, headers={'Authorization': Authorization})
-					if result.status_code == 200:
-						return redirect(url_for('metadataInfo', identifier=identifier))
-					else:
-						return render_template('500.html')
-				else:
+			if b'Successful' in process and not b'Error' in process:
 					return redirect(url_for('metadataInfo', identifier=identifier))
-			else:
+			elif b'Error1' in process:
+				return render_template('404.html', error='Metadata has been added but API: Profile is not being added.')
+			elif b'Error2' in process:
+				return render_template('404.html', error='Metadata has been added but API: Identifier is not being added to idfile.')
+			elif b'Error3' in process:
 				return render_template('404.html', error='URI already exists.')
 	except ValueError as e:  # includes simplejson.decoder.JSONDecodeError
 		print(e)

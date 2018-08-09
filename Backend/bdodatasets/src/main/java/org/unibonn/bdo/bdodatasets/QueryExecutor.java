@@ -14,7 +14,6 @@ public class QueryExecutor {
 				Constants.HTTPFUSEKI + "query", query);
 		boolean results = qe.execAsk();
 		return results;
-		
 	}
 	
 	public static void insertQuery(String dataset) {

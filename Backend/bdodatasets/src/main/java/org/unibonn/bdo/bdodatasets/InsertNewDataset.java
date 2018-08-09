@@ -19,7 +19,11 @@ import org.unibonn.bdo.objects.Dataset;
 import org.unibonn.bdo.objects.ProfileDataset;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.exceptions.UnirestException;
 
 /**
  *  
@@ -163,7 +167,7 @@ public class InsertNewDataset {
 		int j=0;
 		//lists the variables
 		for(Entry<String, String> var : newDataset.getVariables().entrySet()) {
-			String varKey = var.getKey().replace(" ", "_");
+			String varKey = var.getKey().replaceAll("[^a-zA-Z0-9]", "");
 			if(j == newDataset.getVariables().size()-1) {
 				insertQuery += "bdo:"+newDataset.getIdentifier()+"_"+varKey+" . \n ";
 			}else {
@@ -194,9 +198,9 @@ public class InsertNewDataset {
 	        if(!flagText) {
 	        	sameAs = "http://bigdataocean.eu/bdo/cf/parameter/" + var.getValue();
 	        }
-			String varKey = var.getKey().replace(" ", "_");
+			String varKey = var.getKey().replaceAll("[^a-zA-Z0-9]", "");
 			insertQuery += " bdo:"+newDataset.getIdentifier()+"_"+varKey+" a bdo:BDOVariable ; \n" + 
-					"    dct:identifier \""+varKey+"\" ; \n" +
+					"    dct:identifier \""+var.getKey()+"\" ; \n" +
 					"    skos:prefLabel \""+var.getValue()+"\"@en ; \n" +
 					"    owl:sameAs <"+sameAs+"> . \n" +
 					"    \n" ;
@@ -216,18 +220,12 @@ public class InsertNewDataset {
 				QueryExecutor.insertQuery(insertQuery);
 				resultFlag = true;
 				System.out.print("Successful");
-				if(!newDataset.getProfileName().equals("")) {
-					System.out.println(" Profile= " + printJsonProfile(newDataset));
-					//log.info("Dataset profile is" + printJsonProfile(newDataset));
-				}
-				if(param.length == 2) {
-					//Send to the kafka producer the idFile TOPIC2
-					InsertDatasetAutomatic.runProducer(param[1]);
-				}
+				//Request API post and put
+				requestAPIJWT(newDataset, param);
 				//log.info("Inserting dataset successfully");
 			}else{
 				resultFlag = false;
-				System.out.print(String.format("Error!   URI already exists."));
+				System.out.print("Error3!   URI already exists.");
 				//log.error("Error!   URI already exists.");
 			}
 		//if not, queries by a selection of parameters: title, publisher and issued date
@@ -249,18 +247,12 @@ public class InsertNewDataset {
 				QueryExecutor.insertQuery(insertQuery);
 				resultFlag = true;
 				System.out.print("Successful");
-				if(!newDataset.getProfileName().equals("")) {
-					System.out.println(" Profile= " + printJsonProfile(newDataset));
-					//log.info("Dataset profile is" + printJsonProfile(newDataset));
-				}
-				if(param.length == 4) {
-					//Send to the kafka producer the idFile TOPIC2
-					InsertDatasetAutomatic.runProducer(param[3]);
-				}
+				//Request API post and put
+				requestAPIJWT(newDataset, param);
 				//log.info("Datasets was inserted successfully");
 			}else{
 				resultFlag = false;
-				System.out.print(String.format("Error!   URI already exists."));
+				System.out.print("Error3!   URI already exists.");
 				//log.error("Error!   URI already exists.");
 			}
 		}
@@ -297,9 +289,82 @@ public class InsertNewDataset {
 				dataset.getSpatialSouth(), dataset.getSpatialNorth(), dataset.getCoordinateSystem(), dataset.getVerticalCoverageFrom(),
 				dataset.getVerticalCoverageTo(), dataset.getVerticalLevel(), dataset.getTemporalCoverageBegin(), dataset.getTemporalCoverageEnd(),
 				dataset.getTimeResolution(), variablesList);
-		String profile = gson.toJson(datasetProfile).toString();
+		String profile = gson.toJson(datasetProfile);
 		return profile;
 		
+	}
+
+	//Request API post and put
+	private static void requestAPIJWT(Dataset newDataset, String []param) {
+		HttpResponse<String> response; //Post the profile
+		HttpResponse<String> response1; //Put the identifier to an idFile
+		if(!newDataset.getProfileName().equals("")) {
+			try {
+				response = Unirest.post(Constants.HTTPJWT + "fileHandler/metadataProfile/")
+						.header("Content-Type", "application/json")
+						.header("Authorization", Constants.tokenAuthorization)
+						.body(printJsonProfile(newDataset))
+						.asString();
+				if(response.getStatus() == 200) {
+					//System.out.println(" Profile= " + printJsonProfile(newDataset));
+					//log.info("Dataset profile is" + printJsonProfile(newDataset));
+					System.out.println("Successful!	Profile is being added");
+				} else {
+					System.out.println("Error1!   Profile is not being added.");
+					//log.error("Error!   Profile is not being added.");
+				}
+			} catch (UnirestException | FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if(param.length == 2) {
+			String idFile = param[1];
+			try {
+				response1 = Unirest.put(Constants.HTTPJWT + "fileHandler/file/" + idFile + 
+						"/metadata/" + newDataset.getIdentifier())
+						.header("Content-Type", "application/json")
+						.header("Authorization", Constants.tokenAuthorization)
+						.asString();
+				if(response1.getStatus() == 200) {
+					//System.out.println(" Profile= " + printJsonProfile(newDataset));
+					//log.info("Dataset profile is" + printJsonProfile(newDataset));
+					System.out.println("Successful!	Identifier is being added");
+					
+					//Send to the kafka producer the idFile TOPIC2
+					InsertDatasetAutomatic.runProducer(idFile);
+				} else {
+					System.out.println("Error2!   Identifier is not being added.");
+					//log.error("Error!   Identifier is not being added.");
+				}
+			} catch (UnirestException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}else if(param.length == 4) {
+			String idFile = param[3];
+			try {
+				response1 = Unirest.put(Constants.HTTPJWT + "fileHandler/file/" + idFile + 
+						"/metadata/" + newDataset.getIdentifier())
+						.header("Content-Type", "application/json")
+						.header("Authorization", Constants.tokenAuthorization)
+						.asString();
+				if(response1.getStatus() == 200) {
+					//System.out.println(" Profile= " + printJsonProfile(newDataset));
+					//log.info("Dataset profile is" + printJsonProfile(newDataset));
+					System.out.println("Successful!	Identifier is being added");
+					
+					//Send to the kafka producer the idFile TOPIC2
+					InsertDatasetAutomatic.runProducer(idFile);
+				} else {
+					System.out.println("Error2!   Identifier is not being added.");
+					//log.error("Error!   Identifier is not being added.");
+				}
+			} catch (UnirestException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 	
 }
