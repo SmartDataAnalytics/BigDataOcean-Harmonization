@@ -1,440 +1,397 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-  <title>BigDataOcean Harmonization </title>
-  <link rel='icon' href='../static/img/BIG-DATA-OCEAN_LOGO.ico'>
-</head>
-<body>
-  <nav class="navbar navbar-bdo navbar-fixed-top">
-    <div class="container">
-      <div class="navbar-header">
-        <div class="icon">
-          <a id="logo" title="BigDataOcean Repository" href="/">
-            <img itemprop="image" alt="BigDataOcean Repository" src="../static/img/BIG-DATA-OCEAN_LOGO.png" height="86" width="200">
-          </a>
-        </div>
-        <div class="bdotitle label-table">
-          <h1>Big Data Ocean - Dataset Harmonization</h1>
-        </div>
+{% extends "layout.html" %}
+
+{% block logo %}
+  <img class="logoHeader" itemprop="image" alt="BigDataOcean Repository" src="../static/img/logoaccount.png" height="86" width="200">
+{% endblock %}
+
+{% block body %}
+  <form id="metadataForm" name="metadataForm" class="form-style" method="POST" onSubmit="modifyAlert()" action="/edit" >
+    <div class="row content">
+      <div class="col-md-1">
       </div>
-      <div class="collapse navbar-collapse" id="myNavbar">
+      <div class="buttonForm">
+        <button id="btnSave" type="submit" class="btn btn-default" disabled>Save</button>
+        <button type="button" class="btn btn-danger" onclick="cancelButton()">Cancel</button>
+      </div>
+      <div class="col-md-1">
       </div>
     </div>
-  </nav>
-  <div class="container text-center" style="margin-top:90px">
-    <form id="metadataForm" name="metadataForm" class="form-style" method="POST" onSubmit="modifyAlert()" action="/edit" >
-      <div class="row content">
-        <div class="col-md-1">
-        </div>
-        <div class="buttonForm">
-          <button id="btnSave" type="submit" class="btn btn-default" disabled>Save</button>
-          <button type="button" class="btn btn-danger" onclick="cancelButton()">Cancel</button>
-        </div>
-        <div class="col-md-1">
-        </div>
+    <div class="row content">
+      <div class="col-md-1">
       </div>
-      <div class="row content">
-        <div class="col-md-1">
+      <div class="col-md-10 metadata-info">
+        <div class="alert alert-danger alert-dismissable" id="alert-fieldsEmpty">
+          <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+          <strong>* These fields are required!</strong> 
         </div>
-        <div class="col-md-10 metadata-info">
-          <div class="alert alert-danger alert-dismissable" id="alert-fieldsEmpty">
-            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-            <strong>* These fields are required!</strong> 
-          </div>
-          <table class="tableMetadata">
-            <thead>
-              <th class="labels-table-addmetadata"></th>
-              <th class="info-table"></th>
-            </thead>
-            <tbody>
-              <tr style='display: none;'>
-                <td>
-                  <label class="label-table" for="identifier">Identifier:</label>
-                </td>
-                <td colspan="8">
-                  <input type="text" class="form-control" id="identifier" name="identifier" value="{{dataset.identifier}}">
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label class="label-table-mandatory">* </label>
-                  <label class="label-table" for="title">Title:</label>
-                </td>
-                <td colspan="8">
-                  <input type="text" class="form-control" id="title" name="title" required value="{{ dataset.title }}">
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label class="label-table-mandatory">* </label>
-                  <label class="label-table" for="description">Description:</label>
-                </td>
-                <td colspan="8">
-                  <textarea class="form-control" rows="2" id="description" name="description" required>{{dataset.description}}</textarea>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label class="label-table-mandatory">* </label>
-                  <label class="label-table" for="subject">Subject:</label>
-                </td>
-                <td colspan="8">                            
-                  <input type="text" class="form-control" id="tokenfield_subject" name="tokenfield_subject" required value="{{ dataset.subject }}">
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label class="label-table-mandatory">* </label>
-                  <label class="label-table" for="keywords">Keywords:</label>
-                </td>
-                <td colspan="8">                            
-                  <input type="text" class="form-control" id="tokenfield_keywords" name="tokenfield_keywords" required value="{{ dataset.keywords }}">
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label class="label-table" for="standards">Standards:</label>
-                </td>
-                <td colspan="8">                            
-                  <input type="text" class="form-control" id="standards" name="standards" value="{{ dataset.standards }}">
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label class="label-table " for="data_format">Data Format:</label>
-                </td>
-                <td colspan="8">                            
-                  <input type="text" class="form-control" id="tokenfield_format" name="tokenfield_format" value="{{ dataset.formats }}">
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label class="label-table-mandatory">* </label>
-                  <label class="label-table" for="language">Language:</label>
-                </td>
-                <td colspan="8">
-                  {%if dataset.language|default("") != ""%}
-                    <input type="text" class="form-control" id="tokenfield_language" name="tokenfield_language" required value="{{dataset.language}}">
-                  {%else%}
-                    <input type="text" class="form-control" id="tokenfield_language" name="tokenfield_language" required value="eng">
-                  {% endif %}
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label class="label-table" for="homepage">Homepage:</label>
-                </td>
-                <td colspan="8">
-                  <input type="url" class="form-control" id="homepage" name="homepage" value="{{dataset.homepage}}">
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label class="label-table-mandatory">* </label>
-                  <label class="label-table" for="publisher">Publisher:</label>
-                </td>
-                <td colspan="8">
-                  <input type="text" class="form-control" id="publisher" name="publisher" required value="{{dataset.publisher}}">
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label class="label-table" for="source">Source:</label>
-                </td>
-                <td colspan="8">
-                  <input type="text" class="form-control" id="source" name="source" value="{{dataset.source}}">
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label class="label-table" for="observations">Observations:</label>
-                </td>
-                <td colspan="8">
-                  <input type="text" class="form-control" id="observations" name="observations" value="{{dataset.observations}}">
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label class="label-table-mandatory">* </label>
-                  <label class="label-table" for="storageTable">Storage Table:</label>
-                </td>
-                <td colspan="8">
-                  <input type="text" class="form-control-autocomplete-storage" id="storageTable" name="storageTable" required value="{{dataset.storageTable}}">
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label class="label-table " for="access_rights">Access rights:</label>
-                </td>
-                <td colspan="8">
-                  <input type="text" class="form-control" id="access_rights" name="access_rights" value="{{ dataset.accessRights }}">
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label class="label-table-mandatory">* </label>
-                  <label class="label-table " for="issued_date">Issued date:</label>
-                </td>
-                <td colspan="8">
-                  <input type="datetime-local" step="1" class="form-control" id="issued_date" name="issued_date" required value="{{ dataset.issuedDate }}">
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label class="label-table-mandatory">* </label>
-                  <label class="label-table " for="modified_date">Modified date:</label>
-                </td>
-                <td colspan="8">
-                  <input type="datetime-local" step="1" class="form-control" id="modified_date" name="modified_date" required value="{{ dataset.modifiedDate }}">
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="col-md-1">
-        </div>
+        <table class="tableMetadata">
+          <thead>
+            <th class="labels-table-addmetadata"></th>
+            <th class="info-table"></th>
+          </thead>
+          <tbody>
+            <tr style='display: none;'>
+              <td>
+                <label class="label-table" for="identifier">Identifier:</label>
+              </td>
+              <td colspan="8">
+                <input type="text" class="form-control" id="identifier" name="identifier" value="{{dataset.identifier}}">
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-table-mandatory">* </label>
+                <label class="label-table" for="title">Title:</label>
+              </td>
+              <td colspan="8">
+                <input type="text" class="form-control" id="title" name="title" required value="{{ dataset.title }}">
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-table-mandatory">* </label>
+                <label class="label-table" for="description">Description:</label>
+              </td>
+              <td colspan="8">
+                <textarea class="form-control" rows="2" id="description" name="description" required>{{dataset.description}}</textarea>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-table-mandatory">* </label>
+                <label class="label-table" for="subject">Subject:</label>
+              </td>
+              <td colspan="8">                            
+                <input type="text" class="form-control" id="tokenfield_subject" name="tokenfield_subject" required value="{{ dataset.subject }}">
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-table-mandatory">* </label>
+                <label class="label-table" for="keywords">Keywords:</label>
+              </td>
+              <td colspan="8">                            
+                <input type="text" class="form-control" id="tokenfield_keywords" name="tokenfield_keywords" required value="{{ dataset.keywords }}">
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-table" for="standards">Standards:</label>
+              </td>
+              <td colspan="8">                            
+                <input type="text" class="form-control" id="standards" name="standards" value="{{ dataset.standards }}">
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-table " for="data_format">Data Format:</label>
+              </td>
+              <td colspan="8">                            
+                <input type="text" class="form-control" id="tokenfield_format" name="tokenfield_format" value="{{ dataset.formats }}">
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-table-mandatory">* </label>
+                <label class="label-table" for="language">Language:</label>
+              </td>
+              <td colspan="8">
+                {%if dataset.language|default("") != ""%}
+                  <input type="text" class="form-control" id="tokenfield_language" name="tokenfield_language" required value="{{dataset.language}}">
+                {%else%}
+                  <input type="text" class="form-control" id="tokenfield_language" name="tokenfield_language" required value="eng">
+                {% endif %}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-table" for="homepage">Homepage:</label>
+              </td>
+              <td colspan="8">
+                <input type="url" class="form-control" id="homepage" name="homepage" value="{{dataset.homepage}}">
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-table-mandatory">* </label>
+                <label class="label-table" for="publisher">Publisher:</label>
+              </td>
+              <td colspan="8">
+                <input type="text" class="form-control" id="publisher" name="publisher" required value="{{dataset.publisher}}">
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-table" for="source">Source:</label>
+              </td>
+              <td colspan="8">
+                <input type="text" class="form-control" id="source" name="source" value="{{dataset.source}}">
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-table" for="observations">Observations:</label>
+              </td>
+              <td colspan="8">
+                <input type="text" class="form-control" id="observations" name="observations" value="{{dataset.observations}}">
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-table-mandatory">* </label>
+                <label class="label-table" for="storageTable">Storage Table:</label>
+              </td>
+              <td colspan="8">
+                <input type="text" class="form-control-autocomplete-storage" id="storageTable" name="storageTable" required value="{{dataset.storageTable}}">
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-table " for="access_rights">Access rights:</label>
+              </td>
+              <td colspan="8">
+                <input type="text" class="form-control" id="access_rights" name="access_rights" value="{{ dataset.accessRights }}">
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-table-mandatory">* </label>
+                <label class="label-table " for="issued_date">Issued date:</label>
+              </td>
+              <td colspan="8">
+                <input type="datetime-local" step="1" class="form-control" id="issued_date" name="issued_date" required value="{{ dataset.issuedDate }}">
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-table-mandatory">* </label>
+                <label class="label-table " for="modified_date">Modified date:</label>
+              </td>
+              <td colspan="8">
+                <input type="datetime-local" step="1" class="form-control" id="modified_date" name="modified_date" required value="{{ dataset.modifiedDate }}">
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-      <div class="row content">
-        <div class="col-md-1">
-        </div>
-        <div class="col-md-10 metadata-spatial">
-          <table class="tableMetadata">
-            <thead>
-              <th class="labels-table"></th>
-              <th colspan="8" class="info-table"></th>
-            </thead>
-            <tbody>
-              <tr>
-                <td>
-                  <label class="label-table" for="geoLocation">Geographic Location:</label>
-                </td>
-                <td colspan="8">
-                  <input type="text" class="form-control" id="tokenfield_geo_loc" name="tokenfield_geo_loc" value="{{dataset.geoLocation}}">
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label class="label-table">Geographical Coverage:</label>
-                </td>
-                <td style="width: 5%;">
-                  <label class="label-table-coordinates" for="geo_coverageW">W:</label>
-                </td>
-                <td style="width: 10%;">
-                  <input type="number" class="form-control" id="geo_coverageW" name="geo_coverageW" step="any" value="{{dataset.spatialWest}}">
-                </td>
-                <td style="width: 5%;">
-                  <label class="label-table-coordinates" for="geo_coverageE">E:</label>
-                </td>
-                <td style="width: 20%;">
-                  <input type="number" class="form-control" id="geo_coverageE" name="geo_coverageE" step="any" value="{{dataset.spatialEast}}">
-                </td>
-                <td style="width: 5%;">
-                  <label class="label-table-coordinates" for="geo_coverageS">S:</label>
-                </td>
-                <td style="width: 10%;">
-                  <input type="number" class="form-control" id="geo_coverageS" name="geo_coverageS" step="any" value="{{dataset.spatialSouth}}">
-                </td>
-                <td style="width: 5%;">
-                  <label class="label-table-coordinates" for="geo_coverageN">N:</label>
-                </td>
-                <td style="width: 10%;">
-                  <input type="number" class="form-control" id="geo_coverageN" name="geo_coverageN" step="any" value="{{dataset.spatialNorth}}">
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label class="label-table " for="coordinate_sys">Coordinate reference system:</label>
-                </td>
-                <td colspan="8">
-                  <input type="text" class="form-control" id="coordinate_sys" name="coordinate_sys" value="{{dataset.coordinateSystem}}">
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label class="label-table">Vertical Coverage:</label>
-                </td>
-                <td colspan="1" style="width: 5%;">
-                  <center>
-                    <label class="label-table" for="vert_coverage_from">from</label>
-                  </center>
-                </td>
-                <td colspan="3" style="width: 30%;">
-                  <input type="number" step="1" class="form-control" id="vert_coverage_from" name="vert_coverage_from" value="{{dataset.verticalCoverageFrom}}">
-                </td>
-                <td colspan="1" style="width: 5%;">
-                  <center>
-                    <label class="label-table" for="vert_coverage_to">to</label>
-                  </center>
-                </td>
-                <td colspan="3" style="width: 30%;">
-                  <input type="number" step="1" class="form-control" id="vert_coverage_to" name="vert_coverage_to" value="{{dataset.verticalCoverageTo}}">
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label class="label-table" for="vertical_level">Vertical Level:</label>
-                </td>
-                <td colspan="8">
-                  <input type="number" class="form-control" id="vertical_level" name="vertical_level" value="{{dataset.verticalLevel}}">
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label class="label-table " for="temp_coverage_begin">Temporal Coverage:</label>
-                </td>
-                <td colspan="3" style="width: 30%;">
-                  <input type="datetime-local" step="1" class="form-control" id="temp_coverage_begin" name="temp_coverage_begin" value="{{dataset.temporalCoverageBegin}}">
-                </td>
-                <td colspan="2" style="width: 10%;">
-                  <center>
-                    <label class="label-table" for="temp_coverage_end">to</label>
-                  </center>
-                </td>
-                <td colspan="3" style="width: 30%;">
-                  <input type="datetime-local" step="1" class="form-control" id="temp_coverage_end" name="temp_coverage_end" value="{{dataset.temporalCoverageEnd}}">
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label class="label-table-mandatory">* </label>
-                  <label class="label-table " for="time_resolution">Time Resolution:</label>
-                </td>
-                <td colspan="8">
-                  <input type="text" class="form-control" id="time_reso" name="time_reso" required value="{{dataset.timeResolution}}">
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="col-md-1">
-        </div>
+      <div class="col-md-1">
       </div>
-      <div class="row content">
-        <div class="col-md-1">
-        </div>
-        <div class="col-md-10 metadata-variables">
-          <div class="buttonBar clearfix">
-            <a class="btn btn-primary pull-right add-record" data-added="0"><i class="glyphicon glyphicon-plus"></i> Add Row</a>
-          </div>
-          <table class="table table-bordered" id="tbl_posts">
-            <thead>
-              <tr>
-                <th style="width: 500px;"><label class="label-table-mandatory">* </label>Dataset Variable</th>
-                <th><label class="label-table-mandatory">* </label>BDO Variable</th>
-                <th style="width: 1px;">Action</th>
-              </tr>
-            </thead>
-            <tbody id="tbl_posts_body">
-            </tbody>
-          </table>
-          <script type="text/javascript">
-            var response = {{ dataset.variables|safe }};
-          </script>
-          <div class="buttonBar clearfix">
-            <a class="btn btn-primary pull-right add-record" data-added="0"><i class="glyphicon glyphicon-plus"></i> Add Row</a>
-          </div>
-          <div style="display:none;">
-            <table id="sample_table">
-              <tr id="">
-               <td>
-                <input type="text" class="form-control" id="parser_variable" name="parser_variable">
-               </td>
-               <td>
-                <input type="text" class="form-control-autocomplete" id="json_variable" name="json_variable">
-               </td>
-               <td>
+    </div>
+    <div class="row content">
+      <div class="col-md-1">
+      </div>
+      <div class="col-md-10 metadata-spatial">
+        <table class="tableMetadata">
+          <thead>
+            <th class="labels-table"></th>
+            <th colspan="8" class="info-table"></th>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <label class="label-table" for="geoLocation">Geographic Location:</label>
+              </td>
+              <td colspan="8">
+                <input type="text" class="form-control" id="tokenfield_geo_loc" name="tokenfield_geo_loc" value="{{dataset.geoLocation}}">
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-table">Geographical Coverage:</label>
+              </td>
+              <td style="width: 5%;">
+                <label class="label-table-coordinates" for="geo_coverageW">W:</label>
+              </td>
+              <td style="width: 10%;">
+                <input type="number" class="form-control" id="geo_coverageW" name="geo_coverageW" step="any" value="{{dataset.spatialWest}}">
+              </td>
+              <td style="width: 5%;">
+                <label class="label-table-coordinates" for="geo_coverageE">E:</label>
+              </td>
+              <td style="width: 20%;">
+                <input type="number" class="form-control" id="geo_coverageE" name="geo_coverageE" step="any" value="{{dataset.spatialEast}}">
+              </td>
+              <td style="width: 5%;">
+                <label class="label-table-coordinates" for="geo_coverageS">S:</label>
+              </td>
+              <td style="width: 10%;">
+                <input type="number" class="form-control" id="geo_coverageS" name="geo_coverageS" step="any" value="{{dataset.spatialSouth}}">
+              </td>
+              <td style="width: 5%;">
+                <label class="label-table-coordinates" for="geo_coverageN">N:</label>
+              </td>
+              <td style="width: 10%;">
+                <input type="number" class="form-control" id="geo_coverageN" name="geo_coverageN" step="any" value="{{dataset.spatialNorth}}">
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-table " for="coordinate_sys">Coordinate reference system:</label>
+              </td>
+              <td colspan="8">
+                <input type="text" class="form-control" id="coordinate_sys" name="coordinate_sys" value="{{dataset.coordinateSystem}}">
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-table">Vertical Coverage:</label>
+              </td>
+              <td colspan="1" style="width: 5%;">
                 <center>
-                  <a class="btn btn-xs delete-record" data-id="0"><i class="glyphicon glyphicon-remove glyphiconRemove"></i></a>
+                  <label class="label-table" for="vert_coverage_from">from</label>
                 </center>
               </td>
-             </tr>
-           </table>
-         </div>
-        </div>
-        <div class="col-md-1">
-        </div>
+              <td colspan="3" style="width: 30%;">
+                <input type="number" step="1" class="form-control" id="vert_coverage_from" name="vert_coverage_from" value="{{dataset.verticalCoverageFrom}}">
+              </td>
+              <td colspan="1" style="width: 5%;">
+                <center>
+                  <label class="label-table" for="vert_coverage_to">to</label>
+                </center>
+              </td>
+              <td colspan="3" style="width: 30%;">
+                <input type="number" step="1" class="form-control" id="vert_coverage_to" name="vert_coverage_to" value="{{dataset.verticalCoverageTo}}">
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-table" for="vertical_level">Vertical Level:</label>
+              </td>
+              <td colspan="8">
+                <input type="number" class="form-control" id="vertical_level" name="vertical_level" value="{{dataset.verticalLevel}}">
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-table " for="temp_coverage_begin">Temporal Coverage:</label>
+              </td>
+              <td colspan="3" style="width: 30%;">
+                <input type="datetime-local" step="1" class="form-control" id="temp_coverage_begin" name="temp_coverage_begin" value="{{dataset.temporalCoverageBegin}}">
+              </td>
+              <td colspan="2" style="width: 10%;">
+                <center>
+                  <label class="label-table" for="temp_coverage_end">to</label>
+                </center>
+              </td>
+              <td colspan="3" style="width: 30%;">
+                <input type="datetime-local" step="1" class="form-control" id="temp_coverage_end" name="temp_coverage_end" value="{{dataset.temporalCoverageEnd}}">
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-table-mandatory">* </label>
+                <label class="label-table " for="time_resolution">Time Resolution:</label>
+              </td>
+              <td colspan="8">
+                <input type="text" class="form-control" id="time_reso" name="time_reso" required value="{{dataset.timeResolution}}">
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-      <div class="row content">
-        <div class="col-md-1">
-        </div>
-        <div class="buttonForm">
-           <button id="btnSave1" type="submit" class="btn btn-default" disabled>Save</button>
-          <button type="button" class="btn btn-danger" onclick="cancelButton()">Cancel</button>
-        </div>
-        <div class="col-md-1">
-        </div>
-      </div>
-    </form>
-  </div>  
-  <footer class="container-fluid text-center">
-    <div class="wrpl"><a href="http://www.bigdataocean.eu/site/">
-        <dl>
-          <dt><img class="BDO_logo" src="../static/img/BIG-DATA-OCEAN_LOGO.png"></dt>
-          <dd><strong>Big Data Ocean</strong></dd>
-        </dl></a></div>
-    <div class="wrpl"><br>
-      <div class="bookmarks"><b>Documentation</b>
-        <ul>
-          <li><a href="/api" title="API documentation">API documentation</a></li>
-          <li><a href="https://github.com/SmartDataAnalytics/BigDataOcean-Harmonization" title="Source in GitHub" target="_blank">Source code</a></li>
-        </ul>
-      </div>
-      <div class="bookmarks"><b>Publication</b>
-        <ul>
-          <li><a href="https://doi.org/10.5281/zenodo.833359" title="IEEE '17" target="_blank">IEEE '17</a></li>
-        </ul>
-      </div>
-      <div class="bookmarks"><b>BDO Platform</b>
-        <ul>
-          <li><a href="http://bdo-dev.epu.ntua.gr/bdo" title="BigDataOcean Platform" target="_blank">BigDataOcean Platform</a></li>
-        </ul>
+      <div class="col-md-1">
       </div>
     </div>
-  </footer>
-</body>
+    <div class="row content">
+      <div class="col-md-1">
+      </div>
+      <div class="col-md-10 metadata-variables">
+        <div class="buttonBar clearfix">
+          <a class="btn btn-primary pull-right add-record" data-added="0"><i class="glyphicon glyphicon-plus"></i> Add Row</a>
+        </div>
+        <table class="table table-bordered" id="tbl_posts">
+          <thead>
+            <tr>
+              <th style="width: 500px;"><label class="label-table-mandatory">* </label>Dataset Variable</th>
+              <th><label class="label-table-mandatory">* </label>BDO Variable</th>
+              <th style="width: 1px;">Action</th>
+            </tr>
+          </thead>
+          <tbody id="tbl_posts_body">
+          </tbody>
+        </table>
+        <script type="text/javascript">
+          var response = {{ dataset.variables|safe }};
+        </script>
+        <div class="buttonBar clearfix">
+          <a class="btn btn-primary pull-right add-record" data-added="0"><i class="glyphicon glyphicon-plus"></i> Add Row</a>
+        </div>
+        <div style="display:none;">
+          <table id="sample_table">
+            <tr id="">
+             <td>
+              <input type="text" class="form-control" id="parser_variable" name="parser_variable">
+             </td>
+             <td>
+              <input type="text" class="form-control-autocomplete" id="json_variable" name="json_variable">
+             </td>
+             <td>
+              <center>
+                <a class="btn btn-xs delete-record" data-id="0"><i class="glyphicon glyphicon-remove glyphiconRemove"></i></a>
+              </center>
+            </td>
+           </tr>
+         </table>
+       </div>
+      </div>
+      <div class="col-md-1">
+      </div>
+    </div>
+    <div class="row content">
+      <div class="col-md-1">
+      </div>
+      <div class="buttonForm">
+         <button id="btnSave1" type="submit" class="btn btn-default" disabled>Save</button>
+        <button type="button" class="btn btn-danger" onclick="cancelButton()">Cancel</button>
+      </div>
+      <div class="col-md-1">
+      </div>
+    </div>
+  </form>
+{% endblock %}
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap-theme.min.css">
-<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
-<link rel="stylesheet" href="../static/css/bootstrap-tokenfield.css">
-<link rel="stylesheet" href="../static/css/tokenfield-typeahead.css">
-<link rel="stylesheet" href="../static/css/easy-autocomplete.min.css"> 
-<link rel="stylesheet" href="../static/css/easy-autocomplete.themes.min.css"> 
-<link rel="stylesheet" href="../static/css/style.css">
-<link rel="stylesheet" href="../static/css/jquery-confirm.css">
+{% block extracssjs %}
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+  <link rel="stylesheet" href="../static/css/bootstrap-tokenfield.css">
+  <link rel="stylesheet" href="../static/css/tokenfield-typeahead.css">
+  <link rel="stylesheet" href="../static/css/easy-autocomplete.min.css"> 
+  <link rel="stylesheet" href="../static/css/easy-autocomplete.themes.min.css"> 
+  <link rel="stylesheet" href="../static/css/style.css">
+  <link rel="stylesheet" href="../static/css/jquery-confirm.css">
 
-<script src="../static/js/jquery-3.2.1.min.js"></script>
-<script src="http://code.jquery.com/ui/1.12.1/jquery-ui.js" ></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
-<script src="../static/js/Bloodhound.js"></script>
-<script src="../static/js/bootstrap-tokenfield.js"></script>
-<script src="../static/js/typeahead.bundle.js"></script>
-<script src="../static/js/jquery.easy-autocomplete.min.js"></script> 
-<script type="text/javascript" src="../static/js/jquery.dirrty.js"></script>
-<script src="../static/js/jquery-confirm.js"></script>
-<script type="text/javascript" src="../static/js/editmetadatascript.js"></script>
-<script type="text/javascript">
-  function validateForm() {
-    var x = document.forms["metadataForm"]["fname"].value;
-    if (document.forms["metadataForm"]["title"].value == "") {
+  <script src="../static/js/jquery-3.2.1.min.js"></script>
+  <script src="http://code.jquery.com/ui/1.12.1/jquery-ui.js" ></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <script src="../static/js/Bloodhound.js"></script>
+  <script src="../static/js/bootstrap-tokenfield.js"></script>
+  <script src="../static/js/typeahead.bundle.js"></script>
+  <script src="../static/js/jquery.easy-autocomplete.min.js"></script> 
+  <script type="text/javascript" src="../static/js/jquery.dirrty.js"></script>
+  <script src="../static/js/jquery-confirm.js"></script>
+  <script type="text/javascript" src="../static/js/editmetadatascript.js"></script>
+  <script type="text/javascript">
+    function validateForm() {
+      var x = document.forms["metadataForm"]["fname"].value;
+      if (document.forms["metadataForm"]["title"].value == "") {
+        $.alert({
+          title: 'Alert!',
+          content: 'Name must be filled out',
+          useBootstrap: true,
+          typeAnimated: true
+        });
+        return false;
+      }
+    }
+    function modifyAlert(){
       $.alert({
-        title: 'Alert!',
-        content: 'Name must be filled out',
+        icon: 'fa fa-spinner fa-spin',
+        title: 'Working!',
+        content: 'This operation might take a little time, thank you for your patience!',
         useBootstrap: true,
         typeAnimated: true
       });
-      return false;
     }
-  }
-  function modifyAlert(){
-    $.alert({
-      icon: 'fa fa-spinner fa-spin',
-      title: 'Working!',
-      content: 'This operation might take a little time, thank you for your patience!',
-      useBootstrap: true,
-      typeAnimated: true
-    });
-  }
-</script>
-</html>
+  </script>
+{% endblock %}

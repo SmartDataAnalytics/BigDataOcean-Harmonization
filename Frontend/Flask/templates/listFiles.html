@@ -1,82 +1,38 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-  <title>BigDataOcean Harmonization </title>
-  <link rel='icon' href='/static/img/BIG-DATA-OCEAN_LOGO.ico'>
-</head>
+{% extends "layout.html" %}
 
-<body>
-  <nav class="navbar navbar-bdo navbar-fixed-top">
-    <div class="container">
-        <div class="navbar-header">
-            <div class="icon">
-                <a id="logo" title="BigDataOcean Repository" href="/">
-                    <img itemprop="image" alt="BigDataOcean Repository" src="static/img/BIG-DATA-OCEAN_LOGO.png" height="86" width="200">
-                </a>
-            </div>
-            <div class="bdotitle label-table">
-                <h1>Big Data Ocean - Dataset Harmonization</h1>
-            </div>
+{% block logo %}
+  <img class="logoHeader" itemprop="image" alt="BigDataOcean Repository" src="static/img/logoaccount.png" height="86" width="200">
+{% endblock %}
+
+{% block body %}
+  <div class="row content metadata-row" id="metadata">
+      <div class="col-md-1">
+      </div>
+      <div class="col-md-10 metadata-info">
+        <div id="toolbar">
+          <button id="addButton" class="btn btn-default">
+            <i class="glyphicon glyphicon-plus"></i> Add
+          </button>
         </div>
-        <div class="collapse navbar-collapse" id="myNavbar">
+        <div class="alert alert-info">
+           <i class="glyphicon glyphicon-info-sign"></i> Here you can find the dataset files without metadata.
         </div>
-    </div>
-  </nav>
-  <div class="container text-center" style="margin-top:90px">
-    <div class="row content metadata-row" id="metadata">
-        <div class="col-md-1">
-        </div>
-        <div class="col-md-10 metadata-info">
-          <div id="toolbar">
-            <button id="addButton" class="btn btn-default">
-              <i class="glyphicon glyphicon-plus"></i> Add
-            </button>
-          </div>
-          <div class="alert alert-info">
-             <i class="glyphicon glyphicon-info-sign"></i> Here you can find the dataset files without metadata.
-          </div>
-          <table id="tableList" data-toggle="true"
-            data-toolbar="#toolbar"
-            data-search="true"
-            data-pagination="true"
-            data-page-list="[10, 25, 50, ALL]">
-          </table>
-        </div>
-        <div class="col-md-1">
-        </div>
-    </div>
-    
-    <div class="row content">
-    </div>
+        <table id="tableList" data-toggle="true"
+          data-toolbar="#toolbar"
+          data-search="true"
+          data-pagination="true"
+          data-page-list="[10, 25, 50, ALL]">
+        </table>
+      </div>
+      <div class="col-md-1">
+      </div>
   </div>
+  
+  <div class="row content">
+  </div>
+{% endblock %}
 
-  <footer class="container-fluid text-center">
-    <div class="wrpl"><a href="http://www.bigdataocean.eu/site/">
-        <dl>
-          <dt><img class="BDO_logo" src="/static/img/BIG-DATA-OCEAN_LOGO.png"></dt>
-          <dd><strong>Big Data Ocean</strong></dd>
-        </dl></a></div>
-    <div class="wrpl"><br>
-      <div class="bookmarks"><b>Documentation</b>
-        <ul>
-          <li><a href="/api" title="API documentation">API documentation</a></li>
-          <li><a href="https://github.com/SmartDataAnalytics/BigDataOcean-Harmonization" title="Source in GitHub" target="_blank">Source code</a></li>
-        </ul>
-      </div>
-      <div class="bookmarks"><b>Publication</b>
-        <ul>
-          <li><a href="https://doi.org/10.5281/zenodo.833359" title="IEEE '17" target="_blank">IEEE '17</a></li>
-        </ul>
-      </div>
-      <div class="bookmarks"><b>BDO Platform</b>
-        <ul>
-          <li><a href="http://bdo-dev.epu.ntua.gr/bdo" title="BigDataOcean Platform" target="_blank">BigDataOcean Platform</a></li>
-        </ul>
-      </div>
-    </div>
-  </footer>
-</body>
+{% block extracssjs %}
 <script
   src="https://code.jquery.com/jquery-2.2.4.min.js"
   integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
@@ -215,5 +171,4 @@
     }
   });
 </script>
-
-</html>
+{% endblock %}

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>BigDataOcean Harmonization </title>
+  <link rel='icon' href='/static/img/favicon.ico'>
+</head>
+
+<body {% block bodyconf %}{% endblock %}>
+  <nav class="navbar navbar-bdo navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header col-md-12">
+        <div class="icon col-md-2">
+          <a id="logo" title="BigDataOcean Repository" href="/">
+            {% block logo %}{% endblock %}
+          </a>
+        </div>
+        <div class="bdotitle label-table col-md-8">
+          <h1>Big Data Ocean - Dataset Harmonization</h1>
+        </div>
+        <div class="loginNav col-md-2">
+          {% if not g.user %}
+            <a href="/login">Login</a>
+          {% else %}
+            <a href="/logout">Logout</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </nav>
+  <div class="container text-center" style="margin-top:90px">
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-success alert-dismissible alertPopup" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+            {{message}}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    {% if error %}
+      <div class="alert alert-danger alert-dismissible alertPopup" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+        <strong>{{error}}</strong>
+      </div>
+    {% endif %}
+
+    {% block body %}{% endblock %}
+  </div>
+
+  <footer class="container-fluid text-center">
+    <div class="wrpl"><a href="http://www.bigdataocean.eu/site/">
+        <dl>
+          <dt><img class="BDO_logo" src="/static/img/logoaccount.png"></dt>
+          <dd><strong>Big Data Ocean</strong></dd>
+        </dl></a></div>
+    <div class="wrpl"><br>
+      <div class="bookmarks"><b>Documentation</b>
+        <ul>
+          <li><a href="/api" title="API documentation">API documentation</a></li>
+          <li><a href="https://github.com/SmartDataAnalytics/BigDataOcean-Harmonization" title="Source in GitHub" target="_blank">Source code</a></li>
+        </ul>
+      </div>
+      <div class="bookmarks"><b>Publication</b>
+        <ul>
+          <li><a href="https://doi.org/10.5281/zenodo.833359" title="IEEE '17" target="_blank">IEEE '17</a></li>
+        </ul>
+      </div>
+      <div class="bookmarks"><b>BDO Platform</b>
+        <ul>
+          <li><a href="http://bdo-dev.epu.ntua.gr/bdo" title="BigDataOcean Platform" target="_blank">BigDataOcean Platform</a></li>
+        </ul>
+      </div>
+      <p class="copyright pull-right">
+        © <script>document.write(new Date().getFullYear())</script> <a href="http://bigdataocean.eu/">Big Data Ocean</a>
+      </p>
+    </div>
+  </footer>
+</body>
+{% block extracssjs %}{% endblock %}
+
+
+</html>

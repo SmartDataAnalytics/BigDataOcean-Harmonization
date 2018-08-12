@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+
+{% block logo %}
+  <img class="logoHeader" itemprop="image" alt="BigDataOcean Repository" src="static/img/logoaccount.png" height="86" width="200">
+{% endblock %}
+
+{% block body %}
+  <div class="login-form">
+    <div class="main-div">
+      <div class="panel">
+        <h2>Log In</h2>
+        <p>Please enter the username and password.</p>
+      </div>
+      <form id="Login" method="POST" action="/login" >
+        <div class="form-group">
+          <input type="text" class="form-control" id="username" name="username" placeholder="Username">
+        </div>
+        <div class="form-group">
+          <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+        </div>
+        <button type="submit" class="btn btn-primary">Login</button>
+      </form>
+    </div>
+  </div>
+{% endblock %}
+
+{% block extracssjs %}
+  <link rel="stylesheet" href="static/css/style.css">
+  <link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.css">
+  <link rel="stylesheet" href="static/css/jquery-confirm.css">
+  <style>
+    /* Error Page Inline Styles */
+    body {
+      padding-top: 20px;
+    }
+  </style>
+  <script
+    src="https://code.jquery.com/jquery-2.2.4.min.js"
+    integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+    crossorigin="anonymous"></script>
+  <script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
+  <script type='text/javascript' src="static/js/indexScript.js"></script>
+  <script src="static/js/jquery-confirm.js"></script>
+{% endblock %}

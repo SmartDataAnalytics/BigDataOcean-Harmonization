@@ -4,14 +4,15 @@ import json
 import os
 import uuid
 import urllib
-from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
+import numpy as np
+from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, session, g
 from flask_bootstrap import Bootstrap
 from pprint import pprint
-import numpy as np
 from datetime import datetime, timedelta
 from flask_jwt import JWT, jwt_required, current_identity
 from werkzeug.security import safe_str_cmp
 from werkzeug.utils import secure_filename
+from functools import wraps
 
 # GLOBAL VARIABLES
 globalPath = "/BDOHarmonization/BigDataOcean-Harmonization"
@@ -102,6 +103,50 @@ def index():
 		print(e)
 		return render_template('500.html')
 
+@app.before_request
+def get_current_user():
+    g.user = None
+    username = session.get('user_id')
+    if username is not None:
+        g.user = username
+
+# login required decorator
+def login_required(f):
+    @wraps(f)
+    def wrap(*args, **kwargs):
+        if 'user_id' in session:
+            return f(*args, **kwargs)
+        else:
+            flash('You need to login first.')
+            return redirect(url_for('login'))
+    return wrap
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+	error = None
+	flag = False
+	if request.method == 'POST':
+		Inputusername = request.form['username'] 
+		Inputpassword = request.form['password']
+		for u in users:
+			if u.username == Inputusername and u.password == Inputpassword:
+				flag = True
+				break
+
+		if flag == False:
+			error = 'Invalid Credentials. Please try again.'
+		else:
+			session['user_id'] = Inputusername
+			flash('You are log in.')
+			return redirect('/')
+	return render_template('login.html', error=error)
+
+@app.route('/logout')
+def logout():
+    session.pop('user_id', None)
+    flash('You are log out.')
+    return redirect('/')
+
 # List of files that does not have metadata
 @app.route('/list')
 def list():
@@ -136,6 +181,7 @@ def list():
 
 # Routing to addMetadata form
 @app.route('/addMetadata', methods=['GET', 'POST'])
+@login_required
 def parse():
 	try:
 		fileStorageTableJson = open(globalPath + "/Frontend/Flask/static/json/storageTable.json", "w+")
@@ -153,6 +199,7 @@ def parse():
 		return render_template('500.html')
 
 @app.route('/addMetadata/Copernicus', methods=['GET', 'POST'])
+@login_required
 def addCopernicus():
 	try:
 		fileStorageTableJson = open(globalPath + "/Frontend/Flask/static/json/storageTable.json", "w+")
@@ -195,6 +242,7 @@ def addCopernicus():
 		return render_template('500.html')
 
 @app.route('/addMetadata/NetCDF', methods=['GET', 'POST'])
+@login_required
 def addNetCDF():
 	try:
 		fileStorageTableJson = open(globalPath + "/Frontend/Flask/static/json/storageTable.json", "w+")
@@ -246,6 +294,7 @@ def addNetCDF():
 		return render_template('500.html')
 
 @app.route('/addMetadata/CSV', methods=['GET', 'POST'])
+@login_required
 def addCsv():
 	try:
 		fileStorageTableJson = open(globalPath + "/Frontend/Flask/static/json/storageTable.json", "w+")
@@ -297,6 +346,7 @@ def addCsv():
 		return render_template('500.html')
 
 @app.route('/addMetadata/EXCEL', methods=['GET', 'POST'])
+@login_required
 def addExcel():
 	try:
 		fileStorageTableJson = open(globalPath + "/Frontend/Flask/static/json/storageTable.json", "w+")
@@ -349,6 +399,7 @@ def addExcel():
 
 # Routing to save new dataset
 @app.route('/save', methods=['GET','POST'])
+@login_required
 def save():
 	try:
 		if request.method == 'POST':
@@ -426,7 +477,7 @@ def save():
 				return render_template('500.html')
 			# when the dataset is added to jena fuseki, redirects to the metadataInfo web page corresponding to the identifier
 			if b'Successful' in process and not b'Error' in process:
-					return redirect(url_for('metadataInfo', identifier=identifier))
+				return redirect(url_for('metadataInfo', identifier=identifier))
 			elif b'Error1' in process:
 				return render_template('404.html', error='Metadata has been added but API: Profile is not being added.')
 			elif b'Error2' in process:
@@ -439,6 +490,7 @@ def save():
 
 # Routing to modify a corresponding dataset
 @app.route('/modify/<identifier>', methods=['GET', 'POST'])
+@login_required
 def edit(identifier):
 	try:
 		fileStorageTableJson = open(globalPath + "/Frontend/Flask/static/json/storageTable.json", "w+")
@@ -465,6 +517,7 @@ def edit(identifier):
 
 # Routing to save new dataset
 @app.route('/edit', methods=['GET','POST'])
+@login_required
 def editing():
 	try:
 		if request.method == 'POST':
@@ -561,6 +614,7 @@ def editing():
 
 # Routing to delete a corresponding dataset
 @app.route('/delete/<identifier>', methods=['GET', 'POST'])
+@login_required
 def delete(identifier):
 	# Calls shell insertDataset to connect to jena fuseki and add dataset via sparql query
 	command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/deleteDataset "%s"' %identifier

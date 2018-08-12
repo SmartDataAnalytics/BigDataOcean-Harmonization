@@ -1,32 +1,15 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-  <title>BigDataOcean Harmonization </title>
-  <link rel='icon' href='../static/img/BIG-DATA-OCEAN_LOGO.ico'>
-</head>
-<body>
-  <nav class="navbar navbar-bdo navbar-fixed-top">
-    <div class="container">
-      <div class="navbar-header">
-        <div class="icon">
-          <a id="logo" title="BigDataOcean Repository" href="/">
-            <img itemprop="image" alt="BigDataOcean Repository" src="../static/img/BIG-DATA-OCEAN_LOGO.png" height="86" width="200">
-          </a>
-        </div>
-        <div class="bdotitle label-table">
-          <h1>Big Data Ocean - Dataset Harmonization</h1>
-        </div>
+{% extends "layout.html" %}
+
+{% block logo %}
+  <img class="logoHeader" itemprop="image" alt="BigDataOcean Repository" src="../static/img/logoaccount.png" height="86" width="200">
+{% endblock %}
+
+{% block body %}
+  <form id="metadataInfoForm" name="metadataInfoForm" class="form-style" method="GET" action="/modify/{{ dataset.identifier }}">
+    <div class="row content">
+      <div class="col-md-1">
       </div>
-      <div class="collapse navbar-collapse" id="myNavbar">
-      </div>
-    </div>
-  </nav>
-  <div class="container text-center" style="margin-top:90px">
-    <form id="metadataInfoForm" name="metadataInfoForm" class="form-style" method="GET" action="/modify/{{ dataset.identifier }}">
-      <div class="row content">
-        <div class="col-md-1">
-        </div>
+      {% if g.user %}
         <div class="buttonForm">
           <button type="submit" class="btn btn-default">
             <i class="glyphicon glyphicon-edit"></i> Modify
@@ -35,369 +18,371 @@
             <i class="glyphicon glyphicon-trash"></i> Delete
           </button>
         </div>
+      {% endif %}
+    </div>
+    <div class="row content">
+      <div class="col-md-1">
+      </div>          
+      <div class="col-md-10 field-title">
+        {{dataset.title}} <label id="labelIdentifier" class="label-identifier">({{dataset.identifier}})</label>
       </div>
-      <div class="row content">
-        <div class="col-md-1">
-        </div>          
-        <div class="col-md-10 field-title">
-          {{dataset.title}} <label id="labelIdentifier" class="label-identifier">({{dataset.identifier}})</label>
-        </div>
-        <div class="col-md-1">
-        </div>
+      <div class="col-md-1">
       </div>
-      <div class="row content">
-        <div class="col-md-1">
-        </div> 
-        <div class="col-md-10 metadata-info">
-          <table class="tableMetadataInfo">
-            <thead>
-              <th class="labels-table"></th>
-              <th class="info-table"></th>
-            </thead>
-            <tbody>
-              <tr style='display: none;'>
-                <td>
-                  <label class="label-tableInfo" for="identifier">Identifier:</label>
-                </td>
-                <td colspan="8">
-                  <input type="text" class="form-control" id="identifier" name="identifier" value="{{dataset.identifier}}">
-                </td>
-              </tr>
-              <tr style='display: none;'>
-                <td>
-                  <label class="label-tableInfo" for="title">Title:</label>
-                </td>
-                <td colspan="8">
-                  {{ dataset.title }}
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label class="label-tableInfo" for="description">Description:</label>
-                </td>
-                <td colspan="8">
-                  {{ dataset.description }}
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label class="label-tableInfo" for="subject">Subject:</label>
-                </td>
-                {% set subjects = dataset.subject.split(",") %}
-                {% for subject in subjects: %}
-                <td class="col-md-6">
-                  <div class="AgentThumb">
-                    <div class="agentThumbInnerBodySubject">
-                      <div class="agentThumbName">
-                        <a href="{{subject}}" target="_blank">{{subject}}</a>
-                      </div>
+    </div>
+    <div class="row content">
+      <div class="col-md-1">
+      </div> 
+      <div class="col-md-10 metadata-info">
+        <table class="tableMetadataInfo">
+          <thead>
+            <th class="labels-table"></th>
+            <th class="info-table"></th>
+          </thead>
+          <tbody>
+            <tr style='display: none;'>
+              <td>
+                <label class="label-tableInfo" for="identifier">Identifier:</label>
+              </td>
+              <td colspan="8">
+                <input type="text" class="form-control" id="identifier" name="identifier" value="{{dataset.identifier}}">
+              </td>
+            </tr>
+            <tr style='display: none;'>
+              <td>
+                <label class="label-tableInfo" for="title">Title:</label>
+              </td>
+              <td colspan="8">
+                {{ dataset.title }}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-tableInfo" for="description">Description:</label>
+              </td>
+              <td colspan="8">
+                {{ dataset.description }}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-tableInfo" for="subject">Subject:</label>
+              </td>
+              {% set subjects = dataset.subject.split(",") %}
+              {% for subject in subjects: %}
+              <td class="col-md-6">
+                <div class="AgentThumb">
+                  <div class="agentThumbInnerBodySubject">
+                    <div class="agentThumbName">
+                      <a href="{{subject}}" target="_blank">{{subject}}</a>
                     </div>
                   </div>
-                </td>
-                {% endfor %}
-              </tr>
-              <tr>
-                <td>
-                  <label class="label-tableInfo" for="keywords">Keywords:</label>
-                </td>
-                {% set keywords = dataset.keywords.split(",") %}
-                {% for keyword in keywords: %}
-                <td class="col-md-6">
-                  <div class="AgentThumb">
-                    <div class="agentThumbInnerBodyKeyword">
-                      <div class="agentThumbName">
-                        <a href="{{keyword}}" target="_blank">{{keyword}}</a>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-                {% endfor %}
-              </tr>
-              <tr>
-                <td>
-                  <label class="label-tableInfo" for="standards">Standards:</label>
-                </td>
-                <td colspan="8">                            
-                  {{ dataset.standards }}
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label class="label-tableInfo" for="data_format">Data Format:</label>
-                </td>
-                <td colspan="8">                            
-                  {{ dataset.formats }}
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label class="label-tableInfo" for="language">Language:</label>
-                </td>
-                {% set languages = dataset.language.split(",") %}
-                {% for language in languages: %}
-                <td class="col-md-6">
-                  <div class="AgentThumb">
-                    <div class="agentThumbInnerBodylanguage">
-                      <div class="agentThumbName">
-                        <a href="http://id.loc.gov/vocabulary/iso639-2/{{language}}" target="_blank">{{language}}</a>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-                {% endfor %}
-              </tr>
-              <tr>
-                <td>
-                  <label class="label-tableInfo" for="homepage">Homepage:</label>
-                </td>
-                <td colspan="8">
-                  <a href="{{ dataset.homepage }}" target="_blank">{{ dataset.homepage }}</a>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label class="label-tableInfo" for="publisher">Publisher:</label>
-                </td>
-                <td colspan="8">
-                  {{ dataset.publisher }}
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label class="label-tableInfo" for="source">Source:</label>
-                </td>
-                <td colspan="8">
-                  {{dataset.source}}
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label class="label-tableInfo" for="observations">Observations:</label>
-                </td>
-                <td colspan="8">
-                  {{dataset.observations}}
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label class="label-tableInfo" for="storageTable">Storage Table:</label>
-                </td>
-                <td colspan="8">
-                  {{dataset.storageTable}}
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label class="label-tableInfo" for="access_rights">Access rights:</label>
-                </td>
-                <td colspan="8">
-                  {{ dataset.accessRights }}
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label class="label-tableInfo" for="issued_date">Issued date:</label>
-                </td>
-                <td colspan="8">
-                  {{ dataset.issuedDate }}
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label class="label-tableInfo" for="modified_date">Modified date:</label>
-                </td>
-                <td colspan="8">
-                  {{ dataset.modifiedDate }}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="col-md-1">
-        </div>
-      </div>
-      <div class="row content">
-        <div class="col-md-1">
-        </div>
-        <div class="col-md-10 metadata-spatial">
-          <table class="tableMetadataInfo">
-            <thead>
-              <th class="labels-table"></th>
-              <th colspan="8" class="info-table"></th>
-            </thead>
-            <tbody>
-              <tr>
-                <td>
-                  <label class="label-tableInfo" for="geoLocation">Geographic Location:</label>
-                </td>
-                {% if dataset.geoLocation|default("") != "": %}
-                  {% set geo_locations = dataset.geoLocation.split(",") %}
-                  {% for geo_location in geo_locations: %}
-                  <td colspan="8" class="col-md-6">                
-                    <div class="AgentThumb">
-                      <div class="agentThumbInnerBodyGeoLoc">
-                        <div class="agentThumbName">
-                          <a href="{{geo_location}}" target="_blank">{{geo_location}}</a>
-                        </div>
-                      </div>
-                    </div>
-                  </td>
-                  {% endfor %}
-                  {% else: %}
-                  <td colspan="8" class="col-md-6">    
-                  </td>
-                {% endif%}
-              </tr>
-              <tr>
-                <td>
-                  <label class="label-tableInfo">Geographical Coverage:</label>
-                </td>
-                <td class="col-xs">
-                  <label class="label-table-coordinatesInfo" for="geo_coverageW">W:</label>
-                </td>
-                <td class="col-xs">
-                  {{ dataset.spatialWest }}
-                </td>
-                <td class="col-xs">
-                  <label class="label-table-coordinatesInfo" for="geo_coverageE">E:</label>
-                </td>
-                <td class="col-xs">
-                  {{ dataset.spatialEast }}
-                </td>
-                <td class="col-xs">
-                  <label class="label-table-coordinatesInfo" for="geo_coverageS">S:</label>
-                </td>
-                <td class="col-xs">
-                  {{ dataset.spatialSouth }}
-                </td>
-                <td class="col-xs">
-                  <label class="label-table-coordinatesInfo" for="geo_coverageN">N:</label>
-                </td>
-                <td class="col-xs">
-                  {{ dataset.spatialNorth }}
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label class="label-tableInfo" for="coordinate_sys">Coordinate reference system:</label>
-                </td>
-                <td colspan="8">
-                  {{ dataset.coordinateSystem }}
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label class="label-tableInfo">Vertical Coverage:</label>
-                </td>
-                <td colspan="1">
-                  <center>
-                    <label class="label-tableInfo" for="vert_coverage_from">from</label>
-                  </center>
-                </td>
-                <td colspan="3">
-                  {{ dataset.verticalCoverageFrom }}
-                </td>
-                <td colspan="1">
-                  <center>
-                    <label class="label-tableInfo" for="vert_coverage_to">to</label>
-                  </center>
-                </td>
-                <td colspan="3">
-                  {{ dataset.verticalCoverageTo }}
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label class="label-tableInfo" for="vertical_level">Vertical Level:</label>
-                </td>
-                <td colspan="8">
-                  {{ dataset.verticalLevel }}
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label class="label-tableInfo" for="temp_coverage_begin">Temporal Coverage:</label>
-                </td>
-                <td colspan="3">
-                  {{ dataset.temporalCoverageBegin }}
-                </td>
-                <td colspan="2">
-                  <center>
-                    <label class="label-tableInfo" for="temp_coverage_end">to</label>
-                  </center>
-                </td>
-                <td colspan="3">
-                  {{ dataset.temporalCoverageEnd }}
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label class="label-tableInfo" for="time_resolution">Time Resolution:</label>
-                </td>
-                <td colspan="8">
-                  {{ dataset.timeResolution }}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="col-md-1">
-        </div>
-      </div>
-      <div class="row content">
-        <div class="col-md-1">
-        </div>
-        <div class="col-md-10 metadata-variables">
-          <table class="table table-bordered" id="tbl_posts" style="table-layout: fixed;">
-            <thead>
-              <tr>
-                <th></label>Dataset Variable</th>
-                <th></label>BDO Variable</th>
-              </tr>
-            </thead>
-            <tbody id="tbl_posts_body">
-              {% for x in dataset.variables: %}
-              {% set list = x.split(" -- ") %}
-                <tr id="rec-{{ loop.index0 +1 }}">
-                  <td>
-                    <span class="variablesspan">{{ list[0] }}</span>
-                  </td>
-                  <td>
-                    <span class="variablesspan">
-                      {%for variable in variables%}
-                        {%if variable["text"] == list[1] and not variable["value"].startswith( 'http://bigdataocean.eu/bdo' )%}
-                          <a href="{{variable['value']}}" target="_blank">{{ list[1] }}</a>
-                        {% elif variable["text"] == list[1] and variable["value"].startswith( 'http://bigdataocean.eu/bdo' )%}
-                          <span class="variablesspan">{{ list[1] }}</span>
-                        {% endif%}
-                      {% endfor %}
-                    </span>
-                  </td>
-                </tr>
+                </div>
+              </td>
               {% endfor %}
-            </tbody>
-          </table>
-          <div style="display:none;">
-            <table id="sample_table">
-              <tr id="">
-               <td>
-                <input type="text" class="form-control" id="parser_variable" name="parser_variable">
-               </td>
-               <td>
-                <input type="text" class="form-control-autocomplete" id="json_variable" name="json_variable">
-               </td>
-               <td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-tableInfo" for="keywords">Keywords:</label>
+              </td>
+              {% set keywords = dataset.keywords.split(",") %}
+              {% for keyword in keywords: %}
+              <td class="col-md-6">
+                <div class="AgentThumb">
+                  <div class="agentThumbInnerBodyKeyword">
+                    <div class="agentThumbName">
+                      <a href="{{keyword}}" target="_blank">{{keyword}}</a>
+                    </div>
+                  </div>
+                </div>
+              </td>
+              {% endfor %}
+            </tr>
+            <tr>
+              <td>
+                <label class="label-tableInfo" for="standards">Standards:</label>
+              </td>
+              <td colspan="8">                            
+                {{ dataset.standards }}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-tableInfo" for="data_format">Data Format:</label>
+              </td>
+              <td colspan="8">                            
+                {{ dataset.formats }}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-tableInfo" for="language">Language:</label>
+              </td>
+              {% set languages = dataset.language.split(",") %}
+              {% for language in languages: %}
+              <td class="col-md-6">
+                <div class="AgentThumb">
+                  <div class="agentThumbInnerBodylanguage">
+                    <div class="agentThumbName">
+                      <a href="http://id.loc.gov/vocabulary/iso639-2/{{language}}" target="_blank">{{language}}</a>
+                    </div>
+                  </div>
+                </div>
+              </td>
+              {% endfor %}
+            </tr>
+            <tr>
+              <td>
+                <label class="label-tableInfo" for="homepage">Homepage:</label>
+              </td>
+              <td colspan="8">
+                <a href="{{ dataset.homepage }}" target="_blank">{{ dataset.homepage }}</a>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-tableInfo" for="publisher">Publisher:</label>
+              </td>
+              <td colspan="8">
+                {{ dataset.publisher }}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-tableInfo" for="source">Source:</label>
+              </td>
+              <td colspan="8">
+                {{dataset.source}}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-tableInfo" for="observations">Observations:</label>
+              </td>
+              <td colspan="8">
+                {{dataset.observations}}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-tableInfo" for="storageTable">Storage Table:</label>
+              </td>
+              <td colspan="8">
+                {{dataset.storageTable}}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-tableInfo" for="access_rights">Access rights:</label>
+              </td>
+              <td colspan="8">
+                {{ dataset.accessRights }}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-tableInfo" for="issued_date">Issued date:</label>
+              </td>
+              <td colspan="8">
+                {{ dataset.issuedDate }}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-tableInfo" for="modified_date">Modified date:</label>
+              </td>
+              <td colspan="8">
+                {{ dataset.modifiedDate }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-md-1">
+      </div>
+    </div>
+    <div class="row content">
+      <div class="col-md-1">
+      </div>
+      <div class="col-md-10 metadata-spatial">
+        <table class="tableMetadataInfo">
+          <thead>
+            <th class="labels-table"></th>
+            <th colspan="8" class="info-table"></th>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <label class="label-tableInfo" for="geoLocation">Geographic Location:</label>
+              </td>
+              {% if dataset.geoLocation|default("") != "": %}
+                {% set geo_locations = dataset.geoLocation.split(",") %}
+                {% for geo_location in geo_locations: %}
+                <td colspan="8" class="col-md-6">                
+                  <div class="AgentThumb">
+                    <div class="agentThumbInnerBodyGeoLoc">
+                      <div class="agentThumbName">
+                        <a href="{{geo_location}}" target="_blank">{{geo_location}}</a>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                {% endfor %}
+                {% else: %}
+                <td colspan="8" class="col-md-6">    
+                </td>
+              {% endif%}
+            </tr>
+            <tr>
+              <td>
+                <label class="label-tableInfo">Geographical Coverage:</label>
+              </td>
+              <td class="col-xs">
+                <label class="label-table-coordinatesInfo" for="geo_coverageW">W:</label>
+              </td>
+              <td class="col-xs">
+                {{ dataset.spatialWest }}
+              </td>
+              <td class="col-xs">
+                <label class="label-table-coordinatesInfo" for="geo_coverageE">E:</label>
+              </td>
+              <td class="col-xs">
+                {{ dataset.spatialEast }}
+              </td>
+              <td class="col-xs">
+                <label class="label-table-coordinatesInfo" for="geo_coverageS">S:</label>
+              </td>
+              <td class="col-xs">
+                {{ dataset.spatialSouth }}
+              </td>
+              <td class="col-xs">
+                <label class="label-table-coordinatesInfo" for="geo_coverageN">N:</label>
+              </td>
+              <td class="col-xs">
+                {{ dataset.spatialNorth }}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-tableInfo" for="coordinate_sys">Coordinate reference system:</label>
+              </td>
+              <td colspan="8">
+                {{ dataset.coordinateSystem }}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-tableInfo">Vertical Coverage:</label>
+              </td>
+              <td colspan="1">
                 <center>
-                  <a class="btn btn-xs delete-record" data-id="0"><i class="glyphicon glyphicon-remove glyphiconRemove"></i></a>
+                  <label class="label-tableInfo" for="vert_coverage_from">from</label>
                 </center>
               </td>
-             </tr>
-           </table>
-         </div>
-        </div>
-        <div class="col-md-1">
-        </div>
+              <td colspan="3">
+                {{ dataset.verticalCoverageFrom }}
+              </td>
+              <td colspan="1">
+                <center>
+                  <label class="label-tableInfo" for="vert_coverage_to">to</label>
+                </center>
+              </td>
+              <td colspan="3">
+                {{ dataset.verticalCoverageTo }}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-tableInfo" for="vertical_level">Vertical Level:</label>
+              </td>
+              <td colspan="8">
+                {{ dataset.verticalLevel }}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-tableInfo" for="temp_coverage_begin">Temporal Coverage:</label>
+              </td>
+              <td colspan="3">
+                {{ dataset.temporalCoverageBegin }}
+              </td>
+              <td colspan="2">
+                <center>
+                  <label class="label-tableInfo" for="temp_coverage_end">to</label>
+                </center>
+              </td>
+              <td colspan="3">
+                {{ dataset.temporalCoverageEnd }}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-tableInfo" for="time_resolution">Time Resolution:</label>
+              </td>
+              <td colspan="8">
+                {{ dataset.timeResolution }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
+      <div class="col-md-1">
+      </div>
+    </div>
+    <div class="row content">
+      <div class="col-md-1">
+      </div>
+      <div class="col-md-10 metadata-variables">
+        <table class="table table-bordered" id="tbl_posts" style="table-layout: fixed;">
+          <thead>
+            <tr>
+              <th></label>Dataset Variable</th>
+              <th></label>BDO Variable</th>
+            </tr>
+          </thead>
+          <tbody id="tbl_posts_body">
+            {% for x in dataset.variables: %}
+            {% set list = x.split(" -- ") %}
+              <tr id="rec-{{ loop.index0 +1 }}">
+                <td>
+                  <span class="variablesspan">{{ list[0] }}</span>
+                </td>
+                <td>
+                  <span class="variablesspan">
+                    {%for variable in variables%}
+                      {%if variable["text"] == list[1] and not variable["value"].startswith( 'http://bigdataocean.eu/bdo' )%}
+                        <a href="{{variable['value']}}" target="_blank">{{ list[1] }}</a>
+                      {% elif variable["text"] == list[1] and variable["value"].startswith( 'http://bigdataocean.eu/bdo' )%}
+                        <span class="variablesspan">{{ list[1] }}</span>
+                      {% endif%}
+                    {% endfor %}
+                  </span>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <div style="display:none;">
+          <table id="sample_table">
+            <tr id="">
+             <td>
+              <input type="text" class="form-control" id="parser_variable" name="parser_variable">
+             </td>
+             <td>
+              <input type="text" class="form-control-autocomplete" id="json_variable" name="json_variable">
+             </td>
+             <td>
+              <center>
+                <a class="btn btn-xs delete-record" data-id="0"><i class="glyphicon glyphicon-remove glyphiconRemove"></i></a>
+              </center>
+            </td>
+           </tr>
+         </table>
+       </div>
+      </div>
+      <div class="col-md-1">
+      </div>
+    </div>
+    {% if g.user %}
       <div class="row content">
         <div class="col-md-1">
         </div>
@@ -410,43 +395,19 @@
           </button>
         </div>
       </div>
-    </form>
-  </div>
-  <footer class="container-fluid text-center">
-    <div class="wrpl"><a href="http://www.bigdataocean.eu/site/">
-        <dl>
-          <dt><img class="BDO_logo" src="../static/img/BIG-DATA-OCEAN_LOGO.png"></dt>
-          <dd><strong>Big Data Ocean</strong></dd>
-        </dl></a></div>
-    <div class="wrpl"><br>
-      <div class="bookmarks"><b>Documentation</b>
-        <ul>
-          <li><a href="/api" title="API documentation">API documentation</a></li>
-          <li><a href="https://github.com/SmartDataAnalytics/BigDataOcean-Harmonization" title="Source in GitHub" target="_blank">Source code</a></li>
-        </ul>
-      </div>
-      <div class="bookmarks"><b>Publication</b>
-        <ul>
-          <li><a href="https://doi.org/10.5281/zenodo.833359" title="IEEE '17" target="_blank">IEEE '17</a></li>
-        </ul>
-      </div>
-      <div class="bookmarks"><b>BDO Platform</b>
-        <ul>
-          <li><a href="http://bdo-dev.epu.ntua.gr/bdo" title="BigDataOcean Platform" target="_blank">BigDataOcean Platform</a></li>
-        </ul>
-      </div>
-    </div>
-  </footer>
-</body>
+    {% endif %}
+  </form>
+{% endblock %}
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap-theme.min.css">
-<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
-<link rel="stylesheet" href="../static/css/style.css">
-<link rel="stylesheet" href="../static/css/jquery-confirm.css">
+{% block extracssjs %}
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+  <link rel="stylesheet" href="../static/css/style.css">
+  <link rel="stylesheet" href="../static/css/jquery-confirm.css">
 
-<script src="../static/js/jquery-3.2.1.min.js"></script>
-<script src="http://code.jquery.com/ui/1.12.1/jquery-ui.js" ></script>
-<script src="../static/js/jquery-confirm.js"></script>
-<script type="text/javascript" src="../static/js/metadataInfoscript.js"></script>
-</html>
+  <script src="../static/js/jquery-3.2.1.min.js"></script>
+  <script src="http://code.jquery.com/ui/1.12.1/jquery-ui.js" ></script>
+  <script src="../static/js/jquery-confirm.js"></script>
+  <script type="text/javascript" src="../static/js/metadataInfoscript.js"></script>
+{% endblock %}

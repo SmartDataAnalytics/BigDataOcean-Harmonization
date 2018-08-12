@@ -1,29 +1,10 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-  <title>BigDataOcean Harmonization </title>
-  <link rel='icon' href='/static/img/BIG-DATA-OCEAN_LOGO.ico'>
-</head>
+{% extends "layout.html" %}
 
-<body>
-  <nav class="navbar navbar-bdo navbar-fixed-top">
-    <div class="container">
-        <div class="navbar-header">
-            <div class="icon">
-                <a id="logo" title="BigDataOcean Repository" href="/">
-                    <img itemprop="image" alt="BigDataOcean Repository" src="static/img/BIG-DATA-OCEAN_LOGO.png" height="86" width="200">
-                </a>
-            </div>
-            <div class="bdotitle label-table">
-                <h1>Big Data Ocean - Dataset Harmonization</h1>
-            </div>
-        </div>
-        <div class="collapse navbar-collapse" id="myNavbar">
-        </div>
-    </div>
-  </nav>
-  <div class="container text-center" style="margin-top:90px">
+{% block logo %}
+  <img class="logoHeader" itemprop="image" alt="BigDataOcean Repository" src="static/img/logoaccount.png" height="86" width="200">
+{% endblock %}
+
+{% block body %}
     <div class="row content">
         <div class="col-md-1">
         </div>          
@@ -82,7 +63,7 @@
                 </table>
                 <input class="submit" type="submit" value="Try it out!">
               </form>
-              <div class="apiExample">For example, using the BigDataOcean API, your app can list all datasets in BigDataOcean Harmonization<a href="/api/v1/dataset/list" target="_blank">http://212.101.173.21:5000/api/v1/dataset/list</a></div>
+              <div class="apiExample">For example, using the BigDataOcean API, your app can list all datasets in BigDataOcean Harmonization<a href="/api/v1/dataset/list" target="_blank">http://localhost:5000/api/v1/dataset/list</a></div>
             </div>
             <h2>
               <span class="apiHttpMethod">get</span>
@@ -122,7 +103,7 @@
                 </table>
                 <input class="submit" type="submit" value="Try it out!">
               </form>
-              <div class="apiExample">For example, using the BigDataOcean API, your app can search for a specific dataset "MEDSEA_ANALYSIS_FORECAST_WAV_006_011": <a href="/api/v1/dataset/searchDataset?search=MEDSEA_ANALYSIS_FORECAST_WAV_006_011" target="_blank">http://212.101.173.21:5000/api/v1/dataset/searchDataset?search=MEDSEA_ANALYSIS_FORECAST_WAV_006_011</a></div>
+              <div class="apiExample">For example, using the BigDataOcean API, your app can search for a specific dataset "MEDSEA_ANALYSIS_FORECAST_WAV_006_011": <a href="/api/v1/dataset/searchDataset?search=MEDSEA_ANALYSIS_FORECAST_WAV_006_011" target="_blank">http://localhost:5000/api/v1/dataset/searchDataset?search=MEDSEA_ANALYSIS_FORECAST_WAV_006_011</a></div>
             </div>
             <h2>
               <span class="apiHttpMethod">get</span>
@@ -162,7 +143,7 @@
                 </table>
                 <input class="submit" type="submit" value="Try it out!">
               </form>
-              <div class="apiExample">For example, using the BigDataOcean API, your app can search for a subject or a list of subjects "http://inspire.ec.europa.eu/metadata-codelist/TopicCategory/oceans": <a href="/api/v1/dataset/searchSubject?search=http://inspire.ec.europa.eu/metadata-codelist/TopicCategory/oceans" target="_blank">http://212.101.173.21:5000/api/v1/dataset/searchSubject?search=http://inspire.ec.europa.eu/metadata-codelist/TopicCategory/oceans</a></div>
+              <div class="apiExample">For example, using the BigDataOcean API, your app can search for a subject or a list of subjects "http://inspire.ec.europa.eu/metadata-codelist/TopicCategory/oceans": <a href="/api/v1/dataset/searchSubject?search=http://inspire.ec.europa.eu/metadata-codelist/TopicCategory/oceans" target="_blank">http://localhost:5000/api/v1/dataset/searchSubject?search=http://inspire.ec.europa.eu/metadata-codelist/TopicCategory/oceans</a></div>
             </div>
             <h2>
               <span class="apiHttpMethod">get</span>
@@ -202,7 +183,7 @@
                 </table>
                 <input class="submit" type="submit" value="Try it out!">
               </form>
-              <div class="apiExample">For example, using the BigDataOcean API, your app can search for a keyword or a list of keywords "https://www.eionet.europa.eu/gemet/en/concept/14844": <a href="/api/v1/dataset/searchKeyword?search=https://www.eionet.europa.eu/gemet/en/concept/14844" target="_blank">http://212.101.173.21:5000/api/v1/dataset/searchKeyword?search=https://www.eionet.europa.eu/gemet/en/concept/14844</a></div>
+              <div class="apiExample">For example, using the BigDataOcean API, your app can search for a keyword or a list of keywords "https://www.eionet.europa.eu/gemet/en/concept/14844": <a href="/api/v1/dataset/searchKeyword?search=https://www.eionet.europa.eu/gemet/en/concept/14844" target="_blank">http://localhost:5000/api/v1/dataset/searchKeyword?search=https://www.eionet.europa.eu/gemet/en/concept/14844</a></div>
             </div>
           </div>
 
@@ -246,7 +227,7 @@
                 </table>
                 <input class="submit" type="submit" value="Try it out!">
               </form>
-              <div class="apiExample">For example, using the BigDataOcean API, your app can search for a geographic location or a list of geographic locations "http://marineregions.org/mrgid/1905": <a href="/api/v1/dataset/searchGeoLocation?search=http://marineregions.org/mrgid/1905" target="_blank">http://212.101.173.21:5000/api/v1/dataset/searchGeoLocation?search=http://marineregions.org/mrgid/1905</a></div>
+              <div class="apiExample">For example, using the BigDataOcean API, your app can search for a geographic location or a list of geographic locations "http://marineregions.org/mrgid/1905": <a href="/api/v1/dataset/searchGeoLocation?search=http://marineregions.org/mrgid/1905" target="_blank">http://localhost:5000/api/v1/dataset/searchGeoLocation?search=http://marineregions.org/mrgid/1905</a></div>
             </div>
             <h2>
               <span class="apiHttpMethod">get</span>
@@ -334,7 +315,7 @@
                 </table>
                 <input class="submit" type="submit" value="Try it out!">
               </form>
-              <div class="apiExample">For example, using the BigDataOcean API, your app can search for  geographical coverage "W=-17.12 E=36.20 S=30 N=45.98": <a href="/api/v1/dataset/searchGeoCoverage?W=-17.12&E=36.20&S=30&N=45.98" target="_blank">http://212.101.173.21:5000/api/v1/dataset/searchGeoCoverage?W=-17.12&E=36.20&S=30&N=45.98</a></div>
+              <div class="apiExample">For example, using the BigDataOcean API, your app can search for  geographical coverage "W=-17.12 E=36.20 S=30 N=45.98": <a href="/api/v1/dataset/searchGeoCoverage?W=-17.12&E=36.20&S=30&N=45.98" target="_blank">http://localhost:5000/api/v1/dataset/searchGeoCoverage?W=-17.12&E=36.20&S=30&N=45.98</a></div>
             </div>
             <h2>
               <span class="apiHttpMethod">get</span>
@@ -390,7 +371,7 @@
                 </table>
                 <input class="submit" type="submit" value="Try it out!">
               </form>
-              <div class="apiExample">For example, using the BigDataOcean API, your app can search for vertical coverage "from=0 to=0": <a href="/api/v1/dataset/searchVerticalCoverage?from=0&to=0" target="_blank">http://212.101.173.21:5000/api/v1/dataset/searchVerticalCoverage?from=0&to=0</a></div>
+              <div class="apiExample">For example, using the BigDataOcean API, your app can search for vertical coverage "from=0 to=0": <a href="/api/v1/dataset/searchVerticalCoverage?from=0&to=0" target="_blank">http://localhost:5000/api/v1/dataset/searchVerticalCoverage?from=0&to=0</a></div>
             </div>
             <h2>
               <span class="apiHttpMethod">get</span>
@@ -446,7 +427,7 @@
                 </table>
                 <input class="submit" type="submit" value="Try it out!">
               </form>
-              <div class="apiExample">For example, using the BigDataOcean API, your app can search for temporal coverage "begin=2016-08-01T00:00:00 end=": <a href="/api/v1/dataset/searchTemporalCoverage?begin=2016-08-01T00:00:00&end=" target="_blank">http://212.101.173.21:5000/api/v1/dataset/searchTemporalCoverage?begin=2016-08-01T00:00:00&end=</a></div>
+              <div class="apiExample">For example, using the BigDataOcean API, your app can search for temporal coverage "begin=2016-08-01T00:00:00 end=": <a href="/api/v1/dataset/searchTemporalCoverage?begin=2016-08-01T00:00:00&end=" target="_blank">http://localhost:5000/api/v1/dataset/searchTemporalCoverage?begin=2016-08-01T00:00:00&end=</a></div>
             </div>
           </div>
 
@@ -490,7 +471,7 @@
                 </table>
                 <input class="submit" type="submit" value="Try it out!">
               </form>
-              <div class="apiExample">For example, using the BigDataOcean API, your app can list the variables of a specific dataset "MEDSEA_ANALYSIS_FORECAST_WAV_006_011": <a href="/api/v1/dataset/listVariables?search=MEDSEA_ANALYSIS_FORECAST_WAV_006_011" target="_blank">http://212.101.173.21:5000/api/v1/dataset/listVariables?search=MEDSEA_ANALYSIS_FORECAST_WAV_006_011</a></div>
+              <div class="apiExample">For example, using the BigDataOcean API, your app can list the variables of a specific dataset "MEDSEA_ANALYSIS_FORECAST_WAV_006_011": <a href="/api/v1/dataset/listVariables?search=MEDSEA_ANALYSIS_FORECAST_WAV_006_011" target="_blank">http://localhost:5000/api/v1/dataset/listVariables?search=MEDSEA_ANALYSIS_FORECAST_WAV_006_011</a></div>
             </div>
             <h2>
               <span class="apiHttpMethod">get</span>
@@ -530,7 +511,7 @@
                 </table>
                 <input class="submit" type="submit" value="Try it out!">
               </form>
-              <div class="apiExample">For example, using the BigDataOcean API, your app can list datasets that has a canonical variable or a list of canonical variables "sea_surface_wave_significant_height,latitude": <a href="/api/v1/dataset/searchVariable?search=sea_surface_wave_significant_height, latitude" target="_blank">http://212.101.173.21:5000/api/v1/dataset/searchVariable?search=sea_surface_wave_significant_height, latitude</a></div>
+              <div class="apiExample">For example, using the BigDataOcean API, your app can list datasets that has a canonical variable or a list of canonical variables "sea_surface_wave_significant_height,latitude": <a href="/api/v1/dataset/searchVariable?search=sea_surface_wave_significant_height, latitude" target="_blank">http://localhost:5000/api/v1/dataset/searchVariable?search=sea_surface_wave_significant_height, latitude</a></div>
             </div>
           </div>
 
@@ -541,55 +522,29 @@
     
     <div class="row content">
     </div>
-  </div>
+{% endblock %}
 
-  <footer class="container-fluid text-center">
-    <div class="wrpl"><a href="http://www.bigdataocean.eu/site/">
-        <dl>
-          <dt><img class="BDO_logo" src="/static/img/BIG-DATA-OCEAN_LOGO.png"></dt>
-          <dd><strong>Big Data Ocean</strong></dd>
-        </dl></a></div>
-    <div class="wrpl"><br>
-      <div class="bookmarks"><b>Documentation</b>
-        <ul>
-          <li><a href="/api" title="API documentation">API documentation</a></li>
-          <li><a href="https://github.com/SmartDataAnalytics/BigDataOcean-Harmonization" title="Source in GitHub" target="_blank">Source code</a></li>
-        </ul>
-      </div>
-      <div class="bookmarks"><b>Publication</b>
-        <ul>
-          <li><a href="https://doi.org/10.5281/zenodo.833359" title="IEEE '17" target="_blank">IEEE '17</a></li>
-        </ul>
-      </div>
-      <div class="bookmarks"><b>BDO Platform</b>
-        <ul>
-          <li><a href="http://bdo-dev.epu.ntua.gr/bdo" title="BigDataOcean Platform" target="_blank">BigDataOcean Platform</a></li>
-        </ul>
-      </div>
-    </div>
-  </footer>
-</body>
-<script
-  src="https://code.jquery.com/jquery-2.2.4.min.js"
-  integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
-  crossorigin="anonymous"></script>
-<script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<link rel="stylesheet" href="static/css/style.css">
-<link rel="stylesheet" href="static/css/api.css">
-<link rel="stylesheet" href="static/css/jquery-ui.css">
-<link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet" href="static/css/jquery-confirm.css">
-<link rel="stylesheet" href="static/css/bootstrap-tokenfield.css">
-<link rel="stylesheet" href="static/css/tokenfield-typeahead.css">
-<link rel="stylesheet" href="static/css/easy-autocomplete.min.css"> 
-<link rel="stylesheet" href="static/css/easy-autocomplete.themes.min.css"> 
+{% block extracssjs %}
+  <script
+    src="https://code.jquery.com/jquery-2.2.4.min.js"
+    integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+    crossorigin="anonymous"></script>
+  <script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="static/css/style.css">
+  <link rel="stylesheet" href="static/css/api.css">
+  <link rel="stylesheet" href="static/css/jquery-ui.css">
+  <link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="static/css/jquery-confirm.css">
+  <link rel="stylesheet" href="static/css/bootstrap-tokenfield.css">
+  <link rel="stylesheet" href="static/css/tokenfield-typeahead.css">
+  <link rel="stylesheet" href="static/css/easy-autocomplete.min.css"> 
+  <link rel="stylesheet" href="static/css/easy-autocomplete.themes.min.css"> 
 
-<script type='text/javascript' src="static/js/apiScript.js"></script>
-<script src="static/js/jquery-confirm.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script src="static/js/Bloodhound.js"></script>
-<script src="static/js/bootstrap-tokenfield.js"></script>
-<script src="static/js/typeahead.bundle.js"></script>
-<script src="static/js/jquery.easy-autocomplete.min.js"></script> 
-
-</html>
+  <script type='text/javascript' src="static/js/apiScript.js"></script>
+  <script src="static/js/jquery-confirm.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script src="static/js/Bloodhound.js"></script>
+  <script src="static/js/bootstrap-tokenfield.js"></script>
+  <script src="static/js/typeahead.bundle.js"></script>
+  <script src="static/js/jquery.easy-autocomplete.min.js"></script> 
+{% endblock %}

@@ -1,23 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Temporary Maintenance">
-  <meta name="author" content="">
-  <title>Temporary Maintenance</title>
-  <!-- Bootstrap core CSS -->
-  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-  <style>
-  /* Error Page Inline Styles */
-  body {
-    padding-top: 20px;
-  }
-  </style>
-  <link rel="stylesheet" href="static/css/style.css">
-</head>
-<body onload="javascript:loadDomain();">
+{% extends "layout.html" %}
+
+{% block logo %}
+  <img class="logoHeader" itemprop="image" alt="BigDataOcean Repository" src="static/img/logoaccount.png" height="86" width="200">
+{% endblock %}
+
+{% block bodyconf %}
+  onload="javascript:loadDomain();">
+{% endblock %}
+{% block body %}
   <!-- Error Page Content -->
   <div class="container">
     <!-- Jumbotron -->
@@ -45,16 +35,27 @@
       </div>
     </div>
   </div>
-</body>
-<!-- End Error Page Content -->
-<!--Scripts-->
-<!-- jQuery library -->
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-<script type="text/javascript">
-  function loadDomain() {
-    var display = document.getElementById("display-domain");
-    display.innerHTML = document.domain;
-  }
-</script>
-</html>
+{% endblock %}
+
+{% block extracssjs %}
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <style>
+    /* Error Page Inline Styles */
+    body {
+      padding-top: 20px;
+    }
+  </style>
+  <link rel="stylesheet" href="../static/css/style.css">
+  <!--Scripts-->
+  <!-- jQuery library -->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+  <script type="text/javascript">
+    function loadDomain() {
+        var display = document.getElementById("display-domain");
+        display.innerHTML = document.domain;
+    }
+  </script>
+{% endblock %}
