@@ -29,8 +29,8 @@ public class Api {
 	public static void main(String[] args) {
 		int apiNumber = Integer.parseInt(args[0]);
 		String searchParam = args[1];
-		//int apiNumber = 11;
-		//String searchParam = "";
+		//int apiNumber = 2;
+		//String searchParam = "bdo:MEDSEA_ANALYSIS_FORECAST_PHY_006_013";
 		//String searchParam = "-6000,= -2";
 		//String searchParam = "http://inspire.ec.europa.eu/metadata-codelist/TopicCategory/oceans, http://inspire.ec.europa.eu/metadata-codelist/TopicCategory/climatologyMeteorologyAtmosphere";
 		//String searchParam = "-17.1, 36.2, 30, 45.98";

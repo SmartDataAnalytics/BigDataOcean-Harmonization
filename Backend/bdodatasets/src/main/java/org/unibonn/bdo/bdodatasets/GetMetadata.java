@@ -67,8 +67,8 @@ public class GetMetadata {
 				"       bdo:timeResolution ?timeReso ;\n" + 
 				"       bdo:GeographicalCoverage ?spatial ;\n" + 
 				"       dct:creator ?source ; \n" +
-				"       rdfs:comment ?observation; \n" +
-				"       bdo:storageTable ?storageTable; \n" +
+				"       rdfs:comment ?observation ; \n" +
+				"       bdo:storageTable ?storageTable ; \n" +
 				"       bdo:verticalLevel ?vLevel ;\n" + 
 				"       dct:conformsTo ?coorSys ;\n" + 
 				"       bdo:timeCoverage ?temp .\n" + 
