@@ -15,16 +15,16 @@
             {% block logo %}{% endblock %}
           </a>
         </div>
-        <div class="bdotitle label-table col-md-8">
-          <h1>Big Data Ocean - Dataset Harmonization</h1>
-        </div>
-        <div class="loginNav col-md-2">
+        <ul class="nav navbar-nav">
+          <li><span class="navbar-text">Big Data Ocean Harmonization</span></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
           {% if not g.user %}
-            <a href="/login">Login</a>
+            <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
           {% else %}
-            <a href="/logout">Logout</a>
+            <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
           {% endif %}
-        </div>
+        </ul>
       </div>
     </div>
   </nav>
