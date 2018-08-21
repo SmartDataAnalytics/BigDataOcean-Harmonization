@@ -2,6 +2,7 @@ package org.unibonn.bdo.bdodatasets;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.io.File;
@@ -39,6 +40,7 @@ import ucar.nc2.dataset.NetcdfDataset;
 
 import org.unibonn.bdo.bdodatasets.Constants;
 import org.unibonn.bdo.connections.HDFSFileSystem;
+import org.unibonn.bdo.linking.SaveVariables;
 
 /**
  * 
@@ -149,7 +151,9 @@ public class BdoDatasetAnalyser {
 		String[] list = delims.split(",");
 		
 		//obtaining the corresponding variable name from the standard CF
-		variables = parserDatasetVariables(list);
+		List<String> listVariables = Arrays.asList(list);
+		//variables = parserDatasetVariables(listVariables);
+		variables = SaveVariables.parseListVariables(listVariables);
 		
 		Element item8 = doc.getElementsByTag("gmd:descriptiveKeywords").get(1);
 		observationsElements = item8.getElementsByTag("gmx:Anchor");
@@ -556,43 +560,6 @@ public class BdoDatasetAnalyser {
 			e.printStackTrace();
 		}
 		return listVariables;
-	}
-	
-	private static List<String> parserDatasetVariables (String[] list) {
-		List<String> variables = new ArrayList<>();
-		//Extracting the array of variablesCF_BDO find in the json file
-		JSONParser parser = new JSONParser();
-		JSONArray variablesCF;
-		try {
-			variablesCF = (JSONArray) parser.parse(new FileReader(Constants.configFilePath+"/Frontend/Flask/static/json/VariablesMongo/variablesMongo.json"));
-			for(int j=0; j<list.length; j++) {
-				boolean flag = false;
-				for(int i=0; i<variablesCF.size(); i++){
-		        	JSONObject keyword = (JSONObject) variablesCF.get(i);
-		            String canonical_name = keyword.get("canonical_name").toString();
-		            String name = keyword.get("name").toString();
-		            if(canonical_name.equals(list[j].toLowerCase()) || name.equals(list[j].toLowerCase())) {
-		            	variables.add(list[j] + " -- "+ keyword.get("canonical_name").toString());
-		            	flag = true;
-		            	break;
-		            }		            	
-		        }
-				if(flag == false) {
-					variables.add(list[j] + " -- "+ EMPTY_FIELD);
-				}
-			}
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		return variables;
 	}
 	
 	private static String parserDatasetKeywords (String keywords) {

@@ -15,20 +15,30 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
+/**
+ *  
+ * @author Jaime M Trillos
+ *
+ * Receives 1 parameter, the prefix of the vocabulary to be download.
+ * Integration between Vocabulary repository and Harmonization tool.
+ *
+ */
+
 public class ExtractVocabulary {
 	
 	private final static Logger log = LoggerFactory.getLogger(ExtractVocabulary.class);
 	
 	public static void main(String[] args) {
-		getInfoVocabPrefix("ssn");
+		String vocabPrefix = args[1];
+		//String vocabPrefix = "bdo";
+		getInfoVocabPrefix(vocabPrefix);
 	}
 	
 	//Request API get Vocabulary Info 
 	private static void getInfoVocabPrefix(String vocabPrefix) {
 		HttpResponse<String> response; //Get the vocabulary
 		try {
-			response = Unirest.get("https://lov.linkeddata.es/dataset/lov/api/v2/vocabulary/info?vocab="+ vocabPrefix)
-					//Constants.API_GET_INFO_VOCAB_REPO + vocabPrefix)
+			response = Unirest.get(Constants.API_GET_INFO_VOCAB_REPO + vocabPrefix)
 					.header("Content-Type", "application/json")
 					.asString();
 			if(response.getStatus() == 200) {
@@ -53,13 +63,13 @@ public class ExtractVocabulary {
 		HttpResponse<String> response; //Get the vocabulary
 		try {
 			// Create new file in AddDatasets with the name of the prefix
-			PrintWriter file = new PrintWriter(Constants.configFilePath+"/Backend/AddDatasets/" + fileName + ".n3"); 
+			PrintWriter file = new PrintWriter(Constants.configFilePath+"/Backend/AddDatasets/ontologiesN3/" + fileName + ".n3"); 
 			response = Unirest.get(fileURL)
 					.asString();
 			if(response.getStatus() == 200) {
 				file.println(response.getBody()); // Save the response in the file
 				file.close(); // close the file
-				log.info("Successful!  Response API getRDFVocabPrefix and saved RDF data in /Backend/AddDatasets/" + fileName + ".n3");
+				log.info("Successful!  Response API getRDFVocabPrefix and saved RDF data in /Backend/AddDatasets/ontologiesN3/" + fileName + ".n3");
 			} else {
 				log.error("Error!");
 			}

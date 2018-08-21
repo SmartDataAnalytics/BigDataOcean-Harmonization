@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE LIMES SYSTEM "limes.dtd">
+<LIMES>
+	<PREFIX>
+		<NAMESPACE>http://www.w3.org/1999/02/22-rdf-syntax-ns#</NAMESPACE>
+		<LABEL>rdf</LABEL>
+	</PREFIX>
+	<PREFIX>
+		<NAMESPACE>http://www.w3.org/2000/01/rdf-schema#</NAMESPACE>
+		<LABEL>rdfs</LABEL>
+	</PREFIX>
+	<PREFIX>
+		<NAMESPACE>http://www.w3.org/2002/07/owl#</NAMESPACE>
+		<LABEL>owl</LABEL>
+	</PREFIX>
+	<PREFIX>
+		<NAMESPACE>http://purl.org/dc/terms/</NAMESPACE>
+		<LABEL>dcterms</LABEL>
+	</PREFIX>
+	<PREFIX>
+		<NAMESPACE>http://creativecommons.org/ns#</NAMESPACE>
+		<LABEL>ns</LABEL>
+	</PREFIX>
+	<PREFIX>
+		<NAMESPACE>http://www.w3.org/2001/XMLSchema#</NAMESPACE>
+		<LABEL>xsd</LABEL>
+	</PREFIX>
+	<PREFIX>
+		<NAMESPACE>http://www.w3.org/2004/02/skos/core#</NAMESPACE>
+		<LABEL>skos</LABEL>
+	</PREFIX>
+	<PREFIX>
+		<NAMESPACE>http://purl.org/vocab/vann/</NAMESPACE>
+		<LABEL>vann</LABEL>
+	</PREFIX>
+	<PREFIX>
+		<NAMESPACE>http://bigdataocean.eu/bdo/canonicalmodel#</NAMESPACE>
+		<LABEL>canonicalmodel</LABEL>
+	</PREFIX>
+	<PREFIX>
+		<NAMESPACE>http://xmlns.com/foaf/0.1/</NAMESPACE>
+		<LABEL>foaf</LABEL>
+	</PREFIX>
+
+	<SOURCE>
+		<ID>VariablesRDF</ID>
+		<ENDPOINT>/home/eis/Dropbox/BDO/BigDataOcean-Harmonization/Backend/AddDatasets/ontologiesN3/bdo.n3</ENDPOINT>
+		<VAR>?y</VAR>
+		<PAGESIZE>1000</PAGESIZE>
+		<RESTRICTION></RESTRICTION>
+		<PROPERTY>rdfs:label AS nolang->lowercase</PROPERTY>
+		<PROPERTY>canonicalmodel:hasCanonicalName AS nolang->lowercase</PROPERTY>
+
+		<TYPE>N3</TYPE>
+	</SOURCE>
+	
+	<TARGET>
+		<ID>VariablesFile</ID>
+		<ENDPOINT>/home/eis/Dropbox/BDO/BigDataOcean-Harmonization/Backend/AddDatasets/temp.csv</ENDPOINT>
+		<VAR>?x</VAR>
+		<PAGESIZE>1000</PAGESIZE>
+		<RESTRICTION>?x rdf:type http://www.okkam.org/http://xmlns.com/foaf/0.1/name</RESTRICTION>
+		<PROPERTY>http://xmlns.com/foaf/0.1/name AS lowercase</PROPERTY>
+
+		<TYPE>CSV</TYPE>
+	</TARGET>	
+
+	<METRIC>
+		OR(Cosine(x.http://xmlns.com/foaf/0.1/name, y.rdfs:label)|0.8,Cosine(x.http://xmlns.com/foaf/0.1/name, y.canonicalmodel:hasCanonicalName)|0.8)
+	</METRIC>
+
+	<ACCEPTANCE>
+		<THRESHOLD>0.98</THRESHOLD>
+		<FILE>accepted.txt</FILE>
+		<RELATION>owl:sameAs</RELATION>
+	</ACCEPTANCE>
+	<REVIEW>
+		<THRESHOLD>0.95</THRESHOLD>
+		<FILE>reviewme.txt</FILE>
+		<RELATION>owl:sameAs</RELATION>
+	</REVIEW>
+	
+	<EXECUTION>
+		<REWRITER>default</REWRITER>
+		<PLANNER>default</PLANNER>
+		<ENGINE>default</ENGINE>
+	</EXECUTION>
+	<OUTPUT>TAB</OUTPUT>
+</LIMES>
