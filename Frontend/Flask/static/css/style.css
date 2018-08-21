@@ -737,3 +737,8 @@ footer .copyright {
 .pull-right {
     float: right!important;
 }
+
+.navbar-text {
+    color: #ffffff;
+    font-size: 1.8em;
+}
