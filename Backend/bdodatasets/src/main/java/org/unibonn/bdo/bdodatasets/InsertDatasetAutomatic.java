@@ -176,7 +176,7 @@ public class InsertDatasetAutomatic {
 				//log.error("Error!  the file name does not have issuedDate and modifiedDate");
 				return false;
 			}
-		}else if(tokens[1] == "nc") {
+		}else if(tokens[1].equals("nc")) {
 			result = extractionDatesNetcdf(result, filename);
 		}
 		
