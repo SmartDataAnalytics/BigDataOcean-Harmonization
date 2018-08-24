@@ -278,11 +278,11 @@ public class InsertDatasetAutomatic {
 		//Import all the metadata into the Dataset except identifier, issuedDate and modifiedDate
 		Dataset data = new Dataset("", datasetProfile.getTitle(), datasetProfile.getDescription(), 
 				datasetProfile.getSubject(), datasetProfile.getKeywords(), datasetProfile.getStandards(), datasetProfile.getFormats(), datasetProfile.getLanguage(), 
-				datasetProfile.getHomepage(), datasetProfile.getPublisher(), datasetProfile.getSource(), datasetProfile.getObservations(), datasetProfile.getStorageTable(), 
+				datasetProfile.getHomepage(), datasetProfile.getPublisher(), datasetProfile.getSource(), datasetProfile.getObservation(), datasetProfile.getStorageTable(), 
 				datasetProfile.getAccessRights(), "", "", datasetProfile.getGeoLocation(), datasetProfile.getSpatialWest(), datasetProfile.getSpatialEast(),
 				datasetProfile.getSpatialSouth(), datasetProfile.getSpatialNorth(), datasetProfile.getCoordinateSystem(), datasetProfile.getVerticalCoverageFrom(),
 				datasetProfile.getVerticalCoverageTo(), datasetProfile.getVerticalLevel(), datasetProfile.getTemporalCoverageBegin(), datasetProfile.getTemporalCoverageEnd(),
-				datasetProfile.getTimeResolution(), variables, datasetProfile.getProfileName());
+				datasetProfile.getTimeResolution(), variables, "");
 		
 		return data;
 		

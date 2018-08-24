@@ -15,10 +15,10 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.unibonn.bdo.connections.QueryExecutor;
 import org.unibonn.bdo.objects.Dataset;
 import org.unibonn.bdo.objects.ProfileDataset;
 
-import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
 import com.mashape.unirest.http.HttpResponse;
@@ -318,6 +318,7 @@ public class InsertNewDataset {
 				e.printStackTrace();
 			}
 		}
+		// This is for InsertNewDataset with flag = "" (URI idFile)
 		if(param.length == 2) {
 			String idFile = param[1];
 			try {
@@ -341,7 +342,9 @@ public class InsertNewDataset {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}else if(param.length == 4) {
+		}
+		// This is for InsertNewDataset with flag = "other" (title>publisher>issuedDate>idFile)
+		else if(param.length == 4) {
 			String idFile = param[3];
 			try {
 				response1 = Unirest.put(Constants.HTTPJWT + "fileHandler/file/" + idFile + 

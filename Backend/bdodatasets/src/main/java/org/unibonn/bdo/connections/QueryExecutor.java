@@ -1,4 +1,6 @@
-package org.unibonn.bdo.bdodatasets;
+package org.unibonn.bdo.connections;
+
+import org.unibonn.bdo.bdodatasets.Constants;
 
 import com.hp.hpl.jena.query.QueryExecution;
 import com.hp.hpl.jena.query.QueryExecutionFactory;
