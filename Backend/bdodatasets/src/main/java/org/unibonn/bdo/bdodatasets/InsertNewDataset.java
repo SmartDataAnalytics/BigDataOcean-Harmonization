@@ -15,11 +15,11 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.unibonn.bdo.connections.QueryExecutor;
 import org.unibonn.bdo.objects.Dataset;
 import org.unibonn.bdo.objects.ProfileDataset;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
@@ -41,14 +41,14 @@ public class InsertNewDataset {
 	private final static Logger log = LoggerFactory.getLogger(InsertNewDataset.class);
 	
 	public static void main(String[] args) throws FileNotFoundException, IOException, ParseException {
-		String flag = args[0];
-		String parameter = args[1];
-		String jsonDataset = args[2];
+		//String flag = args[0];
+		//String parameter = args[1];
+		//String jsonDataset = args[2];
 		//String flag = "";
-		//String flag = "other";
-		//String parameter = "KRITIJADE>JM>2018-08-28T12:59:59>";
+		String flag = "other";
+		String parameter = "KRITIJADE>JM>2018-08-28T12:59:59>";
 		//String parameter = "<http://bigdataocean.eu/bdo/MEDSEA_ANALYSIS_mmmmFORECAST_PHY_006_013> ";
-		//String jsonDataset = Constants.configFilePath+"/Backend/AddDatasets/jsonDataset.json";
+		String jsonDataset = Constants.configFilePath+"/Backend/AddDatasets/jsonDataset.json";
 		
 		exec(flag, parameter, jsonDataset);
 	}
@@ -318,6 +318,7 @@ public class InsertNewDataset {
 				e.printStackTrace();
 			}
 		}
+		// This is for InsertNewDataset with flag = "" (URI idFile)
 		if(param.length == 2) {
 			String idFile = param[1];
 			try {
@@ -341,7 +342,9 @@ public class InsertNewDataset {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}else if(param.length == 4) {
+		}
+		// This is for InsertNewDataset with flag = "other" (title>publisher>issuedDate>idFile)
+		else if(param.length == 4) {
 			String idFile = param[3];
 			try {
 				response1 = Unirest.put(Constants.HTTPJWT + "fileHandler/file/" + idFile + 

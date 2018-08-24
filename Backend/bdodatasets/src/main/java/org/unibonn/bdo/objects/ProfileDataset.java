@@ -24,7 +24,7 @@ public class ProfileDataset {
 	private String homepage; //URI of Dataset
 	private String publisher; //publisher of Dataset
 	private String source; //source of the Dataset (HCMR, ANEX, XMILE...)
-	private String observations; //Comments of the Dataset (Insitu, Timeseries...)
+	private String observation; //Comments of the Dataset (Insitu, Timeseries...)
 	private String storageTable; //TableName used by parser tool
 	private String accessRights; //access_rights 
 	private String geoLocation; //tokenField_geoLocation
@@ -48,7 +48,7 @@ public class ProfileDataset {
 	
 	public ProfileDataset(String profileName, String title, String description, String subject, String keywords,
 			String standards, String formats, String language, String homepage, String publisher, 
-			String source, String observations, String storageTable, 
+			String source, String observation, String storageTable, 
 			String accessRights, String geoLocation, String spatialWest, String spatialEast,
 			String spatialSouth, String spatialNorth, String coordinateSystem, String verticalCoverageFrom,
 			String verticalCoverageTo, String verticalLevel, String temporalCoverageBegin, String temporalCoverageEnd,
@@ -64,7 +64,7 @@ public class ProfileDataset {
 		this.homepage = homepage;
 		this.publisher = publisher;
 		this.source = source;
-		this.observations = observations;
+		this.observation = observation;
 		this.storageTable = storageTable;
 		this.accessRights = accessRights;
 		this.geoLocation = geoLocation;
@@ -90,12 +90,12 @@ public class ProfileDataset {
 		this.source = source;
 	}
 
-	public String getObservations() {
-		return observations;
+	public String getObservation() {
+		return observation;
 	}
 
-	public void setObservations(String observations) {
-		this.observations = observations;
+	public void setObservations(String observation) {
+		this.observation = observation;
 	}
 
 	public String getStorageTable() {
