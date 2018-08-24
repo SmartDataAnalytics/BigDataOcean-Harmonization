@@ -41,14 +41,14 @@ public class InsertNewDataset {
 	private final static Logger log = LoggerFactory.getLogger(InsertNewDataset.class);
 	
 	public static void main(String[] args) throws FileNotFoundException, IOException, ParseException {
-		//String flag = args[0];
-		//String parameter = args[1];
-		//String jsonDataset = args[2];
+		String flag = args[0];
+		String parameter = args[1];
+		String jsonDataset = args[2];
 		//String flag = "";
-		String flag = "other";
-		String parameter = "KRITIJADE>JM>2018-08-28T12:59:59>";
+		//String flag = "other";
+		//String parameter = "KRITIJADE>JM>2018-08-28T12:59:59>";
 		//String parameter = "<http://bigdataocean.eu/bdo/MEDSEA_ANALYSIS_mmmmFORECAST_PHY_006_013> ";
-		String jsonDataset = Constants.configFilePath+"/Backend/AddDatasets/jsonDataset.json";
+		//String jsonDataset = Constants.configFilePath+"/Backend/AddDatasets/jsonDataset.json";
 		
 		exec(flag, parameter, jsonDataset);
 	}

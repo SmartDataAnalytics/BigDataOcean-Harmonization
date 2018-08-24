@@ -94,7 +94,7 @@ public class ProfileDataset {
 		return observation;
 	}
 
-	public void setObservations(String observation) {
+	public void setObservation(String observation) {
 		this.observation = observation;
 	}
 
