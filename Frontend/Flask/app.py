@@ -572,8 +572,8 @@ def editing():
 			dataset = datasetInfo (identifier, title, description, subject, keywords, standards, formats, language, homepage, publisher, 
 				source, observations, storageTable,
 				accessRights, issuedDate, modifiedDate, geoLocation, spatialWest, spatialEast, spatialSouth, spatialNorth, 
-				coordinateSystem, verticalCoverageFrom, verticalCoverageTo,temporalCoverageBegin, temporalCoverageEnd, 
-				verticalLevel, timeResolution, variables, "")
+				coordinateSystem, verticalCoverageFrom, verticalCoverageTo, verticalLevel, temporalCoverageBegin, temporalCoverageEnd, 
+				timeResolution, variables, "")
 			# create the json of the datasetInfo class
 			datasetJson = json.dumps(dataset.__dict__)
 			with open(globalPath+'/Backend/AddDatasets/jsonDataset.json','w') as file:
