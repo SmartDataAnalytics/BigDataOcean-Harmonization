@@ -22,7 +22,7 @@ WORKDIR /BDOHarmonization
 RUN git clone https://github.com/SmartDataAnalytics/BigDataOcean-Harmonization.git
 RUN mkdir /src
 RUN mkdir /logs
-RUN cd BigDataOcean-Harmonization/Backend/bdodatasets/ && mvn clean install
+RUN cd BigDataOcean-Harmonization/Backend/bdodatasets/ && mvn clean install -Dmaven.test.skip=true
 
 # Install fuseki
 WORKDIR /

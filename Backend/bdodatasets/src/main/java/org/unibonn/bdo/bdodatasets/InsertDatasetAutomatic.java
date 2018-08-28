@@ -59,7 +59,7 @@ public class InsertDatasetAutomatic {
     	runConsumer();
     }
     
-    public static void runConsumer() {
+    private static void runConsumer() {
     	Consumer<Long, String> consumer = ConsumerCreator.createConsumer();
         int noMessageFound = 0;
         while (true) {
@@ -84,6 +84,7 @@ public class InsertDatasetAutomatic {
 				boolean flag = false;
 				// if metadata has been inserted in Fuseki then send a message with idFile to the TOPIC2
 				try {
+					//log.info("Start");
 					flag = analyseInsertDatasetAutomatic(filename,idFile,idProfile);
 					if(flag) {
 						System.out.println("Successful!  Metadata has been added correctly");
@@ -93,6 +94,7 @@ public class InsertDatasetAutomatic {
 						System.out.println("Error!  There was an error adding the metadata");
 						//log.error("Error!  There was an error adding the metadata");
 					}
+					//log.info("End");
 				} catch (IOException | ParseException | UnirestException | java.text.ParseException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
