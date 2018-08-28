@@ -13,6 +13,7 @@ from flask_jwt import JWT, jwt_required, current_identity
 from werkzeug.security import safe_str_cmp
 from werkzeug.utils import secure_filename
 from functools import wraps
+import hashlib, uuid
 
 # GLOBAL VARIABLES
 globalPath = "/BDOHarmonization/BigDataOcean-Harmonization"
@@ -27,17 +28,18 @@ Authorization = 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJiZG8iLCJleHAiOjE1NTI0ODk
 # Authentication JWT for APIs
 # Class for security authentication JWT
 class User(object):
-	def __init__(self, id, username, password):
+	def __init__(self, id, username, password, salt):
 		self.id = id
 		self.username = username
 		self.password = password
-
+		self.salt = salt
+		
 	def __str__(self):
 		return "User(id='%s')" % self.id
 
 users = [
-	User(1, 'admin', 'qNkYUXzGbIu4nwU3'),
-	User(2, 'apiuser', 'gzGhwpqjE3Mj4eNE'),
+	User(1, 'admin', '178d021a30f7a5e80926fc420e0151c372015adb984cc880fd0b34a6d229221adc3d7c9fd69678fe54271a2aebcf54d156dbaf9dbd3bdf88f1d7d7c4708802af', 'ad975ce188ee4016b4af31f61245be0e'),
+	User(2, 'apiuser', 'a144d557369c1d3f44166ad227c556b4c486eabbf008b512c1f2625053abf0efd3bbd059870447bd5dbb964acbe9840c42e4c4d2d631fad1a73869781628c47f', '0e6357a58a6f4d4588242a76357d08cd')
 ]
 
 username_table = {u.username: u for u in users}
@@ -53,7 +55,8 @@ app.config['JWT_EXPIRATION_DELTA'] = timedelta(days = 365) # Expiration time of 
 # Authentication JWT for APIs
 def authenticate(username, password):
     user = username_table.get(username, None)
-    if user and safe_str_cmp(user.password.encode('utf-8'), password.encode('utf-8')):
+    hashed_password = hashlib.sha512(password.encode('utf-8') + user.salt.encode('utf-8')).hexdigest()
+    if user and safe_str_cmp(user.password.encode('utf-8'), hashed_password.encode('utf-8')):
         return user
 
 def identity(payload):
@@ -129,9 +132,11 @@ def login():
 		Inputusername = request.form['username'] 
 		Inputpassword = request.form['password']
 		for u in users:
-			if u.username == Inputusername and u.password == Inputpassword:
-				flag = True
-				break
+			if u.username == Inputusername:
+				hashed_password = hashlib.sha512(Inputpassword.encode('utf-8') + u.salt.encode('utf-8')).hexdigest()
+				if u.password == hashed_password:
+					flag = True
+					break
 
 		if flag == False:
 			error = 'Invalid Credentials. Please try again.'
