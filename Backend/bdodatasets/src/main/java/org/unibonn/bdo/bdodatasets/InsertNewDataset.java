@@ -1,5 +1,6 @@
 package org.unibonn.bdo.bdodatasets;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -9,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.ini4j.Ini;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -39,8 +41,11 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 public class InsertNewDataset {
 	
 	private final static Logger log = LoggerFactory.getLogger(InsertNewDataset.class);
+	private static String tokenAuthorization = ""; 
 	
 	public static void main(String[] args) throws FileNotFoundException, IOException, ParseException {
+		Ini config = new Ini(new File(Constants.INITFILEPATH));
+		tokenAuthorization = config.get("DEFAULT", "AUTHORIZATION_JWT");
 		String flag = args[0];
 		String parameter = args[1];
 		String jsonDataset = args[2];
@@ -49,7 +54,6 @@ public class InsertNewDataset {
 		//String parameter = "KRITIJADE>JM>2018-08-28T12:59:59>";
 		//String parameter = "<http://bigdataocean.eu/bdo/MEDSEA_ANALYSIS_mmmmFORECAST_PHY_006_013> ";
 		//String jsonDataset = Constants.configFilePath+"/Backend/AddDatasets/jsonDataset.json";
-		
 		exec(flag, parameter, jsonDataset);
 	}
 
@@ -302,7 +306,7 @@ public class InsertNewDataset {
 			try {
 				response = Unirest.post(Constants.HTTPJWT + "fileHandler/metadataProfile/")
 						.header("Content-Type", "application/json")
-						.header("Authorization", Constants.tokenAuthorization)
+						.header("Authorization", tokenAuthorization)
 						.body(printJsonProfile(newDataset))
 						.asString();
 				if(response.getStatus() == 200) {
@@ -325,7 +329,7 @@ public class InsertNewDataset {
 				response1 = Unirest.put(Constants.HTTPJWT + "fileHandler/file/" + idFile + 
 						"/metadata/" + newDataset.getIdentifier())
 						.header("Content-Type", "application/json")
-						.header("Authorization", Constants.tokenAuthorization)
+						.header("Authorization", tokenAuthorization)
 						.asString();
 				if(response1.getStatus() == 200) {
 					//System.out.println(" Profile= " + printJsonProfile(newDataset));
@@ -350,7 +354,7 @@ public class InsertNewDataset {
 				response1 = Unirest.put(Constants.HTTPJWT + "fileHandler/file/" + idFile + 
 						"/metadata/" + newDataset.getIdentifier())
 						.header("Content-Type", "application/json")
-						.header("Authorization", Constants.tokenAuthorization)
+						.header("Authorization", tokenAuthorization)
 						.asString();
 				if(response1.getStatus() == 200) {
 					//System.out.println(" Profile= " + printJsonProfile(newDataset));

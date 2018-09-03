@@ -17,6 +17,8 @@ import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
+import org.ini4j.Ini;
+import org.ini4j.InvalidFileFormatException;
 import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,10 +55,21 @@ import ucar.nc2.dataset.NetcdfDataset;
 public class InsertDatasetAutomatic {
 	
 	private final static Logger log = LoggerFactory.getLogger(InsertDatasetAutomatic.class);
-	private static final String EMPTY_FIELD = "";
+	private final static String EMPTY_FIELD = "";
+	private static String tokenAuthorization = ""; 
 	
     public static void main(String[] args) {
-    	runConsumer();
+    	try {
+			Ini config = new Ini(new File(Constants.INITFILEPATH));
+			tokenAuthorization = config.get("DEFAULT", "AUTHORIZATION_JWT");
+			runConsumer();
+		} catch (InvalidFileFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
     
     private static void runConsumer() {
@@ -144,7 +157,7 @@ public class InsertDatasetAutomatic {
 		//Get the jsonProfile by the idProfile (API)
 		response = Unirest.get(Constants.HTTPJWT + "fileHandler/metadataProfile/id/" + idProfile)
 			.header("Content-Type", "application/json")
-			.header("Authorization", Constants.tokenAuthorization)
+			.header("Authorization", tokenAuthorization)
 			.asJson();
 		if(response.getStatus() == 200) {
 			jsonProfile = response.getBody().getObject().toString();
@@ -193,7 +206,7 @@ public class InsertDatasetAutomatic {
 			response1 = Unirest.put(Constants.HTTPJWT + "fileHandler/file/" + idFile + 
 					"/metadata/" + result.getIdentifier())
 					.header("Content-Type", "application/json")
-					.header("Authorization", Constants.tokenAuthorization)
+					.header("Authorization", tokenAuthorization)
 					.asString();
 			if(response1.getStatus() == 200) {
 				resultFlag = true;
