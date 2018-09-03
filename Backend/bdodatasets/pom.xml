@@ -17,6 +17,11 @@
   </properties>
 
   <dependencies>
+	  <dependency>
+	    <groupId>org.ini4j</groupId>
+	    <artifactId>ini4j</artifactId>
+	    <version>0.5.4</version>
+	</dependency>
     <dependency>
       <groupId>org.apache.poi</groupId>
       <artifactId>poi</artifactId>
@@ -267,6 +272,13 @@
             <program>
               <mainClass>org.unibonn.bdo.bdodatasets.InsertDatasetAutomatic</mainClass>
               <id>insertAutomatic</id>
+              <jvmSettings>
+                <maxMemorySize>512m</maxMemorySize>
+              </jvmSettings>
+            </program>
+            <program>
+              <mainClass>org.unibonn.bdo.bdodatasets.FetchJWTToken</mainClass>
+              <id>fetchJWTToken</id>
               <jvmSettings>
                 <maxMemorySize>512m</maxMemorySize>
               </jvmSettings>

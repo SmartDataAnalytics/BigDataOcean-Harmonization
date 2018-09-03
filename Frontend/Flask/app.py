@@ -14,6 +14,7 @@ from werkzeug.security import safe_str_cmp
 from werkzeug.utils import secure_filename
 from functools import wraps
 import hashlib, uuid
+import configparser
 
 # GLOBAL VARIABLES
 globalPath = "/BDOHarmonization/BigDataOcean-Harmonization"
@@ -22,8 +23,13 @@ GlobalURLJWT = "http://212.101.173.21:8085/"
 UPLOAD_FOLDER = globalPath+'/Backend/AddDatasets'
 ALLOWED_EXTENSIONS = set(['nc', 'csv', 'xlsx', 'xls'])
 
-#JWT authorization
-Authorization = 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJiZG8iLCJleHAiOjE1NTI0ODk1ODUsInJvbGUiOiJST0xFX0FETUlOIn0.o5cZnYT3MKwfmVt06EyCMWy2qpgFPwcwZg82a3jmkNZKOVCJIbnh-LsHnEIF8BEUdj9OKrurwtknYh5ObjgLvg'
+#JWT authorization (parser and handler)
+# BDO.ini where JWT token is saved
+config = configparser.ConfigParser()
+config.read(globalPath + '/Backend/bdodatasets/bdo.ini')
+
+#Authorization = 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJiZG8iLCJleHAiOjE1NTI0ODk1ODUsInJvbGUiOiJST0xFX0FETUlOIn0.o5cZnYT3MKwfmVt06EyCMWy2qpgFPwcwZg82a3jmkNZKOVCJIbnh-LsHnEIF8BEUdj9OKrurwtknYh5ObjgLvg'
+Authorization = config['DEFAULT']['AUTHORIZATION_JWT']
 
 # Authentication JWT for APIs
 # Class for security authentication JWT

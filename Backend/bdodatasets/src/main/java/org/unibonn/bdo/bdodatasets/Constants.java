@@ -2,7 +2,8 @@ package org.unibonn.bdo.bdodatasets;
 
 public class Constants {
 	public static String configFilePath="/BDOHarmonization/BigDataOcean-Harmonization";
-	public static String tokenAuthorization = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJiZG8iLCJleHAiOjE1NTI0ODk1ODUsInJvbGUiOiJST0xFX0FETUlOIn0.o5cZnYT3MKwfmVt06EyCMWy2qpgFPwcwZg82a3jmkNZKOVCJIbnh-LsHnEIF8BEUdj9OKrurwtknYh5ObjgLvg";
+	public static String INITFILEPATH = configFilePath + "/Backend/bdodatasets/bdo.ini";
+    //public static String tokenAuthorization = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJiZG8iLCJleHAiOjE1NTI0ODk1ODUsInJvbGUiOiJST0xFX0FETUlOIn0.o5cZnYT3MKwfmVt06EyCMWy2qpgFPwcwZg82a3jmkNZKOVCJIbnh-LsHnEIF8BEUdj9OKrurwtknYh5ObjgLvg";
 	public static String HTTPJWT = "http://212.101.173.21:8085/";
 	public static String HTTPFUSEKI = "http://212.101.173.21:3031/bdoHarmonization/";
 	public static String API_GET_INFO_VOCAB_REPO = "http://212.101.173.21:3333/dataset/bdo/api/v2/vocabulary/info?vocab=";

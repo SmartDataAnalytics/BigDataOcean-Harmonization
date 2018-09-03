@@ -1,0 +1,35 @@
+PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
+prefix owl:   <http://www.w3.org/2002/07/owl#> 
+prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> 
+prefix bdo:   <http://www.bigdataocean.eu/standards/canonicalmodel#> 
+prefix geolocbdo:   <http://www.bigdataocean.eu/standards/geographiclocation#> 
+prefix prv: <http://purl.org/net/provenance/ns#>
+prefix dbpedia: <http://dbpedia.org/resource/>
+
+SELECT (STR(?name) AS ?label) ?canonicalName ?url 
+WHERE{
+  {
+    ?x a bdo:Variable;
+       rdfs:label ?name;
+       bdo:hasCanonicalName ?canonicalName.
+      OPTIONAL { 
+        ?x owl:sameAs ?url 
+      }
+  }
+  UNION
+  {
+    ?y a geolocbdo:GeoStandard;
+       rdfs:label ?name.
+  }
+  UNION
+  {
+    ?url a prv:DataItem;
+       dct:title ?name.
+  }
+  UNION
+  {
+    ?url skos:prefLabel ?name.
+  }
+}  
