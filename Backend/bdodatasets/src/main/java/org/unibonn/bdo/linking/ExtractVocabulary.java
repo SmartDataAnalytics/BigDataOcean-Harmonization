@@ -29,7 +29,7 @@ public class ExtractVocabulary {
 	private final static Logger log = LoggerFactory.getLogger(ExtractVocabulary.class);
 	
 	public static void main(String[] args) {
-		String vocabPrefix = args[1];
+		String vocabPrefix = args[0];
 		//String vocabPrefix = "bdo";
 		getInfoVocabPrefix(vocabPrefix);
 	}

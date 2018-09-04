@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.unibonn.bdo.objects.Ontology;
+
 import com.hp.hpl.jena.query.Dataset;
 import com.hp.hpl.jena.query.DatasetFactory;
 import com.hp.hpl.jena.query.Query;
@@ -25,11 +27,11 @@ import com.hp.hpl.jena.rdf.model.ResourceFactory;
 import com.hp.hpl.jena.util.FileUtils;
 
 /**
- * Convenience class for running SPARQL queries stored in files against
- * a Jena {@link Model} or {@link Dataset}.
+ * Convenience class for running SPARQL queries stored in ontologies files
  * 
- * @author Richard Cyganiak, Pierre-Yves Vandenbussche
+ * @author Jaime M Trillos
  */
+
 public class SPARQLRunner {
 	private final Dataset dataset;
 	private final String subfolder;
@@ -41,6 +43,7 @@ public class SPARQLRunner {
 	public SPARQLRunner(Dataset dataset) {
 		this(dataset,null);
 	}
+	
 	public SPARQLRunner(Model model, String subfolder) {
 		this(DatasetFactory.create(model),subfolder);
 	}
@@ -50,139 +53,120 @@ public class SPARQLRunner {
 		this.subfolder = subfolder;
 	}
 	
-	public List<Resource> getURIs(String queryFile, String paramVariable, RDFNode paramValue, String resultVariable) {
+	public List<Ontology> getListDataCanonicalModel(String queryFile) {
+		Ontology onto;
+		RDFNode uri;
+		RDFNode label;
+		RDFNode url;
+		RDFNode canonicalName;
+		String bdoURL;
+		String token;
 		Query query = getQuery(queryFile);
 		QuerySolutionMap args = new QuerySolutionMap();
-		if (paramVariable != null && paramValue != null) {
-			args.add(paramVariable, paramValue);
-		}
-		ArrayList<Resource> result = new ArrayList<Resource>();
+		ArrayList<Ontology> result = new ArrayList<Ontology>();
 		ResultSet rs = QueryExecutionFactory.create(query, dataset, args).execSelect();
 		while (rs.hasNext()) {
-			RDFNode n = rs.next().get(resultVariable);
-			if (n == null || !n.isURIResource()) continue;
-			result.add(n.asResource());
-		}
-		Collections.sort(result, new Comparator<Resource>() {
-			public int compare(Resource r1, Resource r2) {
-				return r1.getURI().compareTo(r2.getURI());
+			// Initialization of variables 
+			uri = null;
+			label = null;
+			url = null;
+			canonicalName = null;
+			bdoURL = "http://bigdataocean.eu/bdo/cf/parameter/";
+			token = "";
+			
+			QuerySolution solution = rs.next();
+			uri = solution.get("uri");
+			label = solution.get("label");
+			canonicalName = solution.get("canonicalName");
+			
+			if(solution.contains("url")) {
+				url = solution.get("url");
 			}
-		});
-		return result;
-	}
-	
-
-	public List<Literal> getLiterals(String queryFile, String resultVariable, String paramVariable, RDFNode paramValue) {
-		Query query = getQuery(queryFile);
-		QuerySolutionMap args = new QuerySolutionMap();
-		if (paramVariable != null && paramValue != null) {
-			args.add(paramVariable, paramValue);
-		}
-		ResultSet rs = QueryExecutionFactory.create(query, dataset, args).execSelect();
-		List<Literal> result= new ArrayList<Literal>();
-		while(rs.hasNext()){
-			RDFNode n = rs.next().get(resultVariable);
-			if (n == null || !n.isLiteral()) return null;
-			result.add(n.asLiteral());
-		}
-		Collections.sort(result, new Comparator<Literal>() {
-			public int compare(Literal l1, Literal l2) {
-				return l1.getLexicalForm().compareTo(l2.getLexicalForm());
+			if(url != null) {
+				onto = new Ontology(uri.toString(), label.toString(), url.toString(), canonicalName.toString());
+			} else {
+				token = label.toString().replaceAll(" ", "_");
+				bdoURL = bdoURL + token;
+				onto = new Ontology(uri.toString(), label.toString(), bdoURL, canonicalName.toString());
 			}
-		});
+			result.add(onto);
+			
+		}
 		return result;
 	}
 	
-	public String getLangString(String queryFile, Resource term, String resultVariable) {
+	public List<Ontology> getListDataKeywords(String queryFile) {
+		Ontology onto;
+		RDFNode uri;
+		RDFNode label;
 		Query query = getQuery(queryFile);
 		QuerySolutionMap args = new QuerySolutionMap();
-		args.add("term", term);
-		args.add("prefLang", ResourceFactory.createPlainLiteral("en"));
+		ArrayList<Ontology> result = new ArrayList<Ontology>();
 		ResultSet rs = QueryExecutionFactory.create(query, dataset, args).execSelect();
-		if (!rs.hasNext()) return null;
-		RDFNode n = rs.next().get(resultVariable);
-		if (n == null || !n.isLiteral()) return null;
-		return n.asLiteral().getLexicalForm();
+		while (rs.hasNext()) {
+			// Initialization of variables 
+			uri = null;
+			label = null;
+			
+			QuerySolution solution = rs.next();
+			uri = solution.get("uri");
+			label = solution.get("label");
+			onto = new Ontology(uri.toString(), label.toString());
+			result.add(onto);
+			
+		}
+		return result;
 	}
 	
-	public String getString(String queryFile, String resultVariable, String paramVariable, RDFNode paramValue) {
+	public List<Ontology> getListDataSubjects(String queryFile) {
+		Ontology onto;
+		RDFNode uri;
+		RDFNode label;
 		Query query = getQuery(queryFile);
 		QuerySolutionMap args = new QuerySolutionMap();
-		if (paramVariable != null && paramValue != null) {
-			args.add(paramVariable, paramValue);
-		}
+		ArrayList<Ontology> result = new ArrayList<Ontology>();
 		ResultSet rs = QueryExecutionFactory.create(query, dataset, args).execSelect();
-		if (!rs.hasNext()) return null;
-		RDFNode n = rs.next().get(resultVariable);
-		if (n == null || !n.isLiteral()) return null;
-		return n.asLiteral().getLexicalForm();
+		while (rs.hasNext()) {
+			// Initialization of variables 
+			uri = null;
+			label = null;
+			
+			QuerySolution solution = rs.next();
+			uri = solution.get("uri");
+			label = solution.get("label");
+			onto = new Ontology(uri.toString(), label.toString());
+			result.add(onto);
+			
+		}
+		return result;
 	}
 	
-	public String getString(String queryFile, String paramVariable, Resource paramValue, String resultVariable) {
+	public List<Ontology> getListDataGeoLocation(String queryFile) {
+		Ontology onto;
+		RDFNode uri;
+		RDFNode label;
+		RDFNode url;
 		Query query = getQuery(queryFile);
 		QuerySolutionMap args = new QuerySolutionMap();
-		if (paramVariable != null && paramValue != null) {
-			args.add(paramVariable, paramValue);
-		}
+		ArrayList<Ontology> result = new ArrayList<Ontology>();
 		ResultSet rs = QueryExecutionFactory.create(query, dataset, args).execSelect();
-		if (!rs.hasNext()) return null;
-		RDFNode n = rs.next().get(resultVariable);
-		if (n == null || !n.isLiteral()) return null;
-		return n.asLiteral().getLexicalForm();
-	}
-	
-	public String getURI(String queryFile, String resultVariable, String paramVariable, RDFNode paramValue) {
-		Query query = getQuery(queryFile);
-		QuerySolutionMap args = new QuerySolutionMap();
-		if (paramVariable != null && paramValue != null) {
-			args.add(paramVariable, paramValue);
+		while (rs.hasNext()) {
+			// Initialization of variables 
+			uri = null;
+			label = null;
+			url = null;
+			
+			QuerySolution solution = rs.next();
+			uri = solution.get("uri");
+			label = solution.get("label");
+			url = solution.get("url");
+			onto = new Ontology(uri.toString(), label.toString(), url.toString());
+			result.add(onto);
+			
 		}
-		ResultSet rs = QueryExecutionFactory.create(query, dataset, args).execSelect();
-		if (!rs.hasNext()) return null;
-		RDFNode n = rs.next().get(resultVariable);
-		if (n == null || !n.isResource()) return null;
-		return n.asResource().toString();
-	}
-	
-	public ResultSet getResultSet(String queryFile, String paramVariable, Resource paramValue) {
-		Query query = getQuery(queryFile);
-		QuerySolutionMap args = new QuerySolutionMap();
-		if (paramVariable != null && paramValue != null) {
-			args.add(paramVariable, paramValue);
-		}
-		args.add("prefLang", ResourceFactory.createPlainLiteral("en"));
-		QueryExecution qe = QueryExecutionFactory.create(query, dataset, args);
-		ResultSet rs = qe.execSelect();
-		//qe.close();
-		return rs;
+		return result;
 	}
 
-	public QuerySolution getOneSolution(String queryFile, String paramVariable, Resource paramValue) {
-		Query query = getQuery(queryFile);
-		QuerySolutionMap args = new QuerySolutionMap();
-		if (paramVariable != null && paramValue != null) {
-			args.add(paramVariable, paramValue);
-		}
-		args.add("prefLang", ResourceFactory.createPlainLiteral("en"));
-		QueryExecution qe = QueryExecutionFactory.create(query, dataset, args);
-		ResultSet rs = qe.execSelect();
-		if (!rs.hasNext()) return null;
-		QuerySolution result = rs.next();
-		qe.close();
-		return result;
-	}
-	
-	public boolean askUri(String queryFile, String paramVariable, RDFNode paramValue) {
-		Query query = getQuery(queryFile);
-		QuerySolutionMap args = new QuerySolutionMap();
-		if (paramVariable != null && paramValue != null) {
-			args.add(paramVariable, paramValue);
-		}
-		args.add("prefLang", ResourceFactory.createPlainLiteral("en"));
-		QueryExecution qe = QueryExecutionFactory.create(query, dataset, args);
-		return qe.execAsk();
-	}
-	
 	private Query getQuery(String filename) {
 		if (!queryCache.containsKey(filename)) {
 			try {
@@ -197,17 +181,4 @@ public class SPARQLRunner {
 	}
 	private static final Map<String,Query> queryCache = new HashMap<String,Query>();
 	
-	public int getCount(String queryFile, Resource uri, String resultVariable, String paramVariable, RDFNode paramValue) {
-		Query query = getQuery(queryFile);
-		QuerySolutionMap args = new QuerySolutionMap();
-		if(uri!=null)args.add("uri", uri);
-		if (paramVariable != null && paramValue != null) {
-			args.add(paramVariable, paramValue);
-		}
-		ResultSet rs = QueryExecutionFactory.create(query, dataset, args).execSelect();
-		if (!rs.hasNext()) return 0;
-		RDFNode n = rs.next().get(resultVariable);
-		if (n == null || !n.isLiteral()) return -1;
-		return Integer.parseInt(n.asLiteral().getLexicalForm());
-	}
 }

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,11 +48,11 @@ private final static Logger log = LoggerFactory.getLogger(SaveVariables.class);
 			writer.write("\n");
 			for (int i = 0; i < variables.size(); i++) {
 				writer.write(variables.get(i));
+				//log.info(variables.get(i));
 				if(i < variables.size()-1) {
 					writer.write("\n");
 				}
 			}
-
 		    writer.close();
 			
 		} catch (IOException e) {
@@ -92,7 +93,9 @@ private final static Logger log = LoggerFactory.getLogger(SaveVariables.class);
 								response = Unirest.get("http://localhost:8080/result/" + requestId + "/accepted.txt")
 										.asString();
 								if(response.getStatus() == 200) {
-									log.info(response.getBody().toString());
+									//log.info(response.getBody().toString());
+									String resultLimes = response.getBody().toString();
+									Map<String, String> resultLimesMap = OntologyAnalyser.stringintoMap(resultLimes);
 								}
 							} else {
 								log.info("There were no matching links");

@@ -44,21 +44,19 @@ public class FetchJWTToken {
 					  .body("{\"username\": \"" + username + "\", \"password\": \"" + password + "\"}")
 					  .asString();
 			if (response.getStatus() == 200) {
-				// TO BE CONTINUE
 				// Add the new token to the config.ini file
-				config.put("DEFAULT", "AUTHORIZATION_JWT", response.getBody());
+				String headerAuthorization = response.getHeaders().getFirst("Authorization");
+				//System.out.print(headerAuthorization);
+				config.put("DEFAULT", "AUTHORIZATION_JWT", headerAuthorization);
 				config.store();
 				log.info("The new token has been saved in the config.ini file");
 			}else {
 				log.error("An error has occured when calling HttpResponse");
 			}
 			log.info("END");
-		} catch (UnirestException e) {
+		} catch (UnirestException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
 		}
 	}
 }

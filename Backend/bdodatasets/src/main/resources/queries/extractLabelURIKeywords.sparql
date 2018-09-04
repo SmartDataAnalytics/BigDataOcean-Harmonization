@@ -8,28 +8,7 @@ prefix geolocbdo:   <http://www.bigdataocean.eu/standards/geographiclocation#>
 prefix prv: <http://purl.org/net/provenance/ns#>
 prefix dbpedia: <http://dbpedia.org/resource/>
 
-SELECT (STR(?name) AS ?label) ?canonicalName ?url 
+SELECT ?uri (STR(?name) AS ?label) 
 WHERE{
-  {
-    ?x a bdo:Variable;
-       rdfs:label ?name;
-       bdo:hasCanonicalName ?canonicalName.
-      OPTIONAL { 
-        ?x owl:sameAs ?url 
-      }
-  }
-  UNION
-  {
-    ?y a geolocbdo:GeoStandard;
-       rdfs:label ?name.
-  }
-  UNION
-  {
-    ?url a prv:DataItem;
-       dct:title ?name.
-  }
-  UNION
-  {
-    ?url skos:prefLabel ?name.
-  }
+    ?uri skos:prefLabel ?name.
 }  
