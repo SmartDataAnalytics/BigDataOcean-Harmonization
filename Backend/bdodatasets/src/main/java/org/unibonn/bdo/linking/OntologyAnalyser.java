@@ -1,9 +1,7 @@
 package org.unibonn.bdo.linking;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.jena.riot.RDFDataMgr;
 
@@ -13,7 +11,7 @@ import org.unibonn.bdo.objects.*;
 
 public class OntologyAnalyser {
 	
-	public static void analyseOntology(String uriModel, String topic) {
+	public static List<Ontology> analyseOntology(String uriModel, String topic) {
 		//Model model = RDFDataMgr.loadModel("/home/eis/Dropbox/BDO/BigDataOcean-Harmonization/Backend/AddDatasets/ontologiesN3/bdo.n3") ;
 		Model model = RDFDataMgr.loadModel(uriModel) ;
 		model = ModelFactory.createRDFSModel(model);
@@ -34,6 +32,7 @@ public class OntologyAnalyser {
 				listDataOntology = extractDataGeoLocation(sparqlRunner);
 			break;
 		}
+		return listDataOntology;
 	}
 	
 	// Extract the uri, label, canonicalName, url from the ontology
@@ -64,20 +63,4 @@ public class OntologyAnalyser {
 		return listDataOntology;
 	}
 		
-	
-	// Compare the result from limes with the data from ontologies to obtain the 
-	public static List<String> formVariablesList (List<Ontology> listOntology, List<String> resultLimes){
-		
-		return null;
-	}
-
-	public static Map<String, String> stringintoMap(String resultLimes) {
-		Map<String, String> result = new HashMap<>();
-		String[] tokenNewLine = resultLimes.split("\n");
-		for (String token1 : tokenNewLine) { 
-			String[] tokenTab = token1.split("\t");
-			result.put(tokenTab[0], tokenTab[1]);
-		}
-		return result;
-	}
 }

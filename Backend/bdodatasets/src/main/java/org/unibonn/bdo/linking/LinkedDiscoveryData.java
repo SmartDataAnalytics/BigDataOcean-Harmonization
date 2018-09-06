@@ -3,17 +3,24 @@ package org.unibonn.bdo.linking;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.hadoop.fs.shell.Count;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.unibonn.bdo.bdodatasets.Constants;
 import org.unibonn.bdo.connections.MultipartUtility;
+import org.unibonn.bdo.objects.Ontology;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.hp.hpl.jena.sparql.pfunction.library.concat;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
@@ -26,23 +33,22 @@ import com.mashape.unirest.http.exceptions.UnirestException;
  *
  */
 
-public class SaveVariables {
+public class LinkedDiscoveryData {
 	
-private final static Logger log = LoggerFactory.getLogger(SaveVariables.class);
+private final static Logger log = LoggerFactory.getLogger(LinkedDiscoveryData.class);
 	
-	public static List<String> parseListVariables (List<String> variables) {
-		
+	public static List<String> parseListVariables (List<String> variables, String topic) {
 		saveVariablesCSV(variables);
-		
-		
-		linkingVariablesLimes();
-		return variables;
+		Map<String, String> resultLimes = linkingVariablesLimes();
+		List<Ontology> listDataOntology = OntologyAnalyser.analyseOntology(Constants.BDO_Ontology_N3, "variables");
+		List<String> variablesLinked = formVariablesList(listDataOntology, resultLimes, variables);
+		return variablesLinked;
 	}
 	
 	// Create the csv file that contains the variables extracted from a file
 	private static void saveVariablesCSV(List<String> variables) {
 		try {
-			FileWriter writer = new FileWriter(Constants.configFilePath+"/Backend/AddDatasets/temp.csv");
+			FileWriter writer = new FileWriter(Constants.configFilePath+"/Backend/AddDatasets/temp2.csv");
 			String header = "http://xmlns.com/foaf/0.1/name";
 			writer.write(header);
 			writer.write("\n");
@@ -62,7 +68,8 @@ private final static Logger log = LoggerFactory.getLogger(SaveVariables.class);
 		
 	}
 	
-	private static void linkingVariablesLimes() {
+	private static Map<String, String> linkingVariablesLimes() {
+		Map<String, String> resultLimesMap = new HashMap<String, String>();
 		HttpResponse<String> response; 
 		String requestId = "";
 		JsonObject responseObject;
@@ -95,7 +102,7 @@ private final static Logger log = LoggerFactory.getLogger(SaveVariables.class);
 								if(response.getStatus() == 200) {
 									//log.info(response.getBody().toString());
 									String resultLimes = response.getBody().toString();
-									Map<String, String> resultLimesMap = OntologyAnalyser.stringintoMap(resultLimes);
+									resultLimesMap = stringintoMap(resultLimes);
 								}
 							} else {
 								log.info("There were no matching links");
@@ -110,6 +117,38 @@ private final static Logger log = LoggerFactory.getLogger(SaveVariables.class);
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return resultLimesMap;
+	}
+	
+
+	private static Map<String, String> stringintoMap(String resultLimes) {
+		Map<String, String> result = new HashMap<>();
+		String[] tokenNewLine = resultLimes.split("\n");
+		for (String token1 : tokenNewLine) { 
+			String[] tokenTab = token1.split("\t");
+			String tokenKey =tokenTab[1].replaceAll("<", "").replaceAll(">", "");
+			String tokenValue =tokenTab[0].replaceAll("<", "").replaceAll(">", "");
+			result.put(tokenKey, tokenValue);
+		}
+		return result;
+	}
+	
+	// Compare the result from limes with the data from ontologies to obtain the list<String>
+	private static List<String> formVariablesList (List<Ontology> listOntology, Map<String,String> resultLimes, List<String> rawVariables){
+		List<String> variablesLinked = new ArrayList<String>();
+		for (String rawVar : rawVariables) {
+			if (resultLimes.get(rawVar) != null) {
+				for(Ontology tempOnto : listOntology) {
+					if(tempOnto.getUri().equals(resultLimes.get(rawVar))) {
+						variablesLinked.add(rawVar + " -- " + tempOnto.getLabel());
+					}
+				}
+				
+			} else {
+				variablesLinked.add(rawVar + " -- ");
+			}
+		}
+		return variablesLinked;
 	}
 
 }

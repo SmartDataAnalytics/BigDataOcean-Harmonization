@@ -34,8 +34,8 @@
 		<LABEL>vann</LABEL>
 	</PREFIX>
 	<PREFIX>
-		<NAMESPACE>http://bigdataocean.eu/bdo/canonicalmodel#</NAMESPACE>
-		<LABEL>canonicalmodel</LABEL>
+		<NAMESPACE>http://www.bigdataocean.eu/standards/canonicalmodel#</NAMESPACE>
+		<LABEL>bdo</LABEL>
 	</PREFIX>
 	<PREFIX>
 		<NAMESPACE>http://xmlns.com/foaf/0.1/</NAMESPACE>
@@ -49,14 +49,14 @@
 		<PAGESIZE>1000</PAGESIZE>
 		<RESTRICTION></RESTRICTION>
 		<PROPERTY>rdfs:label AS nolang->lowercase</PROPERTY>
-		<PROPERTY>canonicalmodel:hasCanonicalName AS nolang->lowercase</PROPERTY>
+		<PROPERTY>bdo:hasCanonicalName AS nolang->lowercase</PROPERTY>
 
 		<TYPE>N3</TYPE>
 	</SOURCE>
 	
 	<TARGET>
 		<ID>VariablesFile</ID>
-		<ENDPOINT>/home/eis/Dropbox/BDO/BigDataOcean-Harmonization/Backend/AddDatasets/temp.csv</ENDPOINT>
+		<ENDPOINT>/home/eis/Dropbox/BDO/BigDataOcean-Harmonization/Backend/AddDatasets/temp2.csv</ENDPOINT>
 		<VAR>?x</VAR>
 		<PAGESIZE>1000</PAGESIZE>
 		<RESTRICTION>?x rdf:type http://www.okkam.org/http://xmlns.com/foaf/0.1/name</RESTRICTION>
@@ -66,7 +66,7 @@
 	</TARGET>	
 
 	<METRIC>
-		OR(Cosine(x.http://xmlns.com/foaf/0.1/name, y.rdfs:label)|0.8,Cosine(x.http://xmlns.com/foaf/0.1/name, y.canonicalmodel:hasCanonicalName)|0.8)
+		OR(Cosine(x.http://xmlns.com/foaf/0.1/name, y.rdfs:label)|0.8,Cosine(x.http://xmlns.com/foaf/0.1/name, y.bdo:hasCanonicalName)|0.8)
 	</METRIC>
 
 	<ACCEPTANCE>

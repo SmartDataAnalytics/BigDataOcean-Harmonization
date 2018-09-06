@@ -40,7 +40,7 @@ import ucar.nc2.dataset.NetcdfDataset;
 
 import org.unibonn.bdo.bdodatasets.Constants;
 import org.unibonn.bdo.connections.HDFSFileSystem;
-import org.unibonn.bdo.linking.SaveVariables;
+import org.unibonn.bdo.linking.LinkedDiscoveryData;
 
 /**
  * 
@@ -153,7 +153,7 @@ public class BdoDatasetAnalyser {
 		//obtaining the corresponding variable name from the standard CF
 		List<String> listVariables = Arrays.asList(list);
 		//variables = parserDatasetVariables(listVariables);
-		variables = SaveVariables.parseListVariables(listVariables);
+		variables = LinkedDiscoveryData.parseListVariables(listVariables, "variables");
 		
 		Element item8 = doc.getElementsByTag("gmd:descriptiveKeywords").get(1);
 		observationsElements = item8.getElementsByTag("gmx:Anchor");

@@ -34,8 +34,8 @@
 		<LABEL>vann</LABEL>
 	</PREFIX>
 	<PREFIX>
-		<NAMESPACE>http://bigdataocean.eu/bdo/canonicalmodel#</NAMESPACE>
-		<LABEL>canonicalmodel</LABEL>
+		<NAMESPACE>http://bigdataocean.eu/standards/geolocation#</NAMESPACE>
+		<LABEL>geolocbdo</LABEL>
 	</PREFIX>
 	<PREFIX>
 		<NAMESPACE>http://xmlns.com/foaf/0.1/</NAMESPACE>
