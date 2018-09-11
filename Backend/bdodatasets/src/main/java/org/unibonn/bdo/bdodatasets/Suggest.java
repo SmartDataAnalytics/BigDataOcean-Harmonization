@@ -26,9 +26,10 @@ public class Suggest {
 	public static void main(String[] args) throws IOException {
 		String uri_file = args[0];
 		String type = args[1];
-		//String curi_file = "http://cmems-resources.cls.fr/?option=com_csw&view=details&tab=info&product_id=GLOBAL_ANALYSIS_FORECAST_PHY_001_024&format=xml";
+		//String uri_file = "http://cmems-resources.cls.fr/?option=com_csw&view=details&tab=info&product_id=GLOBAL_ANALYSIS_FORECAST_PHY_001_024&format=xml";
 		//String type = "Coppernicus";
-		//String type = "CSV";
+		//String type = "FileCSV";
+		//String uri_file = "/home/eis/Dropbox/BDO/NESTER/anek_history_20180101T102300_20180806T131000.csv";
 		//String uri_file = "hdfs://212.101.173.50:9000/user/bdo/maretec/2017091300.nc";
 		//String uri_file = "hdfs://212.101.173.50:9000/user/bdo/numerical/dataset-ibi-analysis-forecast-wav-005-005-hourly_1516980716514.nc";
 		//String uri_file = "hdfs://212.101.173.50:9000/user/bdo/buoy/IR_TS_MO_6200192.nc";

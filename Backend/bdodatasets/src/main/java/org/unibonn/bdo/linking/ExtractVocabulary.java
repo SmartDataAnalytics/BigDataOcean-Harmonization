@@ -53,7 +53,6 @@ public class ExtractVocabulary {
 				log.error("Error!");
 			}
 		} catch (UnirestException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -74,7 +73,6 @@ public class ExtractVocabulary {
 				log.error("Error!");
 			}
 		} catch (UnirestException | FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

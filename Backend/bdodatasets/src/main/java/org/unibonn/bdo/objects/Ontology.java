@@ -1,5 +1,7 @@
 package org.unibonn.bdo.objects;
 
+import java.io.Serializable;
+
 /**
  *  
  * @author Jaime M Trillos
@@ -8,7 +10,9 @@ package org.unibonn.bdo.objects;
  *
  */
 
-public class Ontology {
+public class Ontology implements Serializable{
+	
+	private static final long serialVersionUID = 4927388376216696931L;
 	
 	private String uri; 
 	private String label; 

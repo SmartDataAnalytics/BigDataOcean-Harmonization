@@ -1,5 +1,6 @@
 package org.unibonn.bdo.objects;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -12,8 +13,10 @@ import java.util.Map;
  *
  */
 
-public class ProfileDataset {
+public class ProfileDataset implements Serializable{
 
+	private static final long serialVersionUID = -7832897199047397051L;
+	
 	private String title; //title of Dataset
 	private String description; //description of Dataset
 	private String subject; //tokenField_subject

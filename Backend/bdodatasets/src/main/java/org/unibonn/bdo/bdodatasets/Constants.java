@@ -20,4 +20,61 @@ public class Constants {
     public static String OFFSET_RESET_LATEST="latest";
     public static String OFFSET_RESET_EARLIER="earliest";
     public static Integer MAX_POLL_RECORDS=1;
+    
+    public static String HEADER_CONFIG_LIMES_FILE = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + 
+            "<!DOCTYPE LIMES SYSTEM \"limes.dtd\">\n" + 
+            "<LIMES>\n" + 
+            "   <PREFIX>\n" + 
+            "       <NAMESPACE>http://www.w3.org/1999/02/22-rdf-syntax-ns#</NAMESPACE>\n" + 
+            "       <LABEL>rdf</LABEL>\n" + 
+            "   </PREFIX>\n" + 
+            "   <PREFIX>\n" + 
+            "       <NAMESPACE>http://www.w3.org/2000/01/rdf-schema#</NAMESPACE>\n" + 
+            "       <LABEL>rdfs</LABEL>\n" + 
+            "   </PREFIX>\n" + 
+            "   <PREFIX>\n" + 
+            "       <NAMESPACE>http://www.w3.org/2002/07/owl#</NAMESPACE>\n" + 
+            "       <LABEL>owl</LABEL>\n" + 
+            "   </PREFIX>\n" + 
+            "   <PREFIX>\n" + 
+            "       <NAMESPACE>http://purl.org/dc/terms/</NAMESPACE>\n" + 
+            "       <LABEL>dct</LABEL>\n" + 
+            "   </PREFIX>\n" + 
+            "   <PREFIX>\n" + 
+            "       <NAMESPACE>http://www.w3.org/2001/XMLSchema#</NAMESPACE>\n" + 
+            "       <LABEL>xsd</LABEL>\n" + 
+            "   </PREFIX>\n" + 
+            "   <PREFIX>\n" + 
+            "       <NAMESPACE>http://www.w3.org/2004/02/skos/core#</NAMESPACE>\n" + 
+            "       <LABEL>skos</LABEL>\n" + 
+            "   </PREFIX>\n" + 
+            "   <PREFIX>\n" + 
+            "       <NAMESPACE>http://www.bigdataocean.eu/standards/canonicalmodel#</NAMESPACE>\n" + 
+            "       <LABEL>bdo</LABEL>\n" + 
+            "   </PREFIX>\n" + 
+            "   <PREFIX>\n" + 
+            "       <NAMESPACE>http://www.bigdataocean.eu/standards/geographiclocation#</NAMESPACE>\n" + 
+            "       <LABEL>geolocbdo</LABEL>\n" + 
+            "   </PREFIX>\n" + 
+            "   <PREFIX>\n" + 
+            "       <NAMESPACE>http://xmlns.com/foaf/0.1/</NAMESPACE>\n" + 
+            "       <LABEL>foaf</LABEL>\n" + 
+            "   </PREFIX>";
+    public static String FOOTER_CONFIG_LIMES_FILE = "   <EXECUTION>\n" + 
+            "       <REWRITER>default</REWRITER>\n" + 
+            "       <PLANNER>default</PLANNER>\n" + 
+            "       <ENGINE>default</ENGINE>\n" + 
+            "   </EXECUTION>\n" + 
+            "   <OUTPUT>TAB</OUTPUT>\n" + 
+            "</LIMES>";
+    public static String CONDITIONS_CONFIG_LIME_FILE = "    <ACCEPTANCE>\n" + 
+            "       <THRESHOLD>0.98</THRESHOLD>\n" + 
+            "       <FILE>accepted.txt</FILE>\n" + 
+            "       <RELATION>owl:sameAs</RELATION>\n" + 
+            "   </ACCEPTANCE>\n" + 
+            "   <REVIEW>\n" + 
+            "       <THRESHOLD>0.95</THRESHOLD>\n" + 
+            "       <FILE>reviewme.txt</FILE>\n" + 
+            "       <RELATION>owl:sameAs</RELATION>\n" + 
+            "   </REVIEW>";
 }

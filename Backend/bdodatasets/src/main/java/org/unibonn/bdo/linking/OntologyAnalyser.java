@@ -36,28 +36,28 @@ public class OntologyAnalyser {
 	}
 	
 	// Extract the uri, label, canonicalName, url from the ontology
-	public static List<Ontology> extractDataVariables (SPARQLRunner sparqlRunner){
+	private static List<Ontology> extractDataVariables (SPARQLRunner sparqlRunner){
 		List<Ontology> listDataOntology = sparqlRunner.getListDataCanonicalModel("extractLabelUlrURICanonicalModel.sparql");
 		
 		return listDataOntology;
 	}
 	
 	// Extract the uri, label from the ontology
-	public static List<Ontology> extractDataSubjects (SPARQLRunner sparqlRunner){
+	private static List<Ontology> extractDataSubjects (SPARQLRunner sparqlRunner){
 		List<Ontology> listDataOntology = sparqlRunner.getListDataSubjects("extractLabelURISubjects.sparql");
 		
 		return listDataOntology;
 	}
 	
 	// Extract the uri, label from the ontology
-	public static List<Ontology> extractDataKeywords (SPARQLRunner sparqlRunner){
+	private static List<Ontology> extractDataKeywords (SPARQLRunner sparqlRunner){
 		List<Ontology> listDataOntology = sparqlRunner.getListDataKeywords("extractLabelURIKeywords.sparql");
 		
 		return listDataOntology;
 	}
 
 	// Extract the uri, label, url from the ontology
-	public static List<Ontology> extractDataGeoLocation (SPARQLRunner sparqlRunner){
+	private static List<Ontology> extractDataGeoLocation (SPARQLRunner sparqlRunner){
 		List<Ontology> listDataOntology = sparqlRunner.getListDataGeoLocation("extractLabelUlrURIGeoLoc.sparql");
 		
 		return listDataOntology;

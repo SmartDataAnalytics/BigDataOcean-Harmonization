@@ -207,7 +207,8 @@ public class BdoDatasetAnalyser {
 			
 			listVariables = result.getVariable();
 			//obtaining the corresponding variable name from the standard CF
-			result.setVariable(parserDatasetVariables(listVariables));
+			//result.setVariable(parserDatasetVariables(listVariables));
+			result.setVariable(LinkedDiscoveryData.parseListVariables(listVariables, "variables"));
 			
 			keywords = result.getKeywords();
 			//obtaining the corresponding linked data for keywords
@@ -243,7 +244,8 @@ public class BdoDatasetAnalyser {
 			
 			listVariables = result.getVariable();
 			//obtaining the corresponding variable name from the standard CF
-			result.setVariable(parserDatasetVariables(listVariables));
+			//result.setVariable(parserDatasetVariables(listVariables));
+			result.setVariable(LinkedDiscoveryData.parseListVariables(listVariables, "variables"));
 			
 			keywords = result.getKeywords();
 			//obtaining the corresponding linked data for keywords
@@ -315,7 +317,8 @@ public class BdoDatasetAnalyser {
 	    reader.close();
 
 		//obtaining the corresponding variable name from the standard CF
-		result.setVariable(parserDatasetVariables(listVariables));
+		//result.setVariable(parserDatasetVariables(listVariables));
+		result.setVariable(LinkedDiscoveryData.parseListVariables(listVariables, "variables"));
 		
 		//Delete the temporal file
 		Files.deleteIfExists(Paths.get(Constants.configFilePath+"/Backend/AddDatasets/" + nameExtension));
@@ -361,12 +364,12 @@ public class BdoDatasetAnalyser {
 	        listVariables = extractVariablesExcel(wb.getSheetAt(0));
 	        inp.close();
 		} catch (InvalidFormatException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		//obtaining the corresponding variable name from the standard CF
-		result.setVariable(parserDatasetVariables(listVariables));
+		//result.setVariable(parserDatasetVariables(listVariables));
+		result.setVariable(LinkedDiscoveryData.parseListVariables(listVariables, "variables"));
 		
 		//Delete the temporal file
 		Files.deleteIfExists(Paths.get(Constants.configFilePath+"/Backend/AddDatasets/" + nameExtension));
@@ -387,7 +390,6 @@ public class BdoDatasetAnalyser {
 				result.setIssuedDate(convertDate(issuedDate));
 				result.setModifiedDate(convertDate(modifiedDate));
 			} catch (java.text.ParseException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}else {
@@ -530,6 +532,7 @@ public class BdoDatasetAnalyser {
 		
 	}
 	
+	// This function is deprecated
 	private static List<String> parserDatasetVariables (List<String> variables) {
 		List<String> listVariables = new ArrayList<>() ;
 		//Extracting the array of variablesCF_BDO and CF variable find in the json file
@@ -556,7 +559,6 @@ public class BdoDatasetAnalyser {
 				}
 			}
 		} catch (IOException | ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return listVariables;
@@ -584,7 +586,6 @@ public class BdoDatasetAnalyser {
 	            }
 	        }
 		} catch (IOException | ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return keywords;
