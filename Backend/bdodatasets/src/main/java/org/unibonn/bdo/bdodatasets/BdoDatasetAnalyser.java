@@ -153,7 +153,7 @@ public class BdoDatasetAnalyser {
 		//obtaining the corresponding variable name from the standard CF
 		List<String> listVariables = Arrays.asList(list);
 		//variables = parserDatasetVariables(listVariables);
-		variables = LinkedDiscoveryData.parseListVariables(listVariables, "variables");
+		variables = LinkedDiscoveryData.parseListNames(listVariables, "variables");
 		
 		Element item8 = doc.getElementsByTag("gmd:descriptiveKeywords").get(1);
 		observationsElements = item8.getElementsByTag("gmx:Anchor");
@@ -208,7 +208,7 @@ public class BdoDatasetAnalyser {
 			listVariables = result.getVariable();
 			//obtaining the corresponding variable name from the standard CF
 			//result.setVariable(parserDatasetVariables(listVariables));
-			result.setVariable(LinkedDiscoveryData.parseListVariables(listVariables, "variables"));
+			result.setVariable(LinkedDiscoveryData.parseListNames(listVariables, "variables"));
 			
 			keywords = result.getKeywords();
 			//obtaining the corresponding linked data for keywords
@@ -245,7 +245,7 @@ public class BdoDatasetAnalyser {
 			listVariables = result.getVariable();
 			//obtaining the corresponding variable name from the standard CF
 			//result.setVariable(parserDatasetVariables(listVariables));
-			result.setVariable(LinkedDiscoveryData.parseListVariables(listVariables, "variables"));
+			result.setVariable(LinkedDiscoveryData.parseListNames(listVariables, "variables"));
 			
 			keywords = result.getKeywords();
 			//obtaining the corresponding linked data for keywords
@@ -318,7 +318,7 @@ public class BdoDatasetAnalyser {
 
 		//obtaining the corresponding variable name from the standard CF
 		//result.setVariable(parserDatasetVariables(listVariables));
-		result.setVariable(LinkedDiscoveryData.parseListVariables(listVariables, "variables"));
+		result.setVariable(LinkedDiscoveryData.parseListNames(listVariables, "variables"));
 		
 		//Delete the temporal file
 		Files.deleteIfExists(Paths.get(Constants.configFilePath+"/Backend/AddDatasets/" + nameExtension));
@@ -369,7 +369,7 @@ public class BdoDatasetAnalyser {
 		
 		//obtaining the corresponding variable name from the standard CF
 		//result.setVariable(parserDatasetVariables(listVariables));
-		result.setVariable(LinkedDiscoveryData.parseListVariables(listVariables, "variables"));
+		result.setVariable(LinkedDiscoveryData.parseListNames(listVariables, "variables"));
 		
 		//Delete the temporal file
 		Files.deleteIfExists(Paths.get(Constants.configFilePath+"/Backend/AddDatasets/" + nameExtension));

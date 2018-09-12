@@ -67,14 +67,3 @@ public class Constants {
             "   </EXECUTION>\n" + 
             "   <OUTPUT>TAB</OUTPUT>\n" + 
             "</LIMES>";
-    public static String CONDITIONS_CONFIG_LIME_FILE = "    <ACCEPTANCE>\n" + 
-            "       <THRESHOLD>0.98</THRESHOLD>\n" + 
-            "       <FILE>accepted.txt</FILE>\n" + 
-            "       <RELATION>owl:sameAs</RELATION>\n" + 
-            "   </ACCEPTANCE>\n" + 
-            "   <REVIEW>\n" + 
-            "       <THRESHOLD>0.95</THRESHOLD>\n" + 
-            "       <FILE>reviewme.txt</FILE>\n" + 
-            "       <RELATION>owl:sameAs</RELATION>\n" + 
-            "   </REVIEW>";
-}

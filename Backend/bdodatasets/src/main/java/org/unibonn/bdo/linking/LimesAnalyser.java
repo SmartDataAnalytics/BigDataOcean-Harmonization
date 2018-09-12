@@ -42,9 +42,8 @@ public class LimesAnalyser {
 		Map<String,String> resultLimes = new HashMap<>();
 		try {
 			createCsvFile(rawName);
-			createConfigFile(fileCSV, topic);
+			createConfigFile(topic);
 			resultLimes = linkingLimes();
-			//delete csv file and config file
 			Files.deleteIfExists(Paths.get(fileCSV));
 			Files.deleteIfExists(Paths.get(fileConfig));
 		} catch (IOException e) {
@@ -79,15 +78,13 @@ public class LimesAnalyser {
 	}
 	
 	// Create the config file for limes
-	private static void createConfigFile(String fileName, String topic) {
+	private static void createConfigFile(String topic) {
 		try {
 			fileConfig = Constants.configFilePath+"/Backend/AddDatasets/config.xml";
 			FileWriter writer = new FileWriter(fileConfig);
 			writer.write(Constants.HEADER_CONFIG_LIMES_FILE);
 			writer.write("\n");
 			writer.write(sourceTargetConfig(topic));
-			writer.write("\n");
-			writer.write(Constants.CONDITIONS_CONFIG_LIME_FILE);
 			writer.write("\n");
 			writer.write(Constants.FOOTER_CONFIG_LIMES_FILE);
 			writer.close();
@@ -192,7 +189,17 @@ public class LimesAnalyser {
 						"	</SOURCE>\n" + targetconfig;
 				config = config + "	<METRIC>\n" + 
 						"		OR(Cosine(x.http://xmlns.com/foaf/0.1/name, y.rdfs:label)|0.8,Cosine(x.http://xmlns.com/foaf/0.1/name, y.bdo:hasCanonicalName)|0.8)\n" + 
-						"	</METRIC>";
+						"	</METRIC>\n";
+				config = config + "	<ACCEPTANCE>\n" + 
+			    		"		<THRESHOLD>0.98</THRESHOLD>\n" + 
+			    		"		<FILE>accepted.txt</FILE>\n" + 
+			    		"		<RELATION>owl:sameAs</RELATION>\n" + 
+			    		"	</ACCEPTANCE>\n" + 
+			    		"	<REVIEW>\n" + 
+			    		"		<THRESHOLD>0.95</THRESHOLD>\n" + 
+			    		"		<FILE>reviewme.txt</FILE>\n" + 
+			    		"		<RELATION>owl:sameAs</RELATION>\n" + 
+			    		"	</REVIEW>";
 			break;
 			case "geoLocation":
 				config = "	<SOURCE>\n" + 
@@ -206,7 +213,17 @@ public class LimesAnalyser {
 						"	</SOURCE>\n" + targetconfig;
 				config = config + "	<METRIC>\n" + 
 						"		Cosine(x.http://xmlns.com/foaf/0.1/name, y.rdfs:label)\n" + 
-						"	</METRIC>";
+						"	</METRIC>\n";
+				config = config + "	<ACCEPTANCE>\n" + 
+			    		"		<THRESHOLD>0.8</THRESHOLD>\n" + 
+			    		"		<FILE>accepted.txt</FILE>\n" + 
+			    		"		<RELATION>owl:sameAs</RELATION>\n" + 
+			    		"	</ACCEPTANCE>\n" + 
+			    		"	<REVIEW>\n" + 
+			    		"		<THRESHOLD>0.77</THRESHOLD>\n" + 
+			    		"		<FILE>reviewme.txt</FILE>\n" + 
+			    		"		<RELATION>owl:sameAs</RELATION>\n" + 
+			    		"	</REVIEW>";
 			break;
 			case "keywords": // eionet ontology
 				config = "	<SOURCE>\n" + 
@@ -220,7 +237,17 @@ public class LimesAnalyser {
 						"	</SOURCE>\n" + targetconfig;
 				config = config + "	<METRIC>\n" + 
 						"		Cosine(x.http://xmlns.com/foaf/0.1/name, y.skos:prefLabel)\n" + 
-						"	</METRIC>";
+						"	</METRIC>\n";
+				config = config + "	<ACCEPTANCE>\n" + 
+			    		"		<THRESHOLD>0.8</THRESHOLD>\n" + 
+			    		"		<FILE>accepted.txt</FILE>\n" + 
+			    		"		<RELATION>owl:sameAs</RELATION>\n" + 
+			    		"	</ACCEPTANCE>\n" + 
+			    		"	<REVIEW>\n" + 
+			    		"		<THRESHOLD>0.77</THRESHOLD>\n" + 
+			    		"		<FILE>reviewme.txt</FILE>\n" + 
+			    		"		<RELATION>owl:sameAs</RELATION>\n" + 
+			    		"	</REVIEW>";
 			break;
 			case "subjects": // inspire ontology
 				config = "	<SOURCE>\n" + 
@@ -234,7 +261,17 @@ public class LimesAnalyser {
 						"	</SOURCE>\n" + targetconfig;
 				config = config + "	<METRIC>\n" + 
 						"		Cosine(x.http://xmlns.com/foaf/0.1/name, y.dct:title)\n" + 
-						"	</METRIC>";
+						"	</METRIC>\n";
+				config = config + "	<ACCEPTANCE>\n" + 
+			    		"		<THRESHOLD>0.77</THRESHOLD>\n" + 
+			    		"		<FILE>accepted.txt</FILE>\n" + 
+			    		"		<RELATION>owl:sameAs</RELATION>\n" + 
+			    		"	</ACCEPTANCE>\n" + 
+			    		"	<REVIEW>\n" + 
+			    		"		<THRESHOLD>0.7</THRESHOLD>\n" + 
+			    		"		<FILE>reviewme.txt</FILE>\n" + 
+			    		"		<RELATION>owl:sameAs</RELATION>\n" + 
+			    		"	</REVIEW>";
 			break;
 		}
 		return config;

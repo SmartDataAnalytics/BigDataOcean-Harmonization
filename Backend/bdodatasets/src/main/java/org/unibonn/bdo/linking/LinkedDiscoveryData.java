@@ -22,8 +22,8 @@ public class LinkedDiscoveryData {
 	
 	private final static Logger log = LoggerFactory.getLogger(LinkedDiscoveryData.class);
 	
-	public static List<String> parseListVariables (List<String> variables, String topic) {
-		Map<String, String> resultLimes = LimesAnalyser.exec(variables, topic);
+	public static List<String> parseListNames (List<String> rawNames, String topic) {
+		Map<String, String> resultLimes = LimesAnalyser.exec(rawNames, topic);
 		List<Ontology> listDataOntology = new ArrayList<>();
 		switch (topic) {
 			case "variables":
@@ -39,7 +39,7 @@ public class LinkedDiscoveryData {
 				listDataOntology = OntologyAnalyser.analyseOntology(Constants.GEOLOC_Ontology_N3, topic);
 			break;
 		}
-		List<String> variablesLinked = formVariablesList(listDataOntology, resultLimes, variables);
+		List<String> variablesLinked = formVariablesList(listDataOntology, resultLimes, rawNames);
 		return variablesLinked;
 	}
 	
