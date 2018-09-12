@@ -21,7 +21,7 @@ class TestFlask(unittest.TestCase):
 	# It can fail if the test has beeing doing it outside the JWT servers.
 	def test2(self):
 		self.test_app = app.test_client()
-		response = requests.put('http://212.101.173.21:8085/file/' + idFile + 
+		response = requests.put('http://212.101.173.21:8085/fileHandler/file/' + idFile + 
 						'/metadata/' + identifier, headers={'Authorization': Authorization})
 		self.assertEqual(response.status_code, "200 OK")
 
