@@ -7,7 +7,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -41,6 +40,7 @@ import ucar.nc2.dataset.NetcdfDataset;
 import org.unibonn.bdo.bdodatasets.Constants;
 import org.unibonn.bdo.connections.HDFSFileSystem;
 import org.unibonn.bdo.linking.LinkedDiscoveryData;
+import org.unibonn.bdo.linking.NERDiscovery;
 
 /**
  * 
@@ -54,6 +54,7 @@ import org.unibonn.bdo.linking.LinkedDiscoveryData;
 public class BdoDatasetAnalyser {
 	
 	private static final String EMPTY_FIELD = "";
+	private static List<String> listNER = new ArrayList<>();
 
 	public static Dataset analyseDatasetURI(String datasetURI) throws IOException, ParseException {
 		Dataset result = new Dataset();
@@ -82,6 +83,10 @@ public class BdoDatasetAnalyser {
 		Elements variablesElements;
 		String observations;
 		List<String> variables = new ArrayList<>();
+		String rawDescription = "";
+		List<String> listSubjects = new ArrayList<>();
+		List<String> listKeywords = new ArrayList<>();
+		List<String> listGeoLocation = new ArrayList<>();
 
 		//Read the URI and return the HTML/XML document
 //		Document doc = Jsoup.connect(datasetURI).get();
@@ -97,6 +102,28 @@ public class BdoDatasetAnalyser {
 		delims = "'''";
 		tokens = totaldescription.split(delims);
 		description = tokens[2];
+		
+		rawDescription = title + " " + totaldescription;
+		if (!rawDescription.isEmpty()) {
+			listNER = NERDiscovery.exec(rawDescription);
+			if(listNER.size() > 0) {
+				listKeywords = LinkedDiscoveryData.parseListNames(listNER, "keywords");
+				listGeoLocation = LinkedDiscoveryData.parseListNames(listNER, "geoLocation");
+				listSubjects = LinkedDiscoveryData.parseListNames(listNER, "subjects");
+			}
+		}
+		
+		if(listSubjects.size() > 0 && listSubjects.get(0) != "") {
+			result.setSubject(listSubjects.get(0));
+		}
+		
+		if(listKeywords.size() > 0 && listKeywords.get(0) != "") {
+			result.setKeywords(listKeywords.get(0));
+		}
+		
+		if(listGeoLocation.size() > 0 && listGeoLocation.get(0) != "") {
+			result.setGeoLocation(listGeoLocation.get(0));
+		}
 
 		identifier = item.getElementsByTag("gmd:alternateTitle").first().text();
 		issued = item.getElementsByTag("gmd:date").first().text()+"T00:00:00";

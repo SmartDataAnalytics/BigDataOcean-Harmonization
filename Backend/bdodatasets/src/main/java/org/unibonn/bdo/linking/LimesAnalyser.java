@@ -43,6 +43,7 @@ public class LimesAnalyser {
 		try {
 			createCsvFile(rawName);
 			createConfigFile(topic);
+			//log.info("WORKING WITH TOPIC = "+ topic + " FILENAME_CSV = " + fileCSV);
 			resultLimes = linkingLimes();
 			Files.deleteIfExists(Paths.get(fileCSV));
 			Files.deleteIfExists(Paths.get(fileConfig));
@@ -109,36 +110,33 @@ public class LimesAnalyser {
 			responseObject = new Gson().fromJson(responseMultipart.get(0), JsonObject.class);
 			if(responseObject.get("success").getAsBoolean()) {
 				requestId = responseObject.get("requestId").getAsString();
-				response = Unirest.get("http://localhost:8080/status/" + requestId)
-						.asString();
-				if(response.getStatus() == 200) {
-					responseObject = new Gson().fromJson(response.getBody(), JsonObject.class);
-					JsonElement status = responseObject.get("status");
-					responseObject = new Gson().fromJson(status, JsonObject.class);
-					JsonElement code = responseObject.get("code");
-					if(code.getAsInt()==2) {
-						response = Unirest.get("http://localhost:8080/results/" + requestId)
-								.asString();
-						if(response.getStatus() == 200) {
-							responseObject = new Gson().fromJson(response.getBody(), JsonObject.class);
-							JsonElement availableFiles = responseObject.get("availableFiles");
-							if(availableFiles.getAsJsonArray().size()>0) {
-								response = Unirest.get("http://localhost:8080/result/" + requestId + "/accepted.txt")
-										.asString();
-								if(response.getStatus() == 200) {
-									//log.info(response.getBody().toString());
-									String resultLimes = response.getBody().toString();
-									resultLimesMap = stringintoMap(resultLimes);
-								}
-							} else {
-								resultLimesMap = null;
-								log.info("There were no matching links");
+				boolean statusFlag = statusLimes(requestId);
+				//log.info(requestId + " " + statusFlag);
+				if (statusFlag) {
+					response = Unirest.get("http://localhost:8080/results/" + requestId)
+							.asString();
+					//log.info("status " + response.getStatus());
+					if(response.getStatus() == 200) {
+						responseObject = new Gson().fromJson(response.getBody(), JsonObject.class);
+						JsonElement availableFiles = responseObject.get("availableFiles");
+						if(availableFiles.getAsJsonArray().size()>0) {
+							response = Unirest.get("http://localhost:8080/result/" + requestId + "/accepted.txt")
+									.asString();
+							if(response.getStatus() == 200) {
+								//log.info(response.getBody().toString());
+								String resultLimes = response.getBody().toString();
+								resultLimesMap = stringintoMap(resultLimes);
 							}
+						} else {
+							resultLimesMap = null;
+							//log.info("There were no matching links");
 						}
 					}
+				} else {
+					log.error("Error: The Status of LIMES is -1 (Unknown)");
 				}
 			} else {
-				log.error("Error!");
+				log.error("Error: LIMES has no produce the id");
 			}
 		} catch (UnirestException | IOException e) {
 			e.printStackTrace();
@@ -146,15 +144,45 @@ public class LimesAnalyser {
 		return resultLimesMap;
 	}
 	
+	// Recursive function to wait until the process of Limes has finished (status code = 2)
+	private static boolean statusLimes(String id) {
+		boolean flag = false;
+		int code = -1;
+		HttpResponse<String> response; 
+		JsonObject responseObject;
+		try {
+			response = Unirest.get("http://localhost:8080/status/" + id)
+					.asString();
+			if(response.getStatus() == 200) {
+				responseObject = new Gson().fromJson(response.getBody(), JsonObject.class);
+				JsonElement status = responseObject.get("status");
+				responseObject = new Gson().fromJson(status, JsonObject.class);
+				JsonElement jsonCode = responseObject.get("code");
+				code = jsonCode.getAsInt();
+				if (code == 2 ) {
+					flag = true;
+				}
+				if(code == 0 || code == 1) {
+					return statusLimes(id);
+				}
+			}
+		} catch (UnirestException e) {
+			e.printStackTrace();
+		}
+		
+		return flag;
+	}
+	
 	// transform response from limes into map
 	private static Map<String, String> stringintoMap(String resultLimes) {
 		Map<String, String> result = new HashMap<>();
 		String[] tokenNewLine = resultLimes.split("\n");
-		if (tokenNewLine.length > 0) {
+		if (tokenNewLine.length > 0 && !tokenNewLine[0].isEmpty()) {
 			for (String token1 : tokenNewLine) { 
 				String[] tokenTab = token1.split("\t");
 				String tokenKey =tokenTab[1].replaceAll("<", "").replaceAll(">", "");
 				String tokenValue =tokenTab[0].replaceAll("<", "").replaceAll(">", "");
+				//log.info("RESULT LIMES = <" + tokenKey + "," + tokenValue + ">" );
 				result.put(tokenKey, tokenValue);
 			}
 		}else {
@@ -200,7 +228,7 @@ public class LimesAnalyser {
 			    		"		<FILE>reviewme.txt</FILE>\n" + 
 			    		"		<RELATION>owl:sameAs</RELATION>\n" + 
 			    		"	</REVIEW>";
-			break;
+				break;
 			case "geoLocation":
 				config = "	<SOURCE>\n" + 
 						"		<ID>OntologyRDF</ID>\n" + 
@@ -224,7 +252,7 @@ public class LimesAnalyser {
 			    		"		<FILE>reviewme.txt</FILE>\n" + 
 			    		"		<RELATION>owl:sameAs</RELATION>\n" + 
 			    		"	</REVIEW>";
-			break;
+				break;
 			case "keywords": // eionet ontology
 				config = "	<SOURCE>\n" + 
 						"		<ID>OntologyRDF</ID>\n" + 
@@ -248,7 +276,7 @@ public class LimesAnalyser {
 			    		"		<FILE>reviewme.txt</FILE>\n" + 
 			    		"		<RELATION>owl:sameAs</RELATION>\n" + 
 			    		"	</REVIEW>";
-			break;
+				break;
 			case "subjects": // inspire ontology
 				config = "	<SOURCE>\n" + 
 						"		<ID>OntologyRDF</ID>\n" + 
@@ -272,7 +300,7 @@ public class LimesAnalyser {
 			    		"		<FILE>reviewme.txt</FILE>\n" + 
 			    		"		<RELATION>owl:sameAs</RELATION>\n" + 
 			    		"	</REVIEW>";
-			break;
+				break;
 		}
 		return config;
 	}

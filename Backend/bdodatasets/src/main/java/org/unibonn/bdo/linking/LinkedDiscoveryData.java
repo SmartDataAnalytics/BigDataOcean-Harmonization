@@ -25,22 +25,26 @@ public class LinkedDiscoveryData {
 	public static List<String> parseListNames (List<String> rawNames, String topic) {
 		Map<String, String> resultLimes = LimesAnalyser.exec(rawNames, topic);
 		List<Ontology> listDataOntology = new ArrayList<>();
-		switch (topic) {
-			case "variables":
-				listDataOntology = OntologyAnalyser.analyseOntology(Constants.BDO_Ontology_N3, topic);
-			break;
-			case "keywords":
-				listDataOntology = OntologyAnalyser.analyseOntology(Constants.EIONET_Ontology_N3, topic);
-			break;
-			case "subjects":
-				listDataOntology = OntologyAnalyser.analyseOntology(Constants.INSPIRE_Ontology_N3, topic);
-			break;
-			case "geoLocation":
-				listDataOntology = OntologyAnalyser.analyseOntology(Constants.GEOLOC_Ontology_N3, topic);
-			break;
+		List<String> resultLinked = new ArrayList<>();
+		if(resultLimes != null) {
+			switch (topic) {
+				case "variables":
+					listDataOntology = OntologyAnalyser.analyseOntology(Constants.BDO_Ontology_N3, topic);
+					resultLinked = formVariablesList(listDataOntology, resultLimes, rawNames);
+					break;
+				case "keywords":
+					resultLinked = formKeywordsList(resultLimes);
+					break;
+				case "subjects":
+					resultLinked = formSubjectsList(resultLimes);
+					break;
+				case "geoLocation":
+					listDataOntology = OntologyAnalyser.analyseOntology(Constants.GEOLOC_Ontology_N3, topic);
+					resultLinked = formGeoLocationList(listDataOntology, resultLimes);
+					break;
+			}
 		}
-		List<String> variablesLinked = formVariablesList(listDataOntology, resultLimes, rawNames);
-		return variablesLinked;
+		return resultLinked;
 	}
 	
 	
@@ -70,22 +74,54 @@ public class LinkedDiscoveryData {
 		return variablesLinked;
 	}
 	
-	// Compare the result from limes with the data from ontologies to obtain the list<String>
-	private static List<String> formKeywordsList (List<Ontology> listOntology, Map<String,String> resultLimes, List<String> rawVariables){
-		// TODO 
-		return null;
+	// Create a list<String> with only url of keywords
+	private static List<String> formKeywordsList (Map<String,String> resultLimes){
+		List<String> keywordsLinked = new ArrayList<String>();
+		String result = "";
+		if(resultLimes.size() > 0) {
+			for (Map.Entry<String, String> entry : resultLimes.entrySet()){
+				if(result.isEmpty()) {
+					result = entry.getValue();
+				}else {
+					result = result + "," + entry.getValue();
+				}
+			}
+			keywordsLinked.add(result);
+		}
+		return keywordsLinked;
+	}
+	
+	// Create a list<String> with only url of Subjects
+	private static List<String> formSubjectsList (Map<String,String> resultLimes){
+		List<String> subjectsLinked = new ArrayList<String>();
+		String result = "";
+		if(resultLimes.size() > 0) {
+			for (Map.Entry<String, String> entry : resultLimes.entrySet()){
+				if(result.isEmpty()) {
+					result = entry.getValue();
+				}else {
+					result = result + "," + entry.getValue();
+				}
+			}
+			subjectsLinked.add(result);
+		}
+		return subjectsLinked;
 	}
 	
 	// Compare the result from limes with the data from ontologies to obtain the list<String>
-	private static List<String> formSubjectsList (List<Ontology> listOntology, Map<String,String> resultLimes, List<String> rawVariables){
-		// TODO 
-		return null;
-	}
-	
-	// Compare the result from limes with the data from ontologies to obtain the list<String>
-	private static List<String> formGeoLocationList (List<Ontology> listOntology, Map<String,String> resultLimes, List<String> rawVariables){
-		// TODO 
-		return null;
+	private static List<String> formGeoLocationList (List<Ontology> listOntology, Map<String,String> resultLimes){
+		List<String> geoLocLinked = new ArrayList<String>();
+		String result = "";
+		if(resultLimes.size() > 0) {
+			for(Ontology tempOnto : listOntology) {
+				if(resultLimes.get(tempOnto.getLabel().toLowerCase()) != null) {
+					result = tempOnto.getUrl();
+					break;
+				}
+			}
+			geoLocLinked.add(result);
+		}
+		return geoLocLinked;
 	}
 
 }

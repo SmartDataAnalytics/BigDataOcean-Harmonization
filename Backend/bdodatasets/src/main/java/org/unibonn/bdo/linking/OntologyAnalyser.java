@@ -21,16 +21,16 @@ public class OntologyAnalyser {
 		switch (topic) {
 			case "variables":
 				listDataOntology = extractDataVariables(sparqlRunner);
-			break;
+				break;
 			case "keywords":
-				listDataOntology = extractDataSubjects(sparqlRunner);
-			break;
-			case "subjects":
 				listDataOntology = extractDataKeywords(sparqlRunner);
-			break;
+				break;
+			case "subjects":
+				listDataOntology = extractDataSubjects(sparqlRunner);
+				break;
 			case "geoLocation":
 				listDataOntology = extractDataGeoLocation(sparqlRunner);
-			break;
+				break;
 		}
 		return listDataOntology;
 	}
@@ -58,7 +58,7 @@ public class OntologyAnalyser {
 
 	// Extract the uri, label, url from the ontology
 	private static List<Ontology> extractDataGeoLocation (SPARQLRunner sparqlRunner){
-		List<Ontology> listDataOntology = sparqlRunner.getListDataGeoLocation("extractLabelUlrURIGeoLoc.sparql");
+		List<Ontology> listDataOntology = sparqlRunner.getListDataGeoLocation("extractLabelUrlURIGeoLoc.sparql");
 		
 		return listDataOntology;
 	}
