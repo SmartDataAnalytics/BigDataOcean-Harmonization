@@ -15,6 +15,8 @@ from werkzeug.utils import secure_filename
 from functools import wraps
 import hashlib, uuid
 import configparser
+import atexit
+from apscheduler.scheduler import Scheduler
 
 # GLOBAL VARIABLES
 globalPath = "/BDOHarmonization/BigDataOcean-Harmonization"
@@ -28,7 +30,6 @@ ALLOWED_EXTENSIONS = set(['nc', 'csv', 'xlsx', 'xls'])
 config = configparser.ConfigParser()
 config.read(globalPath + '/Backend/bdodatasets/bdo.ini')
 
-#Authorization = 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJiZG8iLCJleHAiOjE1NTI0ODk1ODUsInJvbGUiOiJST0xFX0FETUlOIn0.o5cZnYT3MKwfmVt06EyCMWy2qpgFPwcwZg82a3jmkNZKOVCJIbnh-LsHnEIF8BEUdj9OKrurwtknYh5ObjgLvg'
 Authorization = config['DEFAULT']['AUTHORIZATION_JWT']
 
 # Authentication JWT for APIs
@@ -58,6 +59,35 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['SECRET_KEY'] = 'super-secret'
 app.config['JWT_EXPIRATION_DELTA'] = timedelta(days = 365) # Expiration time of JWT token is for 1 year
 
+# Thread in background to update every year the JWT Authorization Token (Parser tool)
+cron = Scheduler(daemon=True)
+# Explicitly kick off the background thread
+cron.start()
+
+# Command = Thread in background to update every year the JWT Authorization Token (Parser tool)
+# bdo, geolocbdo, inspire, eionet = Thread in background to update every year the vocabularies (Vocabulary Repository)
+@cron.interval_schedule(seconds=31536000)
+def fetchEveryYear():
+	command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/fetchJWTToken'
+	print (subprocess.check_output([command], shell="True"))
+	bdo = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/extractVocabularies bdo'
+	print (subprocess.check_output([bdo], shell="True"))
+	geolocbdo = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/extractVocabularies geolocbdo'
+	print (subprocess.check_output([geolocbdo], shell="True"))
+	inspire = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/extractVocabularies inspire'
+	print (subprocess.check_output([inspire], shell="True"))
+	eionet = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/extractVocabularies eionet'
+	print (subprocess.check_output([eionet], shell="True"))
+
+# Thread in background to update every 15 minutes the API for Automatic Insertion (Kafka)
+@cron.interval_schedule(seconds=900)
+def fetchEvery15Min():
+	command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/insertAutomatic'
+	print (subprocess.check_output([command], shell="True"))
+
+# Shutdown your cron thread if the web process is stopped
+atexit.register(lambda: cron.shutdown(wait=False))
+
 # Authentication JWT for APIs
 def authenticate(username, password):
     user = username_table.get(username, None)
@@ -70,11 +100,6 @@ def identity(payload):
     return userid_table.get(user_id, None)
 
 jwt = JWT(app, authenticate, identity)
-
-# check if an extension is valid
-def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 # check if an extension is valid
 def allowed_file(filename):

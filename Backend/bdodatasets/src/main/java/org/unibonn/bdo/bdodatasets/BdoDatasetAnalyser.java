@@ -20,9 +20,6 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -47,7 +44,7 @@ import org.unibonn.bdo.linking.NERDiscovery;
  * @author Jaime M Trillos
  * @author Ana C Trillos
  *
- * Parse XML file from Copernicus datase, NetCDF and CSV to obtain Metadata
+ * Parse XML file from Copernicus datase, NetCDF, CSV and XML to obtain Metadata
  *
  */
 
@@ -55,7 +52,8 @@ public class BdoDatasetAnalyser {
 	
 	private static final String EMPTY_FIELD = "";
 	private static List<String> listNER = new ArrayList<>();
-
+	
+	// Extract metadata from copernicus html (xml)
 	public static Dataset analyseDatasetURI(String datasetURI) throws IOException, ParseException {
 		Dataset result = new Dataset();
 
@@ -104,7 +102,7 @@ public class BdoDatasetAnalyser {
 		description = tokens[2];
 		
 		rawDescription = title + " " + totaldescription;
-		if (!rawDescription.isEmpty()) {
+		if (rawDescription.length() > 2) {
 			listNER = NERDiscovery.exec(rawDescription);
 			if(listNER.size() > 0) {
 				listKeywords = LinkedDiscoveryData.parseListNames(listNER, "keywords");
@@ -217,9 +215,10 @@ public class BdoDatasetAnalyser {
 		return result;
 	}
 
+	// Extract metadata from netcdf (hdfs url)
 	public static Dataset analyseDatasetNetcdf(String filename) throws IOException, ParseException {
 		Dataset result = new Dataset();
-		String keywords = EMPTY_FIELD;
+		//String keywords = EMPTY_FIELD;
 		List<String> listVariables = new ArrayList<>() ;
 
 		//read the file
@@ -237,9 +236,9 @@ public class BdoDatasetAnalyser {
 			//result.setVariable(parserDatasetVariables(listVariables));
 			result.setVariable(LinkedDiscoveryData.parseListNames(listVariables, "variables"));
 			
-			keywords = result.getKeywords();
+			//keywords = result.getKeywords();
 			//obtaining the corresponding linked data for keywords
-			result.setKeywords(parserDatasetKeywords(keywords));
+			//result.setKeywords(parserDatasetKeywords(keywords));
 			
 			//Delete the temporal file "file.nc"
 			hdfsSys.deleteFile(Constants.configFilePath+"/Backend/AddDatasets/file.nc");
@@ -257,9 +256,10 @@ public class BdoDatasetAnalyser {
 		return result;
 	}
 	
+	// Extract metadata from file netcdf (local)
 	public static Dataset analyseDatasetFileNetcdf(String filename) throws IOException, ParseException {
 		Dataset result = new Dataset();
-		String keywords = EMPTY_FIELD;
+		//String keywords = EMPTY_FIELD;
 		List<String> listVariables = new ArrayList<>() ;
 
 		//read the file
@@ -274,9 +274,9 @@ public class BdoDatasetAnalyser {
 			//result.setVariable(parserDatasetVariables(listVariables));
 			result.setVariable(LinkedDiscoveryData.parseListNames(listVariables, "variables"));
 			
-			keywords = result.getKeywords();
+			//keywords = result.getKeywords();
 			//obtaining the corresponding linked data for keywords
-			result.setKeywords(parserDatasetKeywords(keywords));
+			//result.setKeywords(parserDatasetKeywords(keywords));
 			
 			//Delete the temporal file "file.nc"
 			Files.deleteIfExists(Paths.get(Constants.configFilePath+"/Backend/AddDatasets/file.nc"));
@@ -294,6 +294,7 @@ public class BdoDatasetAnalyser {
 		return result;
 	}
 	
+	// Extract metadata from CSV (hdfs url)
 	public static Dataset analyseDatasetCsv(String filename) throws IOException, ParseException, java.text.ParseException {
 		Dataset result = new Dataset();
 		
@@ -311,10 +312,14 @@ public class BdoDatasetAnalyser {
 		return result;
 	}
 	
+	// Extract metadata from file CSV (local)
 	public static Dataset analyseDatasetFileCsv(String filename) throws IOException, ParseException, java.text.ParseException {
 		Dataset result = new Dataset();
 		List<String> listVariables = new ArrayList<>() ;
 		String nameExtension;
+		List<String> listSubjects = new ArrayList<>();
+		List<String> listKeywords = new ArrayList<>();
+		List<String> listGeoLocation = new ArrayList<>();
 		
 		//Get the name of the file with extension
 		nameExtension = new File(filename).getName();
@@ -322,6 +327,27 @@ public class BdoDatasetAnalyser {
 		//Get only the name
 		String name = tokens[0];
 		result = extractDatesFiles(name, result);
+		
+		if (name.length() > 2) {
+			listNER = NERDiscovery.exec(name);
+			if(listNER.size() > 0) {
+				listKeywords = LinkedDiscoveryData.parseListNames(listNER, "keywords");
+				listGeoLocation = LinkedDiscoveryData.parseListNames(listNER, "geoLocation");
+				listSubjects = LinkedDiscoveryData.parseListNames(listNER, "subjects");
+			}
+		}
+		
+		if(listSubjects.size() > 0 && listSubjects.get(0) != "") {
+			result.setSubject(listSubjects.get(0));
+		}
+		
+		if(listKeywords.size() > 0 && listKeywords.get(0) != "") {
+			result.setKeywords(listKeywords.get(0));
+		}
+		
+		if(listGeoLocation.size() > 0 && listGeoLocation.get(0) != "") {
+			result.setGeoLocation(listGeoLocation.get(0));
+		}
 		
 		result.setFormats("CSV");
 		
@@ -353,6 +379,7 @@ public class BdoDatasetAnalyser {
 		return result;
 	}
 	
+	// Extract metadata from Excel (hdfs url)
 	public static Dataset analyseDatasetExcel(String filename) throws IOException, ParseException, java.text.ParseException {
 		Dataset result = new Dataset();
 		
@@ -370,10 +397,14 @@ public class BdoDatasetAnalyser {
 		return result;
 	}
 	
+	// Extract metadata from file Excel (local)
 	public static Dataset analyseDatasetFileExcel(String filename) throws IOException, ParseException, java.text.ParseException {
 		Dataset result = new Dataset();
 		List<String> listVariables = new ArrayList<>() ;
 		String nameExtension;
+		List<String> listSubjects = new ArrayList<>();
+		List<String> listKeywords = new ArrayList<>();
+		List<String> listGeoLocation = new ArrayList<>();
 		
 		//Get the name of the file with extension
 		nameExtension = new File(filename).getName();
@@ -381,6 +412,27 @@ public class BdoDatasetAnalyser {
 		//Get only the name
 		String name = tokens[0];
 		result = extractDatesFiles(name, result);
+		
+		if (name.length() > 2) {
+			listNER = NERDiscovery.exec(name);
+			if(listNER.size() > 0) {
+				listKeywords = LinkedDiscoveryData.parseListNames(listNER, "keywords");
+				listGeoLocation = LinkedDiscoveryData.parseListNames(listNER, "geoLocation");
+				listSubjects = LinkedDiscoveryData.parseListNames(listNER, "subjects");
+			}
+		}
+		
+		if(listSubjects.size() > 0 && listSubjects.get(0) != "") {
+			result.setSubject(listSubjects.get(0));
+		}
+		
+		if(listKeywords.size() > 0 && listKeywords.get(0) != "") {
+			result.setKeywords(listKeywords.get(0));
+		}
+		
+		if(listGeoLocation.size() > 0 && listGeoLocation.get(0) != "") {
+			result.setGeoLocation(listGeoLocation.get(0));
+		}
 		
 		result.setFormats("Excel");
 		
@@ -406,22 +458,18 @@ public class BdoDatasetAnalyser {
 
 	//Extract the issuedDate and modifiedDate that contains the name iff the name has "_"
 	public static Dataset extractDatesFiles(String name, Dataset result) {
+		result.setTitle(name);
 		if (name.contains("_")) {
 			String[] splitName = name.split("_");
 			int size = splitName.length;
-			name = splitName[0];
 			String issuedDate = splitName[size-2];
 			String modifiedDate = splitName[size-1];
-			result.setTitle(name);
 			try {
 				result.setIssuedDate(convertDate(issuedDate));
 				result.setModifiedDate(convertDate(modifiedDate));
 			} catch (java.text.ParseException e) {
 				e.printStackTrace();
 			}
-		}else {
-			//Take only the name of the file
-			result.setTitle(name);
 		}
 		return result;
 	}
@@ -438,10 +486,18 @@ public class BdoDatasetAnalyser {
         return listVariables;
     }
 	
+	// Extract metadata from netcdf
 	public static Dataset netcdMetadatExtractor(NetcdfFile nc) {
 		Dataset result = new Dataset();
+		String title = "";
+		String description = "";
+		String keywords = "";
+		String rawDescription = "";
 		List<Variable> allVariables;
 		List<String> variables = new ArrayList<>();
+		List<String> listSubjects = new ArrayList<>();
+		List<String> listKeywords = new ArrayList<>();
+		List<String> listGeoLocation = new ArrayList<>();
 		
 		//find the attributes and export the information to create the DatasetSuggest
 		List<Attribute> listFileMetadata = nc.getGlobalAttributes();
@@ -452,17 +508,22 @@ public class BdoDatasetAnalyser {
 					result.setIdentifier(attr.getStringValue());
 				}
 				if(attr.getShortName().toLowerCase().equals("title")) {
-					result.setTitle(attr.getStringValue());
+					title = attr.getStringValue();
+					result.setTitle(title);
 				}
 				if(attr.getShortName().toLowerCase().equals("summary")) {
-					result.setDescription(attr.getStringValue());
-					if (result.getDescription().length() == 1) {
+					description = attr.getStringValue();
+					result.setDescription(description);
+					if (description.length() == 1) {
 						result.setDescription(EMPTY_FIELD);
 					}
 				}
+				
 				if(attr.getShortName().toLowerCase().equals("area")) {
-					result.setKeywords(attr.getStringValue());
+					keywords = attr.getStringValue();
+					result.setKeywords(keywords);
 				}
+				
 				if(attr.getShortName().toLowerCase().equals("conventions")) {
 					result.setStandards(attr.getStringValue());
 				}
@@ -532,6 +593,28 @@ public class BdoDatasetAnalyser {
 				}
 			}
 			
+			rawDescription = title + " " + description + " " + keywords;
+			if (rawDescription.length() > 2) {
+				listNER = NERDiscovery.exec(rawDescription);
+				if(listNER.size() > 0) {
+					listKeywords = LinkedDiscoveryData.parseListNames(listNER, "keywords");
+					listGeoLocation = LinkedDiscoveryData.parseListNames(listNER, "geoLocation");
+					listSubjects = LinkedDiscoveryData.parseListNames(listNER, "subjects");
+				}
+			}
+			
+			if(listSubjects.size() > 0 && listSubjects.get(0) != "") {
+				result.setSubject(listSubjects.get(0));
+			}
+			
+			if(listKeywords.size() > 0 && listKeywords.get(0) != "") {
+				result.setKeywords(listKeywords.get(0));
+			}
+			
+			if(listGeoLocation.size() > 0 && listGeoLocation.get(0) != "") {
+				result.setGeoLocation(listGeoLocation.get(0));
+			}
+			
 			//return a list with all variables
 			allVariables = nc.getVariables();
 			for (int i=0; i<allVariables.size(); i++) {
@@ -559,23 +642,23 @@ public class BdoDatasetAnalyser {
 		
 	}
 	
-	// This function is deprecated
-	private static List<String> parserDatasetVariables (List<String> variables) {
+	// This function is deprecated: It is used in other versions
+	/*private static List<String> parserDatasetVariables (List<String> variables) {
 		List<String> listVariables = new ArrayList<>() ;
 		//Extracting the array of variablesCF_BDO and CF variable find in the json file
 		JSONParser parser = new JSONParser();
 		JSONArray variablesCF;
 		try {
-			variablesCF = (JSONArray) parser.parse(new FileReader(Constants.configFilePath+"/Frontend/Flask/static/json/VariablesMongo/variablesMongo.json"));
+			variablesCF = (JSONArray) parser.parse(new FileReader(Constants.configFilePath+"/Frontend/Flask/static/json/bdo.json"));
 			for(int j=0; j<variables.size(); j++) {
 				
 				boolean flag = false;
 				for(int i=0; i<variablesCF.size(); i++){
 		        	JSONObject keyword = (JSONObject) variablesCF.get(i);
-		        	String canonical_name = keyword.get("canonical_name").toString();
+		        	String canonical_name = keyword.get("text").toString();
 		            String name = keyword.get("name").toString();
 		            if(canonical_name.equals(variables.get(j).toLowerCase()) || name.equals(variables.get(j).toLowerCase())) {
-		            	listVariables.add(variables.get(j).toString() + " -- "+ keyword.get("canonical_name").toString());
+		            	listVariables.add(variables.get(j).toString() + " -- "+ keyword.get("text").toString());
 		            	flag = true;
 		            	break;
 		            }		            	
@@ -589,16 +672,18 @@ public class BdoDatasetAnalyser {
 			e.printStackTrace();
 		}
 		return listVariables;
-	}
+	}*/
 	
-	private static String parserDatasetKeywords (String keywords) {
+	// This function is deprecated: It is used in other versions
+	// Instead of the raw name change it to the url representation
+	/*private static String parserDatasetKeywords (String keywords) {
 		JSONParser parser = new JSONParser();
 		JSONArray keywordsArray;
 		try {
-			keywordsArray = (JSONArray) parser.parse(new FileReader(Constants.configFilePath+"/Frontend/Flask/static/json/keywords.json"));
-			/*search if the keyword extracted from netcdf is equal to the json
+			keywordsArray = (JSONArray) parser.parse(new FileReader(Constants.configFilePath+"/Frontend/Flask/static/json/eionet.json"));
+			search if the keyword extracted from netcdf is equal to the json
 			* change the value of the keyword variable to the value of the json (http://...)
-			*/
+			
 	        for(int i=0; i<keywordsArray.size(); i++){
 	        	boolean flag = false;
 	            JSONObject keyword = (JSONObject) keywordsArray.get(i);
@@ -617,7 +702,7 @@ public class BdoDatasetAnalyser {
 		}
 		return keywords;
 		
-	}
+	}*/
 	
 	// Convert yyyyMMddTHHmmss into yyyy-MM-ddTHH:mm:ss
     public static String convertDate(String date) throws java.text.ParseException {

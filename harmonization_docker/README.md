@@ -20,10 +20,4 @@ $ docker pull stain/jena-fuseki
 $ docker run -d --name harmonization_fuseki -p 3031:3031 -e ADMIN_PASSWORD=bd0 -v /path/to/Harmonization_Fuseki_TripleStore/:/fuseki/ -it stain/jena-fuseki ./fuseki-server --port=3031
 ```
 
-## Run the bash file
-- Run the API for adding metadata automatically (Kafka)
-```sh
-$ ./initHarmonization
-```
-
-Then visit http://212.101.173.21:5000/
+Then visit http://localhost:5000/

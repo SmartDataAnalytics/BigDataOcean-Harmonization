@@ -1,0 +1,1722 @@
+[
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/hcsp_qc",
+    "text": "sea_water_speed_quality_flag",
+    "name": "hcsp_qc"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/atms_dm",
+    "text": "air_pressure_at_sea_level_processing_method",
+    "name": "atms_dm"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/shifting_(consumptions)_–_engine_fuel_oil",
+    "text": "consumptions_shifting_engine_fuel",
+    "name": "shifting (consumptions) – engine fuel oil"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/seastate",
+    "text": "sea_state",
+    "name": "seastate"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/googlemaps_x",
+    "text": "spherical_mercator_google_maps_x",
+    "name": "googlemaps_x"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/load_indicator",
+    "text": "average_engine_load_indicator",
+    "name": "load indicator"
+  },
+  {
+    "value": "https://mmisw.org/ont/cf/parameter/platform_id",
+    "text": "platform_id",
+    "name": "idship"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/cranes_mobile",
+    "text": "mobile_crane",
+    "name": "cranes_mobile"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/orig_name",
+    "text": "orig_name",
+    "name": "orig_name"
+  },
+  {
+    "value": "https://mmisw.org/ont/cf/parameter/x_wind",
+    "text": "x_wind",
+    "name": "x_wind10"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/dieselcons",
+    "text": "diesel_oil_consumption",
+    "name": "dieselcons"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/lubricants_–_engine",
+    "text": "remaining_on_board_engine_lubricant",
+    "name": "lubricants – engine"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/wind_direction",
+    "text": "wind_direction",
+    "name": "wind direction"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/slip",
+    "text": "slip",
+    "name": "slip"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/temp_qc",
+    "text": "sea_water_temperature_quality_flag",
+    "name": "temp_qc"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/position_qc",
+    "text": "position_quality_flag",
+    "name": "position_qc"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/vtpk_qc",
+    "text": "sea_surface_wave_period_at_variance_spectral_density_maximum_quality_flag",
+    "name": "vtpk_qc"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/lifts_50_100_tons",
+    "text": "lift_50_100",
+    "name": "lifts_50_100_tons"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/entrance_restriction_swell",
+    "text": "entrance_restriction_swell",
+    "name": "entrance_restriction_swell"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/phph_dm",
+    "text": "sea_water_ph_reported_on_total_scale_processing_method",
+    "name": "phph_dm"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/lat_staggered",
+    "text": "latitude_staggered",
+    "name": "lat_staggered"
+  },
+  {
+    "value": "https://mmisw.org/ont/cf/parameter/air_temperature",
+    "text": "air_temperature",
+    "name": "dryt"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/status",
+    "text": "navigational_status",
+    "name": "status"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/gdir",
+    "text": "gust_from_direction",
+    "name": "gdir"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/codebts",
+    "text": "bts_code",
+    "name": "codebts"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/marine",
+    "text": "marine",
+    "name": "marine"
+  },
+  {
+    "value": "https://mmisw.org/ont/cf/parameter/sea_surface_wind_wave_significant_height",
+    "text": "sea_surface_wind_wave_significant_height",
+    "name": "vhm0_ww"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/status_name",
+    "text": "navigational_status_description",
+    "name": "status_name"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/communications_radio",
+    "text": "radio_communication",
+    "name": "communications_radio"
+  },
+  {
+    "value": "https://mmisw.org/ont/cf/parameter/sea_surface_wind_wave_from_direction",
+    "text": "sea_surface_wind_wave_from_direction",
+    "name": "vmdr_ww"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/engine_diesel_consumption",
+    "text": "consumptions_engine_diesel",
+    "name": "engine diesel consumption"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/wdir_qc",
+    "text": "wind_from_direction_quality_flag",
+    "name": "wdir_qc"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/supplies_provisions",
+    "text": "provision_supply",
+    "name": "supplies_provisions"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/googlemaps_y",
+    "text": "spherical_mercator_google_maps_y",
+    "name": "googlemaps_y"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/wspd",
+    "text": "wind_speed",
+    "name": "wspd"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/communications_radio_tel",
+    "text": "radio_telegraph_communication",
+    "name": "communications_radio_tel"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/doxy",
+    "text": "mole_concentration_of_dissolved_molecular_oxygen_in_sea_water",
+    "name": "doxy"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/from_port",
+    "text": "starting_port",
+    "name": "from port"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/idterminalstart",
+    "text": "terminal_start_id",
+    "name": "idterminalstart"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/stop/slow_downs_–_to",
+    "text": "stop_or_slow_to",
+    "name": "stop/slow downs – to"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/mean_wave_direction",
+    "text": "sea_surface_wave_to_direction",
+    "name": "mean_wave_direction"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/own_type",
+    "text": "own_type",
+    "name": "own_type"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/dox1_dm",
+    "text": "volume_fraction_of_oxygen_in_sea_water_processing_method",
+    "name": "dox1_dm"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/pilotage_advisable",
+    "text": "pilotage_advisable",
+    "name": "pilotage_advisable"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/gis_area",
+    "text": "gis_area",
+    "name": "gis_area"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/load_offload_beach_moor",
+    "text": "operations_at_beach_moor",
+    "name": "load_offload_beach_moor"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/lubricants_–_generator",
+    "text": "remaining_on_board_generator_lubricant",
+    "name": "lubricants – generator"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/shifting_(consumptions)_–_duration",
+    "text": "consumptions_shifting_duration",
+    "name": "shifting (consumptions) – duration"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/wind_force",
+    "text": "beaufort_wind_force",
+    "name": "wind force"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/first_port_of_entry",
+    "text": "port_of_entry",
+    "name": "first_port_of_entry"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/lubricants_–_evaporator",
+    "text": "remaining_on_board_evaporator_lubricant",
+    "name": "lubricants – evaporator"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/flu3_dm",
+    "text": "fluorescence_processing_method",
+    "name": "flu3_dm"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/csp",
+    "text": "calculated_speed",
+    "name": "csp"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/average_speed",
+    "text": "average_vessel_speed",
+    "name": "average speed"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/fuelcons",
+    "text": "fuel_oil_consumption",
+    "name": "fuelcons"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/dryt_qc",
+    "text": "air_temperature_quality_flag",
+    "name": "dryt_qc"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/pilotage_local_assist",
+    "text": "pilotage_local_assistance",
+    "name": "pilotage_local_assist"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/desig_eng",
+    "text": "desig_eng",
+    "name": "desig_eng"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/at_anchor_(consumptions)_–_engine_diesel_oil",
+    "text": "consumptions_anchor_engine_diesel",
+    "name": "at anchor (consumptions) – engine diesel oil"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/overhead_limits",
+    "text": "overhead_limits",
+    "name": "overhead_limits"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/shifting_(consumptions)_–_miles",
+    "text": "consumptions_shifting_miles",
+    "name": "shifting (consumptions) – miles"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/phph_qc",
+    "text": "sea_water_ph_reported_on_total_scale_quality_flag",
+    "name": "phph_qc"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/out_movement_(consumptions)_–_duration",
+    "text": "consumptions_out_movement_duration",
+    "name": "out movement (consumptions) – duration"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/vmdr",
+    "text": "sea_surface_wave_from_direction",
+    "name": "vmdr"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/gdir_qc",
+    "text": "gust_from_direction_quality_flag",
+    "name": "gdir_qc"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/latitude_hemisphere",
+    "text": "latitude_hemisphere",
+    "name": "latitude_hemisphere"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/slow_speed_distance",
+    "text": "slow_speed_streaming_distance",
+    "name": "slow speed distance"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/load_offload_ice_moor",
+    "text": "operations_at_ice_moor",
+    "name": "load_offload_ice_moor"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/entrance_restriction_other",
+    "text": "entrance_restriction_other",
+    "name": "entrance_restriction_other"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/wdir_dm",
+    "text": "wind_from_direction_processing_method",
+    "name": "wdir_dm"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/quarantine_deratt_cert",
+    "text": "quarantine_deratt_cert",
+    "name": "quarantine_deratt_cert"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/water",
+    "text": "water_initial_supply",
+    "name": "water"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/average_rpm",
+    "text": "average_engine_rpm",
+    "name": "average rpm"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/lubricants_–_cylinder",
+    "text": "remaining_on_board_cylinder_lubricant",
+    "name": "lubricants – cylinder"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/arrived_date",
+    "text": "arrived_date",
+    "name": "arrived date"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/fdelivery",
+    "text": "delivery_f",
+    "name": "fdelivery"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/flag_code",
+    "text": "flag_code",
+    "name": "flag_code"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/quarantine_other",
+    "text": "quarantine_other",
+    "name": "quarantine_other"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/passengers",
+    "text": "number_of_passengers",
+    "name": "passengers"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/psal_qc",
+    "text": "sea_water_practical_salinity_quality_flag",
+    "name": "psal_qc"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/services_navig_equip",
+    "text": "navigational_equipment_service",
+    "name": "services_navig_equip"
+  },
+  {
+    "value": "https://mmisw.org/ont/cf/parameter/sea_surface_secondary_swell_wave_significant_height",
+    "text": "sea_surface_secondary_swell_wave_significant_height",
+    "name": "vhm0_sw2"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/temp",
+    "text": "sea_water_temperature",
+    "name": "temp"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/flu3_qc",
+    "text": "fluorescence_quality_flag",
+    "name": "flu3_qc"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/services_elect_repair",
+    "text": "electrical_repair_service",
+    "name": "services_elect_repair"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/osat_dm",
+    "text": "fractional_saturation_of_oxygen_in_sea_water_processing_method",
+    "name": "osat_dm"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/gspd_qc",
+    "text": "wind_speed_of_gust_quality_flag",
+    "name": "gspd_qc"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/services_steam",
+    "text": "steam_service",
+    "name": "services_steam"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/cruising_(consumptions)_–_miles",
+    "text": "consumptions_cruising_miles",
+    "name": "cruising (consumptions) – miles"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/idterminal",
+    "text": "terminal_id",
+    "name": "idterminal"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/status_yr",
+    "text": "status_yr",
+    "name": "status_yr"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/anchorage_depth",
+    "text": "anchorage_depth",
+    "name": "anchorage_depth"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/slow_speed_duration",
+    "text": "slow_speed_streaming_time",
+    "name": "slow speed duration"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/railway",
+    "text": "railway",
+    "name": "railway"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/vtm02_qc",
+    "text": "sea_surface_wave_mean_period_from_variance_spectral_density_second_frequency_moment_quality_flag",
+    "name": "vtm02_qc"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/at_anchor_(consumptions)_–_engine_fuel_oil",
+    "text": "consumptions_anchor_engine_fuel",
+    "name": "at anchor (consumptions) – engine fuel oil"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/stop/slow_downs_–_rpm",
+    "text": "stop_or_slow_rpm",
+    "name": "stop/slow downs – rpm"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/no_tk_area",
+    "text": "no_tk_area",
+    "name": "no_tk_area"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/us_representative",
+    "text": "us_representative",
+    "name": "us_representative"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/pres",
+    "text": "sea_water_pressure",
+    "name": "pres"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/eta_message",
+    "text": "eta_message",
+    "name": "eta_message"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/pilotage_compulsory",
+    "text": "pilotage_compulsory",
+    "name": "pilotage_compulsory"
+  },
+  {
+    "value": "https://mmisw.org/ont/cf/parameter/y_wind",
+    "text": "y_wind",
+    "name": "y_wind10"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/vtm02_dm",
+    "text": "sea_surface_wave_mean_period_from_variance_spectral_density_second_frequency_moment_processing_method",
+    "name": "vtm02_dm"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/line_c",
+    "text": "y_direction_in_the_canonical_space",
+    "name": "line_c"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/services_longshore",
+    "text": "longshore_service",
+    "name": "services_longshore"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/cargo_pier_depth",
+    "text": "cargo_pier_depth",
+    "name": "cargo_pier_depth"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/ddelivery",
+    "text": "delivery_d",
+    "name": "ddelivery"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/vtpk",
+    "text": "sea_surface_wave_period_at_variance_spectral_density_maximum",
+    "name": "vtpk"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/nvh",
+    "text": "nvh",
+    "name": "nvh"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/lubricant",
+    "text": "lubricant_initial_supply",
+    "name": "lubricant"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/hcdt",
+    "text": "direction_of_sea_water_velocity",
+    "name": "hcdt"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/status",
+    "text": "status",
+    "name": "status"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/gps_latitude",
+    "text": "automatically_measured_latitude",
+    "name": "gps_latitude"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/inward_moves_(consumptions)_–_miles",
+    "text": "consumptions_inward_miles",
+    "name": "inward moves (consumptions) – miles"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/flu2_qc",
+    "text": "mass_concentration_of_chlorophyll_a_fluorescence_in_sea_water_quality_flag",
+    "name": "flu2_qc"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/thickness_range",
+    "text": "sea_ice_thickness_range",
+    "name": "thickness_range"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/cruising_(consumptions)_–_duration",
+    "text": "consumptions_cruising_duration",
+    "name": "cruising (consumptions) – duration"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/etd_date",
+    "text": "estimated_time_of_departure_date",
+    "name": "etd date"
+  },
+  {
+    "value": "https://mmisw.org/ont/cf/parameter/time",
+    "text": "time",
+    "name": "timestamp"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/harbor_type_code",
+    "text": "harbor_type_code",
+    "name": "harbor_type_code"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/to_port",
+    "text": "destination_port",
+    "name": "to port"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/type_name",
+    "text": "platform_type_name",
+    "name": "type_name"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/uvel",
+    "text": "sea_water_x_velocity",
+    "name": "uvel"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/data_mode",
+    "text": "delayed_mode_or_real_time_data",
+    "name": "data_mode"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/lifts_25_49_tons",
+    "text": "lift_25_49",
+    "name": "lifts_25_49_tons"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/stop/slow_downs_–_from",
+    "text": "stop_or_slow_from",
+    "name": "stop/slow downs – from"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/direction",
+    "text": "platform_true_heading",
+    "name": "direction"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/direction",
+    "text": "profile_direction",
+    "name": "direction"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/dryt_dm",
+    "text": "air_temperature_processing_method",
+    "name": "dryt_dm"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/out_movement_(consumptions)_–_engine_fuel_oil",
+    "text": "consumptions_out_movement_engine_fuel",
+    "name": "out movement (consumptions) – engine fuel oil"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/rob_–_engine_oil",
+    "text": "remaining_on_board_engine_oil",
+    "name": "rob – engine oil"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/idelivery",
+    "text": "delivery_l",
+    "name": "idelivery"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/phph",
+    "text": "sea_water_ph_reported_on_total_scale",
+    "name": "phph"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/communications_telegraph",
+    "text": "telegraph_communication",
+    "name": "communications_telegraph"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/gps_longitude",
+    "text": "automatically_measured_longitude",
+    "name": "gps_longitude"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/longitude_degrees",
+    "text": "longitude_degrees",
+    "name": "longitude_degrees"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/desig_type",
+    "text": "desig_type",
+    "name": "desig_type"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/idhistorystop",
+    "text": "history_stop_id",
+    "name": "idhistorystop"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/idhistory",
+    "text": "history_id",
+    "name": "idhistory"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/degauss",
+    "text": "degaussing_facilities",
+    "name": "degauss"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/vhm0_qc",
+    "text": "sea_surface_wave_significant_height_quality_flag",
+    "name": "vhm0_qc"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/good_holding_ground",
+    "text": "good_holding_ground",
+    "name": "good_holding_ground"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/vmdr_qc",
+    "text": "sea_surface_wave_from_direction_quality_flag",
+    "name": "vmdr_qc"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/deph_qc",
+    "text": "manually_entered_depth_quality_flag",
+    "name": "deph_qc"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/cars",
+    "text": "number_of_cars",
+    "name": "cars"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/int_crit",
+    "text": "int_crit",
+    "name": "int_crit"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/tur4_qc",
+    "text": "sea_water_turbidity_quality_flag",
+    "name": "tur4_qc"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/repair_code",
+    "text": "repair_code",
+    "name": "repair_code"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/flu3",
+    "text": "fluorescence",
+    "name": "flu3"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/osat_qc",
+    "text": "fractional_saturation_of_oxygen_in_sea_water_quality_flag",
+    "name": "osat_qc"
+  },
+  {
+    "value": "https://mmisw.org/ont/cf/parameter/fractional_saturation_of_oxygen_in_sea_water",
+    "text": "fractional_saturation_of_oxygen_in_sea_water",
+    "name": "osat"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/mang_plan",
+    "text": "mang_plan",
+    "name": "mang_plan"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/trucks",
+    "text": "number_of_trucks",
+    "name": "trucks"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/wdpaid",
+    "text": "wdpa_id",
+    "name": "wdpaid"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/relh",
+    "text": "relative_humidity",
+    "name": "relh"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/gdir_dm",
+    "text": "gust_from_direction_processing_method",
+    "name": "gdir_dm"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/load_offload_wharves",
+    "text": "operations_at_wharves",
+    "name": "load_offload_wharves"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/tair2m",
+    "text": "air_temperature_2m",
+    "name": "tair2m"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/hours_(+/-)",
+    "text": "time_changes",
+    "name": "hours (+/-)"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/vzmx_dm",
+    "text": "sea_surface_wave_maximum_height_processing_method",
+    "name": "vzmx_dm"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/tugs_assist",
+    "text": "tugs_assist",
+    "name": "tugs_assist"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/wdpa_pid",
+    "text": "wdpa_pid",
+    "name": "wdpa_pid"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/load_offload_anchor",
+    "text": "operations_at_anchorage",
+    "name": "load_offload_anchor"
+  },
+  {
+    "value": "https://mmisw.org/ont/cf/parameter/sea_ice_thickness",
+    "text": "sea_ice_thickness",
+    "name": "ice_thickness"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/deph_dm",
+    "text": "manually_entered_depth_processing_method",
+    "name": "deph_dm"
+  },
+  {
+    "value": "https://mmisw.org/ont/cf/parameter/sea_ice_area_fraction",
+    "text": "sea_ice_area_fraction",
+    "name": "ice_concentration"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/full_speed_distance",
+    "text": "full_speed_streaming_distance",
+    "name": "full speed distance"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/supplies_diesel_oil",
+    "text": "diesel_oil_supply",
+    "name": "supplies_diesel_oil"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/latitude_degrees",
+    "text": "latitude_degrees",
+    "name": "latitude_degrees"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/column_c",
+    "text": "x_direction_in_the_canonical_space",
+    "name": "column_c"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/supplies_engine",
+    "text": "engine_supply",
+    "name": "supplies_engine"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/pres_dm",
+    "text": "sea_water_pressure_processing_method",
+    "name": "pres_dm"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/vped_qc",
+    "text": "sea_surface_wave_from_direction_at_variance_spectral_density_maximum_quality_flag",
+    "name": "vped_qc"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/inward_moves_(consumptions)_–_duration",
+    "text": "consumptions_inward_duration",
+    "name": "inward moves (consumptions) – duration"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/gspd_dm",
+    "text": "wind_speed_of_gust_processing_method",
+    "name": "gspd_dm"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/weight",
+    "text": "vessel_weight",
+    "name": "weight"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/distance",
+    "text": "distance",
+    "name": "distance"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/lifts_100_tons_plus",
+    "text": "lift_100_plus",
+    "name": "lifts_100_tons_plus"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/main_port_name",
+    "text": "port_name",
+    "name": "main_port_name"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/latitude",
+    "text": "latitude",
+    "name": "latitude"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/type",
+    "text": "type",
+    "name": "type"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/tur4",
+    "text": "sea_water_turbidity",
+    "name": "tur4"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/dirty_ballast",
+    "text": "dirty_ballast_facilities",
+    "name": "dirty_ballast"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/inward_moves_(consumptions)_–_engine_fuel_oil",
+    "text": "consumptions_inward_engine_fuel",
+    "name": "inward moves (consumptions) – engine fuel oil"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/wdir",
+    "text": "sea_surface_wave_to_direction",
+    "name": "wdir"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/top/slow_downs_–_distance",
+    "text": "stop_or_slow_distance",
+    "name": "stop/slow downs – distance"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/instats",
+    "text": "in_stats",
+    "name": "instats"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/shiptype",
+    "text": "platform_type_id",
+    "name": "shiptype"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/relh_dm",
+    "text": "relative_humidity_processing_method",
+    "name": "relh_dm"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/wave_x",
+    "text": "mean_wave_direction_x",
+    "name": "wave_x"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/mean_wave_period",
+    "text": "sea_surface_wave_zero_upcrossing_period",
+    "name": "mean_wave_period"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/services_elect",
+    "text": "electrical_service",
+    "name": "services_elect"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/cranes_fixed",
+    "text": "fixed_crane",
+    "name": "cranes_fixed"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/lat",
+    "text": "latitude",
+    "name": "lat"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/etb_date",
+    "text": "estimated_time_of_berthing_date",
+    "name": "etb date"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/vtm02",
+    "text": "sea_surface_wave_mean_period_from_variance_spectral_density_second_frequency_moment",
+    "name": "vtm02"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/notes",
+    "text": "notes",
+    "name": "notes"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/wsh",
+    "text": "sea_surface_wave_significant_height",
+    "name": "wsh"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/out_movement_(consumptions)_–_engine_diesel_oil",
+    "text": "consumptions_out_movement_engine_diesel",
+    "name": "out movement (consumptions) – engine diesel oil"
+  },
+  {
+    "value": "https://mmisw.org/ont/cf/parameter/sea_surface_secondary_swell_wave_mean_period",
+    "text": "sea_surface_secondary_swell_wave_mean_period",
+    "name": "vtm01_sw2"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/communications_rail",
+    "text": "rail_communication",
+    "name": "communications_rail"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/watercons",
+    "text": "water_consumption",
+    "name": "watercons"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/vhm0",
+    "text": "sea_surface_wave_significant_height",
+    "name": "vhm0"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/flu2",
+    "text": "mass_concentration_of_chlorophyll_a_fluorescence_in_sea_water",
+    "name": "flu2"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/wper",
+    "text": "sea_surface_wave_zero_upcrossing_period",
+    "name": "wper"
+  },
+  {
+    "value": "https://mmisw.org/ont/cf/parameter/wind_from_direction",
+    "text": "wind_from_direction",
+    "name": "wdir"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/medical_facilities",
+    "text": "medical_facilities",
+    "name": "medical_facilities"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/sea_condition",
+    "text": "sea_swell_condition",
+    "name": "sea condition"
+  },
+  {
+    "value": "https://mmisw.org/ont/cf/parameter/time",
+    "text": "time",
+    "name": "tgps"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/sub_loc",
+    "text": "sub_loc",
+    "name": "sub_loc"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/entrance_restriction_ice",
+    "text": "entrance_restriction_ice",
+    "name": "entrance_restriction_ice"
+  },
+  {
+    "value": "https://mmisw.org/ont/cf/parameter/wind_speed_of_gust",
+    "text": "wind_speed_of_gust",
+    "name": "gspd"
+  },
+  {
+    "value": "https://mmisw.org/ont/cf/parameter/sea_surface_primary_swell_wave_mean_period",
+    "text": "sea_surface_primary_swell_wave_mean_period",
+    "name": "vtm01_sw1"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/at_anchor_(consumptions)_–_duration",
+    "text": "consumptions_anchor_duration",
+    "name": "at anchor (consumptions) – duration"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/course",
+    "text": "platform_course",
+    "name": "course"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/communications_telephone",
+    "text": "telephone_communication",
+    "name": "communications_telephone"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/atms",
+    "text": "air_pressure_at_sea_level",
+    "name": "atms"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/leg",
+    "text": "voyage_leg",
+    "name": "leg"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/diesel",
+    "text": "diesel_oil_initial_supply",
+    "name": "diesel"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/nor_date",
+    "text": "notice_of_readiness_date",
+    "name": "nor date"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/fuelconslow",
+    "text": "fuel_oil_consumption_low",
+    "name": "fuelconslow"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/gov_type",
+    "text": "gov_type",
+    "name": "gov_type"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/temp_dm",
+    "text": "sea_water_temperature_processing_method",
+    "name": "temp_dm"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/eosp_date",
+    "text": "end_of_sea_passage_date",
+    "name": "eosp date"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/iunc_cat",
+    "text": "iunc_cat",
+    "name": "iunc_cat"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/stop/slow_downs_–_engine_diesel",
+    "text": "stop_or_slow_engine_diesel",
+    "name": "stop/slow downs – engine diesel"
+  },
+  {
+    "value": "https://mmisw.org/ont/cf/parameter/sea_surface_wind_wave_mean_period",
+    "text": "sea_surface_wind_wave_mean_period",
+    "name": "vtm01_ww"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/cranes_floating",
+    "text": "floating_crane",
+    "name": "cranes_floating"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/flu2l_dm",
+    "text": "mass_concentration_of_chlorophyll_a_fluorescence_in_sea_water_processing_method",
+    "name": "flu2l_dm"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/channel_depth",
+    "text": "channel_depth",
+    "name": "channel_depth"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/supplies_fuel_oil",
+    "text": "fuel_oil_supply",
+    "name": "supplies_fuel_oil"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/flu2_dm",
+    "text": "mass_concentration_of_chlorophyll_a_fluorescence_in_sea_water_processing_method",
+    "name": "flu2_dm"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/dtg",
+    "text": "distance_to_go",
+    "name": "dtg"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/verif",
+    "text": "verif",
+    "name": "verif"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/shifting_(consumptions)_–_engine_diesel_oil",
+    "text": "consumptions_shifting_engine_diesel",
+    "name": "shifting (consumptions) – engine diesel oil"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/hcsp",
+    "text": "sea_water_speed",
+    "name": "hcsp"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/engine_fuel_consumption",
+    "text": "consumptions_engine_fuel",
+    "name": "engine fuel consumption"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/harbor_size_code",
+    "text": "harbor_size_code",
+    "name": "harbor_size_code"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/vzmx_qc",
+    "text": "sea_surface_wave_maximum_height_quality_flag",
+    "name": "vzmx_qc"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/supplies_water",
+    "text": "water_supply",
+    "name": "supplies_water"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/time_qc",
+    "text": "time_quality_flag",
+    "name": "time_qc"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/inward_moves_(consumptions)_–_engine_diesel_oil",
+    "text": "consumptions_inward_engine_diesel",
+    "name": "inward moves (consumptions) – engine diesel oil"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/fuel",
+    "text": "fuel_oil_initial_supply",
+    "name": "fuel"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/wpi_country_code",
+    "text": "country_code",
+    "name": "wpi_country_code"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/date",
+    "text": "voyage_date",
+    "name": "date"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/rep_area",
+    "text": "rep_area",
+    "name": "rep_area"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/idtrip",
+    "text": "trip_identifier",
+    "name": "idtrip"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/relh_qc",
+    "text": "relative_humidity_quality_flag",
+    "name": "relh_qc"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/tur4_dm",
+    "text": "sea_water_turbidity_processing_method",
+    "name": "tur4_dm"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/iso3",
+    "text": "iso3",
+    "name": "iso3"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/load_offload_med_moor",
+    "text": "operations_at_med_moor",
+    "name": "load_offload_med_moor"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/full_speed_duration",
+    "text": "full_speed_streaming_time",
+    "name": "full speed duration"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/concentration_range",
+    "text": "sea_ice_area_fraction_range",
+    "name": "concentration_range"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/voyage_no",
+    "text": "voyage_number",
+    "name": "voyage no"
+  },
+  {
+    "value": "https://mmisw.org/ont/cf/parameter/sea_surface_primary_swell_wave_from_direction",
+    "text": "sea_surface_primary_swell_wave_from_direction",
+    "name": "vmdr_sw1"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/atms_qc",
+    "text": "air_pressure_at_sea_level_quality_flag",
+    "name": "atms_qc"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/anchored_date",
+    "text": "anchored_date",
+    "name": "anchored date"
+  },
+  {
+    "value": "https://mmisw.org/ont/cf/parameter/time",
+    "text": "time",
+    "name": "time"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/communications_air",
+    "text": "air_communication",
+    "name": "communications_air"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/hcsp_dm",
+    "text": "sea_water_speed_processing_method",
+    "name": "hcsp_dm"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/chart",
+    "text": "best_scale_chart_number",
+    "name": "chart"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/vmdr_dm",
+    "text": "sea_surface_wave_from_direction_processing_method",
+    "name": "vmdr_dm"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/speed",
+    "text": "platform_speed_wrt_ground",
+    "name": "speed"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/length",
+    "text": "platform_length",
+    "name": "length"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/vped",
+    "text": "sea_surface_wave_from_direction_at_variance_spectral_density_maximum",
+    "name": "vped"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/metadataid",
+    "text": "metadataid",
+    "name": "metadataid"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/desig",
+    "text": "desig",
+    "name": "desig"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/heading",
+    "text": "platform_true_heading",
+    "name": "heading"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/cruising_(consumptions)_–_engine_fuel_oil",
+    "text": "consumptions_cruising_engine_fuel",
+    "name": "cruising (consumptions) – engine fuel oil"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/garbage_disposal",
+    "text": "garbage_disposal",
+    "name": "garbage_disposal"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/lon",
+    "text": "longitude",
+    "name": "lon"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/cruising_(consumptions)_–_engine_diesel_oil",
+    "text": "consumptions_cruising_engine_diesel",
+    "name": "cruising (consumptions) – engine diesel oil"
+  },
+  {
+    "value": "https://mmisw.org/ont/cf/parameter/sea_surface_wave_stokes_drift_x_velocity",
+    "text": "sea_surface_wave_stokes_drift_x_velocity",
+    "name": "vsdx"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/remfuellow",
+    "text": "fuel_oil_remaining_low",
+    "name": "remfuellow"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/fuelconshigh",
+    "text": "fuel_oil_consumption_high",
+    "name": "fuelconshigh"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/wspd_dm",
+    "text": "wind_speed_processing_method",
+    "name": "wspd_dm"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/supplies_deck",
+    "text": "deck_supply",
+    "name": "supplies_deck"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/tide",
+    "text": "mean_tide_range",
+    "name": "tide"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/gps_position_qc",
+    "text": "automatically_measured_position_quality_flag",
+    "name": "gps_position_qc"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/full_away_date",
+    "text": "full_away_date",
+    "name": "full away date"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/remfuelhigh",
+    "text": "fuel_oil_remaining_high",
+    "name": "remfuelhigh"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/tugs_salvage",
+    "text": "tugs_salvage",
+    "name": "tugs_salvage"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/oil_terminal_depth",
+    "text": "oil_terminal_depth",
+    "name": "oil_terminal_depth"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/region_index",
+    "text": "region_index",
+    "name": "region_index"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/longitude",
+    "text": "longitude",
+    "name": "longitude"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/at_berth_(consumptions)_–_duration",
+    "text": "consumptions_berth_duration",
+    "name": "at berth (consumptions) – duration"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/gis_m_area",
+    "text": "gis_m_area",
+    "name": "gis_m_area"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/depth",
+    "text": "depth",
+    "name": "depth"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/latitude_minutes",
+    "text": "latitude_minutes",
+    "name": "latitude_minutes"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/eta_date",
+    "text": "estimated_time_of_arrival_date",
+    "name": "eta date"
+  },
+  {
+    "value": "https://mmisw.org/ont/cf/parameter/sea_water_y_velocity",
+    "text": "sea_water_y_velocity",
+    "name": "vvel"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/publication",
+    "text": "publication",
+    "name": "publication"
+  },
+  {
+    "value": "https://mmisw.org/ont/cf/parameter/sea_floor_depth_below_geoid",
+    "text": "sea_floor_depth_below_geoid",
+    "name": "bathymetry"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/parent_iso3",
+    "text": "parent_iso3",
+    "name": "parent_iso3"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/doxy_qc",
+    "text": "mole_concentration_of_dissolved_molecular_oxygen_in_sea_water_quality_flag",
+    "name": "doxy_qc"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/drydock",
+    "text": "drydock",
+    "name": "drydock"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/lon_staggered",
+    "text": "longitude_staggered",
+    "name": "lon_staggered"
+  },
+  {
+    "value": "https://mmisw.org/ont/cf/parameter/land_binary_mask",
+    "text": "land_binary_mask",
+    "name": "waterpoints"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/wspd_qc",
+    "text": "wind_speed_quality_flag",
+    "name": "wspd_qc"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/berthed_date",
+    "text": "berthed_date",
+    "name": "berthed date"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/pilotage_available",
+    "text": "pilotage_available",
+    "name": "pilotage_available"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/turning_area",
+    "text": "turning_area",
+    "name": "turning_area"
+  },
+  {
+    "value": "https://mmisw.org/ont/cf/parameter/sea_surface_wave_stokes_drift_y_velocity",
+    "text": "sea_surface_wave_stokes_drift_y_velocity",
+    "name": "vsdy"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/vtpk_dm",
+    "text": "sea_surface_wave_period_at_variance_spectral_density_maximum_processing_method",
+    "name": "vtpk_dm"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/deph",
+    "text": "manually_entered_depth",
+    "name": "deph"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/wave_y",
+    "text": "mean_wave_direction_y",
+    "name": "wave_y"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/longitude_hemisphere",
+    "text": "longitude_hemisphere",
+    "name": "longitude_hemisphere"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/no_take",
+    "text": "no_take",
+    "name": "no_take"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/mang_auth",
+    "text": "mang_auth",
+    "name": "mang_auth"
+  },
+  {
+    "value": "https://mmisw.org/ont/cf/parameter/platform_id",
+    "text": "platform_id",
+    "name": "ship_id"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/longitude_minutes",
+    "text": "longitude_minutes",
+    "name": "longitude_minutes"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/psal",
+    "text": "sea_water_practical_salinity",
+    "name": "psal"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/doxy_dm",
+    "text": "mole_concentration_of_dissolved_molecular_oxygen_in_sea_water_processing_method",
+    "name": "doxy_dm"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/idterminalstop",
+    "text": "terminal_stop_id",
+    "name": "idterminalstop"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/out_movement_(consumptions)_–_miles",
+    "text": "consumptions_out_movement_miles",
+    "name": "out movement (consumptions) – miles"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/idhistorystart",
+    "text": "history_start_id",
+    "name": "idhistorystart"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/stop/slow_downs_–_speed",
+    "text": "stop_or_slow_speed",
+    "name": "stop/slow downs – speed"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/next_port",
+    "text": "next_port",
+    "name": "next port"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/dox1_qc",
+    "text": "volume_fraction_of_oxygen_in_sea_water_quality_flag",
+    "name": "dox1_qc"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/pmsl",
+    "text": "air_pressure_at_sea_level",
+    "name": "pmsl"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/entrance_restriction_tide",
+    "text": "entrance_restriction_tide",
+    "name": "entrance_restriction_tide"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/lubricantcons",
+    "text": "lubricant_consumption",
+    "name": "lubricantcons"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/maxsize_vessel_code",
+    "text": "vessel_code",
+    "name": "maxsize_vessel_code"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/vped_dm",
+    "text": "sea_surface_wave_from_direction_at_variance_spectral_density_maximum_processing_method",
+    "name": "vped_dm"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/world_port_index_number",
+    "text": "world_port_index_number",
+    "name": "world_port_index_number"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/shelter_afforded_code",
+    "text": "shelter_afforded_code",
+    "name": "shelter_afforded_code"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/quarantine_pratique",
+    "text": "quarantine_practique",
+    "name": "quarantine_pratique"
+  },
+  {
+    "value": "https://mmisw.org/ont/cf/parameter/sea_surface_wave_mean_period_from_variance_spectral_density_inverse_frequency_moment",
+    "text": "sea_surface_wave_mean_period_from_variance_spectral_density_inverse_frequency_moment",
+    "name": "vtm10"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/hcdt_qc",
+    "text": "direction_of_sea_water_velocity_quality_flag",
+    "name": "hcdt_qc"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/psal_dm",
+    "text": "sea_water_practical_salinity_processing_method",
+    "name": "psal_dm"
+  },
+  {
+    "value": "https://mmisw.org/ont/cf/parameter/volume_fraction_of_oxygen_in_sea_water",
+    "text": "volume_fraction_of_oxygen_in_sea_water",
+    "name": "dox1"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/vzmx",
+    "text": "sea_surface_wave_maximum_height",
+    "name": "vzmx"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/pres_qc",
+    "text": "sea_water_pressure_quality_flag",
+    "name": "pres_qc"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/vhm0_dm",
+    "text": "sea_surface_wave_significant_height_processing_method",
+    "name": "vhm0_dm"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/significant_wave_height",
+    "text": "sea_surface_wave_significant_height",
+    "name": "significant_wave_height"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/width",
+    "text": "platform_width",
+    "name": "width"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/pa_def",
+    "text": "pa_def",
+    "name": "pa_def"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/stop/slow_downs_–_engine_fuel",
+    "text": "stop_or_slow_engine_fuel",
+    "name": "stop/slow downs – engine fuel"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/hcdt_dm",
+    "text": "direction_of_sea_water_velocity_processing_method",
+    "name": "hcdt_dm"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/rep_m_area",
+    "text": "rep_m_area",
+    "name": "rep_m_area"
+  },
+  {
+    "value": "https://mmisw.org/ont/cf/parameter/sea_surface_secondary_swell_wave_from_direction",
+    "text": "sea_surface_secondary_swell_wave_from_direction",
+    "name": "vmdr_sw2"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/potemp",
+    "text": "sea_water_potential_temperature",
+    "name": "potemp"
+  },
+  {
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/lifts_0_24_tons",
+    "text": "lift_0_24",
+    "name": "lifts_0_24_tons"
+  }
+]

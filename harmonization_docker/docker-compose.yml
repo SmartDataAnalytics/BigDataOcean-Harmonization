@@ -1,5 +1,11 @@
 version: '2'
 services:
+  limes:
+    build: "./limes"
+    environment:
+      - JAVA_OPTS=-Xmx2G
+    ports:
+      - 8080:8080
   bdoharmonization:
     build: "."
     ports:

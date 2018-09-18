@@ -102,7 +102,7 @@ public class LimesAnalyser {
 		JsonObject responseObject;
 		String charset = "UTF-8";
         File uploadFile1 =new File(fileConfig);
-        String requestURL = "http://localhost:8080/submit";
+        String requestURL = Constants.HTTPLIMES + "submit";
 		try {
 			MultipartUtility multipart = new MultipartUtility(requestURL, charset);
             multipart.addFilePart("config_file", uploadFile1);
@@ -113,14 +113,14 @@ public class LimesAnalyser {
 				boolean statusFlag = statusLimes(requestId);
 				//log.info(requestId + " " + statusFlag);
 				if (statusFlag) {
-					response = Unirest.get("http://localhost:8080/results/" + requestId)
+					response = Unirest.get(Constants.HTTPLIMES + "results/" + requestId)
 							.asString();
 					//log.info("status " + response.getStatus());
 					if(response.getStatus() == 200) {
 						responseObject = new Gson().fromJson(response.getBody(), JsonObject.class);
 						JsonElement availableFiles = responseObject.get("availableFiles");
 						if(availableFiles.getAsJsonArray().size()>0) {
-							response = Unirest.get("http://localhost:8080/result/" + requestId + "/accepted.txt")
+							response = Unirest.get(Constants.HTTPLIMES + "result/" + requestId + "/accepted.txt")
 									.asString();
 							if(response.getStatus() == 200) {
 								//log.info(response.getBody().toString());
@@ -151,7 +151,7 @@ public class LimesAnalyser {
 		HttpResponse<String> response; 
 		JsonObject responseObject;
 		try {
-			response = Unirest.get("http://localhost:8080/status/" + id)
+			response = Unirest.get(Constants.HTTPLIMES + "status/" + id)
 					.asString();
 			if(response.getStatus() == 200) {
 				responseObject = new Gson().fromJson(response.getBody(), JsonObject.class);

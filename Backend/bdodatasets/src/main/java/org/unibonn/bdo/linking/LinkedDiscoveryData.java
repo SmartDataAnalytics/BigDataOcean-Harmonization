@@ -56,7 +56,7 @@ public class LinkedDiscoveryData {
 				if (resultLimes.get(rawVar) != null) {
 					for(Ontology tempOnto : listOntology) {
 						if(tempOnto.getUri().equals(resultLimes.get(rawVar))) {
-							variablesLinked.add(rawVar + " -- " + tempOnto.getLabel());
+							variablesLinked.add(rawVar + " -- " + tempOnto.getCanonicalName());
 							break;
 						}
 					}

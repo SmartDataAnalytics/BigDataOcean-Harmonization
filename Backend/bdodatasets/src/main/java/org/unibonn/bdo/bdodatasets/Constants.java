@@ -8,7 +8,8 @@ public class Constants {
     public static String INSPIRE_Ontology_N3 = configFilePath + "/Backend/AddDatasets/ontologiesN3/inspire.n3";
     public static String EIONET_Ontology_N3 = configFilePath + "/Backend/AddDatasets/ontologiesN3/eionet.n3";
     public static String HTTPJWT = "http://212.101.173.21:8085/";
-	public static String HTTPFUSEKI = "http://212.101.173.21:3031/bdoHarmonization/";
+    public static String HTTPLIMES = "http://localhost:8080/";
+	public static String HTTPFUSEKI = "http://localhost:3031/bdoHarmonization/";
 	public static String API_GET_INFO_VOCAB_REPO = "http://212.101.173.21:3333/dataset/bdo/api/v2/vocabulary/info?vocab=";
     public static String KAFKA_BROKERS = "10.24.10.7:9092,10.24.10.5:9092,10.24.10.11:9092,10.24.10.12:9092,10.24.10.15:9092";
     public static Integer MESSAGE_COUNT=1000;

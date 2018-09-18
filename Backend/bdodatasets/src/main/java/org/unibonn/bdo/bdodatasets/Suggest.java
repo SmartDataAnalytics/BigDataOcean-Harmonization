@@ -33,7 +33,7 @@ public class Suggest {
 		//String uri_file = "hdfs://212.101.173.50:9000/user/bdo/maretec/2017091300.nc";
 		//String uri_file = "hdfs://212.101.173.50:9000/user/bdo/numerical/dataset-ibi-analysis-forecast-wav-005-005-hourly_1516980716514.nc";
 		//String uri_file = "hdfs://212.101.173.50:9000/user/bdo/buoy/IR_TS_MO_6200192.nc";
-		//String uri_file = "/home/jaimetrillos/Dropbox/BDO/NESTER/IR_TS_MO_6200199.nc";
+		//String uri_file = "/home/eis/Dropbox/BDO/NESTER/IR_TS_MO_6200192.nc";
 		//String type = "FileNetcdf";
 		//String uri_file = "/home/jaimetrillos/Dropbox/BDO/NESTER/KRITI_JADE_M1_FORMATTED_20180101T102300_20180806T131000.xlsx";
 		//String type = "FileExcel";

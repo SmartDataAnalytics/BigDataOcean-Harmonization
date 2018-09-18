@@ -294,6 +294,13 @@
                 <maxMemorySize>512m</maxMemorySize>
               </jvmSettings>
             </program>
+            <program>
+              <mainClass>org.unibonn.bdo.vocabularies.ExtractVocabulary</mainClass>
+              <id>extractVocabularies</id>
+              <jvmSettings>
+                <maxMemorySize>512m</maxMemorySize>
+              </jvmSettings>
+            </program>
           </programs>
         </configuration>
         <executions>

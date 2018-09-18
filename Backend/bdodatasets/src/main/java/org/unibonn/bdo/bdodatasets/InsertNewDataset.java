@@ -182,7 +182,7 @@ public class InsertNewDataset {
 		insertQuery += "\n";
 		//create the triples for each variable
 		for(Entry<String, String> var : newDataset.getVariables().entrySet()) {
-			String pathFile = Constants.configFilePath+"/Frontend/Flask/static/json/variablesCF.json";
+			String pathFile = Constants.configFilePath+"/Frontend/Flask/static/json/bdo.json";
 			JSONParser parser = new JSONParser();
 			JSONArray variablesCF = (JSONArray) parser.parse(new FileReader(pathFile));
 	        String sameAs = null;
