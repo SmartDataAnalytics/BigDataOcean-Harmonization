@@ -66,15 +66,15 @@ cron = Scheduler(daemon=True)
 cron.start()
 
 # when server runs for the first time, it checks if one of the vocabularies does not exist and do the extraction process
-if not os.path.exists(configVolumePath + '/ontologiesN3/bdo.n3'):
-	bdo = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/extractVocabularies bdo'
-	print (subprocess.check_output([bdo], shell="True"))
-	geolocbdo = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/extractVocabularies geolocbdo'
-	print (subprocess.check_output([geolocbdo], shell="True"))
-	inspire = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/extractVocabularies inspire'
-	print (subprocess.check_output([inspire], shell="True"))
-	eionet = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/extractVocabularies eionet'
-	print (subprocess.check_output([eionet], shell="True"))
+#if not os.path.exists(configVolumePath + '/ontologiesN3/bdo.n3'):
+#	bdo = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/extractVocabularies bdo'
+#	print (subprocess.check_output([bdo], shell="True"))
+#	geolocbdo = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/extractVocabularies geolocbdo'
+#	print (subprocess.check_output([geolocbdo], shell="True"))
+#	inspire = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/extractVocabularies inspire'
+#	print (subprocess.check_output([inspire], shell="True"))
+#	eionet = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/extractVocabularies eionet'
+#	print (subprocess.check_output([eionet], shell="True"))
 
 # Command = Thread in background to update every year the JWT Authorization Token (Parser tool)
 # bdo, geolocbdo, inspire, eionet = Thread in background to update every year the vocabularies (Vocabulary Repository)

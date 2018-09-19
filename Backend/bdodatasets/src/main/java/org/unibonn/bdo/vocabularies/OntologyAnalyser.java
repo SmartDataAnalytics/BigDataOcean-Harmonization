@@ -1,4 +1,4 @@
-package org.unibonn.bdo.linking;
+package org.unibonn.bdo.vocabularies;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,6 +7,7 @@ import org.apache.jena.riot.RDFDataMgr;
 
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
+
 import org.unibonn.bdo.objects.*;
 
 public class OntologyAnalyser {

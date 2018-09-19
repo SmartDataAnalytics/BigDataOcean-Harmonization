@@ -1,4 +1,4 @@
-package org.unibonn.bdo.linking;
+package org.unibonn.bdo.vocabularies;
 
 import java.io.IOException;
 import java.util.ArrayList;

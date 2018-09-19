@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.unibonn.bdo.bdodatasets.Constants;
 import org.unibonn.bdo.objects.Ontology;
+import org.unibonn.bdo.vocabularies.OntologyAnalyser;
 
 /**
  *  
