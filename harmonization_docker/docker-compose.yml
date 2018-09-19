@@ -17,4 +17,4 @@ services:
         - app-volume:/dataHarmonization
 
 volumes:
-     app-volume:
+  app-volume:
