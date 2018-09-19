@@ -58,7 +58,7 @@ public class LimesAnalyser {
 	private static void createCsvFile(List<String> rawName) {
 		try {
 			UUID fileName = UUID.randomUUID();
-			fileCSV = Constants.configFilePath+"/Backend/AddDatasets/" + fileName +".csv";
+			fileCSV = Constants.configVolumePath+"/" + fileName +".csv";
 			FileWriter writer = new FileWriter(fileCSV);
 			String header = "http://xmlns.com/foaf/0.1/name";
 			writer.write(header);
@@ -81,7 +81,7 @@ public class LimesAnalyser {
 	// Create the config file for limes
 	private static void createConfigFile(String topic) {
 		try {
-			fileConfig = Constants.configFilePath+"/Backend/AddDatasets/config.xml";
+			fileConfig = Constants.configVolumePath+"/config.xml";
 			FileWriter writer = new FileWriter(fileConfig);
 			writer.write(Constants.HEADER_CONFIG_LIMES_FILE);
 			writer.write("\n");

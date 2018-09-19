@@ -20,6 +20,7 @@ from apscheduler.scheduler import Scheduler
 
 # GLOBAL VARIABLES
 globalPath = "/BDOHarmonization/BigDataOcean-Harmonization"
+configVolumePath = "/dataHarmonization"
 
 GlobalURLJWT = "http://212.101.173.21:8085/"
 UPLOAD_FOLDER = globalPath+'/Backend/AddDatasets'
@@ -65,7 +66,7 @@ cron = Scheduler(daemon=True)
 cron.start()
 
 # when server runs for the first time, it checks if one of the vocabularies does not exist and do the extraction process
-if not os.path.exists(globalPath + '/Backend/AddDatasets/ontologiesN3/bdo.n3'):
+if not os.path.exists(configVolumePath + '/ontologiesN3/bdo.n3'):
 	bdo = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/extractVocabularies bdo'
 	print (subprocess.check_output([bdo], shell="True"))
 	geolocbdo = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/extractVocabularies geolocbdo'

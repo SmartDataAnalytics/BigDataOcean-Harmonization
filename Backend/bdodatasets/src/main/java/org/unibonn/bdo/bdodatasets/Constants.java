@@ -2,11 +2,12 @@ package org.unibonn.bdo.bdodatasets;
 
 public class Constants {
 	public static String configFilePath="/BDOHarmonization/BigDataOcean-Harmonization";
+    public static String configVolumePath="/dataHarmonization";
 	public static String INITFILEPATH = configFilePath + "/Backend/bdodatasets/bdo.ini";
-    public static String BDO_Ontology_N3 = configFilePath + "/Backend/AddDatasets/ontologiesN3/bdo.n3";
-    public static String GEOLOC_Ontology_N3 = configFilePath + "/Backend/AddDatasets/ontologiesN3/geolocbdo.n3";
-    public static String INSPIRE_Ontology_N3 = configFilePath + "/Backend/AddDatasets/ontologiesN3/inspire.n3";
-    public static String EIONET_Ontology_N3 = configFilePath + "/Backend/AddDatasets/ontologiesN3/eionet.n3";
+    public static String BDO_Ontology_N3 = configVolumePath + "/ontologiesN3/bdo.n3";
+    public static String GEOLOC_Ontology_N3 = configVolumePath + "/ontologiesN3/geolocbdo.n3";
+    public static String INSPIRE_Ontology_N3 = configVolumePath + "/ontologiesN3/inspire.n3";
+    public static String EIONET_Ontology_N3 = configVolumePath + "/ontologiesN3/eionet.n3";
     public static String HTTPJWT = "http://212.101.173.21:8085/";
     public static String HTTPLIMES = "http://localhost:8080/";
 	public static String HTTPFUSEKI = "http://localhost:3031/bdoHarmonization/";
