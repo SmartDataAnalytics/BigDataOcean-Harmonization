@@ -9,6 +9,10 @@ RUN mvn clean package shade:shade -Dmaven.test.skip=true
 
 FROM openjdk:8-jdk
 
+# set app-volume
+WORKDIR /
+RUN mkdir /dataHarmonization
+
 # set workdir
 WORKDIR /LIMES-1.5.0
 COPY --from=builder /LIMES-1.5.0/limes-core/target/limes-core-1.5.0.jar limes-core-1.5.0.jar

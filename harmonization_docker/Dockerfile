@@ -23,8 +23,10 @@ RUN mkdir /src
 RUN mkdir /logs
 RUN cd BigDataOcean-Harmonization/Backend/bdodatasets/ && mvn clean install -Dmaven.test.skip=true
 
-# Create of ontologiesN3 folder
-WORKDIR /BDOHarmonization/BigDataOcean-Harmonization/Backend
+# Create app-volume
+WORKDIR /
+RUN mkdir /dataHarmonization
+WORKDIR /dataHarmonization
 RUN mkdir /ontologiesN3
 
 # Install fuseki

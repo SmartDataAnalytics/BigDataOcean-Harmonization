@@ -6,8 +6,15 @@ services:
       - JAVA_OPTS=-Xmx2G
     ports:
       - 8080:8080
+    volumes:
+        - app-volume:/dataHarmonization
   bdoharmonization:
     build: "."
     ports:
       - 5000:5000
     network_mode: "host"
+    volumes:
+        - app-volume:/dataHarmonization
+
+volumes:
+     app-volume:

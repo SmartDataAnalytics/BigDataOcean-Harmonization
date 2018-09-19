@@ -86,13 +86,13 @@ public class ExtractVocabulary {
 		HttpResponse<String> response; //Get the vocabulary
 		try {
 			// Create new file in AddDatasets with the name of the prefix
-			PrintWriter file = new PrintWriter(Constants.configVolumePath+"/" + fileName + ".n3"); 
+			PrintWriter file = new PrintWriter(Constants.configVolumePath+"/ontologiesN3/" + fileName + ".n3"); 
 			response = Unirest.get(fileURL)
 					.asString();
 			if(response.getStatus() == 200) {
 				file.println(response.getBody()); // Save the response in the file
 				file.close(); // close the file
-				log.info("Successful!  Response API getRDFVocabPrefix and saved RDF data in /" + fileName + ".n3");
+				log.info("Successful!  Response API getRDFVocabPrefix and saved RDF data in /ontologiesN3/" + fileName + ".n3");
 			} else {
 				log.error("Error!");
 			}
