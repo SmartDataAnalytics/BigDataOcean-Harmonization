@@ -52,6 +52,7 @@ public class ListDatasets {
 			String ident;
 			node = solution.get("identifier");
 			ident = node.toString();
+			list.setIdentifier(ident);
 			node = solution.get("title");
 			list.setTitle("<a href=/metadataInfo/"+ident+">"+node.toString()+"</a>");
 			node = solution.get("description");

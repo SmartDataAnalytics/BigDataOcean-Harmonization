@@ -127,6 +127,10 @@ def index():
 		process = subprocess.check_output([command], shell="True")
 		# other column settings -> http://bootstrap-table.wenzhixin.net.cn/documentation/#column-options
 		columns = [{
+		"field": "identifier", # which is the field's name of data key 
+		"title": "Metadata ID", # display as the table header's name
+		"sortable": True,
+		},{
 		"field": "title", # which is the field's name of data key 
 		"title": "Title", # display as the table header's name
 		"sortable": True,
