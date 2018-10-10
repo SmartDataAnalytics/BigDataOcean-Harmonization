@@ -21,7 +21,7 @@ import org.unibonn.bdo.vocabularies.OntologyAnalyser;
 
 public class LinkedDiscoveryData {
 	
-	private final static Logger log = LoggerFactory.getLogger(LinkedDiscoveryData.class);
+	private static final Logger log = LoggerFactory.getLogger(LinkedDiscoveryData.class);
 	
 	public static List<String> parseListNames (List<String> rawNames, String topic) {
 		Map<String, String> resultLimes = LimesAnalyser.exec(rawNames, topic);
@@ -43,6 +43,12 @@ public class LinkedDiscoveryData {
 					listDataOntology = OntologyAnalyser.analyseOntology(Constants.GEOLOC_Ontology_N3, topic);
 					resultLinked = formGeoLocationList(listDataOntology, resultLimes);
 					break;
+				default:
+					break;
+			}
+		} else {
+			if (topic.equals("variables")) {
+				resultLinked = formVariablesList(rawNames);
 			}
 		}
 		return resultLinked;
@@ -51,7 +57,7 @@ public class LinkedDiscoveryData {
 	
 	// Compare the result from limes with the data from ontologies to obtain the list<String>
 	private static List<String> formVariablesList (List<Ontology> listOntology, Map<String,String> resultLimes, List<String> rawVariables){
-		List<String> variablesLinked = new ArrayList<String>();
+		List<String> variablesLinked = new ArrayList<>();
 		if(resultLimes.size() > 0) {
 			for (String rawVar : rawVariables) {
 				if (resultLimes.get(rawVar) != null) {
@@ -75,9 +81,19 @@ public class LinkedDiscoveryData {
 		return variablesLinked;
 	}
 	
+	// if there is no match variables in Limes return only the raw variables
+	private static List<String> formVariablesList (List<String> rawVariables){
+		List<String> variablesLinked = new ArrayList<>();
+		for (String rawVar : rawVariables) {
+			variablesLinked.add(rawVar + " -- ");
+		}
+		
+		return variablesLinked;
+	}
+	
 	// Create a list<String> with only url of keywords
 	private static List<String> formKeywordsList (Map<String,String> resultLimes){
-		List<String> keywordsLinked = new ArrayList<String>();
+		List<String> keywordsLinked = new ArrayList<>();
 		String result = "";
 		if(resultLimes.size() > 0) {
 			for (Map.Entry<String, String> entry : resultLimes.entrySet()){
@@ -94,7 +110,7 @@ public class LinkedDiscoveryData {
 	
 	// Create a list<String> with only url of Subjects
 	private static List<String> formSubjectsList (Map<String,String> resultLimes){
-		List<String> subjectsLinked = new ArrayList<String>();
+		List<String> subjectsLinked = new ArrayList<>();
 		String result = "";
 		if(resultLimes.size() > 0) {
 			for (Map.Entry<String, String> entry : resultLimes.entrySet()){
@@ -111,7 +127,7 @@ public class LinkedDiscoveryData {
 	
 	// Compare the result from limes with the data from ontologies to obtain the list<String>
 	private static List<String> formGeoLocationList (List<Ontology> listOntology, Map<String,String> resultLimes){
-		List<String> geoLocLinked = new ArrayList<String>();
+		List<String> geoLocLinked = new ArrayList<>();
 		String result = "";
 		if(resultLimes.size() > 0) {
 			for(Ontology tempOnto : listOntology) {

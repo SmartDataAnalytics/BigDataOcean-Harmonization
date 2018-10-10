@@ -556,19 +556,23 @@ public class BdoDatasetAnalyser {
 						}else {
 							issuedDate = attr.getStringValue();
 						}
-						if(issuedDate.substring(4,5).equals("-") && issuedDate.substring(7,8).equals("-") && issuedDate.substring(10,11).equals("T") && issuedDate.substring(13,14).equals(":") && issuedDate.substring(16,17).equals(":")) {
-							result.setIssuedDate(issuedDate);
-						} else if(issuedDate.substring(4,5).equals("/") && issuedDate.substring(7,8).equals("/") && issuedDate.substring(10,11).equals("T") && issuedDate.substring(13,14).equals(":") && issuedDate.substring(16,17).equals(":")) {
-							issuedDate = issuedDate.replaceAll("/", "-");
-							result.setIssuedDate(issuedDate);
-						} else if(issuedDate.substring(8,9).equals("-") && issuedDate.substring(11,12).equals(":") && issuedDate.substring(14,15).equals(":")) {
-							issuedDate = issuedDate.replaceAll("-", "T");
-							try {
-								issuedDate = convertDateTime(issuedDate);
-							} catch (java.text.ParseException e) {
-								e.printStackTrace();
+						if(issuedDate.length() > 16) {
+							if(issuedDate.substring(4,5).equals("-") && issuedDate.substring(7,8).equals("-") && issuedDate.substring(10,11).equals("T") && issuedDate.substring(13,14).equals(":") && issuedDate.substring(16,17).equals(":")) {
+								result.setIssuedDate(issuedDate);
+							} else if(issuedDate.substring(4,5).equals("/") && issuedDate.substring(7,8).equals("/") && issuedDate.substring(10,11).equals("T") && issuedDate.substring(13,14).equals(":") && issuedDate.substring(16,17).equals(":")) {
+								issuedDate = issuedDate.replaceAll("/", "-");
+								result.setIssuedDate(issuedDate);
+							} else if(issuedDate.substring(8,9).equals("-") && issuedDate.substring(11,12).equals(":") && issuedDate.substring(14,15).equals(":")) {
+								issuedDate = issuedDate.replaceAll("-", "T");
+								try {
+									issuedDate = convertDateTime(issuedDate);
+								} catch (java.text.ParseException e) {
+									e.printStackTrace();
+								}
+								result.setIssuedDate(issuedDate);
+							} else {
+								result.setIssuedDate(EMPTY_FIELD);
 							}
-							result.setIssuedDate(issuedDate);
 						} else {
 							result.setIssuedDate(EMPTY_FIELD);
 						}

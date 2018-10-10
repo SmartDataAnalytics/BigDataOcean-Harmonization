@@ -52,7 +52,6 @@ public class NERDiscovery {
 			writer.write(text);
 		    writer.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -64,11 +63,9 @@ public class NERDiscovery {
 
 		String fileContents = IOUtils.slurpFile(fileTxt);
 		List<String> responseList = new ArrayList<>();
-		//System.out.println("---");
 		List<Triple<String, Integer, Integer>> list = classifier.classifyToCharacterOffsets(fileContents);
 		for (Triple<String, Integer, Integer> item : list) {
 			responseList.add(fileContents.substring(item.second(), item.third()).toLowerCase());
-			//System.out.println(item.first() + ": " + fileContents.substring(item.second(), item.third()).toLowerCase());
 		}
 		
 		responseList = removeDuplicates(responseList);

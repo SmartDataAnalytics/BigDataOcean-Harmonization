@@ -32,7 +32,7 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 
 public class LimesAnalyser {
 	
-	private final static Logger log = LoggerFactory.getLogger(LimesAnalyser.class);
+	private static final Logger log = LoggerFactory.getLogger(LimesAnalyser.class);
 	
 	private static String fileCSV = "";
 	private static String fileConfig = "";
@@ -43,7 +43,6 @@ public class LimesAnalyser {
 		try {
 			createCsvFile(rawName);
 			createConfigFile(topic);
-			//log.info("WORKING WITH TOPIC = "+ topic + " FILENAME_CSV = " + fileCSV);
 			resultLimes = linkingLimes();
 			Files.deleteIfExists(Paths.get(fileCSV));
 			Files.deleteIfExists(Paths.get(fileConfig));
@@ -58,7 +57,7 @@ public class LimesAnalyser {
 	private static void createCsvFile(List<String> rawName) {
 		try {
 			UUID fileName = UUID.randomUUID();
-			fileCSV = Constants.configVolumePath+"/" + fileName +".csv";
+			fileCSV = Constants.configFilePath+"/Backend/AddDatasets/" + fileName +".csv";
 			FileWriter writer = new FileWriter(fileCSV);
 			String header = "http://xmlns.com/foaf/0.1/name";
 			writer.write(header);
@@ -81,7 +80,7 @@ public class LimesAnalyser {
 	// Create the config file for limes
 	private static void createConfigFile(String topic) {
 		try {
-			fileConfig = Constants.configVolumePath+"/config.xml";
+			fileConfig = Constants.configFilePath+"/Backend/AddDatasets/config.xml";
 			FileWriter writer = new FileWriter(fileConfig);
 			writer.write(Constants.HEADER_CONFIG_LIMES_FILE);
 			writer.write("\n");
@@ -111,11 +110,9 @@ public class LimesAnalyser {
 			if(responseObject.get("success").getAsBoolean()) {
 				requestId = responseObject.get("requestId").getAsString();
 				boolean statusFlag = statusLimes(requestId);
-				//log.info(requestId + " " + statusFlag);
 				if (statusFlag) {
 					response = Unirest.get(Constants.HTTPLIMES + "results/" + requestId)
 							.asString();
-					//log.info("status " + response.getStatus());
 					if(response.getStatus() == 200) {
 						responseObject = new Gson().fromJson(response.getBody(), JsonObject.class);
 						JsonElement availableFiles = responseObject.get("availableFiles");
@@ -123,13 +120,11 @@ public class LimesAnalyser {
 							response = Unirest.get(Constants.HTTPLIMES + "result/" + requestId + "/accepted.txt")
 									.asString();
 							if(response.getStatus() == 200) {
-								//log.info(response.getBody().toString());
 								String resultLimes = response.getBody().toString();
 								resultLimesMap = stringintoMap(resultLimes);
 							}
 						} else {
 							resultLimesMap = null;
-							//log.info("There were no matching links");
 						}
 					}
 				} else {
@@ -182,7 +177,6 @@ public class LimesAnalyser {
 				String[] tokenTab = token1.split("\t");
 				String tokenKey =tokenTab[1].replaceAll("<", "").replaceAll(">", "");
 				String tokenValue =tokenTab[0].replaceAll("<", "").replaceAll(">", "");
-				//log.info("RESULT LIMES = <" + tokenKey + "," + tokenValue + ">" );
 				result.put(tokenKey, tokenValue);
 			}
 		}else {
@@ -300,6 +294,8 @@ public class LimesAnalyser {
 			    		"		<FILE>reviewme.txt</FILE>\n" + 
 			    		"		<RELATION>owl:sameAs</RELATION>\n" + 
 			    		"	</REVIEW>";
+				break;
+			default:
 				break;
 		}
 		return config;
