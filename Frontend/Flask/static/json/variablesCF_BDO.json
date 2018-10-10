@@ -405,6 +405,11 @@
     "name": "services_navig_equip"
   },
   {
+    "value": "https://mmisw.org/ont/cf/parameter/sea_surface_primary_swell_wave_significant_height",
+    "text": "sea_surface_primary_swell_wave_significant_height",
+    "name": "vhm0_sw1"
+  },
+  {
     "value": "https://mmisw.org/ont/cf/parameter/sea_surface_secondary_swell_wave_significant_height",
     "text": "sea_surface_secondary_swell_wave_significant_height",
     "name": "vhm0_sw2"
@@ -925,7 +930,7 @@
     "name": "inward moves (consumptions) – engine fuel oil"
   },
   {
-    "value": "http://bigdataocean.eu/bdo/cf/parameter/top/slow_downs_–_distance",
+    "value": "http://bigdataocean.eu/bdo/cf/parameter/stop/slow_downs_–_distance",
     "text": "stop_or_slow_distance",
     "name": "stop/slow downs – distance"
   },
