@@ -23,7 +23,7 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 
 public class Api {
 	
-	private final static Logger log = LoggerFactory.getLogger(GetMetadata.class);
+	private static final Logger log = LoggerFactory.getLogger(GetMetadata.class);
 
 
 	public static void main(String[] args) {
@@ -109,7 +109,6 @@ public class Api {
 					System.out.print(gson.toJson(list));
 					//log.info("Dataset's metadata: " + gson.toJson(dataset))
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				break;
@@ -122,7 +121,6 @@ public class Api {
 					System.out.print(gson.toJson(list));
 					//log.info("Dataset's metadata: " + gson.toJson(dataset))
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				break;
@@ -135,7 +133,6 @@ public class Api {
 					System.out.print(gson.toJson(list));
 					//log.info("Dataset's metadata: " + gson.toJson(dataset))
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				break;	
@@ -160,7 +157,6 @@ public class Api {
 					System.out.print(gson.toJson(list));
 					//log.info("Dataset's metadata: " + gson.toJson(dataset))
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				break;	
@@ -179,7 +175,6 @@ public class Api {
 						InsertDatasetAutomatic.runProducer(idFile);
 					}
 				} catch (IOException | ParseException | UnirestException | java.text.ParseException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				break;	
