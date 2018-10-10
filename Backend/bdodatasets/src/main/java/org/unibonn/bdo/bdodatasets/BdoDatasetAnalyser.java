@@ -491,8 +491,12 @@ public class BdoDatasetAnalyser {
 		Dataset result = new Dataset();
 		String title = "";
 		String description = "";
-		String keywords = "";
+		String geoLocation = "";
 		String rawDescription = "";
+		String issuedDate = "";
+		String modifiedDate = "";
+		String temporalCoverageBegin = "";
+		String temporalCoverageEnd = "";
 		List<Variable> allVariables;
 		List<String> variables = new ArrayList<>();
 		List<String> listSubjects = new ArrayList<>();
@@ -511,7 +515,7 @@ public class BdoDatasetAnalyser {
 					title = attr.getStringValue();
 					result.setTitle(title);
 				}
-				if(attr.getShortName().toLowerCase().equals("summary")) {
+				if(attr.getShortName().toLowerCase().equals("summary") || attr.getShortName().toLowerCase().equals("comment")) {
 					description = attr.getStringValue();
 					result.setDescription(description);
 					if (description.length() == 1) {
@@ -520,8 +524,7 @@ public class BdoDatasetAnalyser {
 				}
 				
 				if(attr.getShortName().toLowerCase().equals("area")) {
-					keywords = attr.getStringValue();
-					result.setKeywords(keywords);
+					geoLocation = attr.getStringValue();
 				}
 				
 				if(attr.getShortName().toLowerCase().equals("conventions")) {
@@ -534,15 +537,61 @@ public class BdoDatasetAnalyser {
 				if(attr.getShortName().toLowerCase().equals("naming_authority")) {
 					result.setPublisher(attr.getStringValue());
 				}
-				if(attr.getShortName().toLowerCase().equals("history")) {
-					result.setIssuedDate(attr.getStringValue().substring(0, 19));
-					if(!(result.getIssuedDate().substring(4,5).equals("-") && result.getIssuedDate().substring(7,8).equals("-") && result.getIssuedDate().substring(10,11).equals("T") && result.getIssuedDate().substring(13,14).equals(":") && result.getIssuedDate().substring(16,17).equals(":"))) {
+				if(attr.getShortName().toLowerCase().equals("history") || attr.getShortName().toLowerCase().equals("date_created")) {
+					if(attr.getStringValue().length() > 1) {
+						if (attr.getStringValue().contains("Z")) { // 2017-05-04T00:20:02Z
+							issuedDate = attr.getStringValue().split("Z")[0];
+						}else if (attr.getStringValue().contains(" ")){ // 2016/07/20 08:25:14
+							issuedDate = attr.getStringValue().split(" ")[0] + "T" + attr.getStringValue().split(" ")[1];
+						}else {
+							issuedDate = attr.getStringValue();
+						}
+						if(issuedDate.substring(4,5).equals("-") && issuedDate.substring(7,8).equals("-") && issuedDate.substring(10,11).equals("T") && issuedDate.substring(13,14).equals(":") && issuedDate.substring(16,17).equals(":")) {
+							result.setIssuedDate(issuedDate);
+						} else if(issuedDate.substring(4,5).equals("/") && issuedDate.substring(7,8).equals("/") && issuedDate.substring(10,11).equals("T") && issuedDate.substring(13,14).equals(":") && issuedDate.substring(16,17).equals(":")) {
+							issuedDate = issuedDate.replaceAll("/", "-");
+							result.setIssuedDate(issuedDate);
+						} else if(issuedDate.substring(8,9).equals("-") && issuedDate.substring(11,12).equals(":") && issuedDate.substring(14,15).equals(":")) {
+							issuedDate = issuedDate.replaceAll("-", "T");
+							try {
+								issuedDate = convertDateTime(issuedDate);
+							} catch (java.text.ParseException e) {
+								e.printStackTrace();
+							}
+							result.setIssuedDate(issuedDate);
+						} else {
+							result.setIssuedDate(EMPTY_FIELD);
+						}
+					} else {
 						result.setIssuedDate(EMPTY_FIELD);
 					}
 				}
 				if(attr.getShortName().toLowerCase().equals("date_update")) {
-					result.setModifiedDate(attr.getStringValue().substring(0, 19));
-					if(!(result.getModifiedDate().substring(4,5).equals("-") && result.getModifiedDate().substring(7,8).equals("-") && result.getModifiedDate().substring(10,11).equals("T") && result.getModifiedDate().substring(13,14).equals(":") && result.getModifiedDate().substring(16,17).equals(":"))) {
+					if(attr.getStringValue().length() > 1) {
+						if (attr.getStringValue().contains("Z")) {
+							modifiedDate = attr.getStringValue().split("Z")[0];
+						} else if (attr.getStringValue().contains(" ")) {
+							modifiedDate = attr.getStringValue().split(" ")[0] + "T" + attr.getStringValue().split(" ")[1];
+						} else {
+							modifiedDate = attr.getStringValue();
+						}
+						if(modifiedDate.substring(4,5).equals("-") && modifiedDate.substring(7,8).equals("-") && modifiedDate.substring(10,11).equals("T") && modifiedDate.substring(13,14).equals(":") && modifiedDate.substring(16,17).equals(":")) {
+							result.setModifiedDate(modifiedDate);
+						} else if(modifiedDate.substring(4,5).equals("/") && modifiedDate.substring(7,8).equals("/") && modifiedDate.substring(10,11).equals("T") && modifiedDate.substring(13,14).equals(":") && modifiedDate.substring(16,17).equals(":")) {
+							modifiedDate = modifiedDate.replaceAll("/", "-");
+							result.setModifiedDate(modifiedDate);
+						} else if(modifiedDate.substring(8,9).equals("-") && modifiedDate.substring(11,12).equals(":") && modifiedDate.substring(14,15).equals(":")) {
+							modifiedDate = modifiedDate.replaceAll("-", "T");
+							try {
+								modifiedDate = convertDateTime(modifiedDate);
+							} catch (java.text.ParseException e) {
+								e.printStackTrace();
+							}
+							result.setModifiedDate(modifiedDate);
+						} else {
+							result.setModifiedDate(EMPTY_FIELD);
+						}
+					} else {
 						result.setModifiedDate(EMPTY_FIELD);
 					}
 				}
@@ -571,14 +620,60 @@ public class BdoDatasetAnalyser {
 					}
 				}				
 				if(attr.getShortName().toLowerCase().equals("time_coverage_start")) {
-					result.setTemporalCoverageBegin(attr.getStringValue().substring(0, 19));
-					if(!(result.getTemporalCoverageBegin().substring(4,5).equals("-") && result.getTemporalCoverageBegin().substring(7,8).equals("-") && result.getTemporalCoverageBegin().substring(10,11).equals("T") && result.getTemporalCoverageBegin().substring(13,14).equals(":") && result.getTemporalCoverageBegin().substring(16,17).equals(":"))) {
+					if(attr.getStringValue().length() > 1) {
+						if (attr.getStringValue().contains("Z")) {
+							temporalCoverageBegin = attr.getStringValue().split("Z")[0];
+						} else if (attr.getStringValue().contains(" ")) {
+							temporalCoverageBegin = attr.getStringValue().split(" ")[0] + "T" + attr.getStringValue().split(" ")[1];
+						} else {
+							temporalCoverageBegin = attr.getStringValue();
+						}
+						if(temporalCoverageBegin.substring(4,5).equals("-") && temporalCoverageBegin.substring(7,8).equals("-") && temporalCoverageBegin.substring(10,11).equals("T") && temporalCoverageBegin.substring(13,14).equals(":") && temporalCoverageBegin.substring(16,17).equals(":")) {
+							result.setTemporalCoverageBegin(temporalCoverageBegin);
+						} else if(temporalCoverageBegin.substring(4,5).equals("/") && temporalCoverageBegin.substring(7,8).equals("/") && temporalCoverageBegin.substring(10,11).equals("T") && temporalCoverageBegin.substring(13,14).equals(":") && temporalCoverageBegin.substring(16,17).equals(":")) {
+							temporalCoverageBegin = temporalCoverageBegin.replaceAll("/", "-");
+							result.setTemporalCoverageBegin(temporalCoverageBegin);
+						} else if(temporalCoverageBegin.substring(8,9).equals("-") && temporalCoverageBegin.substring(11,12).equals(":") && temporalCoverageBegin.substring(14,15).equals(":")) {
+							temporalCoverageBegin = temporalCoverageBegin.replaceAll("-", "T");
+							try {
+								temporalCoverageBegin = convertDateTime(temporalCoverageBegin);
+							} catch (java.text.ParseException e) {
+								e.printStackTrace();
+							}
+							result.setTemporalCoverageBegin(temporalCoverageBegin);
+						} else {
+							result.setTemporalCoverageBegin(EMPTY_FIELD);
+						}
+					} else {
 						result.setTemporalCoverageBegin(EMPTY_FIELD);
 					}
 				}
 				if(attr.getShortName().toLowerCase().equals("time_coverage_end")) {
-					result.setTemporalCoverageEnd(attr.getStringValue().substring(0, 19));
-					if(!(result.getTemporalCoverageEnd().substring(4,5).equals("-") && result.getTemporalCoverageEnd().substring(7,8).equals("-") && result.getTemporalCoverageEnd().substring(10,11).equals("T") && result.getTemporalCoverageEnd().substring(13,14).equals(":") && result.getTemporalCoverageEnd().substring(16,17).equals(":"))) {
+					if(attr.getStringValue().length() > 1) {
+						if (attr.getStringValue().contains("Z")) {
+							temporalCoverageEnd = attr.getStringValue().split("Z")[0];
+						} else if (attr.getStringValue().contains(" ")) {
+							temporalCoverageEnd = attr.getStringValue().split(" ")[0] + "T" + attr.getStringValue().split(" ")[1];
+						} else {
+							temporalCoverageEnd = attr.getStringValue();
+						}
+						if(temporalCoverageEnd.substring(4,5).equals("-") && temporalCoverageEnd.substring(7,8).equals("-") && temporalCoverageEnd.substring(10,11).equals("T") && temporalCoverageEnd.substring(13,14).equals(":") && temporalCoverageEnd.substring(16,17).equals(":")) {
+							result.setTemporalCoverageEnd(temporalCoverageEnd);
+						} else if(temporalCoverageEnd.substring(4,5).equals("/") && temporalCoverageEnd.substring(7,8).equals("/") && temporalCoverageEnd.substring(10,11).equals("T") && temporalCoverageEnd.substring(13,14).equals(":") && temporalCoverageEnd.substring(16,17).equals(":")) {
+							temporalCoverageEnd = temporalCoverageEnd.replaceAll("/", "-");
+							result.setTemporalCoverageEnd(temporalCoverageEnd);
+						} else if(temporalCoverageEnd.substring(8,9).equals("-") && temporalCoverageEnd.substring(11,12).equals(":") && temporalCoverageEnd.substring(14,15).equals(":")) {
+							temporalCoverageEnd = temporalCoverageEnd.replaceAll("-", "T");
+							try {
+								temporalCoverageEnd = convertDateTime(temporalCoverageEnd);
+							} catch (java.text.ParseException e) {
+								e.printStackTrace();
+							}
+							result.setTemporalCoverageEnd(temporalCoverageEnd);
+						} else {
+							result.setTemporalCoverageEnd(EMPTY_FIELD);
+						}
+					} else {
 						result.setTemporalCoverageEnd(EMPTY_FIELD);
 					}
 				}
@@ -593,7 +688,7 @@ public class BdoDatasetAnalyser {
 				}
 			}
 			
-			rawDescription = title + " " + description + " " + keywords;
+			rawDescription = title + " " + description + " " + geoLocation;
 			if (rawDescription.length() > 2) {
 				listNER = NERDiscovery.exec(rawDescription);
 				if(listNER.size() > 0) {
@@ -718,6 +813,28 @@ public class BdoDatasetAnalyser {
     	String hour = Hms.substring(0, 2);
     	String minute = Hms.substring(2, 4);
     	String second = Hms.substring(4, 6);
+    	
+    	newDate = year + "-" + month + "-" + day  + "T" + hour + ":" + minute + ":" + second;
+    	
+    	return newDate;
+    }
+    
+ // Convert yyyyMMddTHHmmss into yyyy-MM-ddTHH:mm:ss
+    public static String convertDateTime(String date) throws java.text.ParseException {
+    	String newDate = "";    	
+    	String[] tokens = date.split("T");
+    	String yMd = tokens[0];
+    	String Hms = tokens[1];
+    	
+    	String year = yMd.substring(0, 4);
+    	String month = yMd.substring(4, 6);
+    	String day = yMd.substring(6, 8);
+    	
+    	tokens = Hms.split(":");
+    	
+    	String hour = tokens[0];
+    	String minute = tokens[1];
+    	String second = tokens[2];
     	
     	newDate = year + "-" + month + "-" + day  + "T" + hour + ":" + minute + ":" + second;
     	
