@@ -462,13 +462,23 @@ public class BdoDatasetAnalyser {
 		if (name.contains("_")) {
 			String[] splitName = name.split("_");
 			int size = splitName.length;
-			String issuedDate = splitName[size-2];
-			String modifiedDate = splitName[size-1];
-			try {
-				result.setIssuedDate(convertDate(issuedDate));
-				result.setModifiedDate(convertDate(modifiedDate));
-			} catch (java.text.ParseException e) {
-				e.printStackTrace();
+			if(size > 2) {
+				String issuedDate = splitName[size-2];
+				String modifiedDate = splitName[size-1];
+				try {
+					if(issuedDate.length() > 14) {
+						if(issuedDate.substring(8,9).equals("T")) {
+							result.setIssuedDate(convertDate(issuedDate));
+						}
+					}
+					if(issuedDate.length() > 14) {
+						if(modifiedDate.substring(8,9).equals("T")) {
+							result.setModifiedDate(convertDate(modifiedDate));
+						}
+					}
+				} catch (java.text.ParseException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		return result;
@@ -819,7 +829,7 @@ public class BdoDatasetAnalyser {
     	return newDate;
     }
     
- // Convert yyyyMMddTHHmmss into yyyy-MM-ddTHH:mm:ss
+ 	// Convert yyyyMMddTHH:mm:ss into yyyy-MM-ddTHH:mm:ss
     public static String convertDateTime(String date) throws java.text.ParseException {
     	String newDate = "";    	
     	String[] tokens = date.split("T");
