@@ -372,23 +372,28 @@ public class BdoDatasetAnalyser {
 
 	//Extract the issuedDate and modifiedDate that contains the name iff the name has "_"
 	public static Dataset extractDatesFiles(String name, Dataset result) {
+		result.setTitle(name);
 		if (name.contains("_")) {
 			String[] splitName = name.split("_");
 			int size = splitName.length;
-			name = splitName[0];
-			String issuedDate = splitName[size-2];
-			String modifiedDate = splitName[size-1];
-			result.setTitle(name);
-			try {
-				result.setIssuedDate(convertDate(issuedDate));
-				result.setModifiedDate(convertDate(modifiedDate));
-			} catch (java.text.ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			if(size > 2) {
+				String issuedDate = splitName[size-2];
+				String modifiedDate = splitName[size-1];
+				try {
+					if(issuedDate.length() > 14) {
+						if(issuedDate.substring(8,9).equals("T")) {
+							result.setIssuedDate(convertDate(issuedDate));
+						}
+					}
+					if(issuedDate.length() > 14) {
+						if(modifiedDate.substring(8,9).equals("T")) {
+							result.setModifiedDate(convertDate(modifiedDate));
+						}
+					}
+				} catch (java.text.ParseException e) {
+					e.printStackTrace();
+				}
 			}
-		}else {
-			//Take only the name of the file
-			result.setTitle(name);
 		}
 		return result;
 	}
