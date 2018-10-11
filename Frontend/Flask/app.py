@@ -15,6 +15,8 @@ from werkzeug.utils import secure_filename
 from functools import wraps
 import hashlib, uuid
 import configparser
+import atexit
+from apscheduler.scheduler import Scheduler
 
 # GLOBAL VARIABLES
 globalPath = "/BDOHarmonization/BigDataOcean-Harmonization"
@@ -56,7 +58,27 @@ bootstrap = Bootstrap(app)
 # configuring the path of the upload folder
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['SECRET_KEY'] = 'super-secret'
-app.config['JWT_EXPIRATION_DELTA'] = timedelta(days = 365) # Expiration time of JWT token is for 1 year
+app.config['JWT_EXPIRATION_DELTA'] = timedelta(seconds = 3720) # Expiration time of JWT token is for 62 minutes
+
+# Thread in background to update every year the JWT Authorization Token (Parser tool)
+cron = Scheduler(daemon=True)
+# Explicitly kick off the background thread
+cron.start()
+
+# Command = Thread in background to update every hour the JWT Authorization Token (Parser tool)
+@cron.interval_schedule(seconds=3600)
+def fetchToken():
+	command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/fetchJWTToken'
+	print (subprocess.check_output([command], shell="True"))
+
+# Thread in background to update every 15 minutes the API for Automatic Insertion (Kafka)
+@cron.interval_schedule(seconds=900)
+def fetchToken():
+	command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/insertAutomatic'
+	print (subprocess.check_output([command], shell="True"))
+
+# Shutdown your cron thread if the web process is stopped
+atexit.register(lambda: cron.shutdown(wait=False))
 
 # Authentication JWT for APIs
 def authenticate(username, password):

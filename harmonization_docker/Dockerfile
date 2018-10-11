@@ -10,7 +10,7 @@ RUN apt-get update \
 
 
 # Install flask, flask bootstrap, requests, numpy, flask-testing
-RUN pip install flask flask-bootstrap requests numpy Flask-Testing Flask-JWT
+RUN pip install flask flask-bootstrap requests numpy Flask-Testing Flask-JWT apscheduler==2.1.2
 
 # Install bdoHarmonization
 WORKDIR /BDOHarmonization
