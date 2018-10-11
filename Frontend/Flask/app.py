@@ -19,8 +19,8 @@ import atexit
 from apscheduler.scheduler import Scheduler
 
 # GLOBAL VARIABLES
-globalPath = "/BDOHarmonization/BigDataOcean-Harmonization"
-configVolumePath = "/dataHarmonization"
+#globalPath = "/home/jaimetrillos/Dropbox/BDO/BigDataOcean-Harmonization"
+globalPath = "/home/eis/Dropbox/BDO/BigDataOcean-Harmonization"
 
 GlobalURLJWT = "http://212.101.173.21:8085/"
 UPLOAD_FOLDER = globalPath+'/Backend/AddDatasets'
@@ -41,7 +41,7 @@ class User(object):
 		self.username = username
 		self.password = password
 		self.salt = salt
-		
+
 	def __str__(self):
 		return "User(id='%s')" % self.id
 
@@ -58,7 +58,7 @@ bootstrap = Bootstrap(app)
 # configuring the path of the upload folder
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['SECRET_KEY'] = 'super-secret'
-app.config['JWT_EXPIRATION_DELTA'] = timedelta(days = 365) # Expiration time of JWT token is for 1 year
+app.config['JWT_EXPIRATION_DELTA'] = timedelta(seconds = 3720) # Expiration time of JWT token is for 62 minutes
 
 # Thread in background to update every year the JWT Authorization Token (Parser tool)
 cron = Scheduler(daemon=True)
@@ -66,7 +66,7 @@ cron = Scheduler(daemon=True)
 cron.start()
 
 # when server runs for the first time, it checks if one of the vocabularies does not exist and do the extraction process
-if not os.path.exists(configVolumePath + '/ontologiesN3/bdo.n3'):
+if not os.path.exists(globalPath + '/Backend/AddDatasets/ontologiesN3/bdo.n3'):
 	bdo = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/extractVocabularies bdo'
 	print (subprocess.check_output([bdo], shell="True"))
 	geolocbdo = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/extractVocabularies geolocbdo'
@@ -76,7 +76,11 @@ if not os.path.exists(configVolumePath + '/ontologiesN3/bdo.n3'):
 	eionet = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/extractVocabularies eionet'
 	print (subprocess.check_output([eionet], shell="True"))
 
-# Command = Thread in background to update every year the JWT Authorization Token (Parser tool)
+# Command = Thread in background to update every hour the JWT Authorization Token (Parser tool)
+@cron.interval_schedule(seconds=3600)
+def fetchEveryHour():
+	command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/fetchJWTToken'
+	print (subprocess.check_output([command], shell="True"))
 # bdo, geolocbdo, inspire, eionet = Thread in background to update every year the vocabularies (Vocabulary Repository)
 @cron.interval_schedule(seconds=31536000)
 def fetchEveryYear():
