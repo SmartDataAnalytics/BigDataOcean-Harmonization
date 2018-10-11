@@ -14,7 +14,7 @@ RUN pip install flask flask-bootstrap requests numpy Flask-Testing Flask-JWT aps
 
 # Install bdoHarmonization
 WORKDIR /BDOHarmonization
-RUN git clone -b localhostHarmonization https://github.com/SmartDataAnalytics/BigDataOcean-Harmonization.git
+RUN git clone https://github.com/SmartDataAnalytics/BigDataOcean-Harmonization.git
 RUN mkdir /src
 RUN mkdir /logs
 RUN cd BigDataOcean-Harmonization/Backend/bdodatasets/ && mvn clean install -Dmaven.test.skip=true

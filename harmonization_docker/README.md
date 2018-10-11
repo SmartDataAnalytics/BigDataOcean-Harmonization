@@ -28,5 +28,3 @@ $ ./initHarmonization
 ```
 
 Then visit http://212.101.173.21:5000/
-
-### The open Source code can be found in: https://github.com/SmartDataAnalytics/BigDataOcean-Harmonization
