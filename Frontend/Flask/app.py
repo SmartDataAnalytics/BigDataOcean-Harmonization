@@ -60,6 +60,11 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['SECRET_KEY'] = 'super-secret'
 app.config['JWT_EXPIRATION_DELTA'] = timedelta(seconds = 3720) # Expiration time of JWT token is for 62 minutes
 
+# Function that sync JWT token of parser tool when flask runs
+def syncWhenRunFlask():
+	tokenCommand = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/fetchJWTToken'
+	print (subprocess.check_output([tokenCommand], shell="True"))
+
 # Thread in background to update every year the JWT Authorization Token (Parser tool)
 cron = Scheduler(daemon=True)
 # Explicitly kick off the background thread
@@ -69,12 +74,6 @@ cron.start()
 @cron.interval_schedule(seconds=3600)
 def fetchToken():
 	command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/fetchJWTToken'
-	print (subprocess.check_output([command], shell="True"))
-
-# Thread in background to update every 15 minutes the API for Automatic Insertion (Kafka)
-@cron.interval_schedule(seconds=900)
-def fetchToken():
-	command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/insertAutomatic'
 	print (subprocess.check_output([command], shell="True"))
 
 # Shutdown your cron thread if the web process is stopped
@@ -937,4 +936,5 @@ class datasetInfo(object):
 		self.profileName = profileName
 
 if __name__ == '__main__':
-	app.run(debug=True, host='0.0.0.0')
+	syncWhenRunFlask()
+	app.run(host='0.0.0.0')

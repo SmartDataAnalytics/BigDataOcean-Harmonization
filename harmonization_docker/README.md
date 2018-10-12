@@ -20,8 +20,7 @@ $ docker pull stain/jena-fuseki
 $ docker run -d --name harmonization_fuseki -p 3031:3031 -e ADMIN_PASSWORD=bd0 -v /path/to/Harmonization_Fuseki_TripleStore/:/fuseki/ -it stain/jena-fuseki ./fuseki-server --port=3031
 ```
 
-## Run the bash file (DEPRECATED)
-# The process is in the app.py working in the background
+## Run the bash file
 - Run the API for adding metadata automatically (Kafka)
 ```sh
 $ ./initHarmonization
