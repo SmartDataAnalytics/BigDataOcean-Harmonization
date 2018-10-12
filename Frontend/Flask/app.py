@@ -19,8 +19,7 @@ import atexit
 from apscheduler.scheduler import Scheduler
 
 # GLOBAL VARIABLES
-#globalPath = "/home/jaimetrillos/Dropbox/BDO/BigDataOcean-Harmonization"
-globalPath = "/home/eis/Dropbox/BDO/BigDataOcean-Harmonization"
+globalPath = "/BDOHarmonization/BigDataOcean-Harmonization"
 
 GlobalURLJWT = "http://212.101.173.21:8085/"
 UPLOAD_FOLDER = globalPath+'/Backend/AddDatasets'
@@ -60,6 +59,11 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['SECRET_KEY'] = 'super-secret'
 app.config['JWT_EXPIRATION_DELTA'] = timedelta(seconds = 3720) # Expiration time of JWT token is for 62 minutes
 
+# Function that sync JWT token of parser tool when flask runs
+def syncWhenRunFlask():
+	tokenCommand = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/fetchJWTToken'
+	print (subprocess.check_output([tokenCommand], shell="True"))
+
 # Thread in background to update every year the JWT Authorization Token (Parser tool)
 cron = Scheduler(daemon=True)
 # Explicitly kick off the background thread
@@ -81,6 +85,7 @@ if not os.path.exists(globalPath + '/Backend/AddDatasets/ontologiesN3/bdo.n3'):
 def fetchEveryHour():
 	command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/fetchJWTToken'
 	print (subprocess.check_output([command], shell="True"))
+
 # bdo, geolocbdo, inspire, eionet = Thread in background to update every year the vocabularies (Vocabulary Repository)
 @cron.interval_schedule(seconds=31536000)
 def fetchEveryYear():
@@ -94,12 +99,6 @@ def fetchEveryYear():
 	print (subprocess.check_output([inspire], shell="True"))
 	eionet = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/extractVocabularies eionet'
 	print (subprocess.check_output([eionet], shell="True"))
-
-# Thread in background to update every 15 minutes the API for Automatic Insertion (Kafka)
-@cron.interval_schedule(seconds=900)
-def fetchEvery15Min():
-	command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/insertAutomatic'
-	print (subprocess.check_output([command], shell="True"))
 
 # Shutdown your cron thread if the web process is stopped
 atexit.register(lambda: cron.shutdown(wait=False))
@@ -956,4 +955,5 @@ class datasetInfo(object):
 		self.profileName = profileName
 
 if __name__ == '__main__':
+	syncWhenRunFlask()
 	app.run(debug=True, host='0.0.0.0')
