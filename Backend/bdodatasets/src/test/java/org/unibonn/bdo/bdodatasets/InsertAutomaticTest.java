@@ -2,7 +2,6 @@ package org.unibonn.bdo.bdodatasets;
 
 import static org.junit.Assert.assertTrue;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import org.json.simple.parser.ParseException;
@@ -39,37 +38,22 @@ public class InsertAutomaticTest {
 			}
 			assertTrue(flag);
 			log.info("End!");
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
+		} catch (ParseException | IOException | UnirestException e) {
 			e.printStackTrace();
-		} catch (UnirestException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (java.text.ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		} 
 	}
 	
 	//Testing if convert correctly the jsonprofile into Dataset object
 	@Test
 	public void test2(){
-		try {
-			log.info("Start testing if convert correctly the jsonprofile into Dataset object");
-			Dataset data = InsertDatasetAutomatic.convertProfileToDataset(jsonProfile);
-			if (data != null) {
-				if (data.getTitle().equals("Med Sea - NRT in situ Observations")) {
-					flag = true;
-				}
+		log.info("Start testing if convert correctly the jsonprofile into Dataset object");
+		Dataset data = InsertDatasetAutomatic.convertProfileToDataset(jsonProfile);
+		if (data != null) {
+			if (data.getTitle().equals("Med Sea - NRT in situ Observations")) {
+				flag = true;
 			}
-			assertTrue(flag);
-			log.info("End!");
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
+		assertTrue(flag);
+		log.info("End!");
 	}
 }

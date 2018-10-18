@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.unibonn.bdo.bdodatasets.Constants;
 import org.unibonn.bdo.objects.Ontology;
 import org.unibonn.bdo.vocabularies.OntologyAnalyser;
@@ -20,8 +18,6 @@ import org.unibonn.bdo.vocabularies.OntologyAnalyser;
  */
 
 public class LinkedDiscoveryData {
-	
-	private static final Logger log = LoggerFactory.getLogger(LinkedDiscoveryData.class);
 	
 	public static List<String> parseListNames (List<String> rawNames, String topic) {
 		Map<String, String> resultLimes = LimesAnalyser.exec(rawNames, topic);

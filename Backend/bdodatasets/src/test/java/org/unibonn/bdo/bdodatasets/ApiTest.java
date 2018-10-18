@@ -4,7 +4,6 @@ import org.unibonn.bdo.objects.Dataset;
 
 import static org.junit.Assert.*;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -56,31 +55,21 @@ public class ApiTest {
 
 	@Test
 	public void test1() {
-		try {
-			log.info("Start testing API # 1");
-			testList = BdoApiAnalyser.apiListAllDatasets();
-			if (testList != null) {
-				flag = true;
-			}
-			assertTrue(flag);
-			log.info("End!");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		log.info("Start testing API # 1");
+		testList = BdoApiAnalyser.apiListAllDatasets();
+		if (testList != null) {
+			flag = true;
 		}
+		assertTrue(flag);
+		log.info("End!");
 	}
 	
 	@Test
 	public void test2() {
-		try {
-			log.info("Start testing API # 2");
-			datasetTest = BdoApiAnalyser.apiSearchDataset("bdo:MEDSEA_ANALYSIS_FORECAST_WAV_006_011");
-			assertEquals("MEDSEA_ANALYSIS_FORECAST_WAV_006_011", datasetTest.getIdentifier());
-			log.info("End!");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		log.info("Start testing API # 2");
+		datasetTest = BdoApiAnalyser.apiSearchDataset("bdo:MEDSEA_ANALYSIS_FORECAST_WAV_006_011");
+		assertEquals("MEDSEA_ANALYSIS_FORECAST_WAV_006_011", datasetTest.getIdentifier());
+		log.info("End!");
 	}
 	
 	@Test
@@ -129,62 +118,42 @@ public class ApiTest {
 	
 	@Test
 	public void test7() {
-		try {
-			log.info("Start testing API # 7");
-			testList = BdoApiAnalyser.apiListDatasetByVertCov("-6000,= 0");
-			if (testList != null) {
-				flag = true;
-			}
-			assertTrue(flag);
-			log.info("End!");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}		
+		log.info("Start testing API # 7");
+		testList = BdoApiAnalyser.apiListDatasetByVertCov("-6000,= 0");
+		if (testList != null) {
+			flag = true;
+		}
+		assertTrue(flag);
+		log.info("End!");		
 	}
 	
 	@Test
 	public void test8() {
-		try {
-			log.info("Start testing API # 8");
-			testList = BdoApiAnalyser.apiListDatasetByTimeCov("2016-08-01T00:00:00,- ");
-			if (testList != null) {
-				flag = true;
-			}
-			assertTrue(flag);
-			log.info("End!");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}		
+		log.info("Start testing API # 8");
+		testList = BdoApiAnalyser.apiListDatasetByTimeCov("2016-08-01T00:00:00,- ");
+		if (testList != null) {
+			flag = true;
+		}
+		assertTrue(flag);
+		log.info("End!");		
 	}
 	
 	@Test
 	public void test9() {
-		try {
-			log.info("Start testing API # 9");
-			datasetTest = BdoApiAnalyser.apiListVarOfDataset("MEDSEA_ANALYSIS_FORECAST_WAV_006_011");
-			assertEquals(listVar, datasetTest.getVariables());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}		
+		log.info("Start testing API # 9");
+		datasetTest = BdoApiAnalyser.apiListVarOfDataset("MEDSEA_ANALYSIS_FORECAST_WAV_006_011");
+		assertEquals(listVar, datasetTest.getVariables());		
 	}
 	
 	@Test
 	public void test10() {
-		try {
-			log.info("Start testing API # 10");
-			testList = BdoApiAnalyser.apiListDatasetsByVar("sea_surface_wave_significant_height, latitude");
-			if (testList != null) {
-				flag = true;
-			}
-			assertTrue(flag);
-			log.info("End!");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}		
+		log.info("Start testing API # 10");
+		testList = BdoApiAnalyser.apiListDatasetsByVar("sea_surface_wave_significant_height, latitude");
+		if (testList != null) {
+			flag = true;
+		}
+		assertTrue(flag);
+		log.info("End!");		
 	}
 	
 	@After
