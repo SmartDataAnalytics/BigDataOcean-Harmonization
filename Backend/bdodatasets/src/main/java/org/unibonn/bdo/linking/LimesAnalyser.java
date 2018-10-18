@@ -57,14 +57,13 @@ public class LimesAnalyser {
 	private static void createCsvFile(List<String> rawName) {
 		try {
 			UUID fileName = UUID.randomUUID();
-			fileCSV = Constants.configFilePath+"/Backend/AddDatasets/" + fileName +".csv";
+			fileCSV = Constants.CONFIGFILEPATH+"/Backend/AddDatasets/" + fileName +".csv";
 			FileWriter writer = new FileWriter(fileCSV);
 			String header = "http://xmlns.com/foaf/0.1/name";
 			writer.write(header);
 			writer.write("\n");
 			for (int i = 0; i < rawName.size(); i++) {
 				writer.write(rawName.get(i));
-				//log.info(variables.get(i));
 				if(i < rawName.size()-1) {
 					writer.write("\n");
 				}
@@ -80,7 +79,7 @@ public class LimesAnalyser {
 	// Create the config file for limes
 	private static void createConfigFile(String topic) {
 		try {
-			fileConfig = Constants.configFilePath+"/Backend/AddDatasets/config.xml";
+			fileConfig = Constants.CONFIGFILEPATH+"/Backend/AddDatasets/config.xml";
 			FileWriter writer = new FileWriter(fileConfig);
 			writer.write(Constants.HEADER_CONFIG_LIMES_FILE);
 			writer.write("\n");
@@ -95,7 +94,7 @@ public class LimesAnalyser {
 	
 	// Find links between csv and ontology using limes
 	private static Map<String, String> linkingLimes() {
-		Map<String, String> resultLimesMap = new HashMap<String, String>();
+		Map<String, String> resultLimesMap = new HashMap<>();
 		HttpResponse<String> response; 
 		String requestId = "";
 		JsonObject responseObject;
@@ -120,7 +119,7 @@ public class LimesAnalyser {
 							response = Unirest.get(Constants.HTTPLIMES + "result/" + requestId + "/accepted.txt")
 									.asString();
 							if(response.getStatus() == 200) {
-								String resultLimes = response.getBody().toString();
+								String resultLimes = response.getBody();
 								resultLimesMap = stringintoMap(resultLimes);
 							}
 						} else {
@@ -201,7 +200,7 @@ public class LimesAnalyser {
 			case "variables":
 				config = "	<SOURCE>\n" + 
 						"		<ID>OntologyRDF</ID>\n" + 
-						"		<ENDPOINT>" + Constants.BDO_Ontology_N3 + "</ENDPOINT>\n" + 
+						"		<ENDPOINT>" + Constants.BDO_ONTOLOGY_N3 + "</ENDPOINT>\n" + 
 						"		<VAR>?y</VAR>\n" + 
 						"		<PAGESIZE>1000</PAGESIZE>\n" + 
 						"		<RESTRICTION>?y a bdo:Variable</RESTRICTION>\n" + 
@@ -226,7 +225,7 @@ public class LimesAnalyser {
 			case "geoLocation":
 				config = "	<SOURCE>\n" + 
 						"		<ID>OntologyRDF</ID>\n" + 
-						"		<ENDPOINT>" + Constants.GEOLOC_Ontology_N3 + "</ENDPOINT>\n" + 
+						"		<ENDPOINT>" + Constants.GEOLOC_ONTOLOGY_N3 + "</ENDPOINT>\n" + 
 						"		<VAR>?y</VAR>\n" + 
 						"		<PAGESIZE>1000</PAGESIZE>\n" + 
 						"		<RESTRICTION>?y a geolocbdo:GeoStandard</RESTRICTION>\n" + 
@@ -250,7 +249,7 @@ public class LimesAnalyser {
 			case "keywords": // eionet ontology
 				config = "	<SOURCE>\n" + 
 						"		<ID>OntologyRDF</ID>\n" + 
-						"		<ENDPOINT>" + Constants.EIONET_Ontology_N3 + "</ENDPOINT>\n" + 
+						"		<ENDPOINT>" + Constants.EIONET_ONTOLOGY_N3 + "</ENDPOINT>\n" + 
 						"		<VAR>?y</VAR>\n" + 
 						"		<PAGESIZE>1000</PAGESIZE>\n" + 
 						"		<RESTRICTION></RESTRICTION>\n" + 
@@ -274,7 +273,7 @@ public class LimesAnalyser {
 			case "subjects": // inspire ontology
 				config = "	<SOURCE>\n" + 
 						"		<ID>OntologyRDF</ID>\n" + 
-						"		<ENDPOINT>" + Constants.INSPIRE_Ontology_N3 + "</ENDPOINT>\n" + 
+						"		<ENDPOINT>" + Constants.INSPIRE_ONTOLOGY_N3 + "</ENDPOINT>\n" + 
 						"		<VAR>?y</VAR>\n" + 
 						"		<PAGESIZE>1000</PAGESIZE>\n" + 
 						"		<RESTRICTION></RESTRICTION>\n" + 

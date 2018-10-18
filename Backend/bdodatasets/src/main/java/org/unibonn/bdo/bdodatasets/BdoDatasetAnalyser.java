@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -54,7 +55,7 @@ public class BdoDatasetAnalyser {
 	private static List<String> listNER = new ArrayList<>();
 	
 	// Extract metadata from copernicus html (xml)
-	public static Dataset analyseDatasetURI(String datasetURI) throws IOException, ParseException {
+	public static Dataset analyseDatasetURI(String datasetURI) throws IOException {
 		Dataset result = new Dataset();
 
 		String delims; //Delimiters for extracting some part of the text
@@ -87,7 +88,6 @@ public class BdoDatasetAnalyser {
 		List<String> listGeoLocation = new ArrayList<>();
 
 		//Read the URI and return the HTML/XML document
-//		Document doc = Jsoup.connect(datasetURI).get();
 		Document doc = Jsoup.parse(new URL(datasetURI).openStream(), "UTF-8", "", Parser.xmlParser());
 
 		//Search parent tag 
@@ -177,7 +177,6 @@ public class BdoDatasetAnalyser {
 		
 		//obtaining the corresponding variable name from the standard CF
 		List<String> listVariables = Arrays.asList(list);
-		//variables = parserDatasetVariables(listVariables);
 		variables = LinkedDiscoveryData.parseListNames(listVariables, "variables");
 		
 		Element item8 = doc.getElementsByTag("gmd:descriptiveKeywords").get(1);
@@ -216,16 +215,15 @@ public class BdoDatasetAnalyser {
 	}
 
 	// Extract metadata from netcdf (hdfs url)
-	public static Dataset analyseDatasetNetcdf(String filename) throws IOException, ParseException {
+	public static Dataset analyseDatasetNetcdf(String filename) throws IOException {
 		Dataset result = new Dataset();
-		//String keywords = EMPTY_FIELD;
 		List<String> listVariables = new ArrayList<>() ;
 
 		//read the file
 		NetcdfFile nc = null;
 		try {
 			HDFSFileSystem hdfsSys = new HDFSFileSystem(filename);
-			Path localFile = hdfsSys.copyFile(filename,Constants.configFilePath+"/Backend/AddDatasets/file.nc");
+			Path localFile = hdfsSys.copyFile(filename,Constants.CONFIGFILEPATH+"/Backend/AddDatasets/file.nc");
 			//read NetCDF file to get its metadata
 			nc = NetcdfDataset.openFile(localFile.toString(), null);
 			
@@ -233,23 +231,18 @@ public class BdoDatasetAnalyser {
 			
 			listVariables = result.getVariable();
 			//obtaining the corresponding variable name from the standard CF
-			//result.setVariable(parserDatasetVariables(listVariables));
 			result.setVariable(LinkedDiscoveryData.parseListNames(listVariables, "variables"));
 			
-			//keywords = result.getKeywords();
-			//obtaining the corresponding linked data for keywords
-			//result.setKeywords(parserDatasetKeywords(keywords));
-			
 			//Delete the temporal file "file.nc"
-			hdfsSys.deleteFile(Constants.configFilePath+"/Backend/AddDatasets/file.nc");
+			hdfsSys.deleteFile(Constants.CONFIGFILEPATH+"/Backend/AddDatasets/file.nc");
 			
-		} catch (IOException ioe) {
-
+		} catch (IOException e) {
+			e.printStackTrace();
 		} finally { 
 			if (null != nc) try {
 				nc.close();
-			} catch (IOException ioe) {
-
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 		}
 
@@ -257,9 +250,8 @@ public class BdoDatasetAnalyser {
 	}
 	
 	// Extract metadata from file netcdf (local)
-	public static Dataset analyseDatasetFileNetcdf(String filename) throws IOException, ParseException {
+	public static Dataset analyseDatasetFileNetcdf(String filename) throws IOException {
 		Dataset result = new Dataset();
-		//String keywords = EMPTY_FIELD;
 		List<String> listVariables = new ArrayList<>() ;
 
 		//read the file
@@ -271,23 +263,18 @@ public class BdoDatasetAnalyser {
 			
 			listVariables = result.getVariable();
 			//obtaining the corresponding variable name from the standard CF
-			//result.setVariable(parserDatasetVariables(listVariables));
 			result.setVariable(LinkedDiscoveryData.parseListNames(listVariables, "variables"));
 			
-			//keywords = result.getKeywords();
-			//obtaining the corresponding linked data for keywords
-			//result.setKeywords(parserDatasetKeywords(keywords));
-			
 			//Delete the temporal file "file.nc"
-			Files.deleteIfExists(Paths.get(Constants.configFilePath+"/Backend/AddDatasets/file.nc"));
+			Files.deleteIfExists(Paths.get(Constants.CONFIGFILEPATH+"/Backend/AddDatasets/file.nc"));
 			
-		} catch (IOException ioe) {
-
+		} catch (IOException e) {
+			e.printStackTrace();
 		} finally { 
 			if (null != nc) try {
 				nc.close();
-			} catch (IOException ioe) {
-
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 		}
 
@@ -295,25 +282,25 @@ public class BdoDatasetAnalyser {
 	}
 	
 	// Extract metadata from CSV (hdfs url)
-	public static Dataset analyseDatasetCsv(String filename) throws IOException, ParseException, java.text.ParseException {
+	public static Dataset analyseDatasetCsv(String filename) {
 		Dataset result = new Dataset();
 		
 		//read the file
 		String name = new File(filename).getName();
 		
 		HDFSFileSystem hdfsSys = new HDFSFileSystem(filename);
-		Path localFile = hdfsSys.copyFile(filename,Constants.configFilePath+"/Backend/AddDatasets/" + name);
+		Path localFile = hdfsSys.copyFile(filename,Constants.CONFIGFILEPATH+"/Backend/AddDatasets/" + name);
 		
 		result = analyseDatasetFileCsv(localFile.toString());
 		
 		//Delete the temporal file
-		hdfsSys.deleteFile(Constants.configFilePath+"/Backend/AddDatasets/" + name);
+		hdfsSys.deleteFile(Constants.CONFIGFILEPATH+"/Backend/AddDatasets/" + name);
 
 		return result;
 	}
 	
 	// Extract metadata from file CSV (local)
-	public static Dataset analyseDatasetFileCsv(String filename) throws IOException, ParseException, java.text.ParseException {
+	public static Dataset analyseDatasetFileCsv(String filename) {
 		Dataset result = new Dataset();
 		List<String> listVariables = new ArrayList<>() ;
 		String nameExtension;
@@ -351,54 +338,58 @@ public class BdoDatasetAnalyser {
 		
 		result.setFormats("CSV");
 		
-		//Read the first line of the csv where the header (variables) are separated by ;
-	    CSVReader reader = new CSVReader(new FileReader(filename), ';');
-	    
-	    //Read CSV line by line and use the string array as you want
-	    String[] nextLine;
-	    nextLine = reader.readNext();
-	    //Verify if the file has ; delimiter
-	    if(nextLine.length == 1) {
-	    	reader = new CSVReader(new FileReader(filename), ',');
+		//Read the first line of the csv where the header (variables) are separated by semicolon
+	    CSVReader reader;
+		try {
+			reader = new CSVReader(new FileReader(filename), ';');
+		    
+		    //Read CSV line by line and use the string array as you want
+		    String[] nextLine;
 		    nextLine = reader.readNext();
-	    }
-	    
-	    for(int i = 0; i<nextLine.length; i++) {
-	    	String var = removeUTF8BOM(nextLine[i]);
-	    	listVariables.add(var);
-	    }
-	    reader.close();
+		    //Verify if the file has ; delimiter
+		    if(nextLine.length == 1) {
+		    	reader = new CSVReader(new FileReader(filename), ',');
+			    nextLine = reader.readNext();
+		    }
+		    
+		    for(int i = 0; i<nextLine.length; i++) {
+		    	String var = removeUTF8BOM(nextLine[i]);
+		    	listVariables.add(var);
+		    }
+		    reader.close();
 
-		//obtaining the corresponding variable name from the standard CF
-		//result.setVariable(parserDatasetVariables(listVariables));
-		result.setVariable(LinkedDiscoveryData.parseListNames(listVariables, "variables"));
-		
-		//Delete the temporal file
-		Files.deleteIfExists(Paths.get(Constants.configFilePath+"/Backend/AddDatasets/" + nameExtension));
+			//obtaining the corresponding variable name from the standard CF
+			result.setVariable(LinkedDiscoveryData.parseListNames(listVariables, "variables"));
+			
+			//Delete the temporal file
+			Files.deleteIfExists(Paths.get(Constants.CONFIGFILEPATH+"/Backend/AddDatasets/" + nameExtension));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 		return result;
 	}
 	
 	// Extract metadata from Excel (hdfs url)
-	public static Dataset analyseDatasetExcel(String filename) throws IOException, ParseException, java.text.ParseException {
+	public static Dataset analyseDatasetExcel(String filename) throws IOException {
 		Dataset result = new Dataset();
 		
 		//read the file
 		String name = new File(filename).getName();
 		
 		HDFSFileSystem hdfsSys = new HDFSFileSystem(filename);
-		Path localFile = hdfsSys.copyFile(filename,Constants.configFilePath+"/Backend/AddDatasets/" + name);
+		Path localFile = hdfsSys.copyFile(filename,Constants.CONFIGFILEPATH+"/Backend/AddDatasets/" + name);
 		
 		result = analyseDatasetFileExcel(localFile.toString());
 		
 		//Delete the temporal file
-		hdfsSys.deleteFile(Constants.configFilePath+"/Backend/AddDatasets/" + name);
+		hdfsSys.deleteFile(Constants.CONFIGFILEPATH+"/Backend/AddDatasets/" + name);
 
 		return result;
 	}
 	
 	// Extract metadata from file Excel (local)
-	public static Dataset analyseDatasetFileExcel(String filename) throws IOException, ParseException, java.text.ParseException {
+	public static Dataset analyseDatasetFileExcel(String filename) throws IOException {
 		Dataset result = new Dataset();
 		List<String> listVariables = new ArrayList<>() ;
 		String nameExtension;
@@ -447,11 +438,10 @@ public class BdoDatasetAnalyser {
 		}
 		
 		//obtaining the corresponding variable name from the standard CF
-		//result.setVariable(parserDatasetVariables(listVariables));
 		result.setVariable(LinkedDiscoveryData.parseListNames(listVariables, "variables"));
 		
 		//Delete the temporal file
-		Files.deleteIfExists(Paths.get(Constants.configFilePath+"/Backend/AddDatasets/" + nameExtension));
+		Files.deleteIfExists(Paths.get(Constants.CONFIGFILEPATH+"/Backend/AddDatasets/" + nameExtension));
 		
 		return result;
 	}
@@ -465,19 +455,15 @@ public class BdoDatasetAnalyser {
 			if(size > 2) {
 				String issuedDate = splitName[size-2];
 				String modifiedDate = splitName[size-1];
-				try {
-					if(issuedDate.length() > 14) {
-						if(issuedDate.substring(8,9).equals("T")) {
-							result.setIssuedDate(convertDate(issuedDate));
-						}
+				if(issuedDate.length() > 14) {
+					if(issuedDate.substring(8,9).equals("T")) {
+						result.setIssuedDate(convertDate(issuedDate));
 					}
-					if(issuedDate.length() > 14) {
-						if(modifiedDate.substring(8,9).equals("T")) {
-							result.setModifiedDate(convertDate(modifiedDate));
-						}
+				}
+				if(issuedDate.length() > 14) {
+					if(modifiedDate.substring(8,9).equals("T")) {
+						result.setModifiedDate(convertDate(modifiedDate));
 					}
-				} catch (java.text.ParseException e) {
-					e.printStackTrace();
 				}
 			}
 		}
@@ -518,14 +504,14 @@ public class BdoDatasetAnalyser {
 		if(listFileMetadata != null)
 		{
 			for(Attribute attr : listFileMetadata) {					
-				if(attr.getShortName().toLowerCase().equals("id")) {
+				if(attr.getShortName().equalsIgnoreCase("id")) {
 					result.setIdentifier(attr.getStringValue());
 				}
-				if(attr.getShortName().toLowerCase().equals("title")) {
+				if(attr.getShortName().equalsIgnoreCase("title")) {
 					title = attr.getStringValue();
 					result.setTitle(title);
 				}
-				if(attr.getShortName().toLowerCase().equals("summary") || attr.getShortName().toLowerCase().equals("comment")) {
+				if(attr.getShortName().equalsIgnoreCase("summary") || attr.getShortName().equalsIgnoreCase("comment")) {
 					description = attr.getStringValue();
 					result.setDescription(description);
 					if (description.length() == 1) {
@@ -533,21 +519,21 @@ public class BdoDatasetAnalyser {
 					}
 				}
 				
-				if(attr.getShortName().toLowerCase().equals("area")) {
+				if(attr.getShortName().equalsIgnoreCase("area")) {
 					geoLocation = attr.getStringValue();
 				}
 				
-				if(attr.getShortName().toLowerCase().equals("conventions")) {
+				if(attr.getShortName().equalsIgnoreCase("conventions")) {
 					result.setStandards(attr.getStringValue());
 				}
 				result.setFormats("NetCDF");
-				if(attr.getShortName().toLowerCase().equals("institution_references")) {
+				if(attr.getShortName().equalsIgnoreCase("institution_references")) {
 					result.setHomepage(attr.getStringValue());
 				}
-				if(attr.getShortName().toLowerCase().equals("naming_authority")) {
+				if(attr.getShortName().equalsIgnoreCase("naming_authority")) {
 					result.setPublisher(attr.getStringValue());
 				}
-				if(attr.getShortName().toLowerCase().equals("history") || attr.getShortName().toLowerCase().equals("date_created")) {
+				if(attr.getShortName().equalsIgnoreCase("history") || attr.getShortName().equalsIgnoreCase("date_created")) {
 					if(attr.getStringValue().length() > 1) {
 						if (attr.getStringValue().contains("Z")) { // 2017-05-04T00:20:02Z
 							issuedDate = attr.getStringValue().split("Z")[0];
@@ -564,11 +550,7 @@ public class BdoDatasetAnalyser {
 								result.setIssuedDate(issuedDate);
 							} else if(issuedDate.substring(8,9).equals("-") && issuedDate.substring(11,12).equals(":") && issuedDate.substring(14,15).equals(":")) {
 								issuedDate = issuedDate.replaceAll("-", "T");
-								try {
-									issuedDate = convertDateTime(issuedDate);
-								} catch (java.text.ParseException e) {
-									e.printStackTrace();
-								}
+								issuedDate = convertDateTime(issuedDate);
 								result.setIssuedDate(issuedDate);
 							} else {
 								result.setIssuedDate(EMPTY_FIELD);
@@ -580,7 +562,7 @@ public class BdoDatasetAnalyser {
 						result.setIssuedDate(EMPTY_FIELD);
 					}
 				}
-				if(attr.getShortName().toLowerCase().equals("date_update")) {
+				if(attr.getShortName().equalsIgnoreCase("date_update")) {
 					if(attr.getStringValue().length() > 1) {
 						if (attr.getStringValue().contains("Z")) {
 							modifiedDate = attr.getStringValue().split("Z")[0];
@@ -596,11 +578,7 @@ public class BdoDatasetAnalyser {
 							result.setModifiedDate(modifiedDate);
 						} else if(modifiedDate.substring(8,9).equals("-") && modifiedDate.substring(11,12).equals(":") && modifiedDate.substring(14,15).equals(":")) {
 							modifiedDate = modifiedDate.replaceAll("-", "T");
-							try {
-								modifiedDate = convertDateTime(modifiedDate);
-							} catch (java.text.ParseException e) {
-								e.printStackTrace();
-							}
+							modifiedDate = convertDateTime(modifiedDate);
 							result.setModifiedDate(modifiedDate);
 						} else {
 							result.setModifiedDate(EMPTY_FIELD);
@@ -609,31 +587,31 @@ public class BdoDatasetAnalyser {
 						result.setModifiedDate(EMPTY_FIELD);
 					}
 				}
-				if(attr.getShortName().toLowerCase().equals("geospatial_lon_min") || attr.getShortName().toLowerCase().equals("longitude_min")) {
+				if(attr.getShortName().equalsIgnoreCase("geospatial_lon_min") || attr.getShortName().equalsIgnoreCase("longitude_min")) {
 					result.setSpatialWest(attr.getValues().toString().replace(" ", EMPTY_FIELD));
 				}
-				if(attr.getShortName().toLowerCase().equals("geospatial_lon_max") || attr.getShortName().toLowerCase().equals("longitude_max")) {
+				if(attr.getShortName().equalsIgnoreCase("geospatial_lon_max") || attr.getShortName().equalsIgnoreCase("longitude_max")) {
 					result.setSpatialEast(attr.getValues().toString().replace(" ", EMPTY_FIELD));
 				}
-				if(attr.getShortName().toLowerCase().equals("geospatial_lat_min") || attr.getShortName().toLowerCase().equals("latitude_min")) {
+				if(attr.getShortName().equalsIgnoreCase("geospatial_lat_min") || attr.getShortName().equalsIgnoreCase("latitude_min")) {
 					result.setSpatialSouth(attr.getValues().toString().replace(" ", EMPTY_FIELD));
 				}
-				if(attr.getShortName().toLowerCase().equals("geospatial_lat_max") || attr.getShortName().toLowerCase().equals("latitude_max")) {
+				if(attr.getShortName().equalsIgnoreCase("geospatial_lat_max") || attr.getShortName().equalsIgnoreCase("latitude_max")) {
 					result.setSpatialNorth(attr.getValues().toString().replace(" ", EMPTY_FIELD));
 				}
-				if(attr.getShortName().toLowerCase().equals("geospatial_vertical_min")) {
+				if(attr.getShortName().equalsIgnoreCase("geospatial_vertical_min")) {
 					result.setVerticalCoverageFrom(attr.getStringValue());
 					if (result.getVerticalCoverageFrom().length() == 1) {
 						result.setVerticalCoverageFrom(EMPTY_FIELD);
 					}
 				}				
-				if(attr.getShortName().toLowerCase().equals("geospatial_vertical_max")) {
+				if(attr.getShortName().equalsIgnoreCase("geospatial_vertical_max")) {
 					result.setVerticalCoverageTo(attr.getStringValue());
 					if (result.getVerticalCoverageTo().length() == 1) {
 						result.setVerticalCoverageTo(EMPTY_FIELD);
 					}
 				}				
-				if(attr.getShortName().toLowerCase().equals("time_coverage_start")) {
+				if(attr.getShortName().equalsIgnoreCase("time_coverage_start")) {
 					if(attr.getStringValue().length() > 1) {
 						if (attr.getStringValue().contains("Z")) {
 							temporalCoverageBegin = attr.getStringValue().split("Z")[0];
@@ -649,11 +627,7 @@ public class BdoDatasetAnalyser {
 							result.setTemporalCoverageBegin(temporalCoverageBegin);
 						} else if(temporalCoverageBegin.substring(8,9).equals("-") && temporalCoverageBegin.substring(11,12).equals(":") && temporalCoverageBegin.substring(14,15).equals(":")) {
 							temporalCoverageBegin = temporalCoverageBegin.replaceAll("-", "T");
-							try {
-								temporalCoverageBegin = convertDateTime(temporalCoverageBegin);
-							} catch (java.text.ParseException e) {
-								e.printStackTrace();
-							}
+							temporalCoverageBegin = convertDateTime(temporalCoverageBegin);
 							result.setTemporalCoverageBegin(temporalCoverageBegin);
 						} else {
 							result.setTemporalCoverageBegin(EMPTY_FIELD);
@@ -662,7 +636,7 @@ public class BdoDatasetAnalyser {
 						result.setTemporalCoverageBegin(EMPTY_FIELD);
 					}
 				}
-				if(attr.getShortName().toLowerCase().equals("time_coverage_end")) {
+				if(attr.getShortName().equalsIgnoreCase("time_coverage_end")) {
 					if(attr.getStringValue().length() > 1) {
 						if (attr.getStringValue().contains("Z")) {
 							temporalCoverageEnd = attr.getStringValue().split("Z")[0];
@@ -678,11 +652,7 @@ public class BdoDatasetAnalyser {
 							result.setTemporalCoverageEnd(temporalCoverageEnd);
 						} else if(temporalCoverageEnd.substring(8,9).equals("-") && temporalCoverageEnd.substring(11,12).equals(":") && temporalCoverageEnd.substring(14,15).equals(":")) {
 							temporalCoverageEnd = temporalCoverageEnd.replaceAll("-", "T");
-							try {
-								temporalCoverageEnd = convertDateTime(temporalCoverageEnd);
-							} catch (java.text.ParseException e) {
-								e.printStackTrace();
-							}
+							temporalCoverageEnd = convertDateTime(temporalCoverageEnd);
 							result.setTemporalCoverageEnd(temporalCoverageEnd);
 						} else {
 							result.setTemporalCoverageEnd(EMPTY_FIELD);
@@ -691,13 +661,13 @@ public class BdoDatasetAnalyser {
 						result.setTemporalCoverageEnd(EMPTY_FIELD);
 					}
 				}
-				if(attr.getShortName().toLowerCase().equals("update_interval")) {
+				if(attr.getShortName().equalsIgnoreCase("update_interval")) {
 					result.setTimeResolution(attr.getStringValue());
 				}
-				if(attr.getShortName().toLowerCase().equals("cdm_data_type")) {
+				if(attr.getShortName().equalsIgnoreCase("cdm_data_type")) {
 					result.setObservations(attr.getStringValue());
 				}
-				if(attr.getShortName().toLowerCase().equals("source")) {
+				if(attr.getShortName().equalsIgnoreCase("source")) {
 					result.setSource(attr.getStringValue());
 				}
 			}
@@ -728,20 +698,11 @@ public class BdoDatasetAnalyser {
 			allVariables = nc.getVariables();
 			for (int i=0; i<allVariables.size(); i++) {
 				//select only the (raw) name of the variables
-				String standard_name = allVariables.get(i).getShortName();
-				variables.add(standard_name);
-				
-				//select only the standard_name of the variables
-				/*Attribute standard_name = allVariables.get(i).findAttribute("standard_name");
-		    	if(standard_name != null) {
-		    		if(standard_name.getStringValue() != EMPTY_FIELD && !standard_name.getStringValue().startsWith(" ")) {
-		    			//add the standard_name value if it is not null or ""
-		    			variables.add(standard_name.getStringValue());
-		    		}
-		    	}*/
+				String standardName = allVariables.get(i).getShortName();
+				variables.add(standardName);
 		    }
 			//Verify and delete if there are duplicates
-			HashSet<String> hs = new HashSet<String>();
+			HashSet<String> hs = new HashSet<>();
 			hs.addAll(variables);
 			variables.clear();
 			variables.addAll(hs);
@@ -751,82 +712,20 @@ public class BdoDatasetAnalyser {
 		
 	}
 	
-	// This function is deprecated: It is used in other versions
-	/*private static List<String> parserDatasetVariables (List<String> variables) {
-		List<String> listVariables = new ArrayList<>() ;
-		//Extracting the array of variablesCF_BDO and CF variable find in the json file
-		JSONParser parser = new JSONParser();
-		JSONArray variablesCF;
-		try {
-			variablesCF = (JSONArray) parser.parse(new FileReader(Constants.configFilePath+"/Frontend/Flask/static/json/bdo.json"));
-			for(int j=0; j<variables.size(); j++) {
-				
-				boolean flag = false;
-				for(int i=0; i<variablesCF.size(); i++){
-		        	JSONObject keyword = (JSONObject) variablesCF.get(i);
-		        	String canonical_name = keyword.get("text").toString();
-		            String name = keyword.get("name").toString();
-		            if(canonical_name.equals(variables.get(j).toLowerCase()) || name.equals(variables.get(j).toLowerCase())) {
-		            	listVariables.add(variables.get(j).toString() + " -- "+ keyword.get("text").toString());
-		            	flag = true;
-		            	break;
-		            }		            	
-		        }
-				
-				if(flag == false) {
-					listVariables.add(variables.get(j).toString() + " -- "+ EMPTY_FIELD);
-				}
-			}
-		} catch (IOException | ParseException e) {
-			e.printStackTrace();
-		}
-		return listVariables;
-	}*/
-	
-	// This function is deprecated: It is used in other versions
-	// Instead of the raw name change it to the url representation
-	/*private static String parserDatasetKeywords (String keywords) {
-		JSONParser parser = new JSONParser();
-		JSONArray keywordsArray;
-		try {
-			keywordsArray = (JSONArray) parser.parse(new FileReader(Constants.configFilePath+"/Frontend/Flask/static/json/eionet.json"));
-			search if the keyword extracted from netcdf is equal to the json
-			* change the value of the keyword variable to the value of the json (http://...)
-			
-	        for(int i=0; i<keywordsArray.size(); i++){
-	        	boolean flag = false;
-	            JSONObject keyword = (JSONObject) keywordsArray.get(i);
-	            String text = keyword.get("text").toString();
-	            if(text.equals(keywords)) {
-	            	keywords = keyword.get("value").toString();
-	            	flag = true;
-	            	break;
-	            }
-	            if(flag == false) {
-	            	keywords = EMPTY_FIELD;
-	            }
-	        }
-		} catch (IOException | ParseException e) {
-			e.printStackTrace();
-		}
-		return keywords;
-		
-	}*/
-	
 	// Convert yyyyMMddTHHmmss into yyyy-MM-ddTHH:mm:ss
-    public static String convertDate(String date) throws java.text.ParseException {
+    public static String convertDate(String date) {
     	String newDate = "";    	
     	String[] tokens = date.split("T");
     	String yMd = tokens[0];
-    	String Hms = tokens[1];
+    	String hms = tokens[1];
     	
     	String year = yMd.substring(0, 4);
     	String month = yMd.substring(4, 6);
     	String day = yMd.substring(6, 8);
     	
-    	String hour = Hms.substring(0, 2);
-    	String minute = Hms.substring(2, 4);
-    	String second = Hms.substring(4, 6);
+    	String hour = hms.substring(0, 2);
+    	String minute = hms.substring(2, 4);
+    	String second = hms.substring(4, 6);
     	
     	newDate = year + "-" + month + "-" + day  + "T" + hour + ":" + minute + ":" + second;
     	
@@ -834,17 +733,17 @@ public class BdoDatasetAnalyser {
     }
     
  	// Convert yyyyMMddTHH:mm:ss into yyyy-MM-ddTHH:mm:ss
-    public static String convertDateTime(String date) throws java.text.ParseException {
+    public static String convertDateTime(String date) {
     	String newDate = "";    	
     	String[] tokens = date.split("T");
     	String yMd = tokens[0];
-    	String Hms = tokens[1];
+    	String hms = tokens[1];
     	
     	String year = yMd.substring(0, 4);
     	String month = yMd.substring(4, 6);
     	String day = yMd.substring(6, 8);
     	
-    	tokens = Hms.split(":");
+    	tokens = hms.split(":");
     	
     	String hour = tokens[0];
     	String minute = tokens[1];

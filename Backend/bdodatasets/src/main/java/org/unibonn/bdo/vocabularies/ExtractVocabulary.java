@@ -3,9 +3,7 @@ package org.unibonn.bdo.vocabularies;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,26 +31,27 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 
 public class ExtractVocabulary {
 	
-	private final static Logger log = LoggerFactory.getLogger(ExtractVocabulary.class);
+	private static final Logger log = LoggerFactory.getLogger(ExtractVocabulary.class);
 	
 	public static void main(String[] args) {
 		List<Ontology> listDataOntology = new ArrayList<>();
 		String vocabPrefix = args[0];
-		//String vocabPrefix = "bdo";
 		getInfoVocabPrefix(vocabPrefix);
 		switch (vocabPrefix) {
 			case "bdo":
-				listDataOntology = OntologyAnalyser.analyseOntology(Constants.BDO_Ontology_N3, "variables");
+				listDataOntology = OntologyAnalyser.analyseOntology(Constants.BDO_ONTOLOGY_N3, "variables");
 				break;
 			case "eionet":
-				listDataOntology = OntologyAnalyser.analyseOntology(Constants.EIONET_Ontology_N3, "keywords");
+				listDataOntology = OntologyAnalyser.analyseOntology(Constants.EIONET_ONTOLOGY_N3, "keywords");
 				break;
 			case "inspire":
-				listDataOntology = OntologyAnalyser.analyseOntology(Constants.INSPIRE_Ontology_N3, "subjects");
+				listDataOntology = OntologyAnalyser.analyseOntology(Constants.INSPIRE_ONTOLOGY_N3, "subjects");
 				break;
 			case "geolocbdo":
-				listDataOntology = OntologyAnalyser.analyseOntology(Constants.GEOLOC_Ontology_N3, "geoLocation");
+				listDataOntology = OntologyAnalyser.analyseOntology(Constants.GEOLOC_ONTOLOGY_N3, "geoLocation");
 				break;
+			default:
+			    break;
 		}
 		convertOntologyintoJsonVocabulary (listDataOntology, vocabPrefix);
 	}
@@ -76,7 +75,7 @@ public class ExtractVocabulary {
 				log.error("Error!");
 			}
 		} catch (UnirestException e) {
-			e.printStackTrace();
+			log.error(e.toString());
 		}
 	}
 	
@@ -85,19 +84,19 @@ public class ExtractVocabulary {
 		HttpResponse<String> response; //Get the vocabulary
 		try {
 			// Create new file in AddDatasets with the name of the prefix
-			PrintWriter file = new PrintWriter(Constants.configVolumePath+"/ontologiesN3/" + fileName + ".n3"); 
+			PrintWriter file = new PrintWriter(Constants.CONFIGFILEPATH+"/Backend/AddDatasets/ontologiesN3/" + fileName + ".n3"); 
 			response = Unirest.get(fileURL)
 					.asString();
 			if(response.getStatus() == 200) {
 				file.println(response.getBody()); // Save the response in the file
-				file.close(); // close the file
-				log.info("Successful!  Response API getRDFVocabPrefix and saved RDF data in /ontologiesN3/" + fileName + ".n3");
+				log.info("Successful!  Response API getRDFVocabPrefix and saved RDF data in /Backend/AddDatasets/ontologiesN3/");
 			} else {
 				log.error("Error!");
 			}
+			file.close(); // close the file
 		} catch (UnirestException | FileNotFoundException e) {
-			e.printStackTrace();
-		}
+			log.error("ExtractVocabulary", e);
+		} 
 	}
 	
 	//Convert ontology into vocabulary json and save it in a json file
@@ -148,6 +147,8 @@ public class ExtractVocabulary {
 					listVocabulary.add(vocab);
 				}
 				break;
+			default:
+			    break;
 		}
 		saveFile(listVocabulary, topic);
 		if(topic.equals("bdo")) {
@@ -172,28 +173,14 @@ public class ExtractVocabulary {
 	// Create json file in Frontend
 	private static void saveFile(List<VocabulariesJson> listVocabulary, String name) {
 		try {
-			PrintWriter file = new PrintWriter(Constants.configFilePath+"/Frontend/Flask/static/json/" + name + ".json");
+			PrintWriter file = new PrintWriter(Constants.CONFIGFILEPATH+"/Frontend/Flask/static/json/" + name + ".json");
 			Gson gson  = new GsonBuilder().setPrettyPrinting().create();
-			//System.out.print(gson.toJson(listVocabulary));
 			file.println(gson.toJson(listVocabulary)); // Save the json in the file
 			file.close(); // close the file
-			log.info("Successful!  The json file is saved in /Frontend/Flask/static/json/" + name + ".json");
+			log.info("Successful!  The json file is saved in /Frontend/Flask/static/json/");
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			log.error("ExtractVocabulary", e);
 		}
 	}
-	
-	// Delete duplicates
-	/*private static List<VocabulariesJson> deleteDuplicates(List<VocabulariesJson> vocab) {
-		List<VocabulariesJson> result = new ArrayList<>();
-		Set<String> titles = new HashSet<String>();
-
-		for( VocabulariesJson item : vocab ) {
-		    if( titles.add( item.getText() )) {
-		        result.add( item );
-		    }
-		}
-		return result;
-	}*/
 
 }

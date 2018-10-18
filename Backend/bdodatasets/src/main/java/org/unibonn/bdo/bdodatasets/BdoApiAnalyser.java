@@ -23,7 +23,7 @@ import com.hp.hpl.jena.rdf.model.RDFNode;
 
 public class BdoApiAnalyser {
 	//Case 1: List all datasets
-	public static List<Dataset> apiListAllDatasets () throws IOException {
+	public static List<Dataset> apiListAllDatasets() {
 		List<Dataset> list = new ArrayList<>();
 		String apiQuery = "PREFIX disco: <http://rdf-vocabulary.ddialliance.org/discovery#>\n" + 
 				"PREFIX skos: <http://www.w3.org/2004/02/skos/core#>\n" + 
@@ -95,7 +95,7 @@ public class BdoApiAnalyser {
 		return list;
 	}
 	
-	public static Dataset apiSearchDataset (String searchParam) throws IOException {
+	public static Dataset apiSearchDataset (String searchParam) {
 		String queryMetadata = "PREFIX dct: <http://purl.org/dc/terms/>\n" + 
 				"PREFIX dcat: <https://www.w3.org/TR/vocab-dcat/>\n" + 
 				"PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> \n" + 
@@ -431,7 +431,7 @@ public class BdoApiAnalyser {
 		return list;
 	}
 
-	public static List<Dataset> apiListDatasetByVertCov (String searchParam) throws IOException {
+	public static List<Dataset> apiListDatasetByVertCov (String searchParam) {
 		String[] listVert = searchParam.split(",= ");
 		List<Dataset> list = new ArrayList<>();
 		String apiQuery = "PREFIX disco: <http://rdf-vocabulary.ddialliance.org/discovery#>\n" + 
@@ -457,12 +457,10 @@ public class BdoApiAnalyser {
 		
 		RDFNode node;
 		ResultSet results = QueryExecutor.selectQuery(apiQuery);
-		//ResultSetFormatter.out(results);
 		while(results.hasNext()){			
 			Dataset dataset = new Dataset("");
 			QuerySolution solution = results.nextSolution();				
 			node = solution.get("uri");
-			//List<String> listVar = new ArrayList<>();
 			dataset.setIdentifier(node.toString());
 			node = solution.get("title");
 			dataset.setTitle(node.toString());
@@ -490,7 +488,7 @@ public class BdoApiAnalyser {
 	}
 
 	
-	public static List<Dataset> apiListDatasetByTimeCov (String searchParam) throws IOException {
+	public static List<Dataset> apiListDatasetByTimeCov (String searchParam){
 		String[] listTime = searchParam.split(",- ");
 		List<Dataset> list = new ArrayList<>();
 		String apiQuery;
@@ -538,12 +536,10 @@ public class BdoApiAnalyser {
 
 		RDFNode node;
 		ResultSet results = QueryExecutor.selectQuery(apiQuery);
-		//ResultSetFormatter.out(results);
 		while(results.hasNext()){			
 			Dataset dataset = new Dataset("");
 			QuerySolution solution = results.nextSolution();				
 			node = solution.get("uri");
-			//List<String> listVar = new ArrayList<>();
 			dataset.setIdentifier(node.toString());
 			node = solution.get("title");
 			dataset.setTitle(node.toString());
@@ -570,7 +566,7 @@ public class BdoApiAnalyser {
 		return list;
 	}
 	
-	public static Dataset apiListVarOfDataset (String searchParam) throws IOException {
+	public static Dataset apiListVarOfDataset (String searchParam) {
 		Dataset dataset = new Dataset("");
 		Map<String,String> variables = new HashMap<>();
 		String apiQuery = "PREFIX disco: <http://rdf-vocabulary.ddialliance.org/discovery#>\n" + 
@@ -601,7 +597,7 @@ public class BdoApiAnalyser {
 		return dataset;
 	}
 	
-	public static List<Dataset> apiListDatasetsByVar (String searchParam) throws IOException {
+	public static List<Dataset> apiListDatasetsByVar (String searchParam) {
 		List<Dataset> list = new ArrayList<>();
 		String[] listV = searchParam.split(", ");
 		

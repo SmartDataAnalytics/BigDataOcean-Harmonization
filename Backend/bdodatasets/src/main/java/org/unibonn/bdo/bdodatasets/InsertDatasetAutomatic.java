@@ -18,10 +18,7 @@ import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
 import org.ini4j.Ini;
-import org.ini4j.InvalidFileFormatException;
 import org.json.simple.parser.ParseException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.unibonn.bdo.bdodatasets.Constants;
 import org.unibonn.bdo.connections.ConsumerCreator;
 import org.unibonn.bdo.connections.HDFSFileSystem;
@@ -54,8 +51,7 @@ import ucar.nc2.dataset.NetcdfDataset;
 
 public class InsertDatasetAutomatic {
 	
-	private final static Logger log = LoggerFactory.getLogger(InsertDatasetAutomatic.class);
-	private final static String EMPTY_FIELD = "";
+	private static final String EMPTY_FIELD = "";
 	private static String tokenAuthorization = ""; 
 	
     public static void main(String[] args) {
@@ -63,20 +59,16 @@ public class InsertDatasetAutomatic {
 			Ini config = new Ini(new File(Constants.INITFILEPATH));
 			tokenAuthorization = config.get("DEFAULT", "AUTHORIZATION_JWT");
 			runConsumer();
-		} catch (InvalidFileFormatException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		} 
     }
     
     private static void runConsumer() {
     	Consumer<Long, String> consumer = ConsumerCreator.createConsumer();
         int noMessageFound = 0;
         while (true) {
-        	Duration timeout = Duration.ofMillis(5000);
+        	Duration timeout = Duration.ofMillis(1000);
         	// 1000 is the time in milliseconds consumer will wait if no record is found at broker.
         	ConsumerRecords<Long, String> consumerRecords = consumer.poll(timeout);
         	if (consumerRecords.count() == 0) {
@@ -84,8 +76,6 @@ public class InsertDatasetAutomatic {
         		if (noMessageFound > Constants.MAX_NO_MESSAGE_FOUND_COUNT)
         			// If no message found count is reached to threshold exit loop.  
         			break;
-        		else
-        			continue;
         	}
         	//for each record insert it in Harmonization tool and print in the TOPIC2 the idFile that has been successful added.
         	consumerRecords.forEach(record -> {
@@ -97,19 +87,14 @@ public class InsertDatasetAutomatic {
 				boolean flag = false;
 				// if metadata has been inserted in Fuseki then send a message with idFile to the TOPIC2
 				try {
-					//log.info("Start");
 					flag = analyseInsertDatasetAutomatic(filename,idFile,idProfile);
 					if(flag) {
 						System.out.println("Successful!  Metadata has been added correctly");
 						runProducer(idFile);
-						//log.info("Successful!  Metadata has been added correctly);
 					}else {
 						System.out.println("Error!  There was an error adding the metadata");
-						//log.error("Error!  There was an error adding the metadata");
 					}
-					//log.info("End");
-				} catch (IOException | ParseException | UnirestException | java.text.ParseException e) {
-					// TODO Auto-generated catch block
+				} catch (IOException | ParseException | UnirestException e) {
 					e.printStackTrace();
 				}
 			});
@@ -122,27 +107,20 @@ public class InsertDatasetAutomatic {
     public static void runProducer(String idFile) {
     	Producer<Long, String> producer = ProducerCreator.createProducer();
     	// Send a message to TOPIC2 with the idFile
-    	ProducerRecord<Long, String> record = new ProducerRecord<Long, String>(Constants.TOPIC_NAME2, idFile);
+    	ProducerRecord<Long, String> record = new ProducerRecord<>(Constants.TOPIC_NAME2, idFile);
     	try {
         	RecordMetadata metadata = producer.send(record).get();
             System.out.println("Record sent with key " + idFile + " to partition " + metadata.partition()
             	+ " with offset " + metadata.offset());
-
-			//log.info("Record sent with key " + idFile + " to partition " + metadata.partition()+ " with offset " + metadata.offset());
-        } catch (ExecutionException e) {
+        } catch (ExecutionException | InterruptedException e) {
         	System.out.println("Error in sending record");
-			//log.error("Error!  Error in sending record");
             System.out.println(e);
-        } catch (InterruptedException e) {
-            System.out.println("Error in sending record");
-			//log.error("Error!  Error in sending record");
-            System.out.println(e);
-        }
+        } 
     }
     
     // API: Create the metadata to an specific dataset with help of the profile.
     public static boolean analyseInsertDatasetAutomatic(String filename, String idFile, String idProfile) 
-    		throws IOException, ParseException, UnirestException, java.text.ParseException {
+    		throws IOException, ParseException, UnirestException {
 		Dataset result = new Dataset();
 		boolean resultInsert = false;
 		boolean resultFlag = true;
@@ -188,7 +166,6 @@ public class InsertDatasetAutomatic {
 				result.setModifiedDate(BdoDatasetAnalyser.convertDate(modifiedDate));
 			}else {
 				System.out.println(" Error!  the file name does not have issuedDate and modifiedDate");
-				//log.error("Error!  the file name does not have issuedDate and modifiedDate");
 				return false;
 			}
 		}else if(tokens[1].equals("nc")) {
@@ -212,12 +189,10 @@ public class InsertDatasetAutomatic {
 				resultFlag = true;
 			}else {
 				System.out.println(" Error!  fileHandler/file/{idFile}/metadata/{identifier} returns status code = " + response.getStatus());
-				//log.error("Error!  fileHandler/file/{idFile}/metadata/{identifier} returns status code = " + response.getStatus());
 				resultFlag = false;
 			}
 		}else {
 			System.out.println(" Error!  insertDataset method has return false");
-			//log.error("Error!  insertDataset method has return false");
 			return false;
 		}
 
@@ -225,12 +200,12 @@ public class InsertDatasetAutomatic {
 	}
     
     // Extract dates (issued, modified) and identifier from Datasets Netcdf
-    public static Dataset extractionDatesNetcdf(Dataset result, String filename) throws IOException, ParseException {
+    public static Dataset extractionDatesNetcdf(Dataset result, String filename) throws IOException {
 		//read the file
 		NetcdfFile nc = null;
 		try {
 			HDFSFileSystem hdfsSys = new HDFSFileSystem(filename);
-			Path localFile = hdfsSys.copyFile(filename,Constants.configFilePath+"/Backend/AddDatasets/file.nc");
+			Path localFile = hdfsSys.copyFile(filename,Constants.CONFIGFILEPATH+"/Backend/AddDatasets/file.nc");
 			//read NetCDF file to get its metadata
 			nc = NetcdfDataset.openFile(localFile.toString(), null);
 			
@@ -239,16 +214,16 @@ public class InsertDatasetAutomatic {
 			if(listFileMetadata != null)
 			{
 				for(Attribute attr : listFileMetadata) {	
-					if(attr.getShortName().toLowerCase().equals("id")) {
+					if(attr.getShortName().equalsIgnoreCase("id")) {
 						result.setIdentifier(attr.getStringValue());
 					}
-					if(attr.getShortName().toLowerCase().equals("history")) {
+					if(attr.getShortName().equalsIgnoreCase("history")) {
 						result.setIssuedDate(attr.getStringValue().substring(0, 19));
 						if(!(result.getIssuedDate().substring(4,5).equals("-") && result.getIssuedDate().substring(7,8).equals("-") && result.getIssuedDate().substring(10,11).equals("T") && result.getIssuedDate().substring(13,14).equals(":") && result.getIssuedDate().substring(16,17).equals(":"))) {
 							result.setIssuedDate(EMPTY_FIELD);
 						}
 					}
-					if(attr.getShortName().toLowerCase().equals("date_update")) {
+					if(attr.getShortName().equalsIgnoreCase("date_update")) {
 						result.setModifiedDate(attr.getStringValue().substring(0, 19));
 						if(!(result.getModifiedDate().substring(4,5).equals("-") && result.getModifiedDate().substring(7,8).equals("-") && result.getModifiedDate().substring(10,11).equals("T") && result.getModifiedDate().substring(13,14).equals(":") && result.getModifiedDate().substring(16,17).equals(":"))) {
 							result.setModifiedDate(EMPTY_FIELD);
@@ -258,15 +233,15 @@ public class InsertDatasetAutomatic {
 			}
 			
 			//Delete the temporal file "file.nc"
-			hdfsSys.deleteFile(Constants.configFilePath+"/Backend/AddDatasets/file.nc");
+			hdfsSys.deleteFile(Constants.CONFIGFILEPATH+"/Backend/AddDatasets/file.nc");
 			
-		} catch (IOException ioe) {
-
+		} catch (IOException e) {
+			e.printStackTrace();
 		} finally { 
 			if (null != nc) try {
 				nc.close();
-			} catch (IOException ioe) {
-
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 		}
 
@@ -274,10 +249,10 @@ public class InsertDatasetAutomatic {
 	}
     
     // Convert the jsonProfile into a ProfileDataset then to a Dataset
-    public static Dataset convertProfileToDataset(String jsonProfileDataset) throws FileNotFoundException {
+    public static Dataset convertProfileToDataset(String jsonProfileDataset) {
     	List<Map<String, String>> variablesList = new ArrayList<>();
-    	Map<String, String> mMap = new HashMap<String, String>();
-		Map<String, String> variables = new HashMap<String, String>();
+    	Map<String, String> mMap = new HashMap<>();
+		Map<String, String> variables = new HashMap<>();
 		
 		//Convert the json into a ProfileDataset
 		ProfileDataset datasetProfile = new Gson().fromJson(jsonProfileDataset, ProfileDataset.class);
@@ -291,7 +266,7 @@ public class InsertDatasetAutomatic {
 		}
 		
 		//Import all the metadata into the Dataset except identifier, issuedDate and modifiedDate
-		Dataset data = new Dataset("", datasetProfile.getTitle(), datasetProfile.getDescription(), 
+		return new Dataset("", datasetProfile.getTitle(), datasetProfile.getDescription(), 
 				datasetProfile.getSubject(), datasetProfile.getKeywords(), datasetProfile.getStandards(), datasetProfile.getFormats(), datasetProfile.getLanguage(), 
 				datasetProfile.getHomepage(), datasetProfile.getPublisher(), datasetProfile.getSource(), datasetProfile.getObservation(), datasetProfile.getStorageTable(), 
 				datasetProfile.getAccessRights(), "", "", datasetProfile.getGeoLocation(), datasetProfile.getSpatialWest(), datasetProfile.getSpatialEast(),
@@ -299,7 +274,6 @@ public class InsertDatasetAutomatic {
 				datasetProfile.getVerticalCoverageTo(), datasetProfile.getVerticalLevel(), datasetProfile.getTemporalCoverageBegin(), datasetProfile.getTemporalCoverageEnd(),
 				datasetProfile.getTimeResolution(), variables, "");
 		
-		return data;
 		
 	}
 }

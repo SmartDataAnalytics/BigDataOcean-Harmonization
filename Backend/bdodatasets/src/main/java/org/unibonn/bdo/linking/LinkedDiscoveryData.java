@@ -30,7 +30,7 @@ public class LinkedDiscoveryData {
 		if(resultLimes != null) {
 			switch (topic) {
 				case "variables":
-					listDataOntology = OntologyAnalyser.analyseOntology(Constants.BDO_Ontology_N3, topic);
+					listDataOntology = OntologyAnalyser.analyseOntology(Constants.BDO_ONTOLOGY_N3, topic);
 					resultLinked = formVariablesList(listDataOntology, resultLimes, rawNames);
 					break;
 				case "keywords":
@@ -40,7 +40,7 @@ public class LinkedDiscoveryData {
 					resultLinked = formSubjectsList(resultLimes);
 					break;
 				case "geoLocation":
-					listDataOntology = OntologyAnalyser.analyseOntology(Constants.GEOLOC_Ontology_N3, topic);
+					listDataOntology = OntologyAnalyser.analyseOntology(Constants.GEOLOC_ONTOLOGY_N3, topic);
 					resultLinked = formGeoLocationList(listDataOntology, resultLimes);
 					break;
 				default:

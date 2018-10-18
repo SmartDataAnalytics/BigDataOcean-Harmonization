@@ -15,8 +15,6 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.unibonn.bdo.connections.QueryExecutor;
 import org.unibonn.bdo.objects.Dataset;
 import org.unibonn.bdo.objects.ProfileDataset;
@@ -40,24 +38,18 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 
 public class InsertNewDataset {
 	
-	private final static Logger log = LoggerFactory.getLogger(InsertNewDataset.class);
 	private static String tokenAuthorization = ""; 
 	
-	public static void main(String[] args) throws FileNotFoundException, IOException, ParseException {
+	public static void main(String[] args) throws IOException, ParseException {
 		Ini config = new Ini(new File(Constants.INITFILEPATH));
 		tokenAuthorization = config.get("DEFAULT", "AUTHORIZATION_JWT");
 		String flag = args[0];
 		String parameter = args[1];
 		String jsonDataset = args[2];
-		//String flag = "";
-		//String flag = "other";
-		//String parameter = "KRITIJADE>JM>2018-08-28T12:59:59>";
-		//String parameter = "<http://bigdataocean.eu/bdo/MEDSEA_ANALYSIS_mmmmFORECAST_PHY_006_013> ";
-		//String jsonDataset = Constants.configFilePath+"/Backend/AddDatasets/jsonDataset.json";
 		exec(flag, parameter, jsonDataset);
 	}
 
-	private static void exec(String flag, String parameter, String jsonDataset) throws FileNotFoundException, IOException, ParseException {
+	private static void exec(String flag, String parameter, String jsonDataset) throws IOException, ParseException {
 		Dataset newDataset = convertToObjectDataset(jsonDataset);
 		insertDataset(flag, parameter, newDataset);
 	}
@@ -182,7 +174,7 @@ public class InsertNewDataset {
 		insertQuery += "\n";
 		//create the triples for each variable
 		for(Entry<String, String> var : newDataset.getVariables().entrySet()) {
-			String pathFile = Constants.configFilePath+"/Frontend/Flask/static/json/bdo.json";
+			String pathFile = Constants.CONFIGFILEPATH+"/Frontend/Flask/static/json/bdo.json";
 			JSONParser parser = new JSONParser();
 			JSONArray variablesCF = (JSONArray) parser.parse(new FileReader(pathFile));
 	        String sameAs = null;
@@ -219,18 +211,16 @@ public class InsertNewDataset {
 			//Query Jena Fueski to see if the URI to be added already exists
 			boolean results = QueryExecutor.askQuery(query);
 			// if the URI does not exists
-			if(results == false){
+			if(!results){
 				//Add the dataset to Jena Fueski
 				QueryExecutor.insertQuery(insertQuery);
 				resultFlag = true;
 				System.out.print("Successful");
 				//Request API post and put
 				requestAPIJWT(newDataset, param);
-				//log.info("Inserting dataset successfully");
 			}else{
 				resultFlag = false;
 				System.out.print("Error3!   URI already exists.");
-				//log.error("Error!   URI already exists.");
 			}
 		//if not, queries by a selection of parameters: title, publisher and issued date
 		}else if(flag.equals("other")) {
@@ -246,18 +236,16 @@ public class InsertNewDataset {
 			//Query Jena Fueski to see if the URI to be added already exists
 			boolean results = QueryExecutor.askQuery(query); 
 			// if the dataset does not exists
-			if(results == false){
+			if(!results){
 				//Add the dataset to Jena Fueski
 				QueryExecutor.insertQuery(insertQuery);
 				resultFlag = true;
 				System.out.print("Successful");
 				//Request API post and put
 				requestAPIJWT(newDataset, param);
-				//log.info("Datasets was inserted successfully");
 			}else{
 				resultFlag = false;
 				System.out.print("Error3!   URI already exists.");
-				//log.error("Error!   URI already exists.");
 			}
 		}
 		return resultFlag;
@@ -265,22 +253,20 @@ public class InsertNewDataset {
 
 	public static Dataset convertToObjectDataset(String jsonDataset) throws FileNotFoundException {
 		// Parse into JSON the Dataset instance with all metadata from a dataset
-		// System.out.println("java "+jsonDataset);
 		JsonReader reader = new JsonReader(new FileReader(jsonDataset));
 		
-		Dataset data = new Gson().fromJson(reader, Dataset.class);
-		return data;
+		return new Gson().fromJson(reader, Dataset.class);
 		
 	}
 	
 	// Take the Dataset of the profile and return the json
-	private static String printJsonProfile(Dataset dataset) throws FileNotFoundException {
+	private static String printJsonProfile(Dataset dataset) {
 		Gson gson  = new Gson();
 		List<Map<String, String>> variablesList = new ArrayList<>();
-		Map<String, String> mMap = new HashMap<String, String>();
+		Map<String, String> mMap = new HashMap<>();
 		
 		for (Entry<String, String> var : dataset.getVariables().entrySet()) {
-			mMap = new HashMap<String, String>();
+			mMap = new HashMap<>();
 			mMap.put("name",var.getKey());
 			mMap.put("canonicalName",var.getValue());
 			variablesList.add(mMap); 
@@ -293,8 +279,7 @@ public class InsertNewDataset {
 				dataset.getSpatialSouth(), dataset.getSpatialNorth(), dataset.getCoordinateSystem(), dataset.getVerticalCoverageFrom(),
 				dataset.getVerticalCoverageTo(), dataset.getVerticalLevel(), dataset.getTemporalCoverageBegin(), dataset.getTemporalCoverageEnd(),
 				dataset.getTimeResolution(), variablesList);
-		String profile = gson.toJson(datasetProfile);
-		return profile;
+		return gson.toJson(datasetProfile);
 		
 	}
 
@@ -310,15 +295,11 @@ public class InsertNewDataset {
 						.body(printJsonProfile(newDataset))
 						.asString();
 				if(response.getStatus() == 200) {
-					//System.out.println(" Profile= " + printJsonProfile(newDataset));
-					//log.info("Dataset profile is" + printJsonProfile(newDataset));
 					System.out.println("Successful!	Profile is being added");
 				} else {
 					System.out.println("Error1!   Profile is not being added.");
-					//log.error("Error!   Profile is not being added.");
 				}
-			} catch (UnirestException | FileNotFoundException e) {
-				// TODO Auto-generated catch block
+			} catch (UnirestException e) {
 				e.printStackTrace();
 			}
 		}
@@ -332,18 +313,14 @@ public class InsertNewDataset {
 						.header("Authorization", tokenAuthorization)
 						.asString();
 				if(response1.getStatus() == 200) {
-					//System.out.println(" Profile= " + printJsonProfile(newDataset));
-					//log.info("Dataset profile is" + printJsonProfile(newDataset));
 					System.out.println("Successful!	Identifier is being added");
 					
 					//Send to the kafka producer the idFile TOPIC2
 					InsertDatasetAutomatic.runProducer(idFile);
 				} else {
 					System.out.println("Error2!   Identifier is not being added.");
-					//log.error("Error!   Identifier is not being added.");
 				}
 			} catch (UnirestException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -357,18 +334,14 @@ public class InsertNewDataset {
 						.header("Authorization", tokenAuthorization)
 						.asString();
 				if(response1.getStatus() == 200) {
-					//System.out.println(" Profile= " + printJsonProfile(newDataset));
-					//log.info("Dataset profile is" + printJsonProfile(newDataset));
 					System.out.println("Successful!	Identifier is being added");
 					
 					//Send to the kafka producer the idFile TOPIC2
 					InsertDatasetAutomatic.runProducer(idFile);
 				} else {
 					System.out.println("Error2!   Identifier is not being added.");
-					//log.error("Error!   Identifier is not being added.");
 				}
 			} catch (UnirestException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

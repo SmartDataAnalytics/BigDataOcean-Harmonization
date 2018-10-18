@@ -1,29 +1,29 @@
 package org.unibonn.bdo.bdodatasets;
 
 public class Constants {
-	public static String configFilePath="/BDOHarmonization/BigDataOcean-Harmonization";
-    public static String configVolumePath="/dataHarmonization";
-	public static String INITFILEPATH = configFilePath + "/Backend/bdodatasets/bdo.ini";
-    public static String BDO_Ontology_N3 = configVolumePath + "/ontologiesN3/bdo.n3";
-    public static String GEOLOC_Ontology_N3 = configVolumePath + "/ontologiesN3/geolocbdo.n3";
-    public static String INSPIRE_Ontology_N3 = configVolumePath + "/ontologiesN3/inspire.n3";
-    public static String EIONET_Ontology_N3 = configVolumePath + "/ontologiesN3/eionet.n3";
-    public static String HTTPJWT = "http://212.101.173.21:8085/";
-    public static String HTTPLIMES = "http://localhost:8080/";
-	public static String HTTPFUSEKI = "http://localhost:3031/bdoHarmonization/";
-	public static String API_GET_INFO_VOCAB_REPO = "http://212.101.173.21:3333/dataset/bdo/api/v2/vocabulary/info?vocab=";
-    public static String KAFKA_BROKERS = "10.24.10.7:9092,10.24.10.5:9092,10.24.10.11:9092,10.24.10.12:9092,10.24.10.15:9092";
-    public static Integer MESSAGE_COUNT=1000;
-    public static String CLIENT_ID="client1";
-    public static String TOPIC_NAME1="files_without_metadata";
-    public static String TOPIC_NAME2="files_with_metadata";
-    public static String GROUP_ID_CONFIG="consumerGroup1";
-    public static Integer MAX_NO_MESSAGE_FOUND_COUNT=100;
-    public static String OFFSET_RESET_LATEST="latest";
-    public static String OFFSET_RESET_EARLIER="earliest";
-    public static Integer MAX_POLL_RECORDS=1;
+	public static final String CONFIGFILEPATH="/BDOHarmonization/BigDataOcean-Harmonization";
+    public static final String CONFIGVOLUMEPATH="/dataHarmonization";
+	public static final String INITFILEPATH = CONFIGFILEPATH + "/Backend/bdodatasets/bdo.ini";
+    public static final String BDO_ONTOLOGY_N3 = CONFIGVOLUMEPATH + "/ontologiesN3/bdo.n3";
+    public static final String GEOLOC_ONTOLOGY_N3 = CONFIGVOLUMEPATH + "/ontologiesN3/geolocbdo.n3";
+    public static final String INSPIRE_ONTOLOGY_N3 = CONFIGVOLUMEPATH + "/ontologiesN3/inspire.n3";
+    public static final String EIONET_ONTOLOGY_N3 = CONFIGVOLUMEPATH + "/ontologiesN3/eionet.n3";
+    public static final String HTTPJWT = "http://212.101.173.21:8085/";
+    public static final String HTTPLIMES = "http://localhost:8080/";
+	public static final String HTTPFUSEKI = "http://localhost:3031/bdoHarmonization/";
+	public static final String API_GET_INFO_VOCAB_REPO = "http://212.101.173.21:3333/dataset/bdo/api/v2/vocabulary/info?vocab=";
+    public static final String KAFKA_BROKERS = "localhost:9092";
+    public static final Integer MESSAGE_COUNT=1000;
+    public static final String CLIENT_ID="client1";
+    public static final String TOPIC_NAME1="files_without_metadata";
+    public static final String TOPIC_NAME2="files_with_metadata";
+    public static final String GROUP_ID_CONFIG="consumerGroup1";
+    public static final Integer MAX_NO_MESSAGE_FOUND_COUNT=100;
+    public static final String OFFSET_RESET_LATEST="latest";
+    public static final String OFFSET_RESET_EARLIER="earliest";
+    public static final Integer MAX_POLL_RECORDS=1;
     
-    public static String HEADER_CONFIG_LIMES_FILE = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + 
+    public static final String HEADER_CONFIG_LIMES_FILE = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + 
             "<!DOCTYPE LIMES SYSTEM \"limes.dtd\">\n" + 
             "<LIMES>\n" + 
             "   <PREFIX>\n" + 
@@ -62,7 +62,7 @@ public class Constants {
             "       <NAMESPACE>http://xmlns.com/foaf/0.1/</NAMESPACE>\n" + 
             "       <LABEL>foaf</LABEL>\n" + 
             "   </PREFIX>";
-    public static String FOOTER_CONFIG_LIMES_FILE = "   <EXECUTION>\n" + 
+    public static final String FOOTER_CONFIG_LIMES_FILE = "   <EXECUTION>\n" + 
             "       <REWRITER>default</REWRITER>\n" + 
             "       <PLANNER>default</PLANNER>\n" + 
             "       <ENGINE>default</ENGINE>\n" + 

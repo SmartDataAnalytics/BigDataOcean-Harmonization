@@ -1,9 +1,5 @@
 package org.unibonn.bdo.bdodatasets;
 
-import java.io.IOException;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.unibonn.bdo.objects.Dataset;
 
 import com.google.gson.Gson;
@@ -21,55 +17,42 @@ import com.google.gson.Gson;
 
 public class Suggest {
 	
-	private static final Logger log = LoggerFactory.getLogger(Suggest.class);
-
-	public static void main(String[] args) throws IOException {
-		String uri_file = args[0];
+	public static void main(String[] args) {
+		String uriFile = args[0];
 		String type = args[1];
-		//String uri_file = "http://cmems-resources.cls.fr/?option=com_csw&view=details&tab=info&product_id=GLOBAL_ANALYSIS_FORECAST_PHY_001_024&format=xml";
-		//String type = "Coppernicus";
-		//String uri_file = "/home/eis/Documents/Datasets/UK_fleet_landings.csv";
-		//String type = "FileCSV";
-		exec(uri_file, type);
+		exec(uriFile, type);
 	}
 	
-	public static void exec(String Dataseturi, String type) {
+	public static void exec(String datasetUri, String type) {
 		try {
 			if(type.equals("Coppernicus")) {
-				Dataset result = BdoDatasetAnalyser.analyseDatasetURI(Dataseturi);
+				Dataset result = BdoDatasetAnalyser.analyseDatasetURI(datasetUri);
 				Gson gson  =new Gson();
 				System.out.println(gson.toJson(result));
-				//log.info("Suggest of coppernicus: "+gson.toJson(result));
 			}else if (type.equals("Netcdf")) {
-				Dataset result = BdoDatasetAnalyser.analyseDatasetNetcdf(Dataseturi);
+				Dataset result = BdoDatasetAnalyser.analyseDatasetNetcdf(datasetUri);
 				Gson gson  =new Gson();
 				System.out.println(gson.toJson(result));
-				//log.info("Suggest of netcdf: "+gson.toJson(result));
 			}else if (type.equals("FileNetcdf")) {
-				Dataset result = BdoDatasetAnalyser.analyseDatasetFileNetcdf(Dataseturi);
+				Dataset result = BdoDatasetAnalyser.analyseDatasetFileNetcdf(datasetUri);
 				Gson gson  =new Gson();
 				System.out.println(gson.toJson(result));
-				//log.info("Suggest of netcdf file: "+gson.toJson(result));
 			}else if (type.equals("FileCSV")) {
-				Dataset result = BdoDatasetAnalyser.analyseDatasetFileCsv(Dataseturi);
+				Dataset result = BdoDatasetAnalyser.analyseDatasetFileCsv(datasetUri);
 				Gson gson  =new Gson();
 				System.out.println(gson.toJson(result));
-				//log.info("Suggest of csv file: "+gson.toJson(result));
 			}else if (type.equals("CSV")) {
-				Dataset result = BdoDatasetAnalyser.analyseDatasetCsv(Dataseturi);
+				Dataset result = BdoDatasetAnalyser.analyseDatasetCsv(datasetUri);
 				Gson gson  =new Gson();
 				System.out.println(gson.toJson(result));
-				//log.info("Suggest of csv: "+gson.toJson(result));
 			}else if (type.equals("FileExcel")) {
-				Dataset result = BdoDatasetAnalyser.analyseDatasetFileExcel(Dataseturi);
+				Dataset result = BdoDatasetAnalyser.analyseDatasetFileExcel(datasetUri);
 				Gson gson  =new Gson();
 				System.out.println(gson.toJson(result));
-				//log.info("Suggest of excel file: "+gson.toJson(result));
 			}else if (type.equals("Excel")) {
-				Dataset result = BdoDatasetAnalyser.analyseDatasetExcel(Dataseturi);
+				Dataset result = BdoDatasetAnalyser.analyseDatasetExcel(datasetUri);
 				Gson gson  =new Gson();
 				System.out.println(gson.toJson(result));
-				//log.info("Suggest of excel: "+gson.toJson(result));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

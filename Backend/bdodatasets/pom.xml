@@ -239,13 +239,6 @@
               </jvmSettings>
             </program>
             <program>
-              <mainClass>org.unibonn.bdo.bdodatasets.SuggestNetcdf</mainClass>
-              <id>suggestNetcdf</id>
-              <jvmSettings>
-                <maxMemorySize>512m</maxMemorySize>
-              </jvmSettings>
-            </program>
-            <program>
               <mainClass>org.unibonn.bdo.bdodatasets.InsertNewDataset</mainClass>
               <id>insertDataset</id>
               <jvmSettings>

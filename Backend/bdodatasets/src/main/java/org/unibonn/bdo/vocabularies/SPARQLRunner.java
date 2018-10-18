@@ -57,7 +57,7 @@ public class SPARQLRunner {
 		String token;
 		Query query = getQuery(queryFile);
 		QuerySolutionMap args = new QuerySolutionMap();
-		ArrayList<Ontology> result = new ArrayList<Ontology>();
+		ArrayList<Ontology> result = new ArrayList<>();
 		ResultSet rs = QueryExecutionFactory.create(query, dataset, args).execSelect();
 		while (rs.hasNext()) {
 			// Initialization of variables 
@@ -89,36 +89,13 @@ public class SPARQLRunner {
 		return result;
 	}
 	
-	public List<Ontology> getListDataKeywords(String queryFile) {
+	public List<Ontology> getListDataKeywordsSubjects(String queryFile) {
 		Ontology onto;
 		RDFNode uri;
 		RDFNode label;
 		Query query = getQuery(queryFile);
 		QuerySolutionMap args = new QuerySolutionMap();
-		ArrayList<Ontology> result = new ArrayList<Ontology>();
-		ResultSet rs = QueryExecutionFactory.create(query, dataset, args).execSelect();
-		while (rs.hasNext()) {
-			// Initialization of variables 
-			uri = null;
-			label = null;
-			
-			QuerySolution solution = rs.next();
-			uri = solution.get("uri");
-			label = solution.get("label");
-			onto = new Ontology(uri.toString(), label.toString());
-			result.add(onto);
-			
-		}
-		return result;
-	}
-	
-	public List<Ontology> getListDataSubjects(String queryFile) {
-		Ontology onto;
-		RDFNode uri;
-		RDFNode label;
-		Query query = getQuery(queryFile);
-		QuerySolutionMap args = new QuerySolutionMap();
-		ArrayList<Ontology> result = new ArrayList<Ontology>();
+		ArrayList<Ontology> result = new ArrayList<>();
 		ResultSet rs = QueryExecutionFactory.create(query, dataset, args).execSelect();
 		while (rs.hasNext()) {
 			// Initialization of variables 
@@ -142,7 +119,7 @@ public class SPARQLRunner {
 		RDFNode url;
 		Query query = getQuery(queryFile);
 		QuerySolutionMap args = new QuerySolutionMap();
-		ArrayList<Ontology> result = new ArrayList<Ontology>();
+		ArrayList<Ontology> result = new ArrayList<>();
 		ResultSet rs = QueryExecutionFactory.create(query, dataset, args).execSelect();
 		while (rs.hasNext()) {
 			// Initialization of variables 
@@ -167,12 +144,11 @@ public class SPARQLRunner {
 				return QueryFactory.create(FileUtils.readWholeFileAsUTF8(
 						SPARQLRunner.class.getResourceAsStream("/queries/"+ (subfolder==null? "":subfolder+"/") + filename)));
 			} catch (IOException ex) {
-				System.out.println(filename);
 				throw new RuntimeException(ex);
 			}
 		}
 		return queryCache.get(filename);
 	}
-	private static final Map<String,Query> queryCache = new HashMap<String,Query>();
+	private static final Map<String,Query> queryCache = new HashMap<>();
 	
 }

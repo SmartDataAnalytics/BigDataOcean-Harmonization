@@ -47,7 +47,7 @@ public class NERDiscovery {
 	// Create the csv file that contains the raw description extracted from a dataset file
 	private static void createTxtFile(String text) {
 		try {
-			fileTxt = Constants.configFilePath + "/Backend/AddDatasets/tempNERBDO.txt";
+			fileTxt = Constants.CONFIGFILEPATH + "/Backend/AddDatasets/tempNERBDO.txt";
 			FileWriter writer = new FileWriter(fileTxt);
 			writer.write(text);
 		    writer.close();
@@ -58,25 +58,28 @@ public class NERDiscovery {
 	}
 	
 	// Find entities of the txt file
-	private static List<String> extractEntities() throws Exception {
-		AbstractSequenceClassifier<CoreLabel> classifier =  new NERClassifierCombiner(true, false, false, Constants.configFilePath + "/Backend/AddDatasets/classifiers/english.all.3class.distsim.crf.ser.gz", Constants.configFilePath + "/Backend/AddDatasets/classifiers/bdo_model_ner.ser.gz");
-
-		String fileContents = IOUtils.slurpFile(fileTxt);
+	private static List<String> extractEntities() {
+		AbstractSequenceClassifier<CoreLabel> classifier;
 		List<String> responseList = new ArrayList<>();
-		List<Triple<String, Integer, Integer>> list = classifier.classifyToCharacterOffsets(fileContents);
-		for (Triple<String, Integer, Integer> item : list) {
-			responseList.add(fileContents.substring(item.second(), item.third()).toLowerCase());
+		try {
+			classifier = new NERClassifierCombiner(true, false, false, Constants.CONFIGFILEPATH + "/Backend/AddDatasets/classifiers/english.all.3class.distsim.crf.ser.gz", Constants.CONFIGFILEPATH + "/Backend/AddDatasets/classifiers/bdo_model_ner.ser.gz");
+
+			String fileContents = IOUtils.slurpFile(fileTxt);
+			List<Triple<String, Integer, Integer>> list = classifier.classifyToCharacterOffsets(fileContents);
+			for (Triple<String, Integer, Integer> item : list) {
+				responseList.add(fileContents.substring(item.second(), item.third()).toLowerCase());
+			}
+			
+			responseList = removeDuplicates(responseList);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		
-		responseList = removeDuplicates(responseList);
 		return responseList;
 	}
 	
 	// Delete duplicate entities
 	private static List<String> removeDuplicates(List<String> list) {
-	    List<String> listWithoutDuplicates = new ArrayList<>(
-	      new HashSet<>(list));
-	    return listWithoutDuplicates;
+	    return new ArrayList<>(new HashSet<>(list));
 	}
 
 }
