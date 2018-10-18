@@ -2,7 +2,6 @@ package org.unibonn.bdo.bdodatasets;
 
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.io.File;
@@ -51,6 +50,10 @@ public class BdoDatasetAnalyser {
 	
 	private static final String EMPTY_FIELD = "";
 	private static List<String> listNER = new ArrayList<>();
+	
+	private BdoDatasetAnalyser() {
+		throw new IllegalStateException("BdoDatasetAnalyser class");
+	}
 	
 	// Extract metadata from copernicus html (xml)
 	public static Dataset analyseDatasetURI(String datasetURI) throws IOException {
@@ -174,7 +177,10 @@ public class BdoDatasetAnalyser {
 		String[] list = delims.split(",");
 		
 		//obtaining the corresponding variable name from the standard CF
-		List<String> listVariables = Arrays.asList(list);
+		List<String> listVariables = new ArrayList<>();
+		for (String itemVariable : list) {
+			listVariables.add(itemVariable + " -- " + EMPTY_FIELD);
+		}
 		variables = LinkedDiscoveryData.parseListNames(listVariables, "variables");
 		
 		Element item8 = doc.getElementsByTag("gmd:descriptiveKeywords").get(1);
@@ -352,7 +358,7 @@ public class BdoDatasetAnalyser {
 		    
 		    for(int i = 0; i<nextLine.length; i++) {
 		    	String var = removeUTF8BOM(nextLine[i]);
-		    	listVariables.add(var);
+		    	listVariables.add(var + " -- " + EMPTY_FIELD);
 		    }
 		    reader.close();
 
@@ -389,6 +395,7 @@ public class BdoDatasetAnalyser {
 	// Extract metadata from file Excel (local)
 	public static Dataset analyseDatasetFileExcel(String filename) throws IOException {
 		Dataset result = new Dataset();
+		List<String> listExcelVariables = new ArrayList<>() ;
 		List<String> listVariables = new ArrayList<>() ;
 		String nameExtension;
 		List<String> listSubjects = new ArrayList<>();
@@ -429,8 +436,11 @@ public class BdoDatasetAnalyser {
 		inp = new FileInputStream(filename);
 		try {
 			Workbook wb = WorkbookFactory.create(inp);
-	        listVariables = extractVariablesExcel(wb.getSheetAt(0));
+	        listExcelVariables = extractVariablesExcel(wb.getSheetAt(0));
 	        inp.close();
+	        for(String attr : listExcelVariables) {
+	        	listVariables.add(attr + " -- " + EMPTY_FIELD);
+	        }
 		} catch (InvalidFormatException e) {
 			e.printStackTrace();
 		}
@@ -599,13 +609,13 @@ public class BdoDatasetAnalyser {
 				}
 				if(attr.getShortName().equalsIgnoreCase("geospatial_vertical_min")) {
 					result.setVerticalCoverageFrom(attr.getStringValue());
-					if (result.getVerticalCoverageFrom().length() == 1) {
+					if (result.getVerticalCoverageFrom().equals(" ")) {
 						result.setVerticalCoverageFrom(EMPTY_FIELD);
 					}
 				}				
 				if(attr.getShortName().equalsIgnoreCase("geospatial_vertical_max")) {
 					result.setVerticalCoverageTo(attr.getStringValue());
-					if (result.getVerticalCoverageTo().length() == 1) {
+					if (result.getVerticalCoverageTo().equals(" ")) {
 						result.setVerticalCoverageTo(EMPTY_FIELD);
 					}
 				}				
@@ -697,7 +707,16 @@ public class BdoDatasetAnalyser {
 			for (int i=0; i<allVariables.size(); i++) {
 				//select only the (raw) name of the variables
 				String standardName = allVariables.get(i).getShortName();
-				variables.add(standardName);
+				String unit = allVariables.get(i).getUnitsString();
+				if(unit == null) {
+					unit = EMPTY_FIELD;
+				} else if (unit.contains("since")) {
+					String[] token = unit.split("since");
+					unit = token[0];
+				} else if (unit.contains("%")) {
+					unit = "percent";
+				}
+				variables.add(standardName + " -- " + unit);
 		    }
 			//Verify and delete if there are duplicates
 			HashSet<String> hs = new HashSet<>();

@@ -2,7 +2,6 @@ package org.unibonn.bdo.objects;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Map;
 
 /**
  *  
@@ -13,10 +12,10 @@ import java.util.Map;
  *
  */
 
-public class Dataset implements Serializable{
-
-	private static final long serialVersionUID = 2130077493645125759L;
+public class Dataset  implements Serializable {
 	
+	private static final long serialVersionUID = 2130077493645125759L;
+
 	private String identifier; //identifier of Dataset
 	private String title; //title of Dataset
 	private String description; //description of Dataset
@@ -45,7 +44,6 @@ public class Dataset implements Serializable{
 	private String temporalCoverageBegin; //temp_coverage_begin
 	private String temporalCoverageEnd; //temp_coverage_end
 	private String timeResolution; //time_reso
-	private Map<String,String> variables; //dataset variables (from file) and canonical variables
 	private List<String> variable; //dataset variables
 	private String profileName;
 	
@@ -81,12 +79,6 @@ public class Dataset implements Serializable{
 		this.profileName = "";
 	}
 	
-
-	//Dataset constructor for APIs
-	public Dataset(String identifier){
-		this.identifier = identifier;
-	}
-	
 	//Dataset constructor for List<String> variable
 	public Dataset(String identifier, String title, String description, String subject, String keywords,
 			String standards, String formats, String language, String homepage, String publisher, 
@@ -95,7 +87,6 @@ public class Dataset implements Serializable{
 			String spatialSouth, String spatialNorth, String coordinateSystem, String verticalCoverageFrom,
 			String verticalCoverageTo, String verticalLevel, String temporalCoverageBegin, String temporalCoverageEnd,
 			String timeResolution, List<String> variable, String profileName) {
-		super();
 		this.identifier = identifier;
 		this.title = title;
 		this.description = description;
@@ -125,47 +116,6 @@ public class Dataset implements Serializable{
 		this.temporalCoverageEnd = temporalCoverageEnd;
 		this.timeResolution = timeResolution;
 		this.variable = variable;
-		this.profileName = profileName;
-	}
-
-	//Dataset constructor for Map<String,String> variables
-	public Dataset(String identifier, String title, String description, String subject, String keywords,
-			String standards, String formats, String language, String homepage, String publisher, 
-			String source, String observations, String storageTable, 
-			String accessRights, String issuedDate, String modifiedDate, String geoLocation, String spatialWest, String spatialEast,
-			String spatialSouth, String spatialNorth, String coordinateSystem, String verticalCoverageFrom,
-			String verticalCoverageTo, String verticalLevel, String temporalCoverageBegin, String temporalCoverageEnd,
-			String timeResolution, Map<String, String> variables, String profileName) {
-		super();
-		this.identifier = identifier;
-		this.title = title;
-		this.description = description;
-		this.subject = subject;
-		this.keywords = keywords;
-		this.standards = standards;
-		this.formats = formats;
-		this.language = language;
-		this.homepage = homepage;
-		this.publisher = publisher;
-		this.source = source;
-		this.observations = observations;
-		this.storageTable = storageTable;
-		this.accessRights = accessRights;
-		this.issuedDate = issuedDate;
-		this.modifiedDate = modifiedDate;
-		this.geoLocation = geoLocation;
-		this.spatialWest = spatialWest;
-		this.spatialEast = spatialEast;
-		this.spatialSouth = spatialSouth;
-		this.spatialNorth = spatialNorth;
-		this.coordinateSystem = coordinateSystem;
-		this.verticalCoverageFrom = verticalCoverageFrom;
-		this.verticalCoverageTo = verticalCoverageTo;
-		this.verticalLevel = verticalLevel;
-		this.temporalCoverageBegin = temporalCoverageBegin;
-		this.temporalCoverageEnd = temporalCoverageEnd;
-		this.timeResolution = timeResolution;
-		this.variables = variables;
 		this.profileName = profileName;
 	}
 
@@ -391,14 +341,6 @@ public class Dataset implements Serializable{
 
 	public void setTimeResolution(String timeResolution) {
 		this.timeResolution = timeResolution;
-	}
-
-	public Map<String, String> getVariables() {
-		return variables;
-	}
-
-	public void setVariables(Map<String, String> variables) {
-		this.variables = variables;
 	}
 
 	public List<String> getVariable() {

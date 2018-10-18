@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.json.simple.parser.ParseException;
-import org.unibonn.bdo.objects.Dataset;
+import org.unibonn.bdo.objects.DatasetApi;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -20,16 +20,15 @@ import com.mashape.unirest.http.exceptions.UnirestException;
  */
 
 public class Api {
-	
+
 	public static void main(String[] args) {
 		int apiNumber = Integer.parseInt(args[0]);
 		String searchParam = args[1];
 		exec(apiNumber, searchParam);
-
 	}
 
 	public static void exec(int apiNumber, String searchParam) {
-		List<Dataset> list;
+		List<DatasetApi> list;
 		Gson gson  = new GsonBuilder().setPrettyPrinting().create();
 		switch(apiNumber) {
 			case 1:
@@ -44,7 +43,7 @@ public class Api {
 				
 			case 2:
 				try {
-					Dataset dataset = BdoApiAnalyser.apiSearchDataset(searchParam);
+					DatasetApi dataset = BdoApiAnalyser.apiSearchDataset(searchParam);
 					// Parse into JSON the Dataset instance with all metadata from a dataset
 					System.out.print(gson.toJson(dataset));
 				} catch (Exception e) {
@@ -99,14 +98,14 @@ public class Api {
 				break;
 			
 			case 8:				
-					list = BdoApiAnalyser.apiListDatasetByTimeCov(searchParam);
-					// Parse into JSON the Dataset instance with all metadata from a dataset
-					System.out.print(gson.toJson(list));
+				list = BdoApiAnalyser.apiListDatasetByTimeCov(searchParam);
+				// Parse into JSON the Dataset instance with all metadata from a dataset
+				System.out.print(gson.toJson(list));
 				break;	
 			
 			case 9:
 				try {
-					Dataset dataset = BdoApiAnalyser.apiListVarOfDataset(searchParam);
+					DatasetApi dataset = BdoApiAnalyser.apiListVarOfDataset(searchParam);
 					// Parse into JSON the Dataset instance with all metadata from a dataset
 					System.out.print(gson.toJson(dataset));
 				} catch (Exception e) {

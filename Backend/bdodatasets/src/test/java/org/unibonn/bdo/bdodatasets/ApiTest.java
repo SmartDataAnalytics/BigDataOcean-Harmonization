@@ -1,6 +1,7 @@
 package org.unibonn.bdo.bdodatasets;
 
-import org.unibonn.bdo.objects.Dataset;
+import org.unibonn.bdo.objects.DatasetApi;
+import org.unibonn.bdo.objects.VariableDataset;
 
 import static org.junit.Assert.*;
 
@@ -25,32 +26,50 @@ public class ApiTest {
 	
 	private final static Logger log = LoggerFactory.getLogger(ApiTest.class);
 	
-	private List<Dataset> testList;
-	private Dataset datasetTest;
-	private Map<String,String> listVar = new HashMap<>();
+	private List<DatasetApi> testList;
+	private DatasetApi datasetTest;
+	private List<VariableDataset> listVar = new ArrayList<>();
 	private boolean flag = false;
 
 	@Before
 	public void setUp() throws Exception {
 		testList = new ArrayList<>();
-		datasetTest = new Dataset();
-		listVar.put("sea_surface_wave_significant_height","sea_surface_wave_significant_height");
-		listVar.put("sea_surface_wave_period_at_variance_spectral_density_maximum","sea_surface_wave_period_at_variance_spectral_density_maximum");
-		listVar.put("sea_surface_wave_mean_period_from_variance_spectral_density_inverse_frequency_moment","sea_surface_wave_mean_period_from_variance_spectral_density_inverse_frequency_moment");
-		listVar.put("sea_surface_wave_mean_period_from_variance_spectral_density_second_frequency_moment","sea_surface_wave_mean_period_from_variance_spectral_density_second_frequency_moment");
-		listVar.put("sea_surface_wave_from_direction","sea_surface_wave_from_direction");
-		listVar.put("sea_surface_wind_wave_significant_height","sea_surface_wind_wave_significant_height");
-		listVar.put("sea_surface_wind_wave_mean_period","sea_surface_wind_wave_mean_period");
-		listVar.put("sea_surface_wind_wave_from_direction","sea_surface_wind_wave_from_direction");
-		listVar.put("sea_surface_primary_swell_wave_significant_height","sea_surface_primary_swell_wave_significant_height");
-		listVar.put("sea_surface_primary_swell_wave_mean_period","sea_surface_primary_swell_wave_mean_period");
-		listVar.put("sea_surface_primary_swell_wave_from_direction","sea_surface_primary_swell_wave_from_direction");
-		listVar.put("sea_surface_secondary_swell_wave_from_direction","sea_surface_secondary_swell_wave_from_direction");
-		listVar.put("sea_surface_secondary_swell_wave_mean_period","sea_surface_secondary_swell_wave_mean_period");
-		listVar.put("sea_surface_secondary_swell_wave_significant_height","sea_surface_secondary_swell_wave_significant_height");
-		listVar.put("sea_surface_wave_from_direction_at_variance_spectral_density_maximum","sea_surface_wave_from_direction_at_variance_spectral_density_maximum");
-		listVar.put("sea_surface_wave_stokes_drift_x_velocity","sea_surface_wave_stokes_drift_x_velocity");
-		listVar.put("sea_surface_wave_stokes_drift_y_velocity","sea_surface_wave_stokes_drift_y_velocity");
+		datasetTest = new DatasetApi();
+		VariableDataset varData;
+		varData = new VariableDataset("sea_surface_wave_significant_height", "sea_surface_wave_significant_height", "");
+		listVar.add(varData);
+		varData = new VariableDataset("sea_surface_wave_period_at_variance_spectral_density_maximum", "sea_surface_wave_period_at_variance_spectral_density_maximum", "");
+		listVar.add(varData);
+		varData = new VariableDataset("sea_surface_wave_mean_period_from_variance_spectral_density_inverse_frequency_moment", "sea_surface_wave_mean_period_from_variance_spectral_density_inverse_frequency_moment", "");
+		listVar.add(varData);
+		varData = new VariableDataset("sea_surface_wave_mean_period_from_variance_spectral_density_second_frequency_moment", "sea_surface_wave_mean_period_from_variance_spectral_density_second_frequency_moment", "");
+		listVar.add(varData);
+		varData = new VariableDataset("sea_surface_wave_from_direction", "sea_surface_wave_from_direction", "");
+		listVar.add(varData);
+		varData = new VariableDataset("sea_surface_wind_wave_significant_height", "sea_surface_wind_wave_significant_height", "");
+		listVar.add(varData);
+		varData = new VariableDataset("sea_surface_wind_wave_mean_period", "sea_surface_wind_wave_mean_period", "");
+		listVar.add(varData);
+		varData = new VariableDataset("sea_surface_wind_wave_from_direction", "sea_surface_wind_wave_from_direction", "");
+		listVar.add(varData);
+		varData = new VariableDataset("sea_surface_primary_swell_wave_significant_height", "sea_surface_primary_swell_wave_significant_height", "");
+		listVar.add(varData);
+		varData = new VariableDataset("sea_surface_primary_swell_wave_mean_period", "sea_surface_primary_swell_wave_mean_period", "");
+		listVar.add(varData);
+		varData = new VariableDataset("sea_surface_primary_swell_wave_from_direction", "sea_surface_primary_swell_wave_from_direction", "");
+		listVar.add(varData);
+		varData = new VariableDataset("sea_surface_secondary_swell_wave_from_direction", "sea_surface_secondary_swell_wave_from_direction", "");
+		listVar.add(varData);
+		varData = new VariableDataset("sea_surface_secondary_swell_wave_mean_period", "sea_surface_secondary_swell_wave_mean_period", "");
+		listVar.add(varData);
+		varData = new VariableDataset("sea_surface_secondary_swell_wave_significant_height", "sea_surface_secondary_swell_wave_significant_height", "");
+		listVar.add(varData);
+		varData = new VariableDataset("sea_surface_wave_from_direction_at_variance_spectral_density_maximum", "sea_surface_wave_from_direction_at_variance_spectral_density_maximum", "");
+		listVar.add(varData);
+		varData = new VariableDataset("sea_surface_wave_stokes_drift_x_velocity", "sea_surface_wave_stokes_drift_x_velocity", "");
+		listVar.add(varData);
+		varData = new VariableDataset("sea_surface_wave_stokes_drift_y_velocity","sea_surface_wave_stokes_drift_y_velocity", "");
+		listVar.add(varData);
 	}
 
 	@Test
@@ -108,7 +127,7 @@ public class ApiTest {
 	@Test
 	public void test6() {
 		log.info("Start testing API # 6");
-		testList = BdoApiAnalyser.apisearchGeoCoverage("-17.1, 36.2, 30, 45.98");
+		testList = BdoApiAnalyser.apisearchGeoCoverage("-17.1,36.2,30,45.98");
 		if (testList != null) {
 			flag = true;
 		}
@@ -119,7 +138,7 @@ public class ApiTest {
 	@Test
 	public void test7() {
 		log.info("Start testing API # 7");
-		testList = BdoApiAnalyser.apiListDatasetByVertCov("-6000,= 0");
+		testList = BdoApiAnalyser.apiListDatasetByVertCov("-6000,0");
 		if (testList != null) {
 			flag = true;
 		}
@@ -130,7 +149,7 @@ public class ApiTest {
 	@Test
 	public void test8() {
 		log.info("Start testing API # 8");
-		testList = BdoApiAnalyser.apiListDatasetByTimeCov("2016-08-01T00:00:00,- ");
+		testList = BdoApiAnalyser.apiListDatasetByTimeCov("2016-08-01T00:00:00,");
 		if (testList != null) {
 			flag = true;
 		}
@@ -142,13 +161,14 @@ public class ApiTest {
 	public void test9() {
 		log.info("Start testing API # 9");
 		datasetTest = BdoApiAnalyser.apiListVarOfDataset("MEDSEA_ANALYSIS_FORECAST_WAV_006_011");
-		assertEquals(listVar, datasetTest.getVariables());		
+		List<VariableDataset> varData = datasetTest.getVariables();
+		assertEquals(listVar.get(0).getCanonicalName(), varData.get(0).getCanonicalName());		
 	}
 	
 	@Test
 	public void test10() {
 		log.info("Start testing API # 10");
-		testList = BdoApiAnalyser.apiListDatasetsByVar("sea_surface_wave_significant_height, latitude");
+		testList = BdoApiAnalyser.apiListDatasetsByVar("sea_surface_wave_significant_height,latitude");
 		if (testList != null) {
 			flag = true;
 		}

@@ -5,6 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,6 +42,15 @@ public class LimesAnalyser {
 	public static Map<String,String> exec(List<String> rawName, String topic){
 		Map<String,String> resultLimes = new HashMap<>();
 		try {
+			// list only will have rawname
+			if (topic.equals("variables")){
+				List<String> tempRawName = new ArrayList<>();
+				for(int i = 0; i < rawName.size(); i++) {
+					String name = rawName.get(i).split(" -- ")[0];
+					tempRawName.add(name);
+				}
+				rawName = tempRawName;
+			}
 			createCsvFile(rawName);
 			createConfigFile(topic);
 			resultLimes = linkingLimes();

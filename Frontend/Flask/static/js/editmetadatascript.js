@@ -1,8 +1,8 @@
-//List of variables extracted from variablesCF_BDO.json
+//List of variables extracted from canonicalModelMongo.json
 var options = {
-  url: "../static/json/bdo.json",
+  url: "../static/json/canonicalModelMongo.json",
 
-  getValue: "text",
+  getValue: "canonicalName",
 
   list: {
     maxNumberOfElements: 10,
@@ -63,7 +63,7 @@ jQuery(document).ready(function($) {
   var resourceSubjects = new Bloodhound({
     datumTokenizer: Bloodhound.tokenizers.obj.whitespace('text'),
     queryTokenizer: Bloodhound.tokenizers.whitespace,
-    prefetch: '../static/json/inspire.json'
+    prefetch: '../static/json/subject.json'
   });
   resourceSubjects.initialize(); 
 
@@ -77,14 +77,14 @@ jQuery(document).ready(function($) {
   var resourceKeywords = new Bloodhound({
     datumTokenizer: Bloodhound.tokenizers.obj.whitespace('text'),
     queryTokenizer: Bloodhound.tokenizers.whitespace,
-    prefetch: '../../static/json/eionet.json'
+    prefetch: '../../static/json/keywords.json'
   });
   resourceKeywords.initialize();
 
   var resourceGeoLoc = new Bloodhound({
     datumTokenizer: Bloodhound.tokenizers.obj.whitespace('text'),
     queryTokenizer: Bloodhound.tokenizers.whitespace,
-    prefetch: '../static/json/geolocbdo.json'
+    prefetch: '../static/json/marineregions.json'
   });
   resourceGeoLoc.initialize();
 
@@ -319,7 +319,8 @@ $.each(response, function(i, item) {
   element.attr('id', 'rec-'+size);
   element.find('#parser_variable').attr('value', variable[0]);
   element.find('#json_variable').attr('id', 'json_variable-'+size);
-  element.find('#json_variable-'+size).attr('value', variable[1]);
+  element.find('#json_variable-'+size).attr('value', variable[2]);
+  element.find('#unit_variable').attr('value', variable[1]);
   element.find('.delete-record').attr('data-id', size);
   element.appendTo('#tbl_posts_body');
   $('#json_variable-'+size).easyAutocomplete(options);

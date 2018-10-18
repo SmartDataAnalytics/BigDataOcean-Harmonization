@@ -8,7 +8,6 @@ public class DeleteDataset {
 		String identifier = args[0];
 		String uri = "bdo:"+identifier;
 		exec(uri);
-
 	}
 
 	public static void exec(String uri) {

@@ -4,9 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
@@ -24,6 +22,7 @@ import org.unibonn.bdo.connections.HDFSFileSystem;
 import org.unibonn.bdo.connections.ProducerCreator;
 import org.unibonn.bdo.objects.Dataset;
 import org.unibonn.bdo.objects.ProfileDataset;
+import org.unibonn.bdo.objects.VariableDataset;
 
 import com.google.gson.Gson;
 import com.mashape.unirest.http.HttpResponse;
@@ -60,7 +59,7 @@ public class InsertDatasetAutomatic {
 			runConsumer();
 		} catch (IOException e) {
 			e.printStackTrace();
-		} 
+		}
     }
     
     private static void runConsumer() {
@@ -249,19 +248,16 @@ public class InsertDatasetAutomatic {
     
     // Convert the jsonProfile into a ProfileDataset then to a Dataset
     public static Dataset convertProfileToDataset(String jsonProfileDataset) {
-    	List<Map<String, String>> variablesList = new ArrayList<>();
-    	Map<String, String> mMap = new HashMap<>();
-		Map<String, String> variables = new HashMap<>();
+    	List<VariableDataset> variablesList = new ArrayList<>();
+    	List<String> variables = new ArrayList<>();
 		
 		//Convert the json into a ProfileDataset
 		ProfileDataset datasetProfile = new Gson().fromJson(jsonProfileDataset, ProfileDataset.class);
 		//Extract the variables
 		variablesList = datasetProfile.getVariables();
 		
-		// Convert variables: List<Map<String, String>> into a Map<String,String>
-		for(int i = 0; i < variablesList.size(); i++) {
-			mMap.putAll(variablesList.get(i));
-			variables.put(mMap.get("name"),mMap.get("canonicalName"));
+		for (VariableDataset var : variablesList) {
+			variables.add(var.getName() + " -- " + var.getUnit() + " -- " + var.getCanonicalName());
 		}
 		
 		//Import all the metadata into the Dataset except identifier, issuedDate and modifiedDate
@@ -272,7 +268,6 @@ public class InsertDatasetAutomatic {
 				datasetProfile.getSpatialSouth(), datasetProfile.getSpatialNorth(), datasetProfile.getCoordinateSystem(), datasetProfile.getVerticalCoverageFrom(),
 				datasetProfile.getVerticalCoverageTo(), datasetProfile.getVerticalLevel(), datasetProfile.getTemporalCoverageBegin(), datasetProfile.getTemporalCoverageEnd(),
 				datasetProfile.getTimeResolution(), variables, "");
-		
 		
 	}
 }

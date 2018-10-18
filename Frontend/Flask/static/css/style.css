@@ -530,7 +530,7 @@ footer {
 
 .variablesspan { 
     display:block;
-    width:400px;
+    /*width:400px;*/
     word-wrap:break-word;
 }
 

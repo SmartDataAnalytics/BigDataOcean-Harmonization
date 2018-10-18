@@ -16,12 +16,12 @@ import com.hp.hpl.jena.rdf.model.RDFNode;
  * @author Jaime M Trillos
  * @author Ana C Trillos
  *
- * Receives 1 parameter, the uri of the Dataset to get all metadata from Jena Fuseki
+ * Receives 1 parameter, the URI of the Dataset to get all metadata from Jena Fuseki
  *
  */
 
 public class GetMetadata {
-
+	
 	public static void main(String[] args) {
 		String uri = args[0];
 		exec(uri);
@@ -178,16 +178,19 @@ public class GetMetadata {
 		List<String> listVariables = new ArrayList<>() ;
 		RDFNode node2;
 		RDFNode node3;
+		RDFNode node4;
 		
 		String queryVariables = "PREFIX dct: <http://purl.org/dc/terms/>\n" +
 				"PREFIX bdo: <http://bigdataocean.eu/bdo/>\n" +
+				"PREFIX bdocm: <http://www.bigdataocean.eu/standards/canonicalmodel#>\n" +
 				"PREFIX skos: <http://www.w3.org/2004/02/skos/core#>\n" +
-				"SELECT ?uri ?identifierVariable (STR(?prefLabel) AS ?label)\n" + 
+				"SELECT ?uri ?identifierVariable (STR(?prefLabel) AS ?label) ?unit\n" + 
 				"WHERE {\n" + 
 				"  "+uri+" ?predicate ?object .\n" + 
 				"  ?object a bdo:BDOVariable ;\n" + 
 				"        dct:identifier ?identifierVariable ;\n" + 
 				"        skos:prefLabel ?prefLabel .\n" + 
+				"  OPTIONAL { ?object bdocm:canonicalUnit ?unit } \n" + 
 				"  FILTER(lang(?prefLabel) = \"en\")\n" + 
 				"}";
 		
@@ -197,7 +200,13 @@ public class GetMetadata {
 			QuerySolution solution = rsVariables.nextSolution();
 			node2 = solution.get("identifierVariable");
 			node3 = solution.get("label");
-			listVariables.add(node2.toString() + " -- "+ node3.toString());
+			node4 = solution.get("unit");
+			if(node4 == null) {
+				listVariables.add(node2.toString() + " --  -- "+ node3.toString());
+			} else {
+				listVariables.add(node2.toString() + " -- "+ node4.toString() + " -- "+ node3.toString());
+			}
+			
 		}
 		
 		dataset.setVariable(listVariables);

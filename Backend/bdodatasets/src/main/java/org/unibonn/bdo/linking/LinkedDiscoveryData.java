@@ -56,9 +56,10 @@ public class LinkedDiscoveryData {
 		List<String> variablesLinked = new ArrayList<>();
 		if(resultLimes.size() > 0) {
 			for (String rawVar : rawVariables) {
-				if (resultLimes.get(rawVar) != null) {
+				String name = rawVar.split(" -- ")[0];
+				if (resultLimes.get(name) != null) {
 					for(Ontology tempOnto : listOntology) {
-						if(tempOnto.getUri().equals(resultLimes.get(rawVar))) {
+						if(tempOnto.getUri().equals(resultLimes.get(name))) {
 							variablesLinked.add(rawVar + " -- " + tempOnto.getCanonicalName());
 							break;
 						}

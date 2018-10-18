@@ -21,7 +21,7 @@ $( function() {
 jQuery(document).ready(function($) {
 
 	var resourceVariables = new Bloodhound({
-	  prefetch: 'static/json/bdo_tokenfield.json',
+	  prefetch: 'static/json/canonicalModelMongo.json',
 	  datumTokenizer: function(d) {
 	    return Bloodhound.tokenizers.whitespace(d.value);
 	  },
@@ -33,7 +33,7 @@ jQuery(document).ready(function($) {
   $('#tokenfield_variables').tokenfield({
     typeahead: [null, {
       source: resourceVariables.ttAdapter(),
-      displayKey: 'value'
+      displayKey: 'canonicalName'
     }],
     showAutocompleteOnFocus: true
   }); 
@@ -50,21 +50,21 @@ jQuery(document).ready(function($) {
   var resourceSubjects = new Bloodhound({
     datumTokenizer: Bloodhound.tokenizers.obj.whitespace('text'),
     queryTokenizer: Bloodhound.tokenizers.whitespace,
-    prefetch: 'static/json/inspire.json'
+    prefetch: 'static/json/subject.json'
   });
   resourceSubjects.initialize(); 
 
   var resourceKeywords = new Bloodhound({
     datumTokenizer: Bloodhound.tokenizers.obj.whitespace('text'),
     queryTokenizer: Bloodhound.tokenizers.whitespace,
-    prefetch: 'static/json/eionet.json'
+    prefetch: 'static/json/keywords.json'
   });
   resourceKeywords.initialize();
 
   var resourceGeoLoc = new Bloodhound({
     datumTokenizer: Bloodhound.tokenizers.obj.whitespace('text'),
     queryTokenizer: Bloodhound.tokenizers.whitespace,
-    prefetch: 'static/json/geolocbdo.json'
+    prefetch: 'static/json/marineregions.json'
   });
   resourceGeoLoc.initialize();
 

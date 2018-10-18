@@ -108,22 +108,21 @@ public class ExtractVocabulary {
 		String value = "";
 		String name = "";
 		switch (topic) {
-			case "bdo":
+			case "eionet":
+				name = "keywords";
 				for(Ontology tempOnto : ontology) {
 					// Initialization of variables 
 					text = "";
 					value = "";
-					name = "";
 					
-					text = tempOnto.getCanonicalName();
-					value = tempOnto.getUrl();
-					name = tempOnto.getLabel();
-					vocab = new VocabulariesJson(text, value, name);
+					text = tempOnto.getLabel();
+					value = tempOnto.getUri();
+					vocab = new VocabulariesJson(text, value);
 					listVocabulary.add(vocab);
 				}
 				break;
-			case "eionet":
 			case "inspire":
+				name = "subject";
 				for(Ontology tempOnto : ontology) {
 					// Initialization of variables 
 					text = "";
@@ -136,6 +135,7 @@ public class ExtractVocabulary {
 				}
 				break;
 			case "geolocbdo":
+				name = "marineregions";
 				for(Ontology tempOnto : ontology) {
 					// Initialization of variables 
 					text = "";
@@ -150,24 +150,7 @@ public class ExtractVocabulary {
 			default:
 			    break;
 		}
-		saveFile(listVocabulary, topic);
-		if(topic.equals("bdo")) {
-			//value is now the canonicalName and the text is the url
-			listVocabulary = new ArrayList<>();
-			for(Ontology tempOnto : ontology) {
-				// Initialization of variables 
-				text = "";
-				value = "";
-				name = "";
-				
-				value = tempOnto.getCanonicalName();
-				text = tempOnto.getUrl();
-				name = tempOnto.getLabel();
-				vocab = new VocabulariesJson(text, value, name);
-				listVocabulary.add(vocab);
-			}
-			saveFile(listVocabulary, topic + "_tokenfield");
-		}
+		saveFile(listVocabulary, name);
 	}
 	
 	// Create json file in Frontend

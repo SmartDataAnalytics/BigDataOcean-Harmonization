@@ -317,6 +317,7 @@
               <tr>
                 <th style="width: 500px;"><label class="label-table-mandatory">* </label>Dataset Variable</th>
                 <th><label class="label-table-mandatory">* </label>BDO Variable</th>
+                <th style="width: 200px;">Unit Variable</th>
                 <th style="width: 1px;">Action</th>
               </tr>
             </thead>
@@ -324,7 +325,7 @@
             </tbody>
           </table>
           <script type="text/javascript">
-            var response = {{ dataset.variables|safe }};
+            var response = {{ dataset.variable|safe }};
           </script>
           <div class="buttonBar clearfix">
             <a class="btn btn-primary pull-right add-record" data-added="0"><i class="glyphicon glyphicon-plus"></i> Add Row</a>
@@ -337,6 +338,9 @@
                </td>
                <td>
                 <input type="text" class="form-control-autocomplete" id="json_variable" name="json_variable">
+               </td>
+               <td>
+                <input type="text" class="form-control" id="unit_variable" name="unit_variable">
                </td>
                <td>
                 <center>
@@ -691,6 +695,7 @@
               <tr>
                 <th style="width: 500px;"><label class="label-table-mandatory">* </label>Dataset Variable</th>
                 <th><label class="label-table-mandatory">* </label>BDO Variable</th>
+                <th style="width: 200px;">Unit Variable</th>
                 <th style="width: 1px;">Action</th>
               </tr>
             </thead>
@@ -701,6 +706,9 @@
                </td>
                <td>
                 <input type="text" class="form-control-autocomplete" id="json_variable-1" name="json_variable" required>
+               </td>
+               <td>
+                <input type="text" class="form-control" id="unit_variable" name="unit_variable">
                </td>
                <td>
                 <center>
@@ -721,6 +729,9 @@
                </td>
                <td>
                 <input type="text" class="form-control-autocomplete" id="json_variable" name="json_variable">
+               </td>
+               <td>
+                <input type="text" class="form-control" id="unit_variable" name="unit_variable">
                </td>
                <td>
                 <center>

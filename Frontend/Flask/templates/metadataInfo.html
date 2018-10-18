@@ -337,10 +337,11 @@
             <tr>
               <th></label>Dataset Variable</th>
               <th></label>BDO Variable</th>
+              <th style="width: 150px;"></label>Unit Variable</th>
             </tr>
           </thead>
           <tbody id="tbl_posts_body">
-            {% for x in dataset.variables: %}
+            {% for x in dataset.variable: %}
             {% set list = x.split(" -- ") %}
               <tr id="rec-{{ loop.index0 +1 }}">
                 <td>
@@ -349,13 +350,20 @@
                 <td>
                   <span class="variablesspan">
                     {%for variable in variables%}
-                      {%if variable["text"] == list[1] and not variable["value"].startswith( 'http://bigdataocean.eu/bdo' )%}
-                        <a href="{{variable['value']}}" target="_blank">{{ list[1] }}</a>
-                      {% elif variable["text"] == list[1] and variable["value"].startswith( 'http://bigdataocean.eu/bdo' )%}
-                        <span class="variablesspan">{{ list[1] }}</span>
+                      {%if variable["text"] == list[2] and not variable["value"].startswith( 'http://bigdataocean.eu/bdo' )%}
+                        <a href="{{variable['value']}}" target="_blank">{{ list[2] }}</a>
+                      {% elif variable["text"] == list[2] and variable["value"].startswith( 'http://bigdataocean.eu/bdo' )%}
+                        <span class="variablesspan">{{ list[2] }}</span>
                       {% endif%}
                     {% endfor %}
                   </span>
+                </td>
+                <td>
+                  {% if list[1] == "": %}
+                    <span class="variablesspan">-</span>
+                  {% else: %}
+                    <span class="variablesspan">{{ list[1] }}</span>
+                  {% endif%}
                 </td>
               </tr>
             {% endfor %}
@@ -369,6 +377,9 @@
              </td>
              <td>
               <input type="text" class="form-control-autocomplete" id="json_variable" name="json_variable">
+             </td>
+             <td>
+              <input type="text" class="form-control" id="unit_variable" name="unit_variable">
              </td>
              <td>
               <center>

@@ -5,10 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import org.ini4j.Ini;
 import org.json.simple.JSONArray;
@@ -18,6 +15,7 @@ import org.json.simple.parser.ParseException;
 import org.unibonn.bdo.connections.QueryExecutor;
 import org.unibonn.bdo.objects.Dataset;
 import org.unibonn.bdo.objects.ProfileDataset;
+import org.unibonn.bdo.objects.VariableDataset;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
@@ -67,6 +65,7 @@ public class InsertNewDataset {
 				"PREFIX disco: <http://rdf-vocabulary.ddialliance.org/discovery#> \n" + 
 				"PREFIX dcat: <https://www.w3.org/TR/vocab-dcat/> \n" + 
 				"PREFIX bdo: <http://bigdataocean.eu/bdo/> \n" + 
+				"PREFIX bdocm: <http://www.bigdataocean.eu/standards/canonicalmodel#> \n" +
 				"PREFIX ids: <http://industrialdataspace/information-model/> \n" + 
 				"PREFIX qudt: <http://qudt.org/schema/qudt/> \n" + 
 				"PREFIX unit: <http://qudt.org/vocab/unit/> \n" + 
@@ -160,44 +159,47 @@ public class InsertNewDataset {
 			}
 		}
 		insertQuery += "    disco:variable ";
-		int j=0;
 		//lists the variables
-		for(Entry<String, String> var : newDataset.getVariables().entrySet()) {
-			String varKey = var.getKey().replaceAll("[^a-zA-Z0-9]", "");
-			if(j == newDataset.getVariables().size()-1) {
+		List<String> variables = newDataset.getVariable();
+		for(int i = 0; i < variables.size(); i++) {
+			String name = variables.get(i).split(" -- ")[0];
+			String varKey = name.replaceAll("[^a-zA-Z0-9]", "");
+			if(i == variables.size()-1) {
 				insertQuery += "bdo:"+newDataset.getIdentifier()+"_"+varKey+" . \n ";
 			}else {
 				insertQuery += "bdo:"+newDataset.getIdentifier()+"_"+varKey+" , ";
 			}
-			j++;
 		}
+		
 		insertQuery += "\n";
 		//create the triples for each variable
-		for(Entry<String, String> var : newDataset.getVariables().entrySet()) {
-			String pathFile = Constants.CONFIGFILEPATH+"/Frontend/Flask/static/json/bdo.json";
-			JSONParser parser = new JSONParser();
-			JSONArray variablesCF = (JSONArray) parser.parse(new FileReader(pathFile));
+		String pathFile = Constants.CONFIGFILEPATH+"/Frontend/Flask/static/json/variablesCF.json";
+		JSONParser parser = new JSONParser();
+		JSONArray variablesCF = (JSONArray) parser.parse(new FileReader(pathFile));
+		for(String variable : variables) {
+			String[] variablesTokens = variable.split(" -- ");
 	        String sameAs = null;
-			/*search if the keyword extracted from netcdf is equal to the json
-			* change the value of the keyword variable to the value of the json (http://...)
+			/*search if the raw variable extracted from netcdf is equal to the json
+			* change the value of the raw variable to the value of the json (http://...)
 			*/
 	        boolean flagText = false;
 	        for(int i=0; i<variablesCF.size(); i++){
-	        	JSONObject keyword = (JSONObject) variablesCF.get(i);
-	            String text = keyword.get("text").toString();
-	            if(text.equals(var.getValue())) {
-	            	sameAs = keyword.get("value").toString();
+	        	JSONObject token = (JSONObject) variablesCF.get(i);
+	            String text = token.get("text").toString();
+	            if(text.equals(variablesTokens[2])) {
+	            	sameAs = token.get("value").toString();
 	            	flagText = true;
 	            	break;
 	            }
 	        }
 	        if(!flagText) {
-	        	sameAs = "http://bigdataocean.eu/bdo/cf/parameter/" + var.getValue();
+	        	sameAs = "http://bigdataocean.eu/bdo/cf/parameter/" + variablesTokens[2];
 	        }
-			String varKey = var.getKey().replaceAll("[^a-zA-Z0-9]", "");
+			String varKey = variablesTokens[0].replaceAll("[^a-zA-Z0-9]", "");
 			insertQuery += " bdo:"+newDataset.getIdentifier()+"_"+varKey+" a bdo:BDOVariable ; \n" + 
-					"    dct:identifier \""+var.getKey()+"\" ; \n" +
-					"    skos:prefLabel \""+var.getValue()+"\"@en ; \n" +
+					"    dct:identifier \""+variablesTokens[0]+"\" ; \n" +
+					"    skos:prefLabel \""+variablesTokens[2]+"\"@en ; \n" +
+					"    bdocm:canonicalUnit \""+variablesTokens[1]+"\" ; \n" +
 					"    owl:sameAs <"+sameAs+"> . \n" +
 					"    \n" ;
 		}
@@ -260,16 +262,15 @@ public class InsertNewDataset {
 	}
 	
 	// Take the Dataset of the profile and return the json
-	private static String printJsonProfile(Dataset dataset) {
+	private static String printJsonProfile(Dataset dataset){
 		Gson gson  = new Gson();
-		List<Map<String, String>> variablesList = new ArrayList<>();
-		Map<String, String> mMap = new HashMap<>();
-		
-		for (Entry<String, String> var : dataset.getVariables().entrySet()) {
-			mMap = new HashMap<>();
-			mMap.put("name",var.getKey());
-			mMap.put("canonicalName",var.getValue());
-			variablesList.add(mMap); 
+		List<VariableDataset> variablesList = new ArrayList<>();
+		VariableDataset vardataset;
+		List<String> variables = dataset.getVariable();
+		for(int i = 0; i < variables.size(); i++) {
+			String[] tokens = variables.get(i).split(" -- ");
+			vardataset = new VariableDataset(tokens[0], tokens[2], tokens[1]);
+			variablesList.add(vardataset);
 		}
 		
 		ProfileDataset datasetProfile = new ProfileDataset(dataset.getProfileName(), dataset.getTitle(), dataset.getDescription(), 

@@ -40,7 +40,7 @@ public class InsertAutomaticTest {
 			log.info("End!");
 		} catch (ParseException | IOException | UnirestException e) {
 			e.printStackTrace();
-		} 
+		}
 	}
 	
 	//Testing if convert correctly the jsonprofile into Dataset object
