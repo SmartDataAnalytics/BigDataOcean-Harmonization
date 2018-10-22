@@ -671,9 +671,10 @@ def delete(identifier):
 def metadataInfo(identifier):
 	try:
 		if request.method == 'GET':
-			# Extracting variablesCF_BDO.json
-			file = open(globalPath + '/Frontend/Flask/static/json/variablesCF_BDO.json', 'r')
-			variablesCF = json.load(file)
+			extractDatafromParser()
+			# Extracting canonicalModelMongo.json
+			file = open(globalPath + '/Frontend/Flask/static/json/canonicalModelMongo.json', 'r')
+			variablesCM = json.load(file)
 
 			uri = "<http://bigdataocean.eu/bdo/"+identifier+"> \n"
 			# Calls shel getDataset to obtain all metadata of a dataset from jena fuseki
@@ -686,7 +687,7 @@ def metadataInfo(identifier):
 			# metadata parsed is converted into json class datasetInfo to be used inside the html form
 			parsed_output = json.loads(process.decode('utf-8'))
 			dataset = datasetInfo(**parsed_output)
-			return render_template('metadataInfo.html', dataset=dataset, variables=variablesCF)
+			return render_template('metadataInfo.html', dataset=dataset, variables=variablesCM)
 	except ValueError:  # includes simplejson.decoder.JSONDecodeError
 		print(e)
 		return render_template('500.html')

@@ -349,12 +349,12 @@
                 </td>
                 <td>
                   <span class="variablesspan">
-                    {%for variable in variables%}
-                      {%if variable["text"] == list[2] and not variable["value"].startswith( 'http://bigdataocean.eu/bdo' )%}
-                        <a href="{{variable['value']}}" target="_blank">{{ list[2] }}</a>
-                      {% elif variable["text"] == list[2] and variable["value"].startswith( 'http://bigdataocean.eu/bdo' )%}
+                    {% for variable in variables: %}
+                      {%if variable["canonicalName"] == list[2] and variable["sameAs"] != "": %}
+                        <a href="{{variable['sameAs']}}" target="_blank">{{ list[2] }}</a>
+                      {% elif variable["canonicalName"] == list[2] and variable["sameAs"] == "": %}
                         <span class="variablesspan">{{ list[2] }}</span>
-                      {% endif%}
+                      {% endif %}
                     {% endfor %}
                   </span>
                 </td>
@@ -363,7 +363,7 @@
                     <span class="variablesspan">-</span>
                   {% else: %}
                     <span class="variablesspan">{{ list[1] }}</span>
-                  {% endif%}
+                  {% endif %}
                 </td>
               </tr>
             {% endfor %}

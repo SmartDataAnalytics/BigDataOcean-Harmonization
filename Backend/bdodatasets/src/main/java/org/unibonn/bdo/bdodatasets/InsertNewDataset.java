@@ -173,29 +173,31 @@ public class InsertNewDataset {
 		
 		insertQuery += "\n";
 		//create the triples for each variable
-		String pathFile = Constants.CONFIGFILEPATH+"/Frontend/Flask/static/json/variablesCF.json";
+		String pathFile = Constants.CONFIGFILEPATH+"/Frontend/Flask/static/json/canonicalModelMongo.json";
 		JSONParser parser = new JSONParser();
-		JSONArray variablesCF = (JSONArray) parser.parse(new FileReader(pathFile));
+		JSONArray variablesCM = (JSONArray) parser.parse(new FileReader(pathFile));
 		for(String variable : variables) {
 			String[] variablesTokens = variable.split(" -- ");
 	        String sameAs = null;
 			/*search if the raw variable extracted from netcdf is equal to the json
-			* change the value of the raw variable to the value of the json (http://...)
+			* change the value of the raw variable to the sameAs of the json (http://...)
 			*/
 	        boolean flagText = false;
-	        for(int i=0; i<variablesCF.size(); i++){
-	        	JSONObject token = (JSONObject) variablesCF.get(i);
-	            String text = token.get("text").toString();
-	            if(text.equals(variablesTokens[2])) {
-	            	sameAs = token.get("value").toString();
+	        for(int i=0; i<variablesCM.size(); i++){
+	        	JSONObject token = (JSONObject) variablesCM.get(i);
+	            String text = token.get("canonicalName").toString();
+	            String url = token.get("sameAs").toString();
+	            if(text.equals(variablesTokens[2]) && !url.equals("")) {
+	            	sameAs = url;
 	            	flagText = true;
 	            	break;
 	            }
 	        }
+			String varKey = variablesTokens[0].replaceAll("[^a-zA-Z0-9_]", "");
+			// If the value of the attribute sameAs is empty or does not exist
 	        if(!flagText) {
-	        	sameAs = "http://bigdataocean.eu/bdo/cf/parameter/" + variablesTokens[2];
+	        	sameAs = "http://www.bigdataocean.eu/standards/canonicalmodel#" + varKey;
 	        }
-			String varKey = variablesTokens[0].replaceAll("[^a-zA-Z0-9]", "");
 			insertQuery += " bdo:"+newDataset.getIdentifier()+"_"+varKey+" a bdo:BDOVariable ; \n" + 
 					"    dct:identifier \""+variablesTokens[0]+"\" ; \n" +
 					"    skos:prefLabel \""+variablesTokens[2]+"\"@en ; \n" +

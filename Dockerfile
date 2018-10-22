@@ -17,7 +17,7 @@ RUN ["apt-get", "install", "-y", "vim"]
 RUN pip install flask flask-bootstrap requests numpy Flask-Testing Flask-JWT apscheduler==2.1.2
 
 # Copy files to BDOHarmonization
-WORKDIR /BDOHarmonization
+WORKDIR /BDOHarmonization/BigDataOcean-Harmonization
 ADD . /BDOHarmonization
 RUN mkdir /src
 RUN mkdir /logs
