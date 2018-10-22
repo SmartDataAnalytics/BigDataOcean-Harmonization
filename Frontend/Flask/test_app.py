@@ -6,9 +6,9 @@ import sys
 
 # Testing the integration between BDO harmonization and JWT.
 
-Authorization = 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJiZG8iLCJleHAiOjE1NTI0ODk1ODUsInJvbGUiOiJST0xFX0FETUlOIn0.o5cZnYT3MKwfmVt06EyCMWy2qpgFPwcwZg82a3jmkNZKOVCJIbnh-LsHnEIF8BEUdj9OKrurwtknYh5ObjgLvg'
-identifier = "testIntegration"
-idFile = "5ae051b39ac2555efd1a5926"
+Authorization = ''
+identifier = ""
+idFile = ""
 
 class TestFlask(unittest.TestCase):
 	# Show the response of getting the list of datasets without metadataID.

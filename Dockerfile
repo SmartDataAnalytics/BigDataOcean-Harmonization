@@ -12,9 +12,9 @@ RUN apt-get update \
 # Install flask, flask bootstrap, requests, numpy, flask-testing
 RUN pip install flask flask-bootstrap requests numpy Flask-Testing Flask-JWT apscheduler==2.1.2
 
-# Install bdoHarmonization
+# Copy files to BDOHarmonization
 WORKDIR /BDOHarmonization
-RUN git clone https://github.com/SmartDataAnalytics/BigDataOcean-Harmonization.git
+ADD . /BDOHarmonization
 RUN mkdir /src
 RUN mkdir /logs
 RUN cd BigDataOcean-Harmonization/Backend/bdodatasets/ && mvn clean install -Dmaven.test.skip=true
