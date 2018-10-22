@@ -1,13 +1,12 @@
 package org.unibonn.bdo.bdodatasets;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.unibonn.bdo.connections.QueryExecutor;
-import org.unibonn.bdo.objects.Dataset;
+import org.unibonn.bdo.objects.DatasetApi;
+import org.unibonn.bdo.objects.VariableDataset;
+
 import com.hp.hpl.jena.query.QuerySolution;
 import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.rdf.model.RDFNode;
@@ -23,17 +22,18 @@ import com.hp.hpl.jena.rdf.model.RDFNode;
 
 public class BdoApiAnalyser {
 	//Case 1: List all datasets
-	public static List<Dataset> apiListAllDatasets () throws IOException {
-		List<Dataset> list = new ArrayList<>();
+	public static List<DatasetApi> apiListAllDatasets (){
+		List<DatasetApi> list = new ArrayList<>();
 		String apiQuery = "PREFIX disco: <http://rdf-vocabulary.ddialliance.org/discovery#>\n" + 
 				"PREFIX skos: <http://www.w3.org/2004/02/skos/core#>\n" + 
 				"PREFIX dct: <http://purl.org/dc/terms/>\n" + 
 				"PREFIX dcat: <https://www.w3.org/TR/vocab-dcat/>\n" + 
 				"PREFIX bdo: <http://bigdataocean.eu/bdo/>\n" + 
+				"PREFIX bdocm: <http://www.bigdataocean.eu/standards/canonicalmodel#>\n" +
 				"PREFIX dbo: <http://dbpedia.org/ontology/>\n" + 
 				"\n" + 
 				"\n" + 
-				"SELECT ?uri ?title ?subject ?keywords ?language ?nameVariable (STR (?label) as ?canonicalVariable)\n" + 
+				"SELECT ?uri ?title ?subject ?keywords ?language ?nameVariable (STR (?label) as ?canonicalVariable) ?unit\n" + 
 				"WHERE {\n" + 
 				"  ?uri a dcat:Dataset;\n" + 
 				"       dct:title ?title;\n" + 
@@ -44,6 +44,7 @@ public class BdoApiAnalyser {
 				"  ?variable a bdo:BDOVariable;\n" + 
 				"      dct:identifier ?nameVariable;\n" +
 				"      skos:prefLabel ?label.\n" + 
+				"  OPTIONAL { ?variable bdocm:canonicalUnit ?unit } \n" +
 				"}";
 		RDFNode node;
 		ResultSet results = QueryExecutor.selectQuery(apiQuery);
@@ -51,10 +52,11 @@ public class BdoApiAnalyser {
 		int i = 0;	
 		while(results.hasNext()) {
 			
-			Dataset dataset = new Dataset("");
+			DatasetApi dataset = new DatasetApi();
 			QuerySolution solution = results.nextSolution();				
 			node = solution.get("uri");
-			Map<String,String> variables = new HashMap<>();
+			List<VariableDataset> variables = new ArrayList<>();
+			VariableDataset varData;
 			if(id != node.toString()) {
 				dataset.setIdentifier(node.toString());
 				id = node.toString();
@@ -81,21 +83,23 @@ public class BdoApiAnalyser {
 				}else {
 					dataset.setLanguage(node.toString());
 				}
-				variables.put(solution.get("nameVariable").toString(), solution.get("canonicalVariable").toString());
+				varData = unitVariableisNull(solution);
+				variables.add(varData);
 				dataset.setVariables(variables);
 				list.add(dataset);	
 				i++;
 			}else {
 				dataset = list.get(i-1);
 				variables = dataset.getVariables();
-				variables.put(solution.get("nameVariable").toString(), solution.get("canonicalVariable").toString());
+				varData = unitVariableisNull(solution);
+				variables.add(varData);
 				
 			}
 		}
 		return list;
 	}
 	
-	public static Dataset apiSearchDataset (String searchParam) throws IOException {
+	public static DatasetApi apiSearchDataset (String searchParam) {
 		String queryMetadata = "PREFIX dct: <http://purl.org/dc/terms/>\n" + 
 				"PREFIX dcat: <https://www.w3.org/TR/vocab-dcat/>\n" + 
 				"PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> \n" + 
@@ -149,7 +153,7 @@ public class BdoApiAnalyser {
 				" OPTIONAL {"+searchParam+" dct:spatial ?geoloc .}\n" +
 				"}";
 		
-		Dataset dataset = new Dataset("");
+		DatasetApi dataset = new DatasetApi();
 		RDFNode node;
 		// executes query on Jena Fueski to get Metadata
 		ResultSet results = QueryExecutor.selectQuery(queryMetadata);
@@ -238,27 +242,31 @@ public class BdoApiAnalyser {
 			node = solution.get("coorSys");
 			dataset.setCoordinateSystem(node.toString());
 		}
-		
-		Map<String,String> variables = new HashMap<>();
+
+		List<VariableDataset> variables = new ArrayList<>();
 		
 		String queryVariables = "PREFIX disco: <http://rdf-vocabulary.ddialliance.org/discovery#>\n" +
 				"PREFIX dct: <http://purl.org/dc/terms/>\n" +
 				"PREFIX bdo: <http://bigdataocean.eu/bdo/>\n" +
+				"PREFIX bdocm: <http://www.bigdataocean.eu/standards/canonicalmodel#>\n" +
 				"PREFIX skos: <http://www.w3.org/2004/02/skos/core#>\n" +
-				"SELECT ?nameVariable (STR(?label) AS ?canonicalVariable)\n" + 
+				"SELECT ?nameVariable (STR(?label) AS ?canonicalVariable) ?unit\n" + 
 				"WHERE {\n" +
 				"  "+searchParam+" disco:variable ?variable.\n" + 
 				"  ?variable a bdo:BDOVariable;\n" + 
 				"      dct:identifier ?nameVariable;\n" +
 				"      skos:prefLabel ?label.\n" + 
+				"  OPTIONAL { ?variable bdocm:canonicalUnit ?unit } \n" +
 				"  FILTER(lang(?label) = \"en\")\n" + 
 				"}";
 		
 		// Adding Datasetvariables -- BDOvariables in a list
 		ResultSet rsVariables = QueryExecutor.selectQuery(queryVariables);
+		VariableDataset varData;
 		while(rsVariables.hasNext()){
 			QuerySolution solution = rsVariables.nextSolution();
-			variables.put(solution.get("nameVariable").toString(), solution.get("canonicalVariable").toString());
+			varData = unitVariableisNull(solution);
+			variables.add(varData);
 			dataset.setVariables(variables);
 		}
 		
@@ -266,14 +274,14 @@ public class BdoApiAnalyser {
 		return dataset;
 	}
 	
-	public static List<Dataset> apiSearchSubjects(String searchParam) {
-		String[] listSubject = searchParam.split(", ");
+	public static List<DatasetApi> apiSearchSubjects(String searchParam) {
+		String[] listSubject = searchParam.split(",");
 		String values = "  VALUES ?subject { ";
 		for(String sub : listSubject) {
 			values += "<"+sub+"> ";
 		}
 		values += "}\n";
-		List<Dataset> list = new ArrayList<>();
+		List<DatasetApi> list = new ArrayList<>();
 		String apiQuery = "PREFIX disco: <http://rdf-vocabulary.ddialliance.org/discovery#>\n" + 
 				"PREFIX skos: <http://www.w3.org/2004/02/skos/core#>\n" + 
 				"PREFIX dct: <http://purl.org/dc/terms/>\n" + 
@@ -291,7 +299,7 @@ public class BdoApiAnalyser {
 				"}";
 		ResultSet results = QueryExecutor.selectQuery(apiQuery);
 		while(results.hasNext()) {
-			Dataset dataset = new Dataset("");
+			DatasetApi dataset = new DatasetApi();
 			QuerySolution solution = results.nextSolution();				
 			dataset.setIdentifier(solution.get("uri").toString());
 			dataset.setTitle(solution.get("title").toString());
@@ -302,14 +310,14 @@ public class BdoApiAnalyser {
 		return list;
 	}
 
-	public static List<Dataset> apiSearchKeywords(String searchParam) {
-		String[] listKeywords = searchParam.split(", ");
+	public static List<DatasetApi> apiSearchKeywords(String searchParam) {
+		String[] listKeywords = searchParam.split(",");
 		String values = "  VALUES ?keywords { ";
 		for(String key : listKeywords) {
 			values += "<"+key+"> ";
 		}
 		values += "}\n";
-		List<Dataset> list = new ArrayList<>();
+		List<DatasetApi> list = new ArrayList<>();
 		String apiQuery = "PREFIX disco: <http://rdf-vocabulary.ddialliance.org/discovery#>\n" + 
 				"PREFIX skos: <http://www.w3.org/2004/02/skos/core#>\n" + 
 				"PREFIX dct: <http://purl.org/dc/terms/>\n" + 
@@ -327,7 +335,7 @@ public class BdoApiAnalyser {
 				"}";
 		ResultSet results = QueryExecutor.selectQuery(apiQuery);
 		while(results.hasNext()) {
-			Dataset dataset = new Dataset("");
+			DatasetApi dataset = new DatasetApi();
 			QuerySolution solution = results.nextSolution();				
 			dataset.setIdentifier(solution.get("uri").toString());
 			dataset.setTitle(solution.get("title").toString());
@@ -338,14 +346,14 @@ public class BdoApiAnalyser {
 		return list;
 	}
 
-	public static List<Dataset> apiSearchGeoLoc(String searchParam) {
-		String[] listGeoLoc = searchParam.split(", ");
+	public static List<DatasetApi> apiSearchGeoLoc(String searchParam) {
+		String[] listGeoLoc = searchParam.split(",");
 		String values = "  VALUES ?geo_loc { ";
 		for(String geoLoc : listGeoLoc) {
 			values += "<"+geoLoc+"> ";
 		}
 		values += "}\n";
-		List<Dataset> list = new ArrayList<>();
+		List<DatasetApi> list = new ArrayList<>();
 		String apiQuery = "PREFIX disco: <http://rdf-vocabulary.ddialliance.org/discovery#>\n" + 
 				"PREFIX skos: <http://www.w3.org/2004/02/skos/core#>\n" + 
 				"PREFIX dct: <http://purl.org/dc/terms/>\n" + 
@@ -364,7 +372,7 @@ public class BdoApiAnalyser {
 				"}";
 		ResultSet results = QueryExecutor.selectQuery(apiQuery);
 		while(results.hasNext()) {
-			Dataset dataset = new Dataset("");
+			DatasetApi dataset = new DatasetApi();
 			QuerySolution solution = results.nextSolution();				
 			dataset.setIdentifier(solution.get("uri").toString());
 			dataset.setTitle(solution.get("title").toString());
@@ -376,8 +384,8 @@ public class BdoApiAnalyser {
 		return list;
 	}
 	
-	public static List<Dataset> apisearchGeoCoverage(String searchParam) {
-		String[] listGeoLoc = searchParam.split(", ");
+	public static List<DatasetApi> apisearchGeoCoverage(String searchParam) {
+		String[] listGeoLoc = searchParam.split(",");
 		List<String> newList = new ArrayList<>();
 		for (int i = 0; i<listGeoLoc.length; i++) {
 			double number = Double.parseDouble(listGeoLoc[i]);
@@ -388,7 +396,7 @@ public class BdoApiAnalyser {
 				listGeoLoc[i] = ""+(number-1.0);
 			}
 		}
-		List<Dataset> list = new ArrayList<>();
+		List<DatasetApi> list = new ArrayList<>();
 		String apiQuery = "PREFIX disco: <http://rdf-vocabulary.ddialliance.org/discovery#>\n" + 
 				"PREFIX skos: <http://www.w3.org/2004/02/skos/core#>\n" + 
 				"PREFIX dct: <http://purl.org/dc/terms/>\n" + 
@@ -416,7 +424,7 @@ public class BdoApiAnalyser {
 				"}";
 		ResultSet results = QueryExecutor.selectQuery(apiQuery);
 		while(results.hasNext()) {
-			Dataset dataset = new Dataset("");
+			DatasetApi dataset = new DatasetApi();
 			QuerySolution solution = results.nextSolution();				
 			dataset.setIdentifier(solution.get("uri").toString());
 			dataset.setTitle(solution.get("title").toString());
@@ -431,9 +439,9 @@ public class BdoApiAnalyser {
 		return list;
 	}
 
-	public static List<Dataset> apiListDatasetByVertCov (String searchParam) throws IOException {
-		String[] listVert = searchParam.split(",= ");
-		List<Dataset> list = new ArrayList<>();
+	public static List<DatasetApi> apiListDatasetByVertCov (String searchParam){
+		String[] listVert = searchParam.split(",");
+		List<DatasetApi> list = new ArrayList<>();
 		String apiQuery = "PREFIX disco: <http://rdf-vocabulary.ddialliance.org/discovery#>\n" + 
 				"PREFIX skos: <http://www.w3.org/2004/02/skos/core#>\n" + 
 				"PREFIX dct: <http://purl.org/dc/terms/>\n" + 
@@ -457,12 +465,10 @@ public class BdoApiAnalyser {
 		
 		RDFNode node;
 		ResultSet results = QueryExecutor.selectQuery(apiQuery);
-		//ResultSetFormatter.out(results);
 		while(results.hasNext()){			
-			Dataset dataset = new Dataset("");
+			DatasetApi dataset = new DatasetApi();
 			QuerySolution solution = results.nextSolution();				
 			node = solution.get("uri");
-			//List<String> listVar = new ArrayList<>();
 			dataset.setIdentifier(node.toString());
 			node = solution.get("title");
 			dataset.setTitle(node.toString());
@@ -490,9 +496,9 @@ public class BdoApiAnalyser {
 	}
 
 	
-	public static List<Dataset> apiListDatasetByTimeCov (String searchParam) throws IOException {
-		String[] listTime = searchParam.split(",- ");
-		List<Dataset> list = new ArrayList<>();
+	public static List<DatasetApi> apiListDatasetByTimeCov (String searchParam){
+		String[] listTime = searchParam.split(",");
+		List<DatasetApi> list = new ArrayList<>();
 		String apiQuery;
 		if(listTime.length > 1) {
 			apiQuery = "PREFIX disco: <http://rdf-vocabulary.ddialliance.org/discovery#>\n" + 
@@ -538,12 +544,10 @@ public class BdoApiAnalyser {
 
 		RDFNode node;
 		ResultSet results = QueryExecutor.selectQuery(apiQuery);
-		//ResultSetFormatter.out(results);
 		while(results.hasNext()){			
-			Dataset dataset = new Dataset("");
+			DatasetApi dataset = new DatasetApi();
 			QuerySolution solution = results.nextSolution();				
 			node = solution.get("uri");
-			//List<String> listVar = new ArrayList<>();
 			dataset.setIdentifier(node.toString());
 			node = solution.get("title");
 			dataset.setTitle(node.toString());
@@ -570,40 +574,44 @@ public class BdoApiAnalyser {
 		return list;
 	}
 	
-	public static Dataset apiListVarOfDataset (String searchParam) throws IOException {
-		Dataset dataset = new Dataset("");
-		Map<String,String> variables = new HashMap<>();
+	public static DatasetApi apiListVarOfDataset (String searchParam) {
+		DatasetApi dataset = new DatasetApi();
+		List<VariableDataset> variables = new ArrayList<>();
 		String apiQuery = "PREFIX disco: <http://rdf-vocabulary.ddialliance.org/discovery#>\n" + 
 				"PREFIX skos: <http://www.w3.org/2004/02/skos/core#>\n" + 
 				"PREFIX dct: <http://purl.org/dc/terms/>\n" + 
 				"PREFIX dcat: <https://www.w3.org/TR/vocab-dcat/>\n" + 
 				"PREFIX bdo: <http://bigdataocean.eu/bdo/>\n" + 
+				"PREFIX bdocm: <http://www.bigdataocean.eu/standards/canonicalmodel#>\n" +
 				"\n" + 
 				"\n" + 
-				"SELECT distinct ?uri ?title ?nameVariable (STR(?label) AS ?canonicalVariable)\n" + 
+				"SELECT distinct ?uri ?title ?nameVariable (STR(?label) AS ?canonicalVariable) ?unit\n" + 
 				"WHERE {  \n" + 
 				"  bdo:"+searchParam+" disco:variable ?variable;\n" + 
 				"       dct:title ?title.\n" + 
 				"  ?variable a bdo:BDOVariable;\n" + 
 				"      dct:identifier ?nameVariable;\n" +
 				"      skos:prefLabel ?label.\n" + 
+				"  OPTIONAL { ?variable bdocm:canonicalUnit ?unit } \n" +
 				"}";
 		RDFNode node;
 		ResultSet results = QueryExecutor.selectQuery(apiQuery);
+		VariableDataset varData;
 		while(results.hasNext()) {					
 			dataset.setIdentifier("http://bigdataocean.eu/bdo/"+searchParam);
 			QuerySolution solution = results.nextSolution();				
 			node = solution.get("title");
 			dataset.setTitle(node.toString());
-			variables.put(solution.get("nameVariable").toString(), solution.get("canonicalVariable").toString());
+			varData = unitVariableisNull(solution);
+			variables.add(varData);
 			dataset.setVariables(variables);
 		}
 		return dataset;
 	}
 	
-	public static List<Dataset> apiListDatasetsByVar (String searchParam) throws IOException {
-		List<Dataset> list = new ArrayList<>();
-		String[] listV = searchParam.split(", ");
+	public static List<DatasetApi> apiListDatasetsByVar (String searchParam) {
+		List<DatasetApi> list = new ArrayList<>();
+		String[] listV = searchParam.split(",");
 		
 		String values = "  VALUES ?var { ";
 		for(String var : listV) {
@@ -616,13 +624,15 @@ public class BdoApiAnalyser {
 				"PREFIX dct: <http://purl.org/dc/terms/>\n" + 
 				"PREFIX dcat: <https://www.w3.org/TR/vocab-dcat/>\n" + 
 				"PREFIX bdo: <http://bigdataocean.eu/bdo/>\n" + 
+				"PREFIX bdocm: <http://www.bigdataocean.eu/standards/canonicalmodel#>\n" +
 				"\n" + 
 				"\n" + 
-				"SELECT distinct ?uri ?title ?subject ?language ?nameVariable (STR(?var) AS ?canonicalVariable)\n" + 
+				"SELECT distinct ?uri ?title ?subject ?language ?nameVariable (STR(?var) AS ?canonicalVariable) ?unit\n" + 
 				"WHERE {\n" + 
 				"  ?uriVar a bdo:BDOVariable;\n" + 
 				"      dct:identifier ?nameVariable;\n "+
 				"      skos:prefLabel ?var.\n" + 
+				"  OPTIONAL { ?uriVar bdocm:canonicalUnit ?unit } \n" +
 				values + 
 				"  ?uri disco:variable ?uriVar;\n" + 
 				"       dct:title ?title;\n" + 
@@ -638,11 +648,12 @@ public class BdoApiAnalyser {
 		int i = 0;		
 		while(results.hasNext()){
 			
-			Dataset dataset = new Dataset("");
-			QuerySolution solution = results.nextSolution();				
+			DatasetApi dataset = new DatasetApi();
+			QuerySolution solution = results.nextSolution();	
+			List<VariableDataset> variables = new ArrayList<>();
+			VariableDataset varData;			
 			node = solution.get("uri");
 			if(id != node.toString()) {
-				Map<String,String> variables = new HashMap<>();
 				dataset.setIdentifier(node.toString());
 				id = node.toString();
 				node = solution.get("title");
@@ -661,18 +672,29 @@ public class BdoApiAnalyser {
 				}else {
 					dataset.setLanguage(node.toString());
 				}
-				variables.put(solution.get("nameVariable").toString(), solution.get("canonicalVariable").toString());
+				varData = unitVariableisNull(solution);
+				variables.add(varData);
 				dataset.setVariables(variables);
 				list.add(dataset);	
 				i++;
 			}else {
 				dataset = list.get(i-1);
-				Map<String,String> variables = dataset.getVariables();
-				variables.put(solution.get("nameVariable").toString(), solution.get("canonicalVariable").toString());
 				dataset.setVariables(variables);
+				varData = unitVariableisNull(solution);
+				variables.add(varData);
 			}
 		}
 		return list;
+	}
+	
+	private static VariableDataset unitVariableisNull (QuerySolution solution) {
+		VariableDataset varData;
+		if (solution.get("unit") == null) {
+			varData = new VariableDataset(solution.get("nameVariable").toString(), solution.get("canonicalVariable").toString(), "");
+		} else  {
+			varData = new VariableDataset(solution.get("nameVariable").toString(), solution.get("canonicalVariable").toString(), solution.get("unit").toString());
+		}
+		return varData;
 	}
 
 }

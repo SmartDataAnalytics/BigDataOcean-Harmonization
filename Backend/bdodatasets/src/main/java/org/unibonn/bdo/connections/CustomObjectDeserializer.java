@@ -2,8 +2,6 @@ package org.unibonn.bdo.connections;
 
 import java.util.Map;
 import org.apache.kafka.common.serialization.Deserializer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.unibonn.bdo.objects.CustomObject;
 
 import com.fasterxml.jackson.databind.ObjectMapper;

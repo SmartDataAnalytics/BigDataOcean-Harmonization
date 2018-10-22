@@ -3,8 +3,6 @@ package org.unibonn.bdo.bdodatasets;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.unibonn.bdo.connections.QueryExecutor;
 import org.unibonn.bdo.objects.Dataset;
 
@@ -23,8 +21,6 @@ import com.hp.hpl.jena.rdf.model.RDFNode;
  */
 
 public class ListDatasets {
-	
-	private final static Logger log = LoggerFactory.getLogger(ListDatasets.class);
 	
 	public static void main(String[] args) {
 		exec();
@@ -69,7 +65,6 @@ public class ListDatasets {
 			// Parse into JSON the list of datasets
 			Gson gson  = new Gson();
 			System.out.println(gson.toJson(listDatasets));
-			//log.info("List of Dataset: " + gson.toJson(listDatasets));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

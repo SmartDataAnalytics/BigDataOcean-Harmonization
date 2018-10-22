@@ -7,15 +7,16 @@ import java.util.List;
  *  
  * @author Jaime M Trillos
  *
- * Object of the Profile Dataset Metadata
- * Dataset constructor for Profiles (NOT contain identifier, issuedDate, modifiedDate)
+ * Object of the Dataset Metadata 
+ * Only for APIs
  *
  */
 
-public class ProfileDataset  implements Serializable {
-	
-	private static final long serialVersionUID = -7832897199047397051L;
+public class DatasetApi   implements Serializable {
 
+	private static final long serialVersionUID = -7191616806491520130L;
+
+	private String identifier; //identifier of Dataset
 	private String title; //title of Dataset
 	private String description; //description of Dataset
 	private String subject; //tokenField_subject
@@ -26,9 +27,11 @@ public class ProfileDataset  implements Serializable {
 	private String homepage; //URI of Dataset
 	private String publisher; //publisher of Dataset
 	private String source; //source of the Dataset (HCMR, ANEX, XMILE...)
-	private String observation; //Comments of the Dataset (Insitu, Timeseries...)
+	private String observations; //Comments of the Dataset (Insitu, Timeseries...)
 	private String storageTable; //TableName used by parser tool
 	private String accessRights; //access_rights 
+	private String issuedDate; //issued_Date (AAAA-MM-DDThh:mm:ssZ)
+	private String modifiedDate; //modifierd_Data (AAAA-MM-DDThh:mm:ssZ)
 	private String geoLocation; //tokenField_geoLocation
 	private String spatialWest; //geo_coverageW
 	private String spatialEast; //geo_coverageE
@@ -41,21 +44,21 @@ public class ProfileDataset  implements Serializable {
 	private String temporalCoverageBegin; //temp_coverage_begin
 	private String temporalCoverageEnd; //temp_coverage_end
 	private String timeResolution; //time_reso
-	private List<VariableDataset> variables; //List of maping variables
-	private String profileName;
+	private List<VariableDataset> variables; //dataset variables
 	
-	public ProfileDataset(){
-		
+	public DatasetApi(){
+		this.identifier = "";
 	}
 	
-	public ProfileDataset(String profileName, String title, String description, String subject, String keywords,
+	//Dataset constructor for List<VariableDataset> variable
+	public DatasetApi(String identifier, String title, String description, String subject, String keywords,
 			String standards, String formats, String language, String homepage, String publisher, 
-			String source, String observation, String storageTable, 
-			String accessRights, String geoLocation, String spatialWest, String spatialEast,
+			String source, String observations, String storageTable, 
+			String accessRights, String issuedDate, String modifiedDate, String geoLocation, String spatialWest, String spatialEast,
 			String spatialSouth, String spatialNorth, String coordinateSystem, String verticalCoverageFrom,
 			String verticalCoverageTo, String verticalLevel, String temporalCoverageBegin, String temporalCoverageEnd,
 			String timeResolution, List<VariableDataset> variables) {
-		this.profileName = profileName;
+		this.identifier = identifier;
 		this.title = title;
 		this.description = description;
 		this.subject = subject;
@@ -66,9 +69,11 @@ public class ProfileDataset  implements Serializable {
 		this.homepage = homepage;
 		this.publisher = publisher;
 		this.source = source;
-		this.observation = observation;
+		this.observations = observations;
 		this.storageTable = storageTable;
 		this.accessRights = accessRights;
+		this.issuedDate = issuedDate;
+		this.modifiedDate = modifiedDate;
 		this.geoLocation = geoLocation;
 		this.spatialWest = spatialWest;
 		this.spatialEast = spatialEast;
@@ -92,12 +97,12 @@ public class ProfileDataset  implements Serializable {
 		this.source = source;
 	}
 
-	public String getObservation() {
-		return observation;
+	public String getObservations() {
+		return observations;
 	}
 
-	public void setObservation(String observation) {
-		this.observation = observation;
+	public void setObservations(String observations) {
+		this.observations = observations;
 	}
 
 	public String getStorageTable() {
@@ -106,6 +111,14 @@ public class ProfileDataset  implements Serializable {
 
 	public void setStorageTable(String storageTable) {
 		this.storageTable = storageTable;
+	}
+
+	public String getIdentifier() {
+		return identifier;
+	}
+
+	public void setIdentifier(String identifier) {
+		this.identifier = identifier;
 	}
 
 	public String getTitle() {
@@ -186,6 +199,22 @@ public class ProfileDataset  implements Serializable {
 
 	public void setAccessRights(String accessRights) {
 		this.accessRights = accessRights;
+	}
+
+	public String getIssuedDate() {
+		return issuedDate;
+	}
+
+	public void setIssuedDate(String issuedDate) {
+		this.issuedDate = issuedDate;
+	}
+
+	public String getModifiedDate() {
+		return modifiedDate;
+	}
+
+	public void setModifiedDate(String modifiedDate) {
+		this.modifiedDate = modifiedDate;
 	}
 
 	public String getGeoLocation() {
@@ -284,21 +313,12 @@ public class ProfileDataset  implements Serializable {
 		this.timeResolution = timeResolution;
 	}
 
-	public String getProfileName() {
-		return profileName;
-	}
-
-	public void setProfileName(String profileName) {
-		this.profileName = profileName;
-	}	
-	
 	public List<VariableDataset> getVariables() {
 		return variables;
 	}
 
-	public void setVariableList(List<VariableDataset> variables) {
+	public void setVariables(List<VariableDataset> variables) {
 		this.variables = variables;
 	}
-	
-}
 
+}

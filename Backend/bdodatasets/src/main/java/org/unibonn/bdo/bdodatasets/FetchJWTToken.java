@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 
 import org.ini4j.Ini;
-import org.ini4j.InvalidFileFormatException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,20 +13,16 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 
 public class FetchJWTToken {
 	
-	private final static Logger log = LoggerFactory.getLogger(FetchJWTToken.class);
+	private static final Logger log = LoggerFactory.getLogger(FetchJWTToken.class);
 	private static Ini config;
 	
 	public static void main(String[] args){
 		try {
 			config = new Ini(new File(Constants.INITFILEPATH));
 			exec();
-		} catch (InvalidFileFormatException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		} 
 	}
 	
 	private static void exec() {
@@ -46,7 +41,6 @@ public class FetchJWTToken {
 			if (response.getStatus() == 200) {
 				// Add the new token to the config.ini file
 				String headerAuthorization = response.getHeaders().getFirst("Authorization");
-				//System.out.print(headerAuthorization);
 				config.put("DEFAULT", "AUTHORIZATION_JWT", headerAuthorization);
 				config.store();
 				log.info("The new token has been saved in the config.ini file");
@@ -55,7 +49,6 @@ public class FetchJWTToken {
 			}
 			log.info("END");
 		} catch (UnirestException | IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

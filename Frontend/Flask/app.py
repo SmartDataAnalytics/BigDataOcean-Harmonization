@@ -30,7 +30,6 @@ ALLOWED_EXTENSIONS = set(['nc', 'csv', 'xlsx', 'xls'])
 config = configparser.ConfigParser()
 config.read(globalPath + '/Backend/bdodatasets/bdo.ini')
 
-#Authorization = 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJiZG8iLCJleHAiOjE1NTI0ODk1ODUsInJvbGUiOiJST0xFX0FETUlOIn0.o5cZnYT3MKwfmVt06EyCMWy2qpgFPwcwZg82a3jmkNZKOVCJIbnh-LsHnEIF8BEUdj9OKrurwtknYh5ObjgLvg'
 Authorization = config['DEFAULT']['AUTHORIZATION_JWT']
 
 # Authentication JWT for APIs
@@ -91,11 +90,6 @@ def identity(payload):
     return userid_table.get(user_id, None)
 
 jwt = JWT(app, authenticate, identity)
-
-# check if an extension is valid
-def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 # check if an extension is valid
 def allowed_file(filename):
@@ -220,11 +214,8 @@ def list():
 @login_required
 def parse():
 	try:
-		fileStorageTableJson = open(globalPath + "/Frontend/Flask/static/json/storageTable.json", "w+")
-		JWT_output = requests.get(GlobalURLJWT + 'fileHandler/table', headers={'Authorization': Authorization})
-		dataStorageTable = JWT_output.content.decode('utf-8')
-		fileStorageTableJson.write(str(dataStorageTable))
-		fileStorageTableJson.close()
+		extractDatafromParser()
+
 		if request.method == 'POST':
 			return render_template('addMetadata.html', dataset='', idFile='')
 		elif request.method == 'GET':
@@ -238,11 +229,7 @@ def parse():
 @login_required
 def addCopernicus():
 	try:
-		fileStorageTableJson = open(globalPath + "/Frontend/Flask/static/json/storageTable.json", "w+")
-		JWT_output = requests.get(GlobalURLJWT + 'fileHandler/table', headers={'Authorization': Authorization})
-		dataStorageTable = JWT_output.content.decode('utf-8')
-		fileStorageTableJson.write(str(dataStorageTable))
-		fileStorageTableJson.close()
+		extractDatafromParser()
 		if request.method == 'POST':
 			uri = request.form['uri']
 			# if adding a Copernicus dataset, the shell suggest is called to parse the xml file and get metadata
@@ -281,11 +268,7 @@ def addCopernicus():
 @login_required
 def addNetCDF():
 	try:
-		fileStorageTableJson = open(globalPath + "/Frontend/Flask/static/json/storageTable.json", "w+")
-		JWT_output = requests.get(GlobalURLJWT + 'fileHandler/table', headers={'Authorization': Authorization})
-		dataStorageTable = JWT_output.content.decode('utf-8')
-		fileStorageTableJson.write(str(dataStorageTable))
-		fileStorageTableJson.close()
+		extractDatafromParser()
 		if request.method == 'POST':
 			file = request.files['fileNetcdf']
 			if file.filename != '':
@@ -333,11 +316,7 @@ def addNetCDF():
 @login_required
 def addCsv():
 	try:
-		fileStorageTableJson = open(globalPath + "/Frontend/Flask/static/json/storageTable.json", "w+")
-		JWT_output = requests.get(GlobalURLJWT + 'fileHandler/table', headers={'Authorization': Authorization})
-		dataStorageTable = JWT_output.content.decode('utf-8')
-		fileStorageTableJson.write(str(dataStorageTable))
-		fileStorageTableJson.close()
+		extractDatafromParser()
 		if request.method == 'POST':
 			file = request.files['fileCsv']
 			if file.filename != '':
@@ -385,11 +364,7 @@ def addCsv():
 @login_required
 def addExcel():
 	try:
-		fileStorageTableJson = open(globalPath + "/Frontend/Flask/static/json/storageTable.json", "w+")
-		JWT_output = requests.get(GlobalURLJWT + 'fileHandler/table', headers={'Authorization': Authorization})
-		dataStorageTable = JWT_output.content.decode('utf-8')
-		fileStorageTableJson.write(str(dataStorageTable))
-		fileStorageTableJson.close()
+		extractDatafromParser()
 		if request.method == 'POST':
 			file = request.files['fileExcel']
 			if file.filename != '':
@@ -470,13 +445,16 @@ def save():
 			timeResolution = request.form['time_reso']
 			parservariable = request.form.getlist('parser_variable')
 			jsonvariable = request.form.getlist('json_variable')
+			unitvariable = request.form.getlist('unit_variable')
 			# delete the empty elements in the list 
 			parservariable[:] = [item for item in parservariable if item != '']
 			parserlist = np.array(parservariable).tolist()
 			jsonvariable[:] = [item for item in jsonvariable if item != '']
 			jsonlist = np.array(jsonvariable).tolist()
-			# zip the two list in one called variables
-			variables = dict(zip(parserlist, jsonlist))
+
+			variables = []
+			for i in range(len(parserlist)):
+				variables.append(parserlist[i] + " -- " + unitvariable[i] + " -- " + jsonlist[i])
 
 			profileName = request.form['nameProfile']
 
@@ -529,11 +507,7 @@ def save():
 @login_required
 def edit(identifier):
 	try:
-		fileStorageTableJson = open(globalPath + "/Frontend/Flask/static/json/storageTable.json", "w+")
-		JWT_output = requests.get(GlobalURLJWT + 'fileHandler/table', headers={'Authorization': Authorization})
-		dataStorageTable = JWT_output.content.decode('utf-8')
-		fileStorageTableJson.write(str(dataStorageTable))
-		fileStorageTableJson.close()
+		extractDatafromParser()
 		if request.method == 'GET':
 			uri = "<http://bigdataocean.eu/bdo/"+identifier+"> \n"
 			comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/getDataset "%s"' %uri
@@ -588,14 +562,17 @@ def editing():
 
 			parservariable = request.form.getlist('parser_variable')
 			jsonvariable = request.form.getlist('json_variable')
+			unitvariable = request.form.getlist('unit_variable')
 			# delete the empty elements in the list 
 			parservariable[:] = [item for item in parservariable if item != '']
 			parserlist = np.array(parservariable).tolist()
 			jsonvariable[:] = [item for item in jsonvariable if item != '']
 			jsonlist = np.array(jsonvariable).tolist()
-			# zip the two list in one called variables
-			variables = dict(zip(parserlist, jsonlist))
-			
+
+			variables = []
+			for i in range(len(parserlist)):
+				variables.append(parserlist[i] + " -- " + unitvariable[i] + " -- " + jsonlist[i])
+
 			if identifier  != "":
 				check_existance = "<http://bigdataocean.eu/bdo/"+identifier+"> "
 				datasetType = ""	
@@ -671,9 +648,10 @@ def delete(identifier):
 def metadataInfo(identifier):
 	try:
 		if request.method == 'GET':
-			# Extracting variablesCF_BDO.json
-			file = open(globalPath + '/Frontend/Flask/static/json/variablesCF_BDO.json', 'r')
-			variablesCF = json.load(file)
+			extractDatafromParser()
+			# Extracting canonicalModelMongo.json
+			file = open(globalPath + '/Frontend/Flask/static/json/canonicalModelMongo.json', 'r')
+			variablesCM = json.load(file)
 
 			uri = "<http://bigdataocean.eu/bdo/"+identifier+"> \n"
 			# Calls shel getDataset to obtain all metadata of a dataset from jena fuseki
@@ -686,7 +664,7 @@ def metadataInfo(identifier):
 			# metadata parsed is converted into json class datasetInfo to be used inside the html form
 			parsed_output = json.loads(process.decode('utf-8'))
 			dataset = datasetInfo(**parsed_output)
-			return render_template('metadataInfo.html', dataset=dataset, variables=variablesCF)
+			return render_template('metadataInfo.html', dataset=dataset, variables=variablesCM)
 	except ValueError:  # includes simplejson.decoder.JSONDecodeError
 		print(e)
 		return render_template('500.html')
@@ -698,6 +676,7 @@ def endpoint():
 #APIs
 @app.route('/api', methods=['GET', 'POST'])
 def api():
+	extractDatafromParser()
 	return render_template('api.html')
 
 @app.route('/api/v1/dataset/list', methods=['GET'])
@@ -782,7 +761,7 @@ def searchGeoLocation():
 def searchGeoCoverage():
 	if request.method == 'GET':
 		# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
-		param = request.args['W']+', '+request.args['E']+', '+request.args['S']+', '+request.args['N']
+		param = request.args['W']+','+request.args['E']+','+request.args['S']+','+request.args['N']
 		comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("6", param)
 		try:
 			process = subprocess.check_output([comm], shell="True")
@@ -798,7 +777,7 @@ def searchGeoCoverage():
 def searchVerticalCoverage():
 	if request.method == 'GET':
 		# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
-		param = request.args['from']+',= '+request.args['to']
+		param = request.args['from']+','+request.args['to']
 		comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("7", param)
 		try:
 			process = subprocess.check_output([comm], shell="True")
@@ -814,7 +793,7 @@ def searchVerticalCoverage():
 def searchTemporalCoverage():
 	if request.method == 'GET':
 		# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
-		param = request.args['begin']+',- '+request.args['end']
+		param = request.args['begin']+','+request.args['end']
 		comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("8", param)
 		try:
 			process = subprocess.check_output([comm], shell="True")
@@ -896,6 +875,18 @@ def insertAutomatic():
 		} 
 		return jsonify({'result':result}), 500 
 
+def extractDatafromParser():
+	fileStorageTableJson = open(globalPath + "/Frontend/Flask/static/json/storageTable.json", "w+")
+	JWT_output = requests.get(GlobalURLJWT + 'fileHandler/table', headers={'Authorization': Authorization})
+	dataStorageTable = JWT_output.content.decode('utf-8')
+	fileStorageTableJson.write(str(dataStorageTable))
+	fileStorageTableJson.close()
+	fileCanonicalModelJson = open(globalPath + "/Frontend/Flask/static/json/canonicalModelMongo.json", "w+")
+	JWT_output1 = requests.get(GlobalURLJWT + 'fileHandler/variable', headers={'Authorization': Authorization})
+	dataCanonicalModel = JWT_output1.content.decode('utf-8')
+	fileCanonicalModelJson.write(str(dataCanonicalModel))
+	fileCanonicalModelJson.close()
+
 # Class for datasets parsed on shell suggest
 class datasetInfo(object):
 	def __init__(self, identifier, title, description, subject, keywords, standards, formats, language, homepage, publisher, 
@@ -931,8 +922,7 @@ class datasetInfo(object):
 		self.temporalCoverageBegin = temporalCoverageBegin
 		self.temporalCoverageEnd = temporalCoverageEnd
 		self.timeResolution = timeResolution
-		# self.variables = variables # map<string, string>
-		self.variables = variable
+		self.variable = variable
 		self.profileName = profileName
 
 if __name__ == '__main__':

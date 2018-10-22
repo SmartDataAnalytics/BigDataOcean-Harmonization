@@ -21,7 +21,7 @@ $( function() {
 jQuery(document).ready(function($) {
 
 	var resourceVariables = new Bloodhound({
-	  prefetch: 'static/json/VariablesMongo/variablesCF_BDO_tokenfield.json',
+	  prefetch: 'static/json/canonicalModelMongo.json',
 	  datumTokenizer: function(d) {
 	    return Bloodhound.tokenizers.whitespace(d.value);
 	  },
@@ -33,7 +33,7 @@ jQuery(document).ready(function($) {
   $('#tokenfield_variables').tokenfield({
     typeahead: [null, {
       source: resourceVariables.ttAdapter(),
-      displayKey: 'value'
+      displayKey: 'canonicalName'
     }],
     showAutocompleteOnFocus: true
   }); 

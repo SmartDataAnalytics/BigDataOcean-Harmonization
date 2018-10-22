@@ -14,8 +14,7 @@ public class QueryExecutor {
 	public static boolean askQuery(String query) {
 		QueryExecution qe = QueryExecutionFactory.sparqlService(
 				Constants.HTTPFUSEKI + "query", query);
-		boolean results = qe.execAsk();
-		return results;
+		return qe.execAsk();
 	}
 	
 	public static void insertQuery(String dataset) {
@@ -28,8 +27,7 @@ public class QueryExecutor {
 	public static ResultSet selectQuery(String query) {
 		QueryExecution qe = QueryExecutionFactory.sparqlService(
 				Constants.HTTPFUSEKI + "query",query);
-		ResultSet results = qe.execSelect();
-		return results;
+		return qe.execSelect();
 	}
 	
 	public static void deleteQuery(String query) {

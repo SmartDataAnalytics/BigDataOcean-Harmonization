@@ -10,7 +10,7 @@ import java.io.Serializable;
 
 public class CustomObject implements Serializable{
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -3226340249579187184L;
 	
 	private String id;
 	private String name;
