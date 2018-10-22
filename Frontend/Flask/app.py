@@ -21,7 +21,7 @@ from apscheduler.scheduler import Scheduler
 # GLOBAL VARIABLES
 globalPath = "/BDOHarmonization/BigDataOcean-Harmonization"
 
-GlobalURLJWT = "http://212.101.173.21:8085/"
+GlobalURLJWT = ""
 UPLOAD_FOLDER = globalPath+'/Backend/AddDatasets'
 ALLOWED_EXTENSIONS = set(['nc', 'csv', 'xlsx', 'xls'])
 
@@ -46,8 +46,8 @@ class User(object):
 		return "User(id='%s')" % self.id
 
 users = [
-	User(1, 'admin', '178d021a30f7a5e80926fc420e0151c372015adb984cc880fd0b34a6d229221adc3d7c9fd69678fe54271a2aebcf54d156dbaf9dbd3bdf88f1d7d7c4708802af', 'ad975ce188ee4016b4af31f61245be0e'),
-	User(2, 'apiuser', 'a144d557369c1d3f44166ad227c556b4c486eabbf008b512c1f2625053abf0efd3bbd059870447bd5dbb964acbe9840c42e4c4d2d631fad1a73869781628c47f', '0e6357a58a6f4d4588242a76357d08cd')
+	User(1, 'admin', '', ''),
+	User(2, 'test', '', '')
 ]
 
 username_table = {u.username: u for u in users}

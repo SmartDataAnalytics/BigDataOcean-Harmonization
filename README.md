@@ -26,4 +26,4 @@ $ docker run -d --name harmonization_fuseki -p 3031:3031 -e ADMIN_PASSWORD=bd0 -
 $ ./initHarmonization
 ```
 
-Then visit http://212.101.173.21:5000/
+Then visit http://localhost:5000/
