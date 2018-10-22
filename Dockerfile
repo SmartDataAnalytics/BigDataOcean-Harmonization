@@ -14,7 +14,7 @@ RUN pip install flask flask-bootstrap requests numpy Flask-Testing Flask-JWT aps
 
 # Copy files to BDOHarmonization
 WORKDIR /BDOHarmonization
-ADD . /BDOHarmonization
+ADD . /BDOHarmonization/BigDataOcean-Harmonization
 RUN mkdir /src
 RUN mkdir /logs
 RUN cd BigDataOcean-Harmonization/Backend/bdodatasets/ && mvn clean install -Dmaven.test.skip=true
