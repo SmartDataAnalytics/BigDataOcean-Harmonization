@@ -67,34 +67,36 @@
               <td>
                 <label class="label-tableInfo" for="subject">Subject:</label>
               </td>
-              {% set subjects = dataset.subject.split(",") %}
-              {% for subject in subjects: %}
-              <td class="col-md-6">
-                <div class="AgentThumb">
-                  <div class="agentThumbInnerBodySubject">
-                    <div class="agentThumbName">
-                      <a href="{{subject}}" target="_blank">{{subject}}</a>
+              {% set tokens = dataset.subject.split(", ") %}
+              {% for tok in tokens: %}
+                {% set subjects = tok.split(" -- ") %}
+                <td class="col-md-6">
+                  <div class="AgentThumb">
+                    <div class="agentThumbInnerBodySubject">
+                      <div class="agentThumbName">
+                        <a href="{{subjects[1]}}" target="_blank">{{subjects[0]}}</a>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </td>
+                </td>
               {% endfor %}
             </tr>
             <tr>
               <td>
                 <label class="label-tableInfo" for="keywords">Keywords:</label>
               </td>
-              {% set keywords = dataset.keywords.split(",") %}
-              {% for keyword in keywords: %}
-              <td class="col-md-6">
-                <div class="AgentThumb">
-                  <div class="agentThumbInnerBodyKeyword">
-                    <div class="agentThumbName">
-                      <a href="{{keyword}}" target="_blank">{{keyword}}</a>
+              {% set tokens = dataset.keywords.split(", ") %}
+              {% for tok in tokens: %}
+                {% set keywords = tok.split(" -- ") %}
+                <td class="col-md-6">
+                  <div class="AgentThumb">
+                    <div class="agentThumbInnerBodyKeyword">
+                      <div class="agentThumbName">
+                        <a href="{{keywords[1]}}" target="_blank">{{keywords[0]}}</a>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </td>
+                </td>
               {% endfor %}
             </tr>
             <tr>
@@ -117,7 +119,7 @@
               <td>
                 <label class="label-tableInfo" for="language">Language:</label>
               </td>
-              {% set languages = dataset.language.split(",") %}
+              {% set languages = dataset.language.split(", ") %}
               {% for language in languages: %}
               <td class="col-md-6">
                 <div class="AgentThumb">
@@ -215,19 +217,20 @@
                 <label class="label-tableInfo" for="geoLocation">Geographic Location:</label>
               </td>
               {% if dataset.geoLocation|default("") != "": %}
-                {% set geo_locations = dataset.geoLocation.split(",") %}
-                {% for geo_location in geo_locations: %}
-                <td colspan="8" class="col-md-6">                
-                  <div class="AgentThumb">
-                    <div class="agentThumbInnerBodyGeoLoc">
-                      <div class="agentThumbName">
-                        <a href="{{geo_location}}" target="_blank">{{geo_location}}</a>
+                {% set tokens = dataset.geoLocation.split(", ") %}
+                {% for tok in tokens: %}
+                  {% set geoLocation = tok.split(" -- ") %}
+                  <td colspan="8" class="col-md-6">                
+                    <div class="AgentThumb">
+                      <div class="agentThumbInnerBodyGeoLoc">
+                        <div class="agentThumbName">
+                          <a href="{{geoLocation[1]}}" target="_blank">{{geoLocation[0]}}</a>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </td>
+                  </td>
                 {% endfor %}
-                {% else: %}
+              {% else: %}
                 <td colspan="8" class="col-md-6">    
                 </td>
               {% endif%}
