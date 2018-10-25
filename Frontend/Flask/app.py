@@ -672,6 +672,13 @@ def metadataInfo(identifier):
 	try:
 		if request.method == 'GET':
 			extractDatafromParser()
+			# Extracting subject/keywords/marineregions.json
+			file = open(globalPath + '/Frontend/Flask/static/json/subject.json', 'r')
+			subjectJson = json.load(file)
+			file = open(globalPath + '/Frontend/Flask/static/json/keywords.json', 'r')
+			keywordsJson = json.load(file)
+			file = open(globalPath + '/Frontend/Flask/static/json/marineregions.json', 'r')
+			geoLocationJson = json.load(file)
 
 			uri = "<http://bigdataocean.eu/bdo/"+identifier+"> \n"
 			# Calls shel getDataset to obtain all metadata of a dataset from jena fuseki
@@ -684,10 +691,28 @@ def metadataInfo(identifier):
 			# metadata parsed is converted into json class datasetInfo to be used inside the html form
 			parsed_output = json.loads(process.decode('utf-8'))
 			dataset = datasetInfo(**parsed_output)
+			# show the name -- url in subject/keywords/geoLocation
+			dataset.subject = nameURL(dataset.subject, subjectJson)
+			dataset.keywords = nameURL(dataset.keywords, keywordsJson)
+			dataset.geoLocation = nameURL(dataset.geoLocation, geoLocationJson)
 			return render_template('metadataInfo.html', dataset=dataset)
 	except ValueError:  # includes simplejson.decoder.JSONDecodeError
 		print(e)
 		return render_template('500.html')
+
+# show the name -- url in subject/keywords/geoLocation
+def nameURL(listElement, listJson):
+	token = listElement.split(", ")
+	l = ""
+	for t in token:
+		for s in listJson:
+			if s["value"] == t:
+				if l == "":
+					l = s["text"] + " -- " + t
+				else:
+					l = l + ", " + s["text"] + " -- " + t
+				break
+	return l
 
 @app.route('/endpoint', methods=['GET', 'POST'])
 def endpoint():
