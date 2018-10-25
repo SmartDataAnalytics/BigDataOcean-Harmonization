@@ -349,13 +349,7 @@
                 </td>
                 <td>
                   <span class="variablesspan">
-                    {% for variable in variables: %}
-                      {%if variable["canonicalName"] == list[2] and variable["sameAs"] != "": %}
-                        <a href="{{variable['sameAs']}}" target="_blank">{{ list[2] }}</a>
-                      {% elif variable["canonicalName"] == list[2] and variable["sameAs"] == "": %}
-                        <span class="variablesspan">{{ list[2] }}</span>
-                      {% endif %}
-                    {% endfor %}
+                    <a href="{{ list[3] }}" target="_blank">{{ list[2] }}</a>
                   </span>
                 </td>
                 <td>

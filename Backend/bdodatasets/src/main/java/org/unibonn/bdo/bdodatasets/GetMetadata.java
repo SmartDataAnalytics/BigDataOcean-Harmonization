@@ -179,16 +179,19 @@ public class GetMetadata {
 		RDFNode node2;
 		RDFNode node3;
 		RDFNode node4;
+		RDFNode node5;
 		
 		String queryVariables = "PREFIX dct: <http://purl.org/dc/terms/>\n" +
 				"PREFIX bdo: <http://bigdataocean.eu/bdo/>\n" +
 				"PREFIX bdocm: <http://www.bigdataocean.eu/standards/canonicalmodel#>\n" +
 				"PREFIX skos: <http://www.w3.org/2004/02/skos/core#>\n" +
-				"SELECT ?uri ?identifierVariable (STR(?prefLabel) AS ?label) ?unit\n" + 
+				"PREFIX owl: <http://www.w3.org/2002/07/owl#> \n" + 
+				"SELECT ?uri ?identifierVariable (STR(?prefLabel) AS ?label) ?unit ?url\n" + 
 				"WHERE {\n" + 
 				"  "+uri+" ?predicate ?object .\n" + 
 				"  ?object a bdo:BDOVariable ;\n" + 
 				"        dct:identifier ?identifierVariable ;\n" + 
+				"        owl:sameAs ?url ;\n" + 
 				"        skos:prefLabel ?prefLabel .\n" + 
 				"  OPTIONAL { ?object bdocm:canonicalUnit ?unit } \n" + 
 				"  FILTER(lang(?prefLabel) = \"en\")\n" + 
@@ -201,10 +204,12 @@ public class GetMetadata {
 			node2 = solution.get("identifierVariable");
 			node3 = solution.get("label");
 			node4 = solution.get("unit");
+			node5 = solution.get("url");
+
 			if(node4 == null) {
-				listVariables.add(node2.toString() + " --  -- "+ node3.toString());
+				listVariables.add(node2.toString() + " --  -- "+ node3.toString()+ " -- "+ node5.toString());
 			} else {
-				listVariables.add(node2.toString() + " -- "+ node4.toString() + " -- "+ node3.toString());
+				listVariables.add(node2.toString() + " -- "+ node4.toString() + " -- "+ node3.toString()+ " -- "+ node5.toString());
 			}
 			
 		}

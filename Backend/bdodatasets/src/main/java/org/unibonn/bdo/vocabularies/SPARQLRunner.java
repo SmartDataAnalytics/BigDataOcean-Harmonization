@@ -89,7 +89,30 @@ public class SPARQLRunner {
 		return result;
 	}
 	
-	public List<Ontology> getListDataKeywordsSubjects(String queryFile) {
+	public List<Ontology> getListDataKeywords(String queryFile) {
+		Ontology onto;
+		RDFNode uri;
+		RDFNode label;
+		Query query = getQuery(queryFile);
+		QuerySolutionMap args = new QuerySolutionMap();
+		ArrayList<Ontology> result = new ArrayList<>();
+		ResultSet rs = QueryExecutionFactory.create(query, dataset, args).execSelect();
+		while (rs.hasNext()) {
+			// Initialization of variables 
+			uri = null;
+			label = null;
+			
+			QuerySolution solution = rs.next();
+			uri = solution.get("uri");
+			label = solution.get("label");
+			onto = new Ontology(uri.toString().replace("http://www.eionet.europa.eu/concept/", "https://www.eionet.europa.eu/gemet/en/concept/"), label.toString());
+			result.add(onto);
+			
+		}
+		return result;
+	}
+	
+	public List<Ontology> getListDataSubjects(String queryFile) {
 		Ontology onto;
 		RDFNode uri;
 		RDFNode label;

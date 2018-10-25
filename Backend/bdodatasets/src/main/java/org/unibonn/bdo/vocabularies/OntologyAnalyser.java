@@ -48,12 +48,12 @@ public class OntologyAnalyser {
 	
 	// Extract the uri, label from the ontology
 	private static List<Ontology> extractDataSubjects (SPARQLRunner sparqlRunner){
-		return sparqlRunner.getListDataKeywordsSubjects("extractLabelURISubjects.sparql");
+		return sparqlRunner.getListDataSubjects("extractLabelURISubjects.sparql");
 	}
 	
 	// Extract the uri, label from the ontology
 	private static List<Ontology> extractDataKeywords (SPARQLRunner sparqlRunner){
-		return sparqlRunner.getListDataKeywordsSubjects("extractLabelURIKeywords.sparql");
+		return sparqlRunner.getListDataKeywords("extractLabelURIKeywords.sparql");
 	}
 
 	// Extract the uri, label, url from the ontology
