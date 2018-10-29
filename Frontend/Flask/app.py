@@ -63,6 +63,9 @@ app.config['JWT_EXPIRATION_DELTA'] = timedelta(seconds = 3720) # Expiration time
 def syncWhenRunFlask():
 	tokenCommand = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/fetchJWTToken'
 	print (subprocess.check_output([tokenCommand], shell="True"))
+	config.read(globalPath + '/Backend/bdodatasets/bdo.ini')
+	global Authorization
+	Authorization = config['DEFAULT']['AUTHORIZATION_JWT']
 
 # Thread in background to update every year the JWT Authorization Token (Parser tool)
 cron = Scheduler(daemon=True)
@@ -83,8 +86,7 @@ if not os.path.exists(globalPath + '/Backend/AddDatasets/ontologiesN3/bdo.n3'):
 # Command = Thread in background to update every hour the JWT Authorization Token (Parser tool)
 @cron.interval_schedule(seconds=3600)
 def fetchEveryHour():
-	command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/fetchJWTToken'
-	print (subprocess.check_output([command], shell="True"))
+	syncWhenRunFlask()
 
 # bdo, geolocbdo, inspire, eionet = Thread in background to update every year the vocabularies (Vocabulary Repository)
 @cron.interval_schedule(seconds=31536000)
@@ -298,7 +300,7 @@ def addNetCDF():
 				# Verify if the file is .nc
 				if file and allowed_file(file.filename):
 					# Create a general filename
-					filename = "file.nc"
+					filename = file.filename
 					# Saving the file in the UPLOAD_FOLDER with the filename
 					file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 					path_fileNetcdf = UPLOAD_FOLDER + "/" + filename
@@ -391,15 +393,15 @@ def addExcel():
 		if request.method == 'POST':
 			file = request.files['fileExcel']
 			if file.filename != '':
-				# Verify if the file is .csv
+				# Verify if the file is excel
 				if file and allowed_file(file.filename):
 					# Create a general filename
 					filename = file.filename
 					# Saving the file in the UPLOAD_FOLDER with the filename
 					file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-					path_fileCsv = UPLOAD_FOLDER + "/" + filename
-					# print (path_fileNetcdf)
-					command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/suggest "%s" FileExcel' %path_fileCsv
+					path_fileExcel = UPLOAD_FOLDER + "/" + filename
+					# print (path_fileExcel)
+					command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/suggest "%s" FileExcel' %path_fileExcel
 					try:
 						process = subprocess.check_output([command], shell="True")
 					except subprocess.CalledProcessError as e:

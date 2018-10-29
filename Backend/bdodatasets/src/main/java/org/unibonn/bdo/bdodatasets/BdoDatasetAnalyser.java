@@ -32,7 +32,6 @@ import ucar.nc2.NetcdfFile;
 import ucar.nc2.Variable;
 import ucar.nc2.dataset.NetcdfDataset;
 
-import org.unibonn.bdo.bdodatasets.Constants;
 import org.unibonn.bdo.connections.HDFSFileSystem;
 import org.unibonn.bdo.linking.LinkedDiscoveryData;
 import org.unibonn.bdo.linking.NERDiscovery;
@@ -237,6 +236,11 @@ public class BdoDatasetAnalyser {
 			//obtaining the corresponding variable name from the standard CF
 			result.setVariable(LinkedDiscoveryData.parseListNames(listVariables, "variables"));
 			
+			//extract issued/modified date from filename
+			if(result.getIssuedDate().equals(EMPTY_FIELD) || result.getModifiedDate().equals(EMPTY_FIELD)) {
+				result = extractDatesFileName(filename, result);
+			}
+			
 			//Delete the temporal file "file.nc"
 			hdfsSys.deleteFile(Constants.CONFIGFILEPATH+"/Backend/AddDatasets/file.nc");
 			
@@ -261,6 +265,7 @@ public class BdoDatasetAnalyser {
 		//read the file
 		NetcdfFile nc = null;
 		try {
+	    	String name = new File(filename).getName();
 			nc = NetcdfDataset.openFile(filename, null);
 			
 			result = netcdMetadatExtractor(nc);
@@ -269,8 +274,13 @@ public class BdoDatasetAnalyser {
 			//obtaining the corresponding variable name from the standard CF
 			result.setVariable(LinkedDiscoveryData.parseListNames(listVariables, "variables"));
 			
+			//extract issued/modified date from filename
+			if(result.getIssuedDate().equals(EMPTY_FIELD) || result.getModifiedDate().equals(EMPTY_FIELD)) {
+				result = extractDatesFileName(filename, result);
+			}
+			
 			//Delete the temporal file "file.nc"
-			Files.deleteIfExists(Paths.get(Constants.CONFIGFILEPATH+"/Backend/AddDatasets/file.nc"));
+			Files.deleteIfExists(Paths.get(Constants.CONFIGFILEPATH+"/Backend/AddDatasets/" +  name));
 			
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -455,7 +465,8 @@ public class BdoDatasetAnalyser {
 	}
 
 	//Extract the issuedDate and modifiedDate that contains the name iff the name has "_"
-	public static Dataset extractDatesFiles(String name, Dataset result) {
+	private static Dataset extractDatesFiles(String name, Dataset result) {
+		result.setTitle(name.replace("_", " "));
 		result.setTitle(name);
 		if (name.contains("_")) {
 			String[] splitName = name.split("_");
@@ -468,7 +479,7 @@ public class BdoDatasetAnalyser {
 						result.setIssuedDate(convertDate(issuedDate));
 					}
 				}
-				if(issuedDate.length() > 14) {
+				if(modifiedDate.length() > 14) {
 					if(modifiedDate.substring(8,9).equals("T")) {
 						result.setModifiedDate(convertDate(modifiedDate));
 					}
@@ -516,7 +527,7 @@ public class BdoDatasetAnalyser {
 					result.setIdentifier(attr.getStringValue());
 				}
 				if(attr.getShortName().equalsIgnoreCase("title")) {
-					title = attr.getStringValue();
+					title = attr.getStringValue().replace("_", " ");
 					result.setTitle(title);
 				}
 				if(attr.getShortName().equalsIgnoreCase("summary") || attr.getShortName().equalsIgnoreCase("comment")) {
@@ -772,11 +783,38 @@ public class BdoDatasetAnalyser {
     }
     
     // Remove the char "\uFEFF" that starts in the variables
-    public static String removeUTF8BOM(String s) {
+    private static String removeUTF8BOM(String s) {
         if (s.startsWith("\uFEFF")) {
             s = s.substring(1);
         }
         return s;
     }
 
+    
+    // Set Issued/Modified date from filename
+    private static Dataset extractDatesFileName(String filename, Dataset result) {
+    	String nameExtension = new File(filename).getName();
+		String[] tokens = nameExtension.split("\\.(?=[^\\.]+$)");
+		String name = tokens[0];
+
+		if (name.contains("_")) {
+			String[] splitName = name.split("_");
+			int size = splitName.length;
+			if(size > 2) {
+				String issuedDate = splitName[size-2];
+				String modifiedDate = splitName[size-1];
+				if(issuedDate.length() > 14) {
+					if(issuedDate.substring(8,9).equals("T")) {
+						result.setIssuedDate(convertDate(issuedDate));
+					}
+				}
+				if(modifiedDate.length() > 14) {
+					if(modifiedDate.substring(8,9).equals("T")) {
+						result.setModifiedDate(convertDate(modifiedDate));
+					}
+				}
+			}
+		}
+		return result;
+    }
 }
