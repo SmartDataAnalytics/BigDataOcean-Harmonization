@@ -112,6 +112,8 @@ public class InsertDatasetAutomatic {
         } catch (ExecutionException | InterruptedException e) {
         	System.out.println("Error in sending record");
             System.out.println(e);
+            // Restore interrupted state...
+            Thread.currentThread().interrupt();
         } 
     }
     
@@ -167,6 +169,19 @@ public class InsertDatasetAutomatic {
 			}
 		}else if(tokens[1].equals("nc")) {
 			result = extractionDatesNetcdf(result, filename);
+			if(result.getIssuedDate().equals(EMPTY_FIELD) || result.getModifiedDate().equals(EMPTY_FIELD)) {
+				if (name.contains("_")) {
+					splitName = name.split("_");
+					int size = splitName.length;
+					issuedDate = splitName[size-2];
+					modifiedDate = splitName[size-1];
+					result.setIssuedDate(BdoDatasetAnalyser.convertDate(issuedDate));
+					result.setModifiedDate(BdoDatasetAnalyser.convertDate(modifiedDate));
+				}else {
+					System.out.println(" Error!  the file name does not have issuedDate and modifiedDate");
+					return false;
+				}
+			}
 		}
 		
 		// Parameters to check if metadata already exist in Fuseki
