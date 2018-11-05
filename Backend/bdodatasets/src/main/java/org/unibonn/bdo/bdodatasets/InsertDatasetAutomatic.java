@@ -1,9 +1,13 @@
 package org.unibonn.bdo.bdodatasets;
 
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
@@ -15,6 +19,9 @@ import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
 import org.ini4j.Ini;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.unibonn.bdo.connections.ConsumerCreator;
 import org.unibonn.bdo.connections.HDFSFileSystem;
@@ -48,8 +55,8 @@ import ucar.nc2.dataset.NetcdfDataset;
 
 public class InsertDatasetAutomatic {
 	
-	private static final String EMPTY_FIELD = "";
 	private static String tokenAuthorization = ""; 
+	private static final String EMPTY_FIELD = "";
 	
     public static void main(String[] args) {
     	try {
@@ -124,12 +131,16 @@ public class InsertDatasetAutomatic {
 		boolean resultInsert = false;
 		boolean resultFlag = true;
 		String parameter;
-		String[] splitName;
-		String issuedDate = "";
-		String modifiedDate = "";
 		HttpResponse<JsonNode> response; //Get the profileJson
 		HttpResponse<String> response1; //Put the identifier to an idFile
+		HttpResponse<String> response2; //Update the profile
 		String jsonProfile = "";
+		
+		//If Harmonization is using only API then tokenAuthorization is empty
+		if(tokenAuthorization.isEmpty()) {
+			Ini config = new Ini(new File(Constants.INITFILEPATH));
+			tokenAuthorization = config.get("DEFAULT", "AUTHORIZATION_JWT");
+		}
 		
 		//Get the jsonProfile by the idProfile (API)
 		response = Unirest.get(Constants.HTTPJWT + "fileHandler/metadataProfile/id/" + idProfile)
@@ -149,39 +160,17 @@ public class InsertDatasetAutomatic {
 		String identifier = UUID.randomUUID().toString();
 		result.setIdentifier(identifier);
 		
-		//Extract the issuedDate and modifiedDate
+		//Extract the issued/modifiedDate,  TemporalCoverageBegin/End
 		String nameExtension = new File(filename).getName();
 		String[] tokens = nameExtension.split("\\.(?=[^\\.]+$)");
-		String name = tokens[0];
 		String extension = tokens[1];
 		if(extension.equals("csv") || extension.equals("xls") || extension.equals("xlsx")) {
-			//Extract the issuedDate and modifiedDate that contains the fileName iff the fileName has "_"
-			if (name.contains("_")) {
-				splitName = name.split("_");
-				int size = splitName.length;
-				issuedDate = splitName[size-2];
-				modifiedDate = splitName[size-1];
-				result.setIssuedDate(BdoDatasetAnalyser.convertDate(issuedDate));
-				result.setModifiedDate(BdoDatasetAnalyser.convertDate(modifiedDate));
-			}else {
-				System.out.println(" Error!  the file name does not have issuedDate and modifiedDate");
-				return false;
-			}
+			result.setTemporalCoverageBegin(EMPTY_FIELD);
+			result.setTemporalCoverageEnd(EMPTY_FIELD);
+			result = BdoDatasetAnalyser.extractDatesFileName(filename, result);
 		}else if(tokens[1].equals("nc")) {
 			result = extractionDatesNetcdf(result, filename);
-			if(result.getIssuedDate().equals(EMPTY_FIELD) || result.getModifiedDate().equals(EMPTY_FIELD)) {
-				if (name.contains("_")) {
-					splitName = name.split("_");
-					int size = splitName.length;
-					issuedDate = splitName[size-2];
-					modifiedDate = splitName[size-1];
-					result.setIssuedDate(BdoDatasetAnalyser.convertDate(issuedDate));
-					result.setModifiedDate(BdoDatasetAnalyser.convertDate(modifiedDate));
-				}else {
-					System.out.println(" Error!  the file name does not have issuedDate and modifiedDate");
-					return false;
-				}
-			}
+			result = BdoDatasetAnalyser.extractDatesFileName(filename, result);
 		}
 		
 		// Parameters to check if metadata already exist in Fuseki
@@ -198,7 +187,19 @@ public class InsertDatasetAutomatic {
 					.header("Authorization", tokenAuthorization)
 					.asString();
 			if(response1.getStatus() == 200) {
-				resultFlag = true;
+				// Update profile TemporalCoverageBegin/End
+				String updatedProfile = updateProfile(result, jsonProfile);
+				response2 = Unirest.post(Constants.HTTPJWT + "fileHandler/metadataProfile/")
+						.header("Content-Type", "application/json")
+						.header("Authorization", tokenAuthorization)
+						.body(updatedProfile)
+						.asString();
+				if(response2.getStatus() == 200) {
+					System.out.println("Successful!	Profile is being updated");
+					resultFlag = true;
+				} else {
+					System.out.println("Error1!   Profile is not being updated.");
+				}
 			}else {
 				System.out.println(" Error!  fileHandler/file/{idFile}/metadata/{identifier} returns status code = " + response.getStatus());
 				resultFlag = false;
@@ -211,7 +212,7 @@ public class InsertDatasetAutomatic {
 		return resultFlag;
 	}
     
-    // Extract dates (issued, modified) and identifier from Datasets Netcdf
+    // Extract dates (issued, modified, temporalCoverage begin, end) and identifier from Datasets Netcdf
     public static Dataset extractionDatesNetcdf(Dataset result, String filename) throws IOException {
 		//read the file
 		NetcdfFile nc = null;
@@ -226,21 +227,7 @@ public class InsertDatasetAutomatic {
 			if(listFileMetadata != null)
 			{
 				for(Attribute attr : listFileMetadata) {	
-					if(attr.getShortName().equalsIgnoreCase("id")) {
-						result.setIdentifier(attr.getStringValue());
-					}
-					if(attr.getShortName().equalsIgnoreCase("history")) {
-						result.setIssuedDate(attr.getStringValue().substring(0, 19));
-						if(!(result.getIssuedDate().substring(4,5).equals("-") && result.getIssuedDate().substring(7,8).equals("-") && result.getIssuedDate().substring(10,11).equals("T") && result.getIssuedDate().substring(13,14).equals(":") && result.getIssuedDate().substring(16,17).equals(":"))) {
-							result.setIssuedDate(EMPTY_FIELD);
-						}
-					}
-					if(attr.getShortName().equalsIgnoreCase("date_update")) {
-						result.setModifiedDate(attr.getStringValue().substring(0, 19));
-						if(!(result.getModifiedDate().substring(4,5).equals("-") && result.getModifiedDate().substring(7,8).equals("-") && result.getModifiedDate().substring(10,11).equals("T") && result.getModifiedDate().substring(13,14).equals(":") && result.getModifiedDate().substring(16,17).equals(":"))) {
-							result.setModifiedDate(EMPTY_FIELD);
-						}
-					}
+					result = BdoDatasetAnalyser.netcdfMetadataDatesExtractor(attr, result);
 				}
 			}
 			
@@ -274,14 +261,108 @@ public class InsertDatasetAutomatic {
 			variables.add(var.getName() + " -- " + var.getUnit() + " -- " + var.getCanonicalName());
 		}
 		
+		String subject = convertWordToLink(datasetProfile.getSubject(), "subject");
+		String keywords = convertWordToLink(datasetProfile.getKeywords(), "keywords");
+		String geoLoc = convertWordToLink(datasetProfile.getGeoLocation(), "marineregions");
+		
 		//Import all the metadata into the Dataset except identifier, issuedDate and modifiedDate
 		return new Dataset("", datasetProfile.getTitle(), datasetProfile.getDescription(), 
-				datasetProfile.getSubject(), datasetProfile.getKeywords(), datasetProfile.getStandards(), datasetProfile.getFormats(), datasetProfile.getLanguage(), 
+				subject, keywords, datasetProfile.getStandards(), datasetProfile.getFormats(), datasetProfile.getLanguage(), 
 				datasetProfile.getHomepage(), datasetProfile.getPublisher(), datasetProfile.getSource(), datasetProfile.getObservation(), datasetProfile.getStorageTable(), 
-				datasetProfile.getAccessRights(), "", "", datasetProfile.getGeoLocation(), datasetProfile.getSpatialWest(), datasetProfile.getSpatialEast(),
+				datasetProfile.getAccessRights(), "", "", geoLoc, datasetProfile.getSpatialWest(), datasetProfile.getSpatialEast(),
 				datasetProfile.getSpatialSouth(), datasetProfile.getSpatialNorth(), datasetProfile.getCoordinateSystem(), datasetProfile.getVerticalCoverageFrom(),
 				datasetProfile.getVerticalCoverageTo(), datasetProfile.getVerticalLevel(), datasetProfile.getTemporalCoverageBegin(), datasetProfile.getTemporalCoverageEnd(),
 				datasetProfile.getTimeResolution(), variables, "");
 		
 	}
+    
+    //Profile does not care about url in subject, keywords, geographicLocation
+    //Dataset needs the url
+  	private static String convertWordToLink(String value, String typeValue) {
+  		String result = "";
+  		String jsonPath = Constants.CONFIGFILEPATH + "/Frontend/Flask/static/json/" +  typeValue + ".json";
+  		if(!value.isEmpty()) {
+  			try {
+  				String[] tokens = value.split(", ");
+  				if(!tokens[0].contains("http")) {
+	  				JSONParser parser = new JSONParser();
+	  				JSONArray jsonArray = (JSONArray) parser.parse(new FileReader(jsonPath));
+	  				for (String token: tokens) {
+	  					for(int i=0; i<jsonArray.size(); i++){
+	  						JSONObject jsonObject = (JSONObject) jsonArray.get(i);
+	  			            if(jsonObject.get("text").toString().equals(token)) {
+	  			            	if(result.equals("")) {
+	  			            		result = jsonObject.get("value").toString();
+	  			            	} else {
+	  			            		result = result + ", " + jsonObject.get("value").toString();
+	  			            	}
+	  			            }
+	  			            
+	  					}
+	  				}
+  				}else {
+  					result = value;
+  				}
+  			} catch (IOException | ParseException e) {
+  				e.printStackTrace();
+  			}
+  		}
+  		return result;
+  	}
+    
+    // Update temporalCoverage Begin and End in ProfileDataset
+    private static String updateProfile(Dataset result, String jsonProfileDataset) {
+    	Gson gson  = new Gson();
+    	ProfileDataset datasetProfile = new Gson().fromJson(jsonProfileDataset, ProfileDataset.class);
+    	String datasetTempCovBegin = result.getTemporalCoverageBegin();
+    	String datasetTempCovEnd = result.getTemporalCoverageEnd();
+    	String profileTempCovBegin = datasetProfile.getTemporalCoverageBegin();
+    	String profileTempCovEnd = datasetProfile.getTemporalCoverageEnd();
+    	
+    	if(profileTempCovBegin.equals(EMPTY_FIELD) && !datasetTempCovBegin.equals(EMPTY_FIELD)) {
+    		datasetProfile.setTemporalCoverageBegin(datasetTempCovBegin);
+    	} else if(!profileTempCovBegin.equals(EMPTY_FIELD) && !datasetTempCovBegin.equals(EMPTY_FIELD)){
+	    	//profile value is not before dataset value
+	    	if (!dateBeforedate(profileTempCovBegin,datasetTempCovBegin)) {
+	    		datasetProfile.setTemporalCoverageBegin(datasetTempCovBegin);
+	    	}
+    	}
+    	
+    	if(profileTempCovEnd.equals(EMPTY_FIELD) && !datasetTempCovEnd.equals(EMPTY_FIELD)) {
+    		datasetProfile.setTemporalCoverageEnd(datasetTempCovEnd);
+    	} else if(!profileTempCovEnd.equals(EMPTY_FIELD) && !datasetTempCovEnd.equals(EMPTY_FIELD)){
+	    	//dataset value is not before profile value
+	    	if (!dateBeforedate(datasetTempCovEnd,profileTempCovEnd)) {
+	    		datasetProfile.setTemporalCoverageEnd(datasetTempCovEnd);
+	    	}
+    	}
+    	
+    	// if subject, keywords, geolocation in profile has link then convert it into words
+    	if(datasetProfile.getSubject().contains("http")) {
+    		datasetProfile.setSubject(InsertNewDataset.convertLinkToWord(datasetProfile.getSubject(), "subject"));
+    	}
+    	if(datasetProfile.getKeywords().contains("http")) {
+    		datasetProfile.setKeywords(InsertNewDataset.convertLinkToWord(datasetProfile.getKeywords(), "keywords"));
+    	}
+		if(datasetProfile.getGeoLocation().contains("http")) {
+    		datasetProfile.setGeoLocation(InsertNewDataset.convertLinkToWord(datasetProfile.getGeoLocation(), "marineregions"));
+		}
+		
+    	return gson.toJson(datasetProfile);
+    }
+    
+    private static boolean dateBeforedate(String val1, String val2) {
+    	DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        try {
+        	Date date1 = format.parse(val1);
+        	Date date2 = format.parse(val2);
+        	if (date1.before(date2)) {
+        		return true;
+        	}
+        } catch (java.text.ParseException e) {
+        	e.printStackTrace();
+        }
+    	return false;
+    }
+    
 }
