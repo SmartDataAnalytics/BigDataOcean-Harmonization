@@ -12,7 +12,7 @@ import java.util.List;
  *
  */
 
-public class ProfileDataset  implements Serializable {
+public class ProfileDataset implements Serializable {
 	
 	private static final long serialVersionUID = -7832897199047397051L;
 
@@ -43,6 +43,7 @@ public class ProfileDataset  implements Serializable {
 	private String timeResolution; //time_reso
 	private List<VariableDataset> variables; //List of maping variables
 	private String profileName;
+	private String id;
 	
 	public ProfileDataset(){
 		
@@ -54,7 +55,7 @@ public class ProfileDataset  implements Serializable {
 			String accessRights, String geoLocation, String spatialWest, String spatialEast,
 			String spatialSouth, String spatialNorth, String coordinateSystem, String verticalCoverageFrom,
 			String verticalCoverageTo, String verticalLevel, String temporalCoverageBegin, String temporalCoverageEnd,
-			String timeResolution, List<VariableDataset> variables) {
+			String timeResolution, List<VariableDataset> variables, String id) {
 		this.profileName = profileName;
 		this.title = title;
 		this.description = description;
@@ -82,6 +83,7 @@ public class ProfileDataset  implements Serializable {
 		this.temporalCoverageEnd = temporalCoverageEnd;
 		this.timeResolution = timeResolution;
 		this.variables = variables;
+		this.id = id;
 	}
 
 	public String getSource() {
@@ -298,6 +300,14 @@ public class ProfileDataset  implements Serializable {
 
 	public void setVariableList(List<VariableDataset> variables) {
 		this.variables = variables;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 	
 }

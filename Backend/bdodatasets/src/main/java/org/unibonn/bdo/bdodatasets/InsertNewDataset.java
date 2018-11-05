@@ -163,7 +163,7 @@ public class InsertNewDataset {
 			List<String> variables = newDataset.getVariable();
 			for(int i = 0; i < variables.size(); i++) {
 				String name = variables.get(i).split(" -- ")[0];
-				String varKey = name.replaceAll("[^a-zA-Z0-9]", "");
+				String varKey = name.replaceAll("[^a-zA-Z0-9]_", "");
 				if(i == variables.size()-1) {
 					insertQuery += "bdo:"+newDataset.getIdentifier()+"_"+varKey+" . \n ";
 				}else {
@@ -278,15 +278,48 @@ public class InsertNewDataset {
 			variablesList.add(vardataset);
 		}
 		
+		String subject = convertLinkToWord(dataset.getSubject(), "subject");
+		String keywords = convertLinkToWord(dataset.getKeywords(), "keywords");
+		String geoLoc = convertLinkToWord(dataset.getGeoLocation(), "marineregions");
+		
 		ProfileDataset datasetProfile = new ProfileDataset(dataset.getProfileName(), dataset.getTitle(), dataset.getDescription(), 
-				dataset.getSubject(), dataset.getKeywords(), dataset.getStandards(), dataset.getFormats(), dataset.getLanguage(), 
+				subject, keywords, dataset.getStandards(), dataset.getFormats(), dataset.getLanguage(), 
 				dataset.getHomepage(), dataset.getPublisher(), dataset.getSource(), dataset.getObservations(), dataset.getStorageTable(), 
-				dataset.getAccessRights(), dataset.getGeoLocation(), dataset.getSpatialWest(), dataset.getSpatialEast(),
+				dataset.getAccessRights(), geoLoc, dataset.getSpatialWest(), dataset.getSpatialEast(),
 				dataset.getSpatialSouth(), dataset.getSpatialNorth(), dataset.getCoordinateSystem(), dataset.getVerticalCoverageFrom(),
 				dataset.getVerticalCoverageTo(), dataset.getVerticalLevel(), dataset.getTemporalCoverageBegin(), dataset.getTemporalCoverageEnd(),
-				dataset.getTimeResolution(), variablesList);
+				dataset.getTimeResolution(), variablesList, null);
 		return gson.toJson(datasetProfile);
 		
+	}
+	
+	//Profile does not care about url in subject, keywords, geographicLocation
+	public static String convertLinkToWord(String value, String typeValue) {
+		String result = "";
+		String jsonPath = Constants.CONFIGFILEPATH + "/Frontend/Flask/static/json/" +  typeValue + ".json";
+		if(!value.isEmpty()) {
+			try {
+				String[] tokens = value.split(", ");
+				JSONParser parser = new JSONParser();
+				JSONArray jsonArray = (JSONArray) parser.parse(new FileReader(jsonPath));
+				for (String token: tokens) {
+					for(int i=0; i<jsonArray.size(); i++){
+						JSONObject jsonObject = (JSONObject) jsonArray.get(i);
+			            if(jsonObject.get("value").toString().equals(token)) {
+			            	if(result.equals("")) {
+			            		result = jsonObject.get("text").toString();
+			            	} else {
+			            		result = result + ", " + jsonObject.get("text").toString();
+			            	}
+			            }
+			            
+					}
+				}
+			} catch (IOException | ParseException e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
 	}
 
 	//Request API post and put

@@ -67,37 +67,37 @@
               <td>
                 <label class="label-tableInfo" for="subject">Subject:</label>
               </td>
-              {% set tokens = dataset.subject.split(", ") %}
-              {% for tok in tokens: %}
-                {% set subjects = tok.split(" -- ") %}
-                <td class="col-md-6">
-                  <div class="AgentThumb">
-                    <div class="agentThumbInnerBodySubject">
-                      <div class="agentThumbName">
-                        <a href="{{subjects[1]}}" target="_blank">{{subjects[0]}}</a>
+              <td class="col-md-6">
+                {% set tokens = dataset.subject.split(", ") %}
+                {% for tok in tokens: %}
+                  {% set subjects = tok.split(" -- ") %}
+                    <div class="AgentThumb">
+                      <div class="agentThumbInnerBodySubject">
+                        <div class="agentThumbName">
+                          <a href="{{subjects[1]}}" target="_blank">{{subjects[0]}}</a>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </td>
-              {% endfor %}
+                {% endfor %}
+              </td>
             </tr>
             <tr>
               <td>
                 <label class="label-tableInfo" for="keywords">Keywords:</label>
               </td>
-              {% set tokens = dataset.keywords.split(", ") %}
-              {% for tok in tokens: %}
-                {% set keywords = tok.split(" -- ") %}
                 <td class="col-md-6">
-                  <div class="AgentThumb">
-                    <div class="agentThumbInnerBodyKeyword">
-                      <div class="agentThumbName">
-                        <a href="{{keywords[1]}}" target="_blank">{{keywords[0]}}</a>
+                {% set tokens = dataset.keywords.split(", ") %}
+                {% for tok in tokens: %}
+                  {% set keywords = tok.split(" -- ") %}
+                    <div class="AgentThumb">
+                      <div class="agentThumbInnerBodyKeyword">
+                        <div class="agentThumbName">
+                          <a href="{{keywords[1]}}" target="_blank">{{keywords[0]}}</a>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </td>
-              {% endfor %}
+                {% endfor %}
+              </td>
             </tr>
             <tr>
               <td>
@@ -119,18 +119,18 @@
               <td>
                 <label class="label-tableInfo" for="language">Language:</label>
               </td>
-              {% set languages = dataset.language.split(", ") %}
-              {% for language in languages: %}
               <td class="col-md-6">
-                <div class="AgentThumb">
-                  <div class="agentThumbInnerBodylanguage">
-                    <div class="agentThumbName">
-                      <a href="http://id.loc.gov/vocabulary/iso639-2/{{language}}" target="_blank">{{language}}</a>
+                {% set languages = dataset.language.split(", ") %}
+                {% for language in languages: %}
+                  <div class="AgentThumb">
+                    <div class="agentThumbInnerBodylanguage">
+                      <div class="agentThumbName">
+                        <a href="http://id.loc.gov/vocabulary/iso639-2/{{language}}" target="_blank">{{language}}</a>
+                      </div>
                     </div>
                   </div>
-                </div>
+                {% endfor %}
               </td>
-              {% endfor %}
             </tr>
             <tr>
               <td>
@@ -216,24 +216,21 @@
               <td>
                 <label class="label-tableInfo" for="geoLocation">Geographic Location:</label>
               </td>
-              {% if dataset.geoLocation|default("") != "": %}
-                {% set tokens = dataset.geoLocation.split(", ") %}
-                {% for tok in tokens: %}
-                  {% set geoLocation = tok.split(" -- ") %}
-                  <td colspan="8" class="col-md-6">                
-                    <div class="AgentThumb">
-                      <div class="agentThumbInnerBodyGeoLoc">
-                        <div class="agentThumbName">
-                          <a href="{{geoLocation[1]}}" target="_blank">{{geoLocation[0]}}</a>
+              <td colspan="8" class="col-md-6">         
+                {% if dataset.geoLocation|default("") != "": %}
+                  {% set tokens = dataset.geoLocation.split(", ") %}
+                  {% for tok in tokens: %}
+                    {% set geoLocation = tok.split(" -- ") %}       
+                      <div class="AgentThumb">
+                        <div class="agentThumbInnerBodyGeoLoc">
+                          <div class="agentThumbName">
+                            <a href="{{geoLocation[1]}}" target="_blank">{{geoLocation[0]}}</a>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </td>
-                {% endfor %}
-              {% else: %}
-                <td colspan="8" class="col-md-6">    
-                </td>
-              {% endif%}
+                  {% endfor %}
+                {% endif%}
+              </td>
             </tr>
             <tr>
               <td>
