@@ -19,6 +19,10 @@ RUN mkdir /src
 RUN mkdir /logs
 RUN cd BigDataOcean-Harmonization/Backend/bdodatasets/ && mvn clean install -Dmaven.test.skip=true
 
+# Set timezone 
+ENV TZ=Europe/Athens
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
 WORKDIR /BDOHarmonization/BigDataOcean-Harmonization/Frontend/Flask/
 ENTRYPOINT ["python"]
 CMD ["app.py"]
