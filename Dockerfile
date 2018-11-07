@@ -34,6 +34,10 @@ RUN chmod +x apache-jena-fuseki-3.4.0/bin/s-*
 WORKDIR /
 RUN mkdir -p /dataHarmonization/ontologiesN3
 
+# Set timezone 
+ENV TZ=Europe/Athens
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
 WORKDIR /BDOHarmonization/BigDataOcean-Harmonization/Frontend/Flask/
 ENTRYPOINT ["python"]
 CMD ["app.py"]

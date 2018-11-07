@@ -303,9 +303,6 @@ public class BdoDatasetAnalyser {
 		
 		result = analyseDatasetFileCsv(localFile.toString());
 		
-		//Delete the temporal file
-		hdfsSys.deleteFile(Constants.CONFIGFILEPATH+"/Backend/AddDatasets/" + name);
-
 		return result;
 	}
 	
@@ -390,9 +387,6 @@ public class BdoDatasetAnalyser {
 		
 		result = analyseDatasetFileExcel(localFile.toString());
 		
-		//Delete the temporal file
-		hdfsSys.deleteFile(Constants.CONFIGFILEPATH+"/Backend/AddDatasets/" + name);
-
 		return result;
 	}
 	
