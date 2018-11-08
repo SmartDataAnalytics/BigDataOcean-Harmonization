@@ -43,7 +43,7 @@
               <td>
                 <label class="label-tableInfo" for="identifier">Identifier:</label>
               </td>
-              <td colspan="8">
+              <td colspan="4">
                 <input type="text" class="form-control" id="identifier" name="identifier" value="{{dataset.identifier}}">
               </td>
             </tr>
@@ -51,7 +51,7 @@
               <td>
                 <label class="label-tableInfo" for="title">Title:</label>
               </td>
-              <td colspan="8">
+              <td colspan="4">
                 {{ dataset.title }}
               </td>
             </tr>
@@ -59,7 +59,7 @@
               <td>
                 <label class="label-tableInfo" for="description">Description:</label>
               </td>
-              <td colspan="8">
+              <td colspan="4">
                 {{ dataset.description }}
               </td>
             </tr>
@@ -103,7 +103,7 @@
               <td>
                 <label class="label-tableInfo" for="standards">Standards:</label>
               </td>
-              <td colspan="8">                            
+              <td colspan="4">                            
                 {{ dataset.standards }}
               </td>
             </tr>
@@ -111,7 +111,7 @@
               <td>
                 <label class="label-tableInfo" for="data_format">Data Format:</label>
               </td>
-              <td colspan="8">                            
+              <td colspan="4">                            
                 {{ dataset.formats }}
               </td>
             </tr>
@@ -136,15 +136,17 @@
               <td>
                 <label class="label-tableInfo" for="homepage">Homepage:</label>
               </td>
-              <td colspan="8">
-                <a href="{{ dataset.homepage }}" target="_blank">{{ dataset.homepage }}</a>
+              <td colspan="4">
+                {% if dataset.homepage != "" %}
+                  <a href="{{ dataset.homepage }}" target="_blank">Homepage Link</a>
+                {% endif %}
               </td>
             </tr>
             <tr>
               <td>
                 <label class="label-tableInfo" for="publisher">Publisher:</label>
               </td>
-              <td colspan="8">
+              <td colspan="4">
                 {{ dataset.publisher }}
               </td>
             </tr>
@@ -152,7 +154,7 @@
               <td>
                 <label class="label-tableInfo" for="source">Source:</label>
               </td>
-              <td colspan="8">
+              <td colspan="4">
                 {{dataset.source}}
               </td>
             </tr>
@@ -160,7 +162,7 @@
               <td>
                 <label class="label-tableInfo" for="observations">Observations:</label>
               </td>
-              <td colspan="8">
+              <td colspan="4">
                 {{dataset.observations}}
               </td>
             </tr>
@@ -168,7 +170,7 @@
               <td>
                 <label class="label-tableInfo" for="storageTable">Storage Table:</label>
               </td>
-              <td colspan="8">
+              <td colspan="4">
                 {{dataset.storageTable}}
               </td>
             </tr>
@@ -176,7 +178,7 @@
               <td>
                 <label class="label-tableInfo" for="access_rights">Access rights:</label>
               </td>
-              <td colspan="8">
+              <td colspan="4">
                 {{ dataset.accessRights }}
               </td>
             </tr>
@@ -184,7 +186,7 @@
               <td>
                 <label class="label-tableInfo" for="issued_date">Issued date:</label>
               </td>
-              <td colspan="8">
+              <td colspan="4">
                 {{ dataset.issuedDate }}
               </td>
             </tr>
@@ -192,7 +194,7 @@
               <td>
                 <label class="label-tableInfo" for="modified_date">Modified date:</label>
               </td>
-              <td colspan="8">
+              <td colspan="4">
                 {{ dataset.modifiedDate }}
               </td>
             </tr>
@@ -209,14 +211,14 @@
         <table class="tableMetadataInfo">
           <thead>
             <th class="labels-table"></th>
-            <th colspan="8" class="info-table"></th>
+            <th colspan="4" class="info-table"></th>
           </thead>
           <tbody>
             <tr>
               <td>
                 <label class="label-tableInfo" for="geoLocation">Geographic Location:</label>
               </td>
-              <td colspan="8" class="col-md-6">         
+              <td colspan="4" class="col-md-6">         
                 {% if dataset.geoLocation|default("") != "": %}
                   {% set tokens = dataset.geoLocation.split(", ") %}
                   {% for tok in tokens: %}
@@ -233,31 +235,33 @@
               </td>
             </tr>
             <tr>
-              <td>
+              <td rowspan="2">
                 <label class="label-tableInfo">Geographical Coverage:</label>
               </td>
-              <td class="col-xs">
-                <label class="label-table-coordinatesInfo" for="geo_coverageW">W:</label>
+              <td class="col-md-2">
+                <label class="label-table-coordinatesInfo" for="geo_coverageW">West:</label>
               </td>
-              <td class="col-xs">
+              <td class="col-md-2">
                 {{ dataset.spatialWest }}
               </td>
-              <td class="col-xs">
-                <label class="label-table-coordinatesInfo" for="geo_coverageE">E:</label>
+              <td class="col-md-2">
+                <label class="label-table-coordinatesInfo" for="geo_coverageE">East:</label>
               </td>
-              <td class="col-xs">
+              <td class="col-md-2">
                 {{ dataset.spatialEast }}
               </td>
-              <td class="col-xs">
-                <label class="label-table-coordinatesInfo" for="geo_coverageS">S:</label>
+            </tr>
+            <tr>
+              <td class="col-md-2">
+                <label class="label-table-coordinatesInfo" for="geo_coverageS">South:</label>
               </td>
-              <td class="col-xs">
+              <td class="col-md-2">
                 {{ dataset.spatialSouth }}
               </td>
-              <td class="col-xs">
-                <label class="label-table-coordinatesInfo" for="geo_coverageN">N:</label>
+              <td class="col-md-2">
+                <label class="label-table-coordinatesInfo" for="geo_coverageN">North:</label>
               </td>
-              <td class="col-xs">
+              <td class="col-md-2">
                 {{ dataset.spatialNorth }}
               </td>
             </tr>
@@ -265,26 +269,24 @@
               <td>
                 <label class="label-tableInfo" for="coordinate_sys">Coordinate reference system:</label>
               </td>
-              <td colspan="8">
+              <td colspan="4">
                 {{ dataset.coordinateSystem }}
               </td>
             </tr>
             <tr>
-              <td>
+              <td rowspan="2">
                 <label class="label-tableInfo">Vertical Coverage:</label>
               </td>
               <td colspan="1">
-                <center>
-                  <label class="label-tableInfo" for="vert_coverage_from">from</label>
-                </center>
+                <label class="label-tableInfo" for="vert_coverage_from">From:</label>
               </td>
               <td colspan="3">
                 {{ dataset.verticalCoverageFrom }}
               </td>
+            </tr>
+            <tr>
               <td colspan="1">
-                <center>
-                  <label class="label-tableInfo" for="vert_coverage_to">to</label>
-                </center>
+                <label class="label-tableInfo" for="vert_coverage_to">To:</label>
               </td>
               <td colspan="3">
                 {{ dataset.verticalCoverageTo }}
@@ -294,21 +296,24 @@
               <td>
                 <label class="label-tableInfo" for="vertical_level">Vertical Level:</label>
               </td>
-              <td colspan="8">
+              <td colspan="4">
                 {{ dataset.verticalLevel }}
               </td>
             </tr>
             <tr>
-              <td>
+              <td rowspan="2">
                 <label class="label-tableInfo" for="temp_coverage_begin">Temporal Coverage:</label>
+              </td>
+              <td colspan="1">
+                <label class="label-tableInfo" for="temp_coverage_end">Begin:</label>
               </td>
               <td colspan="3">
                 {{ dataset.temporalCoverageBegin }}
               </td>
-              <td colspan="2">
-                <center>
-                  <label class="label-tableInfo" for="temp_coverage_end">to</label>
-                </center>
+            </tr>
+            <tr>
+              <td colspan="1">
+                <label class="label-tableInfo" for="temp_coverage_end">End:</label>
               </td>
               <td colspan="3">
                 {{ dataset.temporalCoverageEnd }}
@@ -318,7 +323,7 @@
               <td>
                 <label class="label-tableInfo" for="time_resolution">Time Resolution:</label>
               </td>
-              <td colspan="8">
+              <td colspan="4">
                 {{ dataset.timeResolution }}
               </td>
             </tr>

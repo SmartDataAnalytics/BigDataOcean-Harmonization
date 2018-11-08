@@ -4,9 +4,19 @@ var options = {
 
   getValue: "canonicalName",
 
+  template: {
+    type: "description",
+    fields: {
+      description: "name"
+    }
+  },
+
   list: {
     maxNumberOfElements: 10,
     match: {
+      enabled: true
+    },
+    sort: {
       enabled: true
     }
   }  
@@ -21,6 +31,9 @@ var optionsStorage = {
   list: {
     maxNumberOfElements: 10,
     match: {
+      enabled: true
+    },
+    sort: {
       enabled: true
     }
   }  
