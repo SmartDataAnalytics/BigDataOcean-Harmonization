@@ -150,7 +150,17 @@
                 <label class="label-table " for="access_rights">Access rights:</label>
               </td>
               <td colspan="8">
-                <input type="text" class="form-control" id="access_rights" name="access_rights" value="{{ dataset.accessRights }}">
+                
+                {% if dataset.accessRights == "Public": %}
+                  <label class="label-table"><input type="radio" name="access_rights" checked value="Public">Public</label>
+                  <label class="label-table"><input type="radio" name="access_rights" value="Private">Private</label>
+                {% elif dataset.accessRights == "Private": %}
+                  <label class="label-table"><input type="radio" name="access_rights" value="Public">Public</label>
+                  <label class="label-table"><input type="radio" name="access_rights" checked value="Private">Private</label>
+                {% else: %}
+                  <label class="label-table"><input type="radio" name="access_rights" value="Public">Public</label>
+                  <label class="label-table"><input type="radio" name="access_rights" value="Private">Private</label>
+                {% endif %}
               </td>
             </tr>
             <tr>

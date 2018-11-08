@@ -925,13 +925,15 @@ def insertAutomatic():
 def extractDatafromParser():
 	fileStorageTableJson = open(globalPath + "/Frontend/Flask/static/json/storageTable.json", "w+")
 	JWT_output = requests.get(GlobalURLJWT + 'fileHandler/table', headers={'Authorization': Authorization})
-	dataStorageTable = JWT_output.content.decode('utf-8')
-	fileStorageTableJson.write(str(dataStorageTable))
+	if JWT_output.status_code == requests.codes.ok:
+		dataStorageTable = JWT_output.content.decode('utf-8')
+		fileStorageTableJson.write(str(dataStorageTable))
 	fileStorageTableJson.close()
 	fileCanonicalModelJson = open(globalPath + "/Frontend/Flask/static/json/canonicalModelMongo.json", "w+")
 	JWT_output1 = requests.get(GlobalURLJWT + 'fileHandler/variable', headers={'Authorization': Authorization})
-	dataCanonicalModel = JWT_output1.content.decode('utf-8')
-	fileCanonicalModelJson.write(str(dataCanonicalModel))
+	if JWT_output1.status_code == requests.codes.ok:
+		dataCanonicalModel = JWT_output1.content.decode('utf-8')
+		fileCanonicalModelJson.write(str(dataCanonicalModel))
 	fileCanonicalModelJson.close()
 
 # Class for datasets parsed on shell suggest
