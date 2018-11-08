@@ -881,6 +881,66 @@ def searchVariable():
 		parsed_output = json.loads(process.decode('utf-8'))
 		return jsonify(parsed_output)
 
+@app.route('/api/v1/dataset/searchVariableStorageTable', methods=['GET'])
+@jwt_required()
+def searchVariableStorageTable():
+	if request.method == 'GET':
+		# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
+		comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("12", request.args['search'])
+		try:
+			process = subprocess.check_output([comm], shell="True")
+		except subprocess.CalledProcessError as e:
+			print(e)
+			return render_template('500.html')
+		# metadata parsed is converted into json class datasetInfo to be used inside the html form
+		parsed_output = json.loads(process.decode('utf-8'))
+		return jsonify(parsed_output)
+
+@app.route('/api/v1/dataset/searchStorageTable', methods=['GET'])
+@jwt_required()
+def searchStorageTable():
+	if request.method == 'GET':
+		# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
+		comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("13", request.args['search'])
+		try:
+			process = subprocess.check_output([comm], shell="True")
+		except subprocess.CalledProcessError as e:
+			print(e)
+			return render_template('500.html')
+		# metadata parsed is converted into json class datasetInfo to be used inside the html form
+		parsed_output = json.loads(process.decode('utf-8'))
+		return jsonify(parsed_output)
+
+@app.route('/api/v1/dataset/searchTitle', methods=['GET'])
+@jwt_required()
+def searchTitle():
+	if request.method == 'GET':
+		# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
+		comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("14", request.args['search'])
+		try:
+			process = subprocess.check_output([comm], shell="True")
+		except subprocess.CalledProcessError as e:
+			print(e)
+			return render_template('500.html')
+		# metadata parsed is converted into json class datasetInfo to be used inside the html form
+		parsed_output = json.loads(process.decode('utf-8'))
+		return jsonify(parsed_output)
+
+@app.route('/api/v1/dataset/searchDescription', methods=['GET'])
+@jwt_required()
+def searchDescription():
+	if request.method == 'GET':
+		# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
+		comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("15", request.args['search'])
+		try:
+			process = subprocess.check_output([comm], shell="True")
+		except subprocess.CalledProcessError as e:
+			print(e)
+			return render_template('500.html')
+		# metadata parsed is converted into json class datasetInfo to be used inside the html form
+		parsed_output = json.loads(process.decode('utf-8'))
+		return jsonify(parsed_output)
+
 # API POST for insert dataset's metadata automatically into Harmonization
 # Parameters: filename,idfile,idprofile in json 
 @app.route('/api/v1/dataset/insertAutomatic', methods=['POST'])

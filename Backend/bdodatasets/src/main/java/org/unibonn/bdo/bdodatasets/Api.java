@@ -25,6 +25,7 @@ public class Api {
 		int apiNumber = Integer.parseInt(args[0]);
 		String searchParam = args[1];
 		exec(apiNumber, searchParam);
+
 	}
 
 	public static void exec(int apiNumber, String searchParam) {
@@ -133,6 +134,42 @@ public class Api {
 						InsertDatasetAutomatic.runProducer(idFile);
 					}
 				} catch (IOException | ParseException | UnirestException e) {
+					e.printStackTrace();
+				}
+				break;	
+			case 12:
+				try {
+					DatasetApi dataset = BdoApiAnalyser.apiListVarOfDatasetStorage(searchParam);
+					// Parse into JSON the Dataset instance with all metadata from a dataset
+					System.out.print(gson.toJson(dataset));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				break;	
+			case 13:
+				try {
+					list = BdoApiAnalyser.apiSearchStorageTable(searchParam);
+					// Parse into JSON the Dataset instance with all metadata from a dataset
+					System.out.print(gson.toJson(list));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				break;	
+			case 14:
+				try {
+					list = BdoApiAnalyser.apiSearchTitle(searchParam);
+					// Parse into JSON the Dataset instance with all metadata from a dataset
+					System.out.print(gson.toJson(list));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				break;	
+			case 15:
+				try {
+					list = BdoApiAnalyser.apiSearchDescription(searchParam);
+					// Parse into JSON the Dataset instance with all metadata from a dataset
+					System.out.print(gson.toJson(list));
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 				break;	
