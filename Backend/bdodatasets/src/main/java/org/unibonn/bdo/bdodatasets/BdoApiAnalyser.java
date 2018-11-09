@@ -22,7 +22,7 @@ import com.hp.hpl.jena.rdf.model.RDFNode;
  * @author Jaime M Trillos
  * @author Ana C Trillos
  *
- * 
+ * Methods for RESTful APIs
  *
  */
 
@@ -33,25 +33,34 @@ public class BdoApiAnalyser {
 		String apiQuery = "PREFIX disco: <http://rdf-vocabulary.ddialliance.org/discovery#>\n" + 
 				"PREFIX skos: <http://www.w3.org/2004/02/skos/core#>\n" + 
 				"PREFIX dct: <http://purl.org/dc/terms/>\n" + 
+				"PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> \n" + 
+				"PREFIX ids: <http://industrialdataspace/information-model/>\n" + 
 				"PREFIX dcat: <https://www.w3.org/TR/vocab-dcat/>\n" + 
 				"PREFIX bdo: <http://bigdataocean.eu/bdo/>\n" + 
 				"PREFIX bdocm: <http://www.bigdataocean.eu/standards/canonicalmodel#>\n" +
 				"PREFIX dbo: <http://dbpedia.org/ontology/>\n" + 
 				"\n" + 
 				"\n" + 
-				"SELECT ?uri ?title ?subject ?keywords ?language ?nameVariable (STR (?label) as ?canonicalVariable) ?unit\n" + 
+				"SELECT ?uri ?title ?desc ?storageTable ?format ?rights ?observation (STR(?tempCovB) AS ?timeCovBeg) (STR(?tempCovE) AS ?timeCovEnd) ?nameVariable (STR (?label) as ?canonicalVariable) ?unit\n" + 
 				"WHERE {\n" + 
 				"  ?uri a dcat:Dataset;\n" + 
 				"       dct:title ?title;\n" + 
-				"       dcat:subject ?subject;\n" + 
-				"       dcat:theme ?keywords;\n" + 
-				"       dct:language ?language;\n" + 
+				"       dct:description ?desc;\n" + 
+				"       bdo:storageTable ?storageTable;\n" + 
+				"       dct:format ?format;\n" + 
+				"       dct:accessRights ?rights;\n" + 
+				"       rdfs:comment ?observation;\n" + 
+				"       bdo:timeCoverage ?temp;\n" +
 				"       disco:variable ?variable.\n" + 
+				"  ?temp a bdo:TimeCoverage;\n" + 
+				"		 ids:beginning ?tempCovB ;\n" + 
+				"        ids:end ?tempCovE .\n" +
 				"  ?variable a bdo:BDOVariable;\n" + 
 				"      dct:identifier ?nameVariable;\n" +
 				"      skos:prefLabel ?label.\n" + 
 				"  OPTIONAL { ?variable bdocm:canonicalUnit ?unit } \n" +
-				"}";
+				"}" + 
+				"ORDER BY ?uri";
 		RDFNode node;
 		ResultSet results = QueryExecutor.selectQuery(apiQuery);
 		String id = null;
@@ -66,29 +75,14 @@ public class BdoApiAnalyser {
 			if(id != node.toString()) {
 				dataset.setIdentifier(node.toString());
 				id = node.toString();
-				node = solution.get("title");
-				dataset.setTitle(node.toString());
-				node = solution.get("subject");
-				if(dataset.getSubject() != null)
-				{
-					dataset.setSubject(dataset.getSubject()+", "+InsertNewDataset.convertLinkToWord(node.toString(), "subject"));
-				}else {
-					dataset.setSubject(InsertNewDataset.convertLinkToWord(node.toString(), "subject"));
-				}
-				node = solution.get("keywords");
-				if(dataset.getKeywords() != null)
-				{
-					dataset.setKeywords(dataset.getKeywords()+", "+InsertNewDataset.convertLinkToWord(node.toString(), "keywords"));
-				}else {
-					dataset.setKeywords(InsertNewDataset.convertLinkToWord(node.toString(), "keywords"));
-				}
-				node = solution.get("language");
-				if(dataset.getLanguage() != null)
-				{
-					dataset.setLanguage(dataset.getLanguage()+", "+node.toString());
-				}else {
-					dataset.setLanguage(node.toString());
-				}
+				dataset.setTitle(solution.get("title").toString());
+				dataset.setDescription(solution.get("desc").toString());
+				dataset.setStorageTable(solution.get("storageTable").toString());
+				dataset.setFormats(solution.get("format").toString());
+				dataset.setAccessRights(solution.get("rights").toString());
+				dataset.setObservations(solution.get("observation").toString());
+				dataset.setTemporalCoverageBegin(solution.get("timeCovBeg").toString());
+				dataset.setTemporalCoverageEnd(solution.get("timeCovEnd").toString());
 				varData = unitVariableisNull(solution);
 				variables.add(varData);
 				dataset.setVariables(variables);
@@ -113,11 +107,12 @@ public class BdoApiAnalyser {
 				"PREFIX foaf: <http://xmlns.com/foaf/0.1/>\n" + 
 				"PREFIX bdo: <http://bigdataocean.eu/bdo/>\n" + 
 				"PREFIX ids: <http://industrialdataspace/information-model/>\n" + 
-				"SELECT ?uri ?ident ?title ?desc ?sub ?keyw ?standard ?format ?lang ?homep "
+				"SELECT ?ident ?title ?desc ?standard ?format ?homep "
 				+ "?publi ?rights (STR(?issued) AS ?issuedDate)  (STR(?modified) AS ?modifiedDate) "
-				+ "?geoLoc ?timeReso (STR(?verFrom) AS ?vFrom) (STR(?verTo) AS ?vTo) (STR(?west) AS ?spatialWest) (STR(?east) AS ?spatialEast) "
-				+ "(STR(?south) AS ?spatialSouth) (STR(?north) AS ?spatialNorth) (STR(?tempCovB) AS ?timeCovBeg) (STR(?tempCovE) AS ?timeCovEnd) "
-				+ "?vLevel ?coorSys ?source ?observation ?storageTable\n" + 
+				+ "?timeReso (STR(?verFrom) AS ?vFrom) (STR(?verTo) AS ?vTo) (STR(?west) AS ?spatialWest) "
+				+ "(STR(?east) AS ?spatialEast) (STR(?south) AS ?spatialSouth) (STR(?north) AS ?spatialNorth) "
+				+ "(STR(?tempCovB) AS ?timeCovBeg) (STR(?tempCovE) AS ?timeCovEnd) ?vLevel ?coorSys ?source "
+				+ "?observation ?storageTable\n" + 
 				"WHERE{ \n" + 
 				"  "+searchParam+" a dcat:Dataset ;\n" + 
 				"       dct:identifier ?ident ;\n" + 
@@ -156,7 +151,6 @@ public class BdoApiAnalyser {
 				"  ?vCov a  bdo:VerticalCoverage ;\n" + 
 				"        bdo:verticalFrom ?verFrom ;\n" + 
 				"        bdo:verticalTo ?verTo .\n" + 
-				" OPTIONAL {"+searchParam+" dct:spatial ?geoloc .}\n" +
 				"}";
 		
 		DatasetApi dataset = new DatasetApi();
@@ -172,31 +166,10 @@ public class BdoApiAnalyser {
 			dataset.setTitle(node.toString());
 			node = solution.get("desc");
 			dataset.setDescription(node.toString());
-			node = solution.get("sub");
-			if(dataset.getSubject() != null)
-			{
-				dataset.setSubject(dataset.getSubject()+", "+InsertNewDataset.convertLinkToWord(node.toString(), "subject"));
-			}else {
-				dataset.setSubject(InsertNewDataset.convertLinkToWord(node.toString(), "subject"));
-			}
-			node = solution.get("keyw");
-			if(dataset.getKeywords() != null)
-			{
-				dataset.setKeywords(dataset.getKeywords()+", "+InsertNewDataset.convertLinkToWord(node.toString(), "keywords"));
-			}else {
-				dataset.setKeywords(InsertNewDataset.convertLinkToWord(node.toString(), "keywords"));
-			}
 			node = solution.get("standard");
 			dataset.setStandards(node.toString());
 			node = solution.get("format");
 			dataset.setFormats(node.toString());
-			node = solution.get("lang");
-			if(dataset.getLanguage() != null)
-			{
-				dataset.setLanguage(dataset.getLanguage()+", "+node.toString());
-			}else {
-				dataset.setLanguage(node.toString());
-			}
 			node = solution.get("homep");
 			dataset.setHomepage(node.toString());
 			node = solution.get("publi");
@@ -213,18 +186,6 @@ public class BdoApiAnalyser {
 			dataset.setObservations(node.toString());
 			node = solution.get("storageTable");
 			dataset.setStorageTable(node.toString());
-			node = solution.get("geoLoc");
-			//if node = null then setGeoLocation to ""
-			if(node!=null) {
-				if(dataset.getGeoLocation() == null)
-				{
-					dataset.setGeoLocation(InsertNewDataset.convertLinkToWord(node.toString(), "marineregions"));
-				}else {
-					dataset.setGeoLocation(dataset.getGeoLocation()+", "+InsertNewDataset.convertLinkToWord(node.toString(), "marineregions"));				
-				}
-			}else {
-				dataset.setGeoLocation("");
-			}
 			node = solution.get("vFrom");
 			dataset.setVerticalCoverageFrom(node.toString());
 			node = solution.get("vTo");
@@ -249,34 +210,12 @@ public class BdoApiAnalyser {
 			dataset.setCoordinateSystem(node.toString());
 		}
 
-		List<VariableDataset> variables = new ArrayList<>();
+		dataset = getSubject(searchParam, dataset);
+		dataset = getKeywords(searchParam, dataset);
+		dataset = getGeoLoc(searchParam, dataset);
+		dataset = getLanguage(searchParam, dataset);
+		dataset = getVariables(searchParam, dataset);
 		
-		String queryVariables = "PREFIX disco: <http://rdf-vocabulary.ddialliance.org/discovery#>\n" +
-				"PREFIX dct: <http://purl.org/dc/terms/>\n" +
-				"PREFIX bdo: <http://bigdataocean.eu/bdo/>\n" +
-				"PREFIX bdocm: <http://www.bigdataocean.eu/standards/canonicalmodel#>\n" +
-				"PREFIX skos: <http://www.w3.org/2004/02/skos/core#>\n" +
-				"SELECT ?nameVariable (STR(?label) AS ?canonicalVariable) ?unit\n" + 
-				"WHERE {\n" +
-				"  "+searchParam+" disco:variable ?variable.\n" + 
-				"  ?variable a bdo:BDOVariable;\n" + 
-				"      dct:identifier ?nameVariable;\n" +
-				"      skos:prefLabel ?label.\n" + 
-				"  OPTIONAL { ?variable bdocm:canonicalUnit ?unit } \n" +
-				"  FILTER(lang(?label) = \"en\")\n" + 
-				"}";
-		
-		// Adding Datasetvariables -- BDOvariables in a list
-		ResultSet rsVariables = QueryExecutor.selectQuery(queryVariables);
-		VariableDataset varData;
-		while(rsVariables.hasNext()){
-			QuerySolution solution = rsVariables.nextSolution();
-			varData = unitVariableisNull(solution);
-			variables.add(varData);
-			dataset.setVariables(variables);
-		}
-		
-		dataset.setVariables(variables);
 		return dataset;
 	}
 	
@@ -297,22 +236,34 @@ public class BdoApiAnalyser {
 				"PREFIX ids: <http://industrialdataspace/information-model/>\n" + 
 				"PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" + 
 				"\n" + 
-				"SELECT DISTINCT ?uri ?title ?lang ?subject\n" + 
+				"SELECT DISTINCT ?uri ?title ?subject\n" + 
 				"WHERE {  \n" + 
 				"  ?uri dct:title ?title;\n" + 
-				"       dct:language ?lang;\n" + 
 				"       dcat:subject ?subject.\n" +
 				values +
-				"}";
+				"}" + 
+				"ORDER BY ?uri";
 		ResultSet results = QueryExecutor.selectQuery(apiQuery);
+		RDFNode node;
+		String id = "";
 		while(results.hasNext()) {
 			DatasetApi dataset = new DatasetApi();
-			QuerySolution solution = results.nextSolution();				
-			dataset.setIdentifier(solution.get("uri").toString());
-			dataset.setTitle(solution.get("title").toString());
-			dataset.setLanguage(solution.get("lang").toString());
-			dataset.setSubject(InsertNewDataset.convertLinkToWord(solution.get("subject").toString(), "subject"));
-			list.add(dataset);
+			QuerySolution solution = results.nextSolution();
+			if (!id.equals(solution.get("uri").toString())) {
+				id = solution.get("uri").toString();
+				dataset.setIdentifier(solution.get("uri").toString());
+				dataset.setTitle(solution.get("title").toString());
+				node = solution.get("subject");
+				dataset.setSubject(InsertNewDataset.convertLinkToWord(node.toString(), "subject"));
+				list.add(dataset);
+			} else {
+				int size = list.size();
+				dataset = list.get(size-1);
+				node = solution.get("subject");
+				dataset.setSubject(dataset.getSubject()+", "+InsertNewDataset.convertLinkToWord(node.toString(), "subject"));
+				list.remove(size-1);
+				list.add(dataset);
+			}
 		}
 		return list;
 	}
@@ -334,22 +285,34 @@ public class BdoApiAnalyser {
 				"PREFIX ids: <http://industrialdataspace/information-model/>\n" + 
 				"PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" + 
 				"\n" + 
-				"SELECT DISTINCT ?uri ?title ?lang ?keywords\n" + 
+				"SELECT DISTINCT ?uri ?title ?keywords\n" + 
 				"WHERE {  \n" + 
 				"  ?uri dct:title ?title;\n" + 
-				"       dct:language ?lang;\n" + 
 				"       dcat:theme ?keywords.\n" +
 				values +
-				"}";
+				"}" + 
+				"ORDER BY ?uri";
 		ResultSet results = QueryExecutor.selectQuery(apiQuery);
+		RDFNode node;
+		String id = "";
 		while(results.hasNext()) {
 			DatasetApi dataset = new DatasetApi();
-			QuerySolution solution = results.nextSolution();				
-			dataset.setIdentifier(solution.get("uri").toString());
-			dataset.setTitle(solution.get("title").toString());
-			dataset.setLanguage(solution.get("lang").toString());
-			dataset.setKeywords(InsertNewDataset.convertLinkToWord(solution.get("keywords").toString(),"keywords"));
-			list.add(dataset);
+			QuerySolution solution = results.nextSolution();
+			if (!id.equals(solution.get("uri").toString())) {
+				id = solution.get("uri").toString();
+				dataset.setIdentifier(solution.get("uri").toString());
+				dataset.setTitle(solution.get("title").toString());
+				node = solution.get("keywords");
+				dataset.setKeywords(InsertNewDataset.convertLinkToWord(node.toString(), "keywords"));
+				list.add(dataset);
+			} else {
+				int size = list.size();
+				dataset = list.get(size-1);
+				node = solution.get("keywords");
+				dataset.setKeywords(dataset.getKeywords()+", "+InsertNewDataset.convertLinkToWord(node.toString(), "keywords"));
+				list.remove(size-1);
+				list.add(dataset);
+			}
 		}
 		return list;
 	}
@@ -371,24 +334,31 @@ public class BdoApiAnalyser {
 				"PREFIX ids: <http://industrialdataspace/information-model/>\n" + 
 				"PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" + 
 				"\n" + 
-				"SELECT DISTINCT ?uri ?title ?lang ?geo_loc ?subject\n" + 
+				"SELECT DISTINCT ?uri ?title ?geo_loc \n" + 
 				"WHERE {  \n" + 
 				"  ?uri dct:title ?title;\n" + 
-				"       dct:language ?lang;\n" + 
-				"       dct:spatial ?geo_loc;\n" + 
-				"       dcat:subject ?subject." +
+				"       dct:spatial ?geo_loc." +
 				values +
-				"}";
+				"}" + 
+				"ORDER BY ?uri";
 		ResultSet results = QueryExecutor.selectQuery(apiQuery);
+		String id = "";
 		while(results.hasNext()) {
 			DatasetApi dataset = new DatasetApi();
-			QuerySolution solution = results.nextSolution();				
-			dataset.setIdentifier(solution.get("uri").toString());
-			dataset.setTitle(solution.get("title").toString());
-			dataset.setLanguage(solution.get("lang").toString());
-			dataset.setSubject(InsertNewDataset.convertLinkToWord(solution.get("subject").toString(), "subject"));
-			dataset.setGeoLocation(InsertNewDataset.convertLinkToWord(solution.get("geo_loc").toString(), "marineregions"));
-			list.add(dataset);
+			QuerySolution solution = results.nextSolution();
+			if (!id.equals(solution.get("uri").toString())) {
+				id = solution.get("uri").toString();
+				dataset.setIdentifier(solution.get("uri").toString());
+				dataset.setTitle(solution.get("title").toString());
+				dataset.setGeoLocation(InsertNewDataset.convertLinkToWord(solution.get("geo_loc").toString(), "marineregions"));
+				list.add(dataset);
+			} else {
+				int size = list.size();
+				dataset = list.get(size-1);
+				dataset.setGeoLocation(dataset.getGeoLocation()+", "+InsertNewDataset.convertLinkToWord(solution.get("geo_loc").toString(), "marineregions"));
+				list.remove(size-1);
+				list.add(dataset);
+			}
 		}
 		return list;
 	}
@@ -415,14 +385,11 @@ public class BdoApiAnalyser {
 				"PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" + 
 				"PREFIX ignf: <http://data.ign.fr/def/ignf#>\n" + 
 				"\n" + 
-				"SELECT DISTINCT ?uri ?title ?lang ?geo_loc ?subject (STR(?east) AS ?streast) (STR(?west) AS ?strwest) "
+				"SELECT DISTINCT ?uri ?title (STR(?east) AS ?streast) (STR(?west) AS ?strwest) "
 				+ "(STR(?south) AS ?strsouth) (STR(?north) AS ?strnorth) \n" + 
 				"WHERE { \n" + 
 				"  	?uri dct:title ?title;\n" + 
-				"	   dct:language ?lang;\n" + 
-				"	   dct:spatial ?geo_loc;\n" + 
-				"	   bdo:GeographicalCoverage ?geocov;\n" + 
-				"	   dcat:subject ?subject.\n" + 
+				"	   bdo:GeographicalCoverage ?geocov.\n" + 
 				"    ?geocov a ignf:GeographicBoundingBox;\n" + 
 				"	   ignf:eastBoundLongitude ?east;\n" + 
 				"	   ignf:northBoundLatitude ?north;\n" + 
@@ -430,20 +397,20 @@ public class BdoApiAnalyser {
 				"	   ignf:westBoundLongitude ?west.\n" + 
 				"  FILTER ((?east>="+listGeoLoc[1]+") && (?north>="+listGeoLoc[3]+") && (?south>="+listGeoLoc[2]+") && (?west>="+listGeoLoc[0]+") || \n"+
 				"  (?east<="+newList.get(1)+") && (?north<="+newList.get(3)+") && (?south<="+newList.get(2)+") && (?west<="+newList.get(0)+"))\n" + 
-				"}";
+				"}" + 
+				"ORDER BY ?uri";
 		ResultSet results = QueryExecutor.selectQuery(apiQuery);
 		while(results.hasNext()) {
 			DatasetApi dataset = new DatasetApi();
-			QuerySolution solution = results.nextSolution();				
+			QuerySolution solution = results.nextSolution();
 			dataset.setIdentifier(solution.get("uri").toString());
 			dataset.setTitle(solution.get("title").toString());
-			dataset.setLanguage(solution.get("lang").toString());
-			dataset.setSubject(InsertNewDataset.convertLinkToWord(solution.get("subject").toString(), "subject"));
 			dataset.setSpatialEast(solution.get("streast").toString());
 			dataset.setSpatialNorth(solution.get("strnorth").toString());
 			dataset.setSpatialSouth(solution.get("strsouth").toString());
 			dataset.setSpatialWest(solution.get("strwest").toString());
 			list.add(dataset);
+			
 		}
 		return list;
 	}
@@ -459,18 +426,17 @@ public class BdoApiAnalyser {
 				"PREFIX ids: <http://industrialdataspace/information-model/>\n" + 
 				"PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" + 
 				"\n" + 
-				"SELECT distinct ?uri ?title ?lang (STR (?vertC_from) AS ?from) (STR (?vertC_to) AS ?to) ?subject\n" + 
+				"SELECT distinct ?uri ?title (STR (?vertC_from) AS ?from) (STR (?vertC_to) AS ?to) \n" + 
 				"WHERE {  \n" + 
 				"  ?uri dct:title ?title;\n" + 
-				"       dct:language ?lang;\n" + 
-				"       dcat:subject ?subject;\n\n" + 
 				"       bdo:verticalCoverage ?vertC.\n" + 
 				"  ?vertC a bdo:VerticalCoverage;\n" + 
 				"         bdo:verticalFrom ?vertC_from;\n" + 
 				"         bdo:verticalTo ?vertC_to.\n" +
 				"  FILTER (?vertC_from >= \""+listVert[0]+"\"^^xsd:double)\n" +
 				"  FILTER (?vertC_to <= \""+listVert[1]+"\"^^xsd:double)\n" + 
-				"}";
+				"}" + 
+				"ORDER BY ?uri";
 		
 		RDFNode node;
 		ResultSet results = QueryExecutor.selectQuery(apiQuery);
@@ -481,20 +447,6 @@ public class BdoApiAnalyser {
 			dataset.setIdentifier(node.toString());
 			node = solution.get("title");
 			dataset.setTitle(node.toString());
-			node = solution.get("subject");
-			if(dataset.getSubject() != null)
-			{
-				dataset.setSubject(dataset.getSubject()+", "+ InsertNewDataset.convertLinkToWord(node.toString(), "subject"));
-			}else {
-				dataset.setSubject(InsertNewDataset.convertLinkToWord(node.toString(), "subject"));
-			}
-			node = solution.get("lang");
-			if(dataset.getLanguage() != null)
-			{
-				dataset.setLanguage(dataset.getLanguage()+", "+node.toString());
-			}else {
-				dataset.setLanguage(node.toString());
-			}
 			node = solution.get("from");
 			dataset.setVerticalCoverageFrom(node.toString());
 			node = solution.get("to");
@@ -504,7 +456,6 @@ public class BdoApiAnalyser {
 		return list;
 	}
 
-	
 	public static List<DatasetApi> apiListDatasetByTimeCov (String searchParam){
 		String[] listTime = searchParam.split(",");
 		List<DatasetApi> list = new ArrayList<>();
@@ -518,18 +469,17 @@ public class BdoApiAnalyser {
 					"PREFIX ids: <http://industrialdataspace/information-model/>\n" + 
 					"PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" + 
 					"\n" + 
-					"SELECT distinct ?uri ?title ?lang (STR (?timeC_start) AS ?start) (STR (?timeC_end) AS ?end) ?subject\n" + 
+					"SELECT distinct ?uri ?title (STR (?timeC_start) AS ?start) (STR (?timeC_end) AS ?end) \n" + 
 					"WHERE {  \n" + 
-					"  ?uri dct:title ?title;\n" + 
-					"       dct:language ?lang;\n" + 
-					"       dcat:subject ?subject;\n" + 
+					"  ?uri dct:title ?title;\n" +  
 					"       bdo:timeCoverage ?timeC.\n" + 
 					"  ?timeC a bdo:TimeCoverage;\n" + 
 					"         ids:beginning ?timeC_start;\n" + 
 					"         ids:end ?timeC_end.\n" + 
 					"  FILTER (?timeC_start >= \""+listTime[0]+"\"^^xsd:dateTime)\n" +
 					"  FILTER (?timeC_end < \""+listTime[1]+"\"^^xsd:dateTime)\n" + 
-					"}";
+					"}" + 
+					"ORDER BY ?uri";
 		}else {
 			apiQuery = "PREFIX disco: <http://rdf-vocabulary.ddialliance.org/discovery#>\n" + 
 					"PREFIX skos: <http://www.w3.org/2004/02/skos/core#>\n" + 
@@ -539,16 +489,15 @@ public class BdoApiAnalyser {
 					"PREFIX ids: <http://industrialdataspace/information-model/>\n" + 
 					"PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" + 
 					"\n" + 
-					"SELECT distinct ?uri ?title ?lang (STR (?timeC_start) AS ?start) (STR (?timeC_end) AS ?end) ?subject\n" + 
+					"SELECT distinct ?uri ?title (STR (?timeC_start) AS ?start) (STR (?timeC_end) AS ?end) \n" + 
 					"WHERE {  \n" + 
 					"  ?uri dct:title ?title;\n" + 
-					"       dct:language ?lang;\n" + 
-					"       dcat:subject ?subject;\n" + 
 					"       bdo:timeCoverage ?timeC.\n" + 
 					"  ?timeC a bdo:TimeCoverage;\n" + 
 					"         ids:beginning ?timeC_start;\n" + 
 					"         ids:end ?timeC_end.\n" + 
-					"  FILTER (?timeC_start >= \""+listTime[0]+"\"^^xsd:dateTime)\n }" ;
+					"  FILTER (?timeC_start >= \""+listTime[0]+"\"^^xsd:dateTime)\n }"  + 
+					"ORDER BY ?uri";
 		}
 
 		RDFNode node;
@@ -560,20 +509,6 @@ public class BdoApiAnalyser {
 			dataset.setIdentifier(node.toString());
 			node = solution.get("title");
 			dataset.setTitle(node.toString());
-			node = solution.get("subject");
-			if(dataset.getSubject() != null)
-			{
-				dataset.setSubject(dataset.getSubject()+", "+InsertNewDataset.convertLinkToWord(node.toString(), "subject"));
-			}else {
-				dataset.setSubject(InsertNewDataset.convertLinkToWord(node.toString(), "subject"));
-			}
-			node = solution.get("lang");
-			if(dataset.getLanguage() != null)
-			{
-				dataset.setLanguage(dataset.getLanguage()+", "+node.toString());
-			}else {
-				dataset.setLanguage(node.toString());
-			}
 			node = solution.get("start");
 			dataset.setTemporalCoverageBegin(node.toString());
 			node = solution.get("end");
@@ -647,7 +582,7 @@ public class BdoApiAnalyser {
 			uri = solution.get("uri").toString();
 			if(dataset.getIdentifier().isEmpty() || dataset.getIdentifier().equals(uri)) {
 				dataset.setIdentifier(uri);			
-				dataset.setStorageTable(searchParam);;
+				dataset.setStorageTable(searchParam);
 				varData = unitVariableisNull(solution);
 				variables.add(varData);
 				dataset.setVariables(variables);
@@ -677,7 +612,7 @@ public class BdoApiAnalyser {
 				"PREFIX bdocm: <http://www.bigdataocean.eu/standards/canonicalmodel#>\n" +
 				"\n" + 
 				"\n" + 
-				"SELECT distinct ?uri ?title ?subject ?language ?nameVariable (STR(?var) AS ?canonicalVariable) ?unit\n" + 
+				"SELECT distinct ?uri ?title ?nameVariable (STR(?var) AS ?canonicalVariable) ?unit\n" + 
 				"WHERE {\n" + 
 				"  ?uriVar a bdo:BDOVariable;\n" + 
 				"      dct:identifier ?nameVariable;\n "+
@@ -685,9 +620,7 @@ public class BdoApiAnalyser {
 				"  OPTIONAL { ?uriVar bdocm:canonicalUnit ?unit } \n" +
 				values + 
 				"  ?uri disco:variable ?uriVar;\n" + 
-				"       dct:title ?title;\n" + 
-				"       dcat:subject ?subject;\n" + 
-				"       dct:language ?language.\n" + 
+				"       dct:title ?title.\n" + 
 				"}\n" +
 				"ORDER BY ?uri";
 		
@@ -708,20 +641,6 @@ public class BdoApiAnalyser {
 				id = node.toString();
 				node = solution.get("title");
 				dataset.setTitle(node.toString());
-				node = solution.get("subject");
-				if(dataset.getSubject() != null)
-				{
-					dataset.setSubject(dataset.getSubject()+", "+node.toString());
-				}else {
-					dataset.setSubject(node.toString());
-				}
-				node = solution.get("language");
-				if(dataset.getLanguage() != null)
-				{
-					dataset.setLanguage(dataset.getLanguage()+", "+node.toString());
-				}else {
-					dataset.setLanguage(node.toString());
-				}
 				varData = unitVariableisNull(solution);
 				variables.add(varData);
 				dataset.setVariables(variables);
@@ -729,9 +648,10 @@ public class BdoApiAnalyser {
 				i++;
 			}else {
 				dataset = list.get(i-1);
-				dataset.setVariables(variables);
+				variables = dataset.getVariables();
 				varData = unitVariableisNull(solution);
 				variables.add(varData);
+				dataset.setVariables(variables);
 			}
 		}
 		return list;
@@ -848,9 +768,10 @@ public class BdoApiAnalyser {
 				"PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" + 
 				"PREFIX ids: <http://industrialdataspace/information-model/>\n" + 
 				"PREFIX ignf: <http://data.ign.fr/def/ignf#>\n" + 
-				"SELECT ?uri ?title ?desc ?publi ?rights ?timeReso ?storage (STR(?verFrom) AS ?vFrom) (STR(?verTo) AS ?vTo) (STR(?west) AS ?spatialWest) (STR(?east) AS ?spatialEast) (STR(?south) AS ?spatialSouth) (STR(?north) AS ?spatialNorth) (STR(?tempCovB) AS ?timeCovBeg) (STR(?tempCovE) AS ?timeCovEnd) ?vLevel ?coorSys ?nameVariable (STR (?label) as ?canonicalVariable) ?unit \n" + 
+				"SELECT DISTINCT ?uri ?ident ?title ?desc ?publi ?rights ?timeReso ?storage (STR(?verFrom) AS ?vFrom) (STR(?verTo) AS ?vTo) (STR(?west) AS ?spatialWest) (STR(?east) AS ?spatialEast) (STR(?south) AS ?spatialSouth) (STR(?north) AS ?spatialNorth) (STR(?tempCovB) AS ?timeCovBeg) (STR(?tempCovE) AS ?timeCovEnd) ?vLevel ?coorSys \n" + 
 				"WHERE { \n" + 
 				"  ?uri a dcat:Dataset; \n" + 
+				"       dct:identifier ?ident ;\n" + 
 				"       dct:title ?title; \n" + 
 				"       dct:description ?desc ;\n" + 
 				"       dct:publisher ?publi ;\n" + 
@@ -862,8 +783,7 @@ public class BdoApiAnalyser {
 				"       bdo:verticalLevel ?vLevel ;\n" + 
 				"       dct:conformsTo ?coorSys ;\n" + 
 				"       bdo:timeCoverage ?temp ;\n" + 
-				"       bdo:verticalCoverage ?vCov ;\n" + 
-				"       disco:variable ?variable.\n" + 
+				"       bdo:verticalCoverage ?vCov .\n" + 
 				"  ?temp a bdo:TimeCoverage;\n" + 
 				"		 ids:beginning ?tempCovB ;\n" + 
 				"        ids:end ?tempCovE .\n" + 
@@ -875,63 +795,42 @@ public class BdoApiAnalyser {
 				"  ?vCov a  bdo:VerticalCoverage ;\n" + 
 				"        bdo:verticalFrom ?verFrom ;\n" + 
 				"        bdo:verticalTo ?verTo .\n" + 
-				"  ?variable a bdo:BDOVariable; \n" + 
-				"      dct:identifier ?nameVariable;\n" + 
-				"      skos:prefLabel ?label. \n" + 
-				"  OPTIONAL { ?variable bdocm:canonicalUnit ?unit } \n" + 
 				"  FILTER regex(?title, '"+ searchParam +"', 'i') \n" + 
 				"}" +
 				"ORDER BY ?uri";
 		RDFNode node;
 		ResultSet results = QueryExecutor.selectQuery(apiQuery);
-		String id = null;
-		int i = 0;	
 		while(results.hasNext()) {
-			
 			DatasetApi dataset = new DatasetApi();
-			QuerySolution solution = results.nextSolution();				
-			node = solution.get("uri");
-			List<VariableDataset> variables = new ArrayList<>();
-			VariableDataset varData;
-			if(id != node.toString()) {
-				dataset.setIdentifier(node.toString());
-				id = node.toString();
-				node = solution.get("title");
-				dataset.setTitle(node.toString());
-				dataset.setDescription(solution.get("desc").toString());
-				dataset.setPublisher(solution.get("publi").toString());
-				dataset.setAccessRights(solution.get("rights").toString());
-				dataset.setStorageTable(searchParam);
-				node = solution.get("timeReso");
-				dataset.setTimeResolution(node.toString());
-				node = solution.get("spatialWest");
-				dataset.setSpatialWest(node.toString());
-				node = solution.get("spatialEast");
-				dataset.setSpatialEast(node.toString());
-				node = solution.get("spatialNorth");
-				dataset.setSpatialNorth(node.toString());
-				node = solution.get("spatialSouth");
-				dataset.setSpatialSouth(node.toString());
-				node = solution.get("timeCovBeg");
-				dataset.setTemporalCoverageBegin(node.toString());
-				node = solution.get("timeCovEnd");
-				dataset.setTemporalCoverageEnd(node.toString());
-				node = solution.get("vLevel");
-				dataset.setVerticalLevel(node.toString());
-				node = solution.get("coorSys");
-				dataset.setCoordinateSystem(node.toString());
-				varData = unitVariableisNull(solution);
-				variables.add(varData);
-				dataset.setVariables(variables);
-				list.add(dataset);	
-				i++;
-			}else {
-				dataset = list.get(i-1);
-				variables = dataset.getVariables();
-				varData = unitVariableisNull(solution);
-				variables.add(varData);
-				
-			}
+			QuerySolution solution = results.nextSolution();	
+			String uri = solution.get("ident").toString();
+			dataset.setIdentifier(solution.get("uri").toString());
+			node = solution.get("title");
+			dataset.setTitle(node.toString());
+			dataset.setDescription(solution.get("desc").toString());
+			dataset.setPublisher(solution.get("publi").toString());
+			dataset.setAccessRights(solution.get("rights").toString());
+			dataset.setStorageTable(searchParam);
+			node = solution.get("timeReso");
+			dataset.setTimeResolution(node.toString());
+			node = solution.get("spatialWest");
+			dataset.setSpatialWest(node.toString());
+			node = solution.get("spatialEast");
+			dataset.setSpatialEast(node.toString());
+			node = solution.get("spatialNorth");
+			dataset.setSpatialNorth(node.toString());
+			node = solution.get("spatialSouth");
+			dataset.setSpatialSouth(node.toString());
+			node = solution.get("timeCovBeg");
+			dataset.setTemporalCoverageBegin(node.toString());
+			node = solution.get("timeCovEnd");
+			dataset.setTemporalCoverageEnd(node.toString());
+			node = solution.get("vLevel");
+			dataset.setVerticalLevel(node.toString());
+			node = solution.get("coorSys");
+			dataset.setCoordinateSystem(node.toString());
+			dataset = getVariables("bdo:"+uri, dataset);
+			list.add(dataset);	
 		}
 		return list;
 	}
@@ -948,9 +847,10 @@ public class BdoApiAnalyser {
 				"PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" + 
 				"PREFIX ids: <http://industrialdataspace/information-model/>\n" + 
 				"PREFIX ignf: <http://data.ign.fr/def/ignf#>\n" + 
-				"SELECT ?uri ?title ?desc ?publi ?rights ?timeReso ?storage (STR(?verFrom) AS ?vFrom) (STR(?verTo) AS ?vTo) (STR(?west) AS ?spatialWest) (STR(?east) AS ?spatialEast) (STR(?south) AS ?spatialSouth) (STR(?north) AS ?spatialNorth) (STR(?tempCovB) AS ?timeCovBeg) (STR(?tempCovE) AS ?timeCovEnd) ?vLevel ?coorSys ?nameVariable (STR (?label) as ?canonicalVariable) ?unit \n" + 
+				"SELECT ?uri ?ident ?title ?desc ?publi ?rights ?timeReso ?storage (STR(?verFrom) AS ?vFrom) (STR(?verTo) AS ?vTo) (STR(?west) AS ?spatialWest) (STR(?east) AS ?spatialEast) (STR(?south) AS ?spatialSouth) (STR(?north) AS ?spatialNorth) (STR(?tempCovB) AS ?timeCovBeg) (STR(?tempCovE) AS ?timeCovEnd) ?vLevel ?coorSys \n" + 
 				"WHERE { \n" + 
 				"  ?uri a dcat:Dataset; \n" + 
+				"       dct:identifier ?ident ;\n" + 
 				"       dct:title ?title; \n" + 
 				"       dct:description ?desc ;\n" + 
 				"       dct:publisher ?publi ;\n" + 
@@ -962,8 +862,7 @@ public class BdoApiAnalyser {
 				"       bdo:verticalLevel ?vLevel ;\n" + 
 				"       dct:conformsTo ?coorSys ;\n" + 
 				"       bdo:timeCoverage ?temp ;\n" + 
-				"       bdo:verticalCoverage ?vCov ;\n" + 
-				"       disco:variable ?variable.\n" + 
+				"       bdo:verticalCoverage ?vCov .\n" + 
 				"  ?temp a bdo:TimeCoverage;\n" + 
 				"		 ids:beginning ?tempCovB ;\n" + 
 				"        ids:end ?tempCovE .\n" + 
@@ -975,63 +874,42 @@ public class BdoApiAnalyser {
 				"  ?vCov a  bdo:VerticalCoverage ;\n" + 
 				"        bdo:verticalFrom ?verFrom ;\n" + 
 				"        bdo:verticalTo ?verTo .\n" + 
-				"  ?variable a bdo:BDOVariable; \n" + 
-				"      dct:identifier ?nameVariable;\n" + 
-				"      skos:prefLabel ?label. \n" + 
-				"  OPTIONAL { ?variable bdocm:canonicalUnit ?unit } \n" + 
 				"  FILTER regex(?desc, '"+ searchParam +"', 'i') \n" + 
 				"}" +
 				"ORDER BY ?uri";
 		RDFNode node;
 		ResultSet results = QueryExecutor.selectQuery(apiQuery);
-		String id = null;
-		int i = 0;	
 		while(results.hasNext()) {
-			
 			DatasetApi dataset = new DatasetApi();
-			QuerySolution solution = results.nextSolution();				
-			node = solution.get("uri");
-			List<VariableDataset> variables = new ArrayList<>();
-			VariableDataset varData;
-			if(id != node.toString()) {
-				dataset.setIdentifier(node.toString());
-				id = node.toString();
-				node = solution.get("title");
-				dataset.setTitle(node.toString());
-				dataset.setDescription(solution.get("desc").toString());
-				dataset.setPublisher(solution.get("publi").toString());
-				dataset.setAccessRights(solution.get("rights").toString());
-				dataset.setStorageTable(searchParam);
-				node = solution.get("timeReso");
-				dataset.setTimeResolution(node.toString());
-				node = solution.get("spatialWest");
-				dataset.setSpatialWest(node.toString());
-				node = solution.get("spatialEast");
-				dataset.setSpatialEast(node.toString());
-				node = solution.get("spatialNorth");
-				dataset.setSpatialNorth(node.toString());
-				node = solution.get("spatialSouth");
-				dataset.setSpatialSouth(node.toString());
-				node = solution.get("timeCovBeg");
-				dataset.setTemporalCoverageBegin(node.toString());
-				node = solution.get("timeCovEnd");
-				dataset.setTemporalCoverageEnd(node.toString());
-				node = solution.get("vLevel");
-				dataset.setVerticalLevel(node.toString());
-				node = solution.get("coorSys");
-				dataset.setCoordinateSystem(node.toString());
-				varData = unitVariableisNull(solution);
-				variables.add(varData);
-				dataset.setVariables(variables);
-				list.add(dataset);	
-				i++;
-			}else {
-				dataset = list.get(i-1);
-				variables = dataset.getVariables();
-				varData = unitVariableisNull(solution);
-				variables.add(varData);
-				
-			}
+			QuerySolution solution = results.nextSolution();	
+			String uri = solution.get("ident").toString();
+			dataset.setIdentifier(solution.get("uri").toString());
+			node = solution.get("title");
+			dataset.setTitle(node.toString());
+			dataset.setDescription(solution.get("desc").toString());
+			dataset.setPublisher(solution.get("publi").toString());
+			dataset.setAccessRights(solution.get("rights").toString());
+			dataset.setStorageTable(searchParam);
+			node = solution.get("timeReso");
+			dataset.setTimeResolution(node.toString());
+			node = solution.get("spatialWest");
+			dataset.setSpatialWest(node.toString());
+			node = solution.get("spatialEast");
+			dataset.setSpatialEast(node.toString());
+			node = solution.get("spatialNorth");
+			dataset.setSpatialNorth(node.toString());
+			node = solution.get("spatialSouth");
+			dataset.setSpatialSouth(node.toString());
+			node = solution.get("timeCovBeg");
+			dataset.setTemporalCoverageBegin(node.toString());
+			node = solution.get("timeCovEnd");
+			dataset.setTemporalCoverageEnd(node.toString());
+			node = solution.get("vLevel");
+			dataset.setVerticalLevel(node.toString());
+			node = solution.get("coorSys");
+			dataset.setCoordinateSystem(node.toString());
+			dataset = getVariables("bdo:"+uri, dataset);
+			list.add(dataset);	
 		}
 		return list;
 	}
@@ -1058,7 +936,7 @@ public class BdoApiAnalyser {
 	  				for (String token: tokens) {
 	  					for(int i=0; i<jsonArray.size(); i++){
 	  						JSONObject jsonObject = (JSONObject) jsonArray.get(i);
-	  			            if(jsonObject.get("text").toString().equals(token)) {
+	  			            if(jsonObject.get("text").toString().equalsIgnoreCase(token.toLowerCase())) {
 	  			            	if(result.equals("")) {
 	  			            		result = jsonObject.get("value").toString();
 	  			            	} else {
@@ -1077,5 +955,146 @@ public class BdoApiAnalyser {
   		}
   		return result;
   	}
+	
+	private static DatasetApi getSubject(String uri, DatasetApi dataset) {
+		String query = "PREFIX dct: <http://purl.org/dc/terms/>\n" + 
+				"PREFIX dcat: <https://www.w3.org/TR/vocab-dcat/>\n" + 
+				"PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> \n" + 
+				"PREFIX ignf: <http://data.ign.fr/def/ignf#>\n" + 
+				"PREFIX foaf: <http://xmlns.com/foaf/0.1/>\n" + 
+				"PREFIX bdo: <http://bigdataocean.eu/bdo/>\n" + 
+				"PREFIX ids: <http://industrialdataspace/information-model/>\n" + 
+				"SELECT ?sub  \n" + 
+				"WHERE{ \n" + 
+				"  "+uri+" a dcat:Dataset ;\n"+ 
+				"          dcat:subject ?sub." +
+				"}";
+		ResultSet results = QueryExecutor.selectQuery(query);
+		while(results.hasNext()){
+			QuerySolution solution = results.nextSolution();
+			if(dataset.getSubject() != null)
+			{
+				dataset.setSubject(dataset.getSubject()+", "+InsertNewDataset.convertLinkToWord(solution.get("sub").toString(), "subject"));
+			}else {
+				dataset.setSubject(InsertNewDataset.convertLinkToWord(solution.get("sub").toString(), "subject"));
+			}
+		}
+		return dataset;
+	}
+	
+	private static DatasetApi getKeywords(String uri, DatasetApi dataset) {
+		String query = "PREFIX dct: <http://purl.org/dc/terms/>\n" + 
+				"PREFIX dcat: <https://www.w3.org/TR/vocab-dcat/>\n" + 
+				"PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> \n" + 
+				"PREFIX ignf: <http://data.ign.fr/def/ignf#>\n" + 
+				"PREFIX foaf: <http://xmlns.com/foaf/0.1/>\n" + 
+				"PREFIX bdo: <http://bigdataocean.eu/bdo/>\n" + 
+				"PREFIX ids: <http://industrialdataspace/information-model/>\n" + 
+				"SELECT ?keyw  \n" + 
+				"WHERE{ \n" + 
+				"  "+uri+" a dcat:Dataset ;\n"+ 
+				"          dcat:theme ?keyw." +
+				"}";
+		ResultSet results = QueryExecutor.selectQuery(query);
+		while(results.hasNext()){
+			QuerySolution solution = results.nextSolution();
+			if(dataset.getKeywords() != null)
+			{
+				dataset.setKeywords(dataset.getKeywords()+", "+InsertNewDataset.convertLinkToWord(solution.get("keyw").toString(), "keywords"));
+			}else {
+				dataset.setKeywords(InsertNewDataset.convertLinkToWord(solution.get("keyw").toString(), "keywords"));
+			}
+		}
+		return dataset;
+	}
+	
+	private static DatasetApi getGeoLoc(String uri, DatasetApi dataset) {
+		String query = "PREFIX dct: <http://purl.org/dc/terms/>\n" + 
+				"PREFIX dcat: <https://www.w3.org/TR/vocab-dcat/>\n" + 
+				"PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> \n" + 
+				"PREFIX ignf: <http://data.ign.fr/def/ignf#>\n" + 
+				"PREFIX foaf: <http://xmlns.com/foaf/0.1/>\n" + 
+				"PREFIX bdo: <http://bigdataocean.eu/bdo/>\n" + 
+				"PREFIX ids: <http://industrialdataspace/information-model/>\n" + 
+				"SELECT ?geoLoc  \n" + 
+				"WHERE{ \n" + 
+				"  "+uri+" a dcat:Dataset .\n"+ 
+				"OPTIONAL {"+uri+" dct:spatial ?geoLoc .}" +
+				"}";
+		ResultSet results = QueryExecutor.selectQuery(query);
+		while(results.hasNext()){
+			QuerySolution solution = results.nextSolution();
+			//if node = null then setGeoLocation to ""
+			if(solution.get("geoLoc")!=null) {
+				if(dataset.getGeoLocation() == null)
+				{
+					dataset.setGeoLocation(InsertNewDataset.convertLinkToWord(solution.get("geoLoc").toString(), "marineregions"));
+				}else {
+					dataset.setGeoLocation(dataset.getGeoLocation()+", "+InsertNewDataset.convertLinkToWord(solution.get("geoLoc").toString(), "marineregions"));				
+				}
+			}else {
+				dataset.setGeoLocation("");
+			}
+		}
+		return dataset;
+	}
+	
+	private static DatasetApi getLanguage(String uri, DatasetApi dataset) {
+		String query = "PREFIX dct: <http://purl.org/dc/terms/>\n" + 
+				"PREFIX dcat: <https://www.w3.org/TR/vocab-dcat/>\n" + 
+				"PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> \n" + 
+				"PREFIX ignf: <http://data.ign.fr/def/ignf#>\n" + 
+				"PREFIX foaf: <http://xmlns.com/foaf/0.1/>\n" + 
+				"PREFIX bdo: <http://bigdataocean.eu/bdo/>\n" + 
+				"PREFIX ids: <http://industrialdataspace/information-model/>\n" + 
+				"SELECT ?lang  \n" + 
+				"WHERE{ \n" + 
+				"  "+uri+" a dcat:Dataset ;\n"+ 
+				"          dct:language ?lang ." +
+				"}";
+		ResultSet results = QueryExecutor.selectQuery(query);
+		while(results.hasNext()){
+			QuerySolution solution = results.nextSolution();
+			if(dataset.getLanguage() != null)
+			{
+				dataset.setLanguage(dataset.getLanguage()+", "+solution.get("lang").toString());
+			}else {
+				dataset.setLanguage(solution.get("lang").toString());
+			}
+		}
+		return dataset;
+	}
+	
+	private static DatasetApi getVariables (String uri, DatasetApi dataset) {
+		List<VariableDataset> variables = new ArrayList<>();
+		
+		String queryVariables = "PREFIX disco: <http://rdf-vocabulary.ddialliance.org/discovery#>\n" +
+				"PREFIX dct: <http://purl.org/dc/terms/>\n" +
+				"PREFIX bdo: <http://bigdataocean.eu/bdo/>\n" +
+				"PREFIX bdocm: <http://www.bigdataocean.eu/standards/canonicalmodel#>\n" +
+				"PREFIX skos: <http://www.w3.org/2004/02/skos/core#>\n" +
+				"SELECT ?nameVariable (STR(?label) AS ?canonicalVariable) ?unit\n" + 
+				"WHERE {\n" +
+				"  "+uri+" disco:variable ?variable.\n" + 
+				"  ?variable a bdo:BDOVariable;\n" + 
+				"      dct:identifier ?nameVariable;\n" +
+				"      skos:prefLabel ?label.\n" + 
+				"  OPTIONAL { ?variable bdocm:canonicalUnit ?unit } \n" +
+				"  FILTER(lang(?label) = \"en\")\n" + 
+				"}";
+		
+		// Adding Datasetvariables -- BDOvariables in a list
+		ResultSet rsVariables = QueryExecutor.selectQuery(queryVariables);
+		VariableDataset varData;
+		while(rsVariables.hasNext()){
+			QuerySolution solution = rsVariables.nextSolution();
+			varData = unitVariableisNull(solution);
+			variables.add(varData);
+			dataset.setVariables(variables);
+		}
+		
+		dataset.setVariables(variables);
+		return dataset;
+	}
 
 }

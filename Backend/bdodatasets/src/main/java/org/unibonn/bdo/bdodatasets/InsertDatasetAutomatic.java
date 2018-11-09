@@ -290,7 +290,7 @@ public class InsertDatasetAutomatic {
 	  				for (String token: tokens) {
 	  					for(int i=0; i<jsonArray.size(); i++){
 	  						JSONObject jsonObject = (JSONObject) jsonArray.get(i);
-	  			            if(jsonObject.get("text").toString().equals(token)) {
+	  			            if(jsonObject.get("text").toString().equalsIgnoreCase(token.toLowerCase())) {
 	  			            	if(result.equals("")) {
 	  			            		result = jsonObject.get("value").toString();
 	  			            	} else {
