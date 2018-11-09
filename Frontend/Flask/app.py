@@ -693,6 +693,7 @@ def metadataInfo(identifier):
 			# metadata parsed is converted into json class datasetInfo to be used inside the html form
 			parsed_output = json.loads(process.decode('utf-8'))
 			dataset = datasetInfo(**parsed_output)
+			dataset.title = dataset.title.replace("_", " ")
 			# show the name -- url in subject/keywords/geoLocation
 			dataset.subject = nameURL(dataset.subject, subjectJson)
 			dataset.keywords = nameURL(dataset.keywords, keywordsJson)

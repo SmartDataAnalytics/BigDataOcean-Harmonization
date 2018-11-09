@@ -6,9 +6,7 @@ import org.unibonn.bdo.objects.VariableDataset;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -94,7 +92,7 @@ public class ApiTest {
 	@Test
 	public void test3() {
 		log.info("Start testing API # 3");
-		testList = BdoApiAnalyser.apiSearchSubjects("http://inspire.ec.europa.eu/metadata-codelist/TopicCategory/oceans");
+		testList = BdoApiAnalyser.apiSearchSubjects("Oceans");
 		if (testList != null) {
 			flag = true;
 		}
@@ -105,7 +103,7 @@ public class ApiTest {
 	@Test
 	public void test4() {
 		log.info("Start testing API # 4");
-		testList = BdoApiAnalyser.apiSearchKeywords("https://www.eionet.europa.eu/gemet/en/concept/14844");
+		testList = BdoApiAnalyser.apiSearchKeywords("Mediterranean Sea");
 		if (testList != null) {
 			flag = true;
 		}
@@ -116,7 +114,7 @@ public class ApiTest {
 	@Test
 	public void test5() {
 		log.info("Start testing API # 5");
-		testList = BdoApiAnalyser.apiSearchGeoLoc("http://marineregions.org/mrgid/1905");
+		testList = BdoApiAnalyser.apiSearchGeoLoc("Mediterranean Sea");
 		if (testList != null) {
 			flag = true;
 		}
@@ -168,7 +166,7 @@ public class ApiTest {
 	@Test
 	public void test10() {
 		log.info("Start testing API # 10");
-		testList = BdoApiAnalyser.apiListDatasetsByVar("sea_surface_wave_significant_height,latitude");
+		testList = BdoApiAnalyser.apiListDatasetsByVar("longitude,latitude");
 		if (testList != null) {
 			flag = true;
 		}
