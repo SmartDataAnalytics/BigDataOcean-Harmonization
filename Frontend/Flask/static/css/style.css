@@ -306,19 +306,25 @@ footer {
 
 .agentThumbInnerBodyKeyword {
     position: relative;
-    border-left: 6px solid #9A69BD;
+    border-left: 6px solid #ad8fc3;
     padding-left: .3em;
 }
 
 .agentThumbInnerBodylanguage {
     position: relative;
-    border-left: 6px solid #53A3B4;
+    border-left: 6px solid #64acbb;
     padding-left: .3em;
 }
 
 .agentThumbInnerBodyGeoLoc {
     position: relative;
     border-left: 6px solid #FFA500;
+    padding-left: .3em;
+}
+
+.agentThumbInnerBodyStorage {
+    position: relative;
+    border-left: 6px solid #ff9896;
     padding-left: .3em;
 }
 
@@ -740,5 +746,6 @@ footer .copyright {
 
 .navbar-text {
     color: #ffffff;
-    font-size: 1.8em;
+    font-size: 23px;
+    font-weight: bold;
 }

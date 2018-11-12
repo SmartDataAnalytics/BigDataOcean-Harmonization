@@ -202,31 +202,33 @@
               </td>
             </tr>
             <tr>
-              <td>
+              <td rowspan="2">
                 <label class="label-table">Geographical Coverage:</label>
               </td>
-              <td style="width: 5%;">
-                <label class="label-table-coordinates" for="geo_coverageW">W:</label>
+              <td class="col-md-1">
+              <label class="label-table-coordinates" for="geo_coverageW">West:</label>
               </td>
-              <td style="width: 10%;">
+              <td class="col-md-3">
                 <input type="number" class="form-control" id="geo_coverageW" name="geo_coverageW" step="any" value="{{dataset.spatialWest}}">
               </td>
-              <td style="width: 5%;">
-                <label class="label-table-coordinates" for="geo_coverageE">E:</label>
+              <td class="col-md-1">
+                <label class="label-table-coordinates" for="geo_coverageE">East:</label>
               </td>
-              <td style="width: 20%;">
+              <td class="col-md-3">
                 <input type="number" class="form-control" id="geo_coverageE" name="geo_coverageE" step="any" value="{{dataset.spatialEast}}">
               </td>
-              <td style="width: 5%;">
-                <label class="label-table-coordinates" for="geo_coverageS">S:</label>
+            </tr>
+            <tr>
+              <td class="col-md-1">
+                <label class="label-table-coordinates" for="geo_coverageS">South:</label>
               </td>
-              <td style="width: 10%;">
+              <td class="col-md-3">
                 <input type="number" class="form-control" id="geo_coverageS" name="geo_coverageS" step="any" value="{{dataset.spatialSouth}}">
               </td>
-              <td style="width: 5%;">
-                <label class="label-table-coordinates" for="geo_coverageN">N:</label>
+              <td class="col-md-1">
+                <label class="label-table-coordinates" for="geo_coverageN">North:</label>
               </td>
-              <td style="width: 10%;">
+              <td class="col-md-3">
                 <input type="number" class="form-control" id="geo_coverageN" name="geo_coverageN" step="any" value="{{dataset.spatialNorth}}">
               </td>
             </tr>
@@ -239,23 +241,21 @@
               </td>
             </tr>
             <tr>
-              <td>
+              <td rowspan="2">
                 <label class="label-table">Vertical Coverage:</label>
               </td>
-              <td colspan="1" style="width: 5%;">
-                <center>
-                  <label class="label-table" for="vert_coverage_from">from</label>
-                </center>
+              <td colspan="1">
+                <label class="label-table" for="vert_coverage_from">From:</label>
               </td>
-              <td colspan="3" style="width: 30%;">
+              <td colspan="3">
                 <input type="number" step="1" class="form-control" id="vert_coverage_from" name="vert_coverage_from" value="{{dataset.verticalCoverageFrom}}">
               </td>
-              <td colspan="1" style="width: 5%;">
-                <center>
-                  <label class="label-table" for="vert_coverage_to">to</label>
-                </center>
+            </tr>
+            <tr>
+              <td colspan="1">
+                <label class="label-table" for="vert_coverage_to">To:</label>
               </td>
-              <td colspan="3" style="width: 30%;">
+              <td colspan="3">
                 <input type="number" step="1" class="form-control" id="vert_coverage_to" name="vert_coverage_to" value="{{dataset.verticalCoverageTo}}">
               </td>
             </tr>
@@ -268,18 +268,21 @@
               </td>
             </tr>
             <tr>
-              <td>
+              <td rowspan="2">
                 <label class="label-table " for="temp_coverage_begin">Temporal Coverage:</label>
               </td>
-              <td colspan="3" style="width: 30%;">
+              <td colspan="1">
+                <label class="label-table" for="temp_coverage_end">Begin:</label>
+              </td>
+              <td colspan="3">
                 <input type="datetime-local" step="1" class="form-control" id="temp_coverage_begin" name="temp_coverage_begin" value="{{dataset.temporalCoverageBegin}}">
               </td>
-              <td colspan="2" style="width: 10%;">
-                <center>
-                  <label class="label-table" for="temp_coverage_end">to</label>
-                </center>
+            </tr>
+            <tr>
+              <td colspan="1">
+                <label class="label-table" for="temp_coverage_end">End:</label>
               </td>
-              <td colspan="3" style="width: 30%;">
+              <td colspan="3">
                 <input type="datetime-local" step="1" class="form-control" id="temp_coverage_end" name="temp_coverage_end" value="{{dataset.temporalCoverageEnd}}">
               </td>
             </tr>

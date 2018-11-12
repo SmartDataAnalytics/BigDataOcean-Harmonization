@@ -30,10 +30,12 @@ public class ListDatasets {
 		String query = "PREFIX bdo: <http://bigdataocean.eu/bdo/>\n" + 
 				"PREFIX ids: <http://industrialdataspace/information-model/>\n" + 
 				"PREFIX dct: <http://purl.org/dc/terms/>\n" + 
-				"SELECT DISTINCT ?uri ?identifier ?title ?description\n" + 
+				"SELECT DISTINCT ?uri ?identifier ?title ?description ?table ?format\n" + 
 				"WHERE {\n" + 
 				"  ?uri dct:identifier ?identifier;\n" + 
 				"       dct:title ?title;\n" + 
+				"       bdo:storageTable ?table;\n" + 
+				"       dct:format ?format;\n" + 
 				"       dct:description ?description.\n" + 
 				"}";
 		
@@ -52,6 +54,8 @@ public class ListDatasets {
 			node = solution.get("title");
 			list.setTitle("<a href=/metadataInfo/"+ident+">"+node.toString()+"</a>");
 			node = solution.get("description");
+			list.setStorageTable(solution.get("table").toString());
+			list.setFormats(solution.get("format").toString());
 			// substring of only 300 characters of the description to avoid big table
 			if (node.toString().length()>=300) {
 				list.setDescription(node.toString().substring(0, 300)+"...");
