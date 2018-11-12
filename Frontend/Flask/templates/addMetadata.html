@@ -1,12 +1,8 @@
 {% extends "layout.html" %}
 
-{% block logo %}
-  <img class="logoHeader" itemprop="image" alt="BigDataOcean Repository" src="../static/img/logoaccount.png" height="86" width="200">
-{% endblock %}
-
 {% block body %}
   {%if dataset!=""%}
-    <form id="metadataForm" name="metadataForm" class="form-style" method="POST" action="/save" novalidate onsubmit="return requireFields();">
+    <form id="metadataForm" name="metadataForm" class="form-style" method="POST" action="/save" onsubmit="return requireFields();">
       <div class="row content">
         <div class="col-md-1">
         </div>
@@ -401,7 +397,7 @@
     </form>
 
   {%else%}
-    <form id="metadataForm" name="metadataForm" class="form-style" method="POST" action="/save" novalidate onsubmit="return requireFields();">
+    <form id="metadataForm" name="metadataForm" class="form-style" method="POST" action="/save" onsubmit="return requireFields();">
       <div class="row content">
         <div class="col-md-1">
         </div>
@@ -819,18 +815,4 @@
   <script src="../static/js/jquery.easy-autocomplete.min.js"></script> 
   <script src="../static/js/jquery-confirm.js"></script>
   <script type="text/javascript" src="../static/js/metadatascript.js"></script>
-  <script type="text/javascript">
-    function validateForm() {
-      var x = document.forms["metadataForm"]["fname"].value;
-      if (document.forms["metadataForm"]["title"].value == "") {
-        $.alert({
-          title: 'Alert!',
-          content: 'Name must be filled out',
-          useBootstrap: true,
-          typeAnimated: true
-        });
-        return false;
-      }
-    }
-  </script>
 {% endblock %}

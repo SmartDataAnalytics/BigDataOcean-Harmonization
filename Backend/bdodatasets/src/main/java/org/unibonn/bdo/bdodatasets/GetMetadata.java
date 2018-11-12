@@ -29,123 +29,126 @@ public class GetMetadata {
 	}
 
 	public static void exec(String uri) {
-		
-		String queryMetadata = "PREFIX dct: <http://purl.org/dc/terms/>\n" + 
-				"PREFIX dcat: <https://www.w3.org/TR/vocab-dcat/>\n" + 
-				"PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> \n" + 
-				"PREFIX ignf: <http://data.ign.fr/def/ignf#>\n" + 
-				"PREFIX foaf: <http://xmlns.com/foaf/0.1/>\n" + 
-				"PREFIX bdo: <http://bigdataocean.eu/bdo/>\n" + 
-				"PREFIX ids: <http://industrialdataspace/information-model/>\n" + 
-				"SELECT ?ident ?title ?desc ?standard ?format ?homep "
-				+ "?publi ?rights (STR(?issued) AS ?issuedDate)  (STR(?modified) AS ?modifiedDate) "
-				+ "?timeReso (STR(?verFrom) AS ?vFrom) (STR(?verTo) AS ?vTo) (STR(?west) AS ?spatialWest) "
-				+ "(STR(?east) AS ?spatialEast) (STR(?south) AS ?spatialSouth) (STR(?north) AS ?spatialNorth) "
-				+ "(STR(?tempCovB) AS ?timeCovBeg) (STR(?tempCovE) AS ?timeCovEnd) ?vLevel ?coorSys ?source "
-				+ "?observation ?storageTable\n" + 
-				"WHERE{ \n" + 
-				"  "+uri+" a dcat:Dataset ;\n" + 
-				"       dct:identifier ?ident ;\n" + 
-				"       dct:title ?title ;\n" + 
-				"       dct:description ?desc ;\n" + 
-				"       dcat:subject ?sub ;\n" + 
-				"       bdo:verticalCoverage ?vCov ;\n" + 
-				"       dcat:theme ?keyw ;\n" + 
-				"       dct:Standard ?standard ;\n" + 
-				"       dct:format ?format ;\n" + 
-				"       dct:language ?lang ;\n" + 
-				"       foaf:homepage ?homep ;\n" + 
-				"       dct:publisher ?publi ;\n" + 
-				"       dct:accessRights ?rights ;\n" + 
-				"       dct:issued ?issued ;\n" + 
-				"       dct:modified ?modified ;\n" + 
-				"       bdo:timeResolution ?timeReso ;\n" + 
-				"       bdo:GeographicalCoverage ?spatial ;\n" + 
-				"       dct:creator ?source ; \n" +
-				"       rdfs:comment ?observation ; \n" +
-				"       bdo:storageTable ?storageTable ; \n" +
-				"       bdo:verticalLevel ?vLevel ;\n" + 
-				"       dct:conformsTo ?coorSys ;\n" + 
-				"       bdo:timeCoverage ?temp .\n" + 
-				"  \n" + 
-				"  ?temp a bdo:TimeCoverage;\n" + 
-				"		 ids:beginning ?tempCovB ;\n" + 
-				"        ids:end ?tempCovE .\n" + 
-				"  \n" + 
-				"  ?spatial a ignf:GeographicBoundingBox ;\n" + 
-				"           ignf:westBoundLongitude ?west ;\n" + 
-				"           ignf:eastBoundLongitude ?east ;\n" + 
-				"           ignf:southBoundLatitude ?south ;\n" + 
-				"           ignf:northBoundLatitude ?north .\n" + 
-				"  \n" + 
-				"  ?vCov a  bdo:VerticalCoverage ;\n" + 
-				"        bdo:verticalFrom ?verFrom ;\n" + 
-				"        bdo:verticalTo ?verTo .\n" + 
-				"}";
-		
 		Dataset dataset = new Dataset();
-		dataset.setLanguage("");
-		RDFNode node;
-		// executes query on Jena Fueski to get Metadata
-		ResultSet results = QueryExecutor.selectQuery(queryMetadata);
-		
-		while(results.hasNext()){
-			QuerySolution solution = results.nextSolution();
-			node = solution.get("ident");
-			dataset.setIdentifier(node.toString());
-			node = solution.get("title");
-			dataset.setTitle(node.toString());
-			node = solution.get("desc");
-			dataset.setDescription(node.toString());
-			node = solution.get("standard");
-			dataset.setStandards(node.toString());
-			node = solution.get("format");
-			dataset.setFormats(node.toString());
-			node = solution.get("homep");
-			dataset.setHomepage(node.toString());
-			node = solution.get("publi");
-			dataset.setPublisher(node.toString());
-			node = solution.get("rights");
-			dataset.setAccessRights(node.toString());
-			node = solution.get("issuedDate");
-			dataset.setIssuedDate(node.toString());
-			node = solution.get("modifiedDate");
-			dataset.setModifiedDate(node.toString());
-			node = solution.get("source");
-			dataset.setSource(node.toString());
-			node = solution.get("observation");
-			dataset.setObservations(node.toString());
-			node = solution.get("storageTable");
-			dataset.setStorageTable(node.toString());
-			node = solution.get("vFrom");
-			dataset.setVerticalCoverageFrom(node.toString());
-			node = solution.get("vTo");
-			dataset.setVerticalCoverageTo(node.toString());
-			node = solution.get("timeReso");
-			dataset.setTimeResolution(node.toString());
-			node = solution.get("spatialWest");
-			dataset.setSpatialWest(node.toString());
-			node = solution.get("spatialEast");
-			dataset.setSpatialEast(node.toString());
-			node = solution.get("spatialNorth");
-			dataset.setSpatialNorth(node.toString());
-			node = solution.get("spatialSouth");
-			dataset.setSpatialSouth(node.toString());
-			node = solution.get("timeCovBeg");
-			dataset.setTemporalCoverageBegin(node.toString());
-			node = solution.get("timeCovEnd");
-			dataset.setTemporalCoverageEnd(node.toString());
-			node = solution.get("vLevel");
-			dataset.setVerticalLevel(node.toString());
-			node = solution.get("coorSys");
-			dataset.setCoordinateSystem(node.toString());
+		if (askUriExist(uri)){
+			String queryMetadata = "PREFIX dct: <http://purl.org/dc/terms/>\n" + 
+					"PREFIX dcat: <https://www.w3.org/TR/vocab-dcat/>\n" + 
+					"PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> \n" + 
+					"PREFIX ignf: <http://data.ign.fr/def/ignf#>\n" + 
+					"PREFIX foaf: <http://xmlns.com/foaf/0.1/>\n" + 
+					"PREFIX bdo: <http://bigdataocean.eu/bdo/>\n" + 
+					"PREFIX ids: <http://industrialdataspace/information-model/>\n" + 
+					"SELECT ?ident ?title ?desc ?standard ?format ?homep "
+					+ "?publi ?rights (STR(?issued) AS ?issuedDate)  (STR(?modified) AS ?modifiedDate) "
+					+ "?timeReso (STR(?verFrom) AS ?vFrom) (STR(?verTo) AS ?vTo) (STR(?west) AS ?spatialWest) "
+					+ "(STR(?east) AS ?spatialEast) (STR(?south) AS ?spatialSouth) (STR(?north) AS ?spatialNorth) "
+					+ "(STR(?tempCovB) AS ?timeCovBeg) (STR(?tempCovE) AS ?timeCovEnd) ?vLevel ?coorSys ?source "
+					+ "?observation ?storageTable\n" + 
+					"WHERE{ \n" + 
+					"  "+uri+" a dcat:Dataset ;\n" + 
+					"       dct:identifier ?ident ;\n" + 
+					"       dct:title ?title ;\n" + 
+					"       dct:description ?desc ;\n" + 
+					"       dcat:subject ?sub ;\n" + 
+					"       bdo:verticalCoverage ?vCov ;\n" + 
+					"       dcat:theme ?keyw ;\n" + 
+					"       dct:Standard ?standard ;\n" + 
+					"       dct:format ?format ;\n" + 
+					"       dct:language ?lang ;\n" + 
+					"       foaf:homepage ?homep ;\n" + 
+					"       dct:publisher ?publi ;\n" + 
+					"       dct:accessRights ?rights ;\n" + 
+					"       dct:issued ?issued ;\n" + 
+					"       dct:modified ?modified ;\n" + 
+					"       bdo:timeResolution ?timeReso ;\n" + 
+					"       bdo:GeographicalCoverage ?spatial ;\n" + 
+					"       dct:creator ?source ; \n" +
+					"       rdfs:comment ?observation ; \n" +
+					"       bdo:storageTable ?storageTable ; \n" +
+					"       bdo:verticalLevel ?vLevel ;\n" + 
+					"       dct:conformsTo ?coorSys ;\n" + 
+					"       bdo:timeCoverage ?temp .\n" + 
+					"  \n" + 
+					"  ?temp a bdo:TimeCoverage;\n" + 
+					"		 ids:beginning ?tempCovB ;\n" + 
+					"        ids:end ?tempCovE .\n" + 
+					"  \n" + 
+					"  ?spatial a ignf:GeographicBoundingBox ;\n" + 
+					"           ignf:westBoundLongitude ?west ;\n" + 
+					"           ignf:eastBoundLongitude ?east ;\n" + 
+					"           ignf:southBoundLatitude ?south ;\n" + 
+					"           ignf:northBoundLatitude ?north .\n" + 
+					"  \n" + 
+					"  ?vCov a  bdo:VerticalCoverage ;\n" + 
+					"        bdo:verticalFrom ?verFrom ;\n" + 
+					"        bdo:verticalTo ?verTo .\n" + 
+					"}";
+			
+			RDFNode node;
+			// executes query on Jena Fueski to get Metadata
+			ResultSet results = QueryExecutor.selectQuery(queryMetadata);
+			
+			while(results.hasNext()){
+				QuerySolution solution = results.nextSolution();
+				node = solution.get("ident");
+				dataset.setIdentifier(node.toString());
+				node = solution.get("title");
+				dataset.setTitle(node.toString());
+				node = solution.get("desc");
+				dataset.setDescription(node.toString());
+				node = solution.get("standard");
+				dataset.setStandards(node.toString());
+				node = solution.get("format");
+				dataset.setFormats(node.toString());
+				node = solution.get("homep");
+				dataset.setHomepage(node.toString());
+				node = solution.get("publi");
+				dataset.setPublisher(node.toString());
+				node = solution.get("rights");
+				dataset.setAccessRights(node.toString());
+				node = solution.get("issuedDate");
+				dataset.setIssuedDate(node.toString());
+				node = solution.get("modifiedDate");
+				dataset.setModifiedDate(node.toString());
+				node = solution.get("source");
+				dataset.setSource(node.toString());
+				node = solution.get("observation");
+				dataset.setObservations(node.toString());
+				node = solution.get("storageTable");
+				dataset.setStorageTable(node.toString());
+				node = solution.get("vFrom");
+				dataset.setVerticalCoverageFrom(node.toString());
+				node = solution.get("vTo");
+				dataset.setVerticalCoverageTo(node.toString());
+				node = solution.get("timeReso");
+				dataset.setTimeResolution(node.toString());
+				node = solution.get("spatialWest");
+				dataset.setSpatialWest(node.toString());
+				node = solution.get("spatialEast");
+				dataset.setSpatialEast(node.toString());
+				node = solution.get("spatialNorth");
+				dataset.setSpatialNorth(node.toString());
+				node = solution.get("spatialSouth");
+				dataset.setSpatialSouth(node.toString());
+				node = solution.get("timeCovBeg");
+				dataset.setTemporalCoverageBegin(node.toString());
+				node = solution.get("timeCovEnd");
+				dataset.setTemporalCoverageEnd(node.toString());
+				node = solution.get("vLevel");
+				dataset.setVerticalLevel(node.toString());
+				node = solution.get("coorSys");
+				dataset.setCoordinateSystem(node.toString());
+			}
+			
+			dataset = getSubject(uri, dataset);
+			dataset = getKeywords(uri, dataset);
+			dataset = getGeoLoc(uri, dataset);
+			dataset = getLanguage(uri, dataset);
+			dataset = getVariables(uri, dataset);
+		}else {
+			List<String> listVariables = new ArrayList<>() ;
+			dataset.setVariable(listVariables);
 		}
-		
-		dataset = getSubject(uri, dataset);
-		dataset = getKeywords(uri, dataset);
-		dataset = getGeoLoc(uri, dataset);
-		dataset = getLanguage(uri, dataset);
-		dataset = getVariables(uri, dataset);
 		
 		try {
 			// Parse into JSON the Dataset instance with all metadata from a dataset
@@ -307,5 +310,17 @@ public class GetMetadata {
 		
 		dataset.setVariable(listVariables);
 		return dataset;
+	}
+	
+	//if true then exist, otherwise does not exist
+	private static boolean askUriExist(String uri) {
+		String query = "PREFIX dct: <http://purl.org/dc/terms/>\n" + 
+				"PREFIX dcat: <https://www.w3.org/TR/vocab-dcat/>\n" + 
+				"PREFIX bdo: <http://bigdataocean.eu/bdo/>\n" + 
+				"ASK { \n" + 
+				"  "+uri+" a dcat:Dataset ;\n"+ 
+				"          dct:language ?lang ." +
+				"}";
+		return QueryExecutor.askQuery(query); 
 	}
 }
