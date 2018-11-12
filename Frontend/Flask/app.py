@@ -142,6 +142,18 @@ def index():
 		"field": "description",
 		"title": "Description",
 		"sortable": True,
+		},
+		{
+		"field": "storageTable",
+		"title": "Storage Table",
+		"sortable": True,
+		"visible": False,
+		},
+		{
+		"field": "formats",
+		"title": "Formats",
+		"sortable": True,
+		"visible": False,
 		}]
 		# print (process.decode('utf-8'))
 		parsed_output = json.loads(process.decode('utf-8'))

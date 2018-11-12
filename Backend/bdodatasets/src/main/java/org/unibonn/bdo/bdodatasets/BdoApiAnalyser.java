@@ -395,8 +395,7 @@ public class BdoApiAnalyser {
 				"	   ignf:northBoundLatitude ?north;\n" + 
 				"	   ignf:southBoundLatitude ?south;\n" + 
 				"	   ignf:westBoundLongitude ?west.\n" + 
-				"  FILTER ((?east>="+listGeoLoc[1]+") && (?north>="+listGeoLoc[3]+") && (?south>="+listGeoLoc[2]+") && (?west>="+listGeoLoc[0]+") || \n"+
-				"  (?east<="+newList.get(1)+") && (?north<="+newList.get(3)+") && (?south<="+newList.get(2)+") && (?west<="+newList.get(0)+"))\n" + 
+				"  FILTER ((?west>="+listGeoLoc[0]+" && ?east<="+listGeoLoc[1]+") && (?north<="+listGeoLoc[3]+" && ?south>="+listGeoLoc[2]+")) \n"+
 				"}" + 
 				"ORDER BY ?uri";
 		ResultSet results = QueryExecutor.selectQuery(apiQuery);

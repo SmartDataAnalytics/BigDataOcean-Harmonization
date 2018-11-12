@@ -171,7 +171,15 @@
                 <label class="label-tableInfo" for="storageTable">Storage Table:</label>
               </td>
               <td colspan="4">
-                {{dataset.storageTable}}
+                {% if dataset.storageTable|default("") != "": %}
+                  <div class="AgentThumb">
+                    <div class="agentThumbInnerBodyStorage">
+                      <div class="agentThumbName">
+                        {{dataset.storageTable}}
+                      </div>
+                    </div>
+                  </div>
+                {% endif%}
               </td>
             </tr>
             <tr>
