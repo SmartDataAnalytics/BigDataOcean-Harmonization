@@ -1,11 +1,7 @@
 {% extends "layout.html" %}
 
-{% block logo %}
-  <img class="logoHeader" itemprop="image" alt="BigDataOcean Repository" src="../static/img/logoaccount.png" height="86" width="200">
-{% endblock %}
-
 {% block body %}
-  <form id="metadataForm" name="metadataForm" class="form-style" method="POST" onSubmit="modifyAlert()" action="/edit" >
+  <form id="metadataForm" name="metadataForm" class="form-style" method="POST" onsubmit="return requireFields();" action="/edit" >
     <div class="row content">
       <div class="col-md-1">
       </div>
@@ -384,27 +380,4 @@
   <script type="text/javascript" src="../static/js/jquery.dirrty.js"></script>
   <script src="../static/js/jquery-confirm.js"></script>
   <script type="text/javascript" src="../static/js/editmetadatascript.js"></script>
-  <script type="text/javascript">
-    function validateForm() {
-      var x = document.forms["metadataForm"]["fname"].value;
-      if (document.forms["metadataForm"]["title"].value == "") {
-        $.alert({
-          title: 'Alert!',
-          content: 'Name must be filled out',
-          useBootstrap: true,
-          typeAnimated: true
-        });
-        return false;
-      }
-    }
-    function modifyAlert(){
-      $.alert({
-        icon: 'fa fa-spinner fa-spin',
-        title: 'Working!',
-        content: 'This operation might take a little time, thank you for your patience!',
-        useBootstrap: true,
-        typeAnimated: true
-      });
-    }
-  </script>
 {% endblock %}

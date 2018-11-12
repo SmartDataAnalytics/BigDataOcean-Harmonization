@@ -258,9 +258,21 @@ function requireFields(){
       return false;
     }
   }
+  var parser_variable = $("#parser_variable").val();
+  var title = $("#title").val();
+  var description = $("#description").val();
+  var tokenfield_language = $("#tokenfield_language").val();
+  var publisher = $("#publisher").val();
+  var storageTable = $("#storageTable").val();
+  var issued_date = $("#issued_date").val();
+  var modified_date = $("#modified_date").val();
+  var time_reso = $("#time_reso").val();
   var tokenfield_subject = $("#tokenfield_subject").val();
   var tokenfield_keywords = $("#tokenfield_keywords").val();
-  if(tokenfield_subject === "" && tokenfield_keywords === ""){
+  if(tokenfield_subject === "" || tokenfield_keywords === "" || parser_variable === ""
+     || title === "" || description === "" || tokenfield_language === ""
+      || publisher === "" || storageTable === "" || issued_date === ""
+       || modified_date === "" || time_reso === ""){
     $.alert({
         title: 'Alert!',
         content: 'Please fill the mandatory fields.',

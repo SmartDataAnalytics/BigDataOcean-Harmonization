@@ -285,22 +285,6 @@ jQuery(document).ready(function($) {
   });
 });
 
-function requireVariables(){
-  for (var i = 1; i <=size; i++) {
-    var jsonvariable = $("#json_variable-"+i).val();
-    if (jsonvariable === ""){
-      $.alert({
-        title: 'Alert!',
-        content: 'Please choose a variable in the Variable Field.',
-        type: 'red',
-        typeAnimated: true,
-        useBootstrap: true,
-      });
-      return false;
-    }
-  }
-}
-
 // avoid free text in easy autocomplete field (BDO variables)
 $('#json_variable-1').on("blur", function() {
 
@@ -362,3 +346,51 @@ $.each(response, function(i, item) {
   $('#json_variable-'+size).prop('required',true);
   $('#parser_variable').prop('required',true);
 });
+
+function requireFields(){
+  for (var i = 1; i <=size; i++) {
+    var jsonvariable = $("#json_variable-"+i).val();
+    if (jsonvariable === ""){
+      $.alert({
+        title: 'Alert!',
+        content: 'Please choose a variable in the Variable Field.',
+        type: 'red',
+        typeAnimated: true,
+        useBootstrap: true,
+      });
+      return false;
+    }
+  }
+  var parser_variable = $("#parser_variable").val();
+  var title = $("#title").val();
+  var description = $("#description").val();
+  var tokenfield_language = $("#tokenfield_language").val();
+  var publisher = $("#publisher").val();
+  var storageTable = $("#storageTable").val();
+  var issued_date = $("#issued_date").val();
+  var modified_date = $("#modified_date").val();
+  var time_reso = $("#time_reso").val();
+  var tokenfield_subject = $("#tokenfield_subject").val();
+  var tokenfield_keywords = $("#tokenfield_keywords").val();
+  if(tokenfield_subject === "" || tokenfield_keywords === "" || parser_variable === ""
+     || title === "" || description === "" || tokenfield_language === ""
+      || publisher === "" || storageTable === "" || issued_date === ""
+       || modified_date === "" || time_reso === ""){
+    $.alert({
+        title: 'Alert!',
+        content: 'Please fill the mandatory fields.',
+        type: 'red',
+        typeAnimated: true,
+        useBootstrap: true,
+      });
+      return false;
+  }else {
+    $.alert({
+        icon: 'fa fa-spinner fa-spin',
+        title: 'Working!',
+        content: 'This operation might take a little time, thank you for your patience!',
+        useBootstrap: true,
+        typeAnimated: true
+      });
+  }
+}
