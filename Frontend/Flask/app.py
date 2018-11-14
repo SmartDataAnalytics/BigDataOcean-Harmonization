@@ -719,9 +719,9 @@ def api():
 	extractDatafromParser()
 	return render_template('api.html')
 
-@app.route('/api/v1/dataset/list', methods=['GET'])
+@app.route('/api/v2/filedataset/list', methods=['GET'])
 @jwt_required()
-def listDataset():
+def listFileDataset():
 	if request.method == 'GET':
 		# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
 		comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("1", "")
@@ -734,9 +734,9 @@ def listDataset():
 		parsed_output = json.loads(process.decode('utf-8'))
 		return jsonify(parsed_output)
 
-@app.route('/api/v1/dataset/searchDataset', methods=['GET'])
+@app.route('/api/v2/filedataset/info', methods=['GET'])
 @jwt_required()
-def searchDataset():
+def infoFileDataset():
 	if request.method == 'GET':
 		# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
 		param = 'bdo:'+request.args['search']
@@ -751,7 +751,7 @@ def searchDataset():
 		parsed_output = json.loads(process.decode('utf-8'))
 		return jsonify(parsed_output)
 
-@app.route('/api/v1/dataset/searchSubject', methods=['GET'])
+@app.route('/api/v2/filedataset/searchSubject', methods=['GET'])
 @jwt_required()
 def searchSubject():
 	if request.method == 'GET':
@@ -766,7 +766,7 @@ def searchSubject():
 		parsed_output = json.loads(process.decode('utf-8'))
 		return jsonify(parsed_output)
 
-@app.route('/api/v1/dataset/searchKeyword', methods=['GET'])
+@app.route('/api/v2/filedataset/searchKeyword', methods=['GET'])
 @jwt_required()
 def searchKeyword():
 	if request.method == 'GET':
@@ -781,7 +781,7 @@ def searchKeyword():
 		parsed_output = json.loads(process.decode('utf-8'))
 		return jsonify(parsed_output)	
 
-@app.route('/api/v1/dataset/searchGeoLocation', methods=['GET'])
+@app.route('/api/v2/filedataset/searchGeoLocation', methods=['GET'])
 @jwt_required()
 def searchGeoLocation():
 	if request.method == 'GET':
@@ -796,7 +796,7 @@ def searchGeoLocation():
 		parsed_output = json.loads(process.decode('utf-8'))
 		return jsonify(parsed_output)	
 
-@app.route('/api/v1/dataset/searchGeoCoverage', methods=['GET'])
+@app.route('/api/v2/filedataset/searchGeoCoverage', methods=['GET'])
 @jwt_required()
 def searchGeoCoverage():
 	if request.method == 'GET':
@@ -812,7 +812,7 @@ def searchGeoCoverage():
 		parsed_output = json.loads(process.decode('utf-8'))
 		return jsonify(parsed_output)		
 
-@app.route('/api/v1/dataset/searchVerticalCoverage', methods=['GET'])
+@app.route('/api/v2/filedataset/searchVerticalCoverage', methods=['GET'])
 @jwt_required()
 def searchVerticalCoverage():
 	if request.method == 'GET':
@@ -828,7 +828,7 @@ def searchVerticalCoverage():
 		parsed_output = json.loads(process.decode('utf-8'))
 		return jsonify(parsed_output)
 
-@app.route('/api/v1/dataset/searchTemporalCoverage', methods=['GET'])
+@app.route('/api/v2/filedataset/searchTemporalCoverage', methods=['GET'])
 @jwt_required()
 def searchTemporalCoverage():
 	if request.method == 'GET':
@@ -844,9 +844,9 @@ def searchTemporalCoverage():
 		parsed_output = json.loads(process.decode('utf-8'))
 		return jsonify(parsed_output)
 
-@app.route('/api/v1/dataset/listVariables', methods=['GET'])
+@app.route('/api/v2/variable/list', methods=['GET'])
 @jwt_required()
-def listVariables():
+def listVariable():
 	if request.method == 'GET':
 		# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
 		comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("9", request.args['search'])
@@ -859,7 +859,7 @@ def listVariables():
 		parsed_output = json.loads(process.decode('utf-8'))
 		return jsonify(parsed_output)
 
-@app.route('/api/v1/dataset/searchVariable', methods=['GET'])
+@app.route('/api/v2/variable/search', methods=['GET'])
 @jwt_required()
 def searchVariable():
 	if request.method == 'GET':
@@ -874,9 +874,9 @@ def searchVariable():
 		parsed_output = json.loads(process.decode('utf-8'))
 		return jsonify(parsed_output)
 
-@app.route('/api/v1/dataset/searchVariableStorageTable', methods=['GET'])
+@app.route('/api/v2/dataset/listVariables', methods=['GET'])
 @jwt_required()
-def searchVariableStorageTable():
+def listDatasetVariable():
 	if request.method == 'GET':
 		# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
 		comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("12", request.args['search'])
@@ -889,9 +889,9 @@ def searchVariableStorageTable():
 		parsed_output = json.loads(process.decode('utf-8'))
 		return jsonify(parsed_output)
 
-@app.route('/api/v1/dataset/searchStorageTable', methods=['GET'])
+@app.route('/api/v2/dataset/listFileDatasets', methods=['GET'])
 @jwt_required()
-def searchStorageTable():
+def listFileDatasetDataset():
 	if request.method == 'GET':
 		# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
 		comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("13", request.args['search'])
@@ -904,7 +904,7 @@ def searchStorageTable():
 		parsed_output = json.loads(process.decode('utf-8'))
 		return jsonify(parsed_output)
 
-@app.route('/api/v1/dataset/searchTitle', methods=['GET'])
+@app.route('/api/v2/filedataset/searchTitle', methods=['GET'])
 @jwt_required()
 def searchTitle():
 	if request.method == 'GET':
@@ -919,7 +919,7 @@ def searchTitle():
 		parsed_output = json.loads(process.decode('utf-8'))
 		return jsonify(parsed_output)
 
-@app.route('/api/v1/dataset/searchDescription', methods=['GET'])
+@app.route('/api/v2/filedataset/searchDescription', methods=['GET'])
 @jwt_required()
 def searchDescription():
 	if request.method == 'GET':
@@ -934,9 +934,39 @@ def searchDescription():
 		parsed_output = json.loads(process.decode('utf-8'))
 		return jsonify(parsed_output)
 
+@app.route('/api/v2/dataset/info', methods=['GET'])
+@jwt_required()
+def infoDataset():
+	if request.method == 'GET':
+		# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
+		comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("16", request.args['search'])
+		try:
+			process = subprocess.check_output([comm], shell="True")
+		except subprocess.CalledProcessError as e:
+			print(e)
+			return render_template('500.html')
+		# metadata parsed is converted into json class datasetInfo to be used inside the html form
+		parsed_output = json.loads(process.decode('utf-8'))
+		return jsonify(parsed_output)
+
+@app.route('/api/v2/dataset/list', methods=['GET'])
+@jwt_required()
+def listDataset():
+	if request.method == 'GET':
+		# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
+		comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("17", "")
+		try:
+			process = subprocess.check_output([comm], shell="True")
+		except subprocess.CalledProcessError as e:
+			print(e)
+			return render_template('500.html')
+		# metadata parsed is converted into json class datasetInfo to be used inside the html form
+		parsed_output = json.loads(process.decode('utf-8'))
+		return jsonify(parsed_output)
+
 # API POST for insert dataset's metadata automatically into Harmonization
 # Parameters: filename,idfile,idprofile in json 
-@app.route('/api/v1/dataset/insertAutomatic', methods=['POST'])
+@app.route('/api/v2/filedataset/insertAutomatic', methods=['POST'])
 @jwt_required()
 def insertAutomatic():
 	if not request.json or not 'fileName' in request.json:
@@ -945,7 +975,7 @@ def insertAutomatic():
 	idFile = request.json['idFile']
 	idProfile = request.json['idProfile']
 	produce = request.json['produce']
-	param = filename + "," + idFile + "," + idProfile + "," + produce
+	param = filename + "," + idFile + "," + idProfile + "," + str(produce)
 	# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
 	comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("11", param)
 	try:

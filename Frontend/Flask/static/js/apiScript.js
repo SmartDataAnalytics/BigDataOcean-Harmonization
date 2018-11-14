@@ -15,4 +15,14 @@ $( function() {
       autoHeight: false,
       active: false,
     });
+    $( "#accordion3" ).accordion({
+      collapsible: true,
+      autoHeight: false,
+      active: false,
+    });
+    $( "#accordion4" ).accordion({
+      collapsible: true,
+      autoHeight: false,
+      active: false,
+    });
 });

@@ -3,6 +3,8 @@ package org.unibonn.bdo.bdodatasets;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
@@ -232,7 +234,7 @@ public class InsertDatasetAutomatic {
 			}
 			
 			//Delete the temporal file "file.nc"
-			hdfsSys.deleteFile(Constants.CONFIGFILEPATH+"/Backend/AddDatasets/file.nc");
+			Files.deleteIfExists(Paths.get(Constants.CONFIGFILEPATH+"/Backend/AddDatasets/file.nc"));
 			
 		} catch (IOException e) {
 			e.printStackTrace();

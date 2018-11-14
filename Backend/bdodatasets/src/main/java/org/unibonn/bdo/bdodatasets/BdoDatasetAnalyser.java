@@ -218,7 +218,7 @@ public class BdoDatasetAnalyser {
 			result = extractDatesFileName(filename, result);
 			
 			//Delete the temporal file "file.nc"
-			hdfsSys.deleteFile(Constants.CONFIGFILEPATH+"/Backend/AddDatasets/file.nc");
+			Files.deleteIfExists(Paths.get(Constants.CONFIGFILEPATH+"/Backend/AddDatasets/file.nc"));
 			
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -283,7 +283,7 @@ public class BdoDatasetAnalyser {
 		Path localFile = hdfsSys.copyFile(filename,Constants.CONFIGFILEPATH+"/Backend/AddDatasets/" + name);
 		
 		result = analyseDatasetFileCsv(localFile.toString());
-		
+
 		return result;
 	}
 	
@@ -335,7 +335,7 @@ public class BdoDatasetAnalyser {
 		Path localFile = hdfsSys.copyFile(filename,Constants.CONFIGFILEPATH+"/Backend/AddDatasets/" + name);
 		
 		result = analyseDatasetFileExcel(localFile.toString());
-		
+
 		return result;
 	}
 	
