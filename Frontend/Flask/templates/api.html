@@ -7,7 +7,7 @@
         <div class="col-md-10 field-title">
           API documentation
           <label class="desc">
-            Functions defined in BigDataOcean can be called with an <span class="pre">HTTP GET </span><span>request. The response to the function you call is in </span><span class="pre">JSON format</span><span>. Browser plugins like </span><a href="https://addons.mozilla.org/en-us/firefox/addon/jsonview/" target="_blank">JSONView for Firefox </a><span>or </span><a href="https://chrome.google.com/webstore/detail/jsonview/chklaanhfefbnpoihckbnefhakgolnmc" target="_blank">Chrome </a><span>will format and color BigDataOcean's JSON response nicely in your browser.</span> <strong>The API request requires an authentication parameter. </strong>
+            Functions defined in BigDataOcean Harmonization Tool can be called with an <span class="pre">HTTP GET </span><span>request. The response to the function you call is in </span><span class="pre">JSON format</span><span>. Browser plugins like </span><a href="https://addons.mozilla.org/en-us/firefox/addon/jsonview/" target="_blank">JSONView for Firefox </a><span>or </span><a href="https://chrome.google.com/webstore/detail/jsonview/chklaanhfefbnpoihckbnefhakgolnmc" target="_blank">Chrome </a><span>will format and color BigDataOcean Harmonization Tool's JSON response nicely in your browser.</span> <br> <strong>The API request requires an authentication parameter. </strong>
           </label>
         </div>
         <div class="col-md-1">
@@ -17,14 +17,16 @@
         <div class="col-md-1">
         </div>
         <div class="col-md-10 metadata-info">
-
-          <div class="apiGroupName">Search Dataset</div>
+          <div class="apiGroupName">Search File Dataset</div>
           <div class="col-md-10 metadata-info" id="accordion">
             <h2>
               <span class="apiHttpMethod">get</span>
-              <span class="apiPath">/api/v1/dataset/list</span>
+              <span class="apiPath">/api/v2/filedataset/list</span>
             </h2>
             <div>
+              <div class="apiDesc">
+                The List File Dataset API allows a user to list the file datasets of the BigDataOcean Harmonization Tool.
+              </div>
               <h4 data-sw-translate="">Parameters</h4>
               <table class="apiTable">
                 <thead>
@@ -52,13 +54,16 @@
                   </tr>
                 </tbody>
               </table>
-              <div class="apiExample">For example, using the BigDataOcean API, your app can list all datasets in BigDataOcean Harmonization<a href="/api/v1/dataset/list" target="_blank">http://localhost:5000/api/v1/dataset/list</a></div>
+              <div class="apiExample">For example, using the BigDataOcean Harmonization Tool API, your app can list all file datasets in BigDataOcean Harmonization<a href="/api/v2/filedataset/list" target="_blank">http://localhost:5000/api/v2/filedataset/list</a></div>
             </div>
             <h2>
               <span class="apiHttpMethod">get</span>
-              <span class="apiPath">/api/v1/dataset/searchDataset</span>
+              <span class="apiPath">/api/v2/filedataset/info</span>
             </h2>
             <div>
+              <div class="apiDesc">
+                The Info File Dataset API allows a user to get details about one Dataset based on its metadata ID over the BigDataOcean Harmonization Tool.
+              </div>
               <h4 data-sw-translate="">Parameters</h4>
               <table class="apiTable">
                 <thead>
@@ -81,18 +86,21 @@
                       <label>String</label>
                     </td>
                     <td>
-                      <label>Metadata ID of a dataset e.g (“MEDSEA_ANALYSIS_FORECAST_WAV_006_011”)</label>
+                      <label>Metadata ID of a file dataset e.g (“MEDSEA_ANALYSIS_FORECAST_WAV_006_011”)</label>
                     </td>
                   </tr>
                 </tbody>
               </table>
-              <div class="apiExample">For example, using the BigDataOcean API, your app can search for a specific dataset "MEDSEA_ANALYSIS_FORECAST_WAV_006_011": <a href="/api/v1/dataset/searchDataset?search=MEDSEA_ANALYSIS_FORECAST_WAV_006_011" target="_blank">http://localhost:5000/api/v1/dataset/searchDataset?search=MEDSEA_ANALYSIS_FORECAST_WAV_006_011</a></div>
+              <div class="apiExample">For example, using the BigDataOcean Harmonization Tool API, your app get the details about a specific file dataset "MEDSEA_ANALYSIS_FORECAST_WAV_006_011": <a href="/api/v2/filedataset/info?search=MEDSEA_ANALYSIS_FORECAST_WAV_006_011" target="_blank">http://localhost:5000/api/v2/filedataset/info?search=MEDSEA_ANALYSIS_FORECAST_WAV_006_011</a></div>
             </div>
             <h2>
               <span class="apiHttpMethod">get</span>
-              <span class="apiPath">/api/v1/dataset/searchTitle</span>
+              <span class="apiPath">/api/v2/filedataset/searchTitle</span>
             </h2>
             <div>
+              <div class="apiDesc">
+                The Search Title File Dataset API allows a user to search over the BigDataOcean Harmonization Tool for a file dataset metadata based on its title.
+              </div>
               <h4 data-sw-translate="">Parameters</h4>
               <table class="apiTable">
                 <thead>
@@ -120,13 +128,16 @@
                   </tr>
                 </tbody>
               </table>
-              <div class="apiExample">For example, using the BigDataOcean API, your app can search for a (similar) title: <a href="/api/v1/dataset/searchTitle?search=med" target="_blank">http://localhost:5000/api/v1/dataset/searchTitle?search=med</a></div>
+              <div class="apiExample">For example, using the BigDataOcean Harmonization Tool API, your app can search for a (similar) title: <a href="/api/v2/filedataset/searchTitle?search=med" target="_blank">http://localhost:5000/api/v2/filedataset/searchTitle?search=med</a></div>
             </div>
             <h2>
               <span class="apiHttpMethod">get</span>
-              <span class="apiPath">/api/v1/dataset/searchDescription</span>
+              <span class="apiPath">/api/v2/filedataset/searchDescription</span>
             </h2>
             <div>
+              <div class="apiDesc">
+                The Search Description File Dataset API allows a user to search over the BigDataOcean Harmonization Tool for a file dataset metadata based on its description.
+              </div>
               <h4 data-sw-translate="">Parameters</h4>
               <table class="apiTable">
                 <thead>
@@ -154,13 +165,16 @@
                   </tr>
                 </tbody>
               </table>
-              <div class="apiExample">For example, using the BigDataOcean API, your app can search for a (similar) description: <a href="/api/v1/dataset/searchDescription?search=med" target="_blank">http://localhost:5000/api/v1/dataset/searchDescription?search=med</a></div>
+              <div class="apiExample">For example, using the BigDataOcean Harmonization Tool API, your app can search for a (similar) description: <a href="/api/v2/filedataset/searchDescription?search=med" target="_blank">http://localhost:5000/api/v2/filedataset/searchDescription?search=med</a></div>
             </div>
             <h2>
               <span class="apiHttpMethod">get</span>
-              <span class="apiPath">/api/v1/dataset/searchSubject</span>
+              <span class="apiPath">/api/v2/filedataset/searchSubject</span>
             </h2>
             <div>
+              <div class="apiDesc">
+                The Search Subject File Dataset API allows a user to search over the BigDataOcean Harmonization Tool for a file dataset metadata based on its subject.
+              </div>
               <h4 data-sw-translate="">Parameters</h4>
               <table class="apiTable">
                 <thead>
@@ -188,13 +202,16 @@
                   </tr>
                 </tbody>
               </table>
-              <div class="apiExample">For example, using the BigDataOcean API, your app can search for a subject or a list of subjects "Oceans": <a href="/api/v1/dataset/searchSubject?search=Oceans" target="_blank">http://localhost:5000/api/v1/dataset/searchSubject?search=Oceans</a></div>
+              <div class="apiExample">For example, using the BigDataOcean Harmonization Tool API, your app can search for a subject or a list of subjects "Oceans": <a href="/api/v2/filedataset/searchSubject?search=Oceans" target="_blank">http://localhost:5000/api/v2/filedataset/searchSubject?search=Oceans</a></div>
             </div>
             <h2>
               <span class="apiHttpMethod">get</span>
-              <span class="apiPath">/api/v1/dataset/searchKeyword</span>
+              <span class="apiPath">/api/v2/filedataset/searchKeyword</span>
             </h2>
             <div>
+              <div class="apiDesc">
+                The Search Keyword File Dataset API allows a user to search over the BigDataOcean Harmonization Tool for a file dataset metadata based on its keyword.
+              </div>
               <h4 data-sw-translate="">Parameters</h4>
               <table class="apiTable">
                 <thead>
@@ -222,51 +239,20 @@
                   </tr>
                 </tbody>
               </table>
-              <div class="apiExample">For example, using the BigDataOcean API, your app can search for a keyword or a list of keywords "seashore": <a href="/api/v1/dataset/searchKeyword?search=seashore" target="_blank">http://localhost:5000/api/v1/dataset/searchKeyword?search=seashore</a></div>
-            </div>
-            <h2>
-              <span class="apiHttpMethod">get</span>
-              <span class="apiPath">/api/v1/dataset/searchStorageTable</span>
-            </h2>
-            <div>
-              <h4 data-sw-translate="">Parameters</h4>
-              <table class="apiTable">
-                <thead>
-                  <tr>
-                    <th style="width: 200px" data-sw-translate="">Name</th>
-                    <th style="width: 100px" data-sw-translate="">Required</th>
-                    <th style="width: 200px" data-sw-translate="">Type</th>
-                    <th style="width: 400px" data-sw-translate="">Description</th>
-                  </tr>
-                </thead>
-                <tbody class="operation-params">
-                  <tr>
-                    <td>
-                      <label>search</label>
-                    </td>
-                    <td>
-                      <label>True</label>
-                    </td>
-                    <td>
-                      <label>String</label>
-                    </td>
-                    <td>
-                      <label>Filter query results based on their storage table. e.g (“weather”)</label>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              <div class="apiExample">For example, using the BigDataOcean API, your app can search for a storage table "weather": <a href="/api/v1/dataset/searchStorageTable?search=weather" target="_blank">http://localhost:5000/api/v1/dataset/searchStorageTable?search=weather</a></div>
+              <div class="apiExample">For example, using the BigDataOcean Harmonization Tool API, your app can search for a keyword or a list of keywords "seashore": <a href="/api/v2/filedataset/searchKeyword?search=seashore" target="_blank">http://localhost:5000/api/v2/filedataset/searchKeyword?search=seashore</a></div>
             </div>
           </div>
 
-          <div class="apiGroupName">Search Dataset By Geographic and Time</div>
+          <div class="apiGroupName">Search File Dataset By Geographic and Time</div>
           <div class="col-md-10 metadata-info" id="accordion1">
             <h2>
               <span class="apiHttpMethod">get</span>
-              <span class="apiPath">/api/v1/dataset/searchGeoLocation</span>
+              <span class="apiPath">/api/v2/filedataset/searchGeoLocation</span>
             </h2>
             <div>
+              <div class="apiDesc">
+                The Search Geographic Location File Dataset API allows a user to search over the BigDataOcean Harmonization Tool for a file dataset metadata based on its geographic location.
+              </div>
               <h4 data-sw-translate="">Parameters</h4>
               <table class="apiTable">
                 <thead>
@@ -294,13 +280,16 @@
                   </tr>
                 </tbody>
               </table>
-              <div class="apiExample">For example, using the BigDataOcean API, your app can search for a geographic location or a list of geographic locations "Mediterranean Sea": <a href="/api/v1/dataset/searchGeoLocation?search=Mediterranean Sea" target="_blank">http://localhost:5000/api/v1/dataset/searchGeoLocation?search=Mediterranean Sea</a></div>
+              <div class="apiExample">For example, using the BigDataOcean Harmonization Tool API, your app can search for a geographic location or a list of geographic locations "Mediterranean Sea": <a href="/api/v2/filedataset/searchGeoLocation?search=Mediterranean Sea" target="_blank">http://localhost:5000/api/v2/filedataset/searchGeoLocation?search=Mediterranean Sea</a></div>
             </div>
             <h2>
               <span class="apiHttpMethod">get</span>
-              <span class="apiPath">/api/v1/dataset/searchGeoCoverage</span>
+              <span class="apiPath">/api/v2/filedataset/searchGeoCoverage</span>
             </h2>
             <div>
+              <div class="apiDesc">
+                The Search Geographic Coverage File Dataset API allows a user to search over the BigDataOcean Harmonization Tool for a file dataset metadata based on its geographic coverage.
+              </div>
               <h4 data-sw-translate="">Parameters</h4>
               <table class="apiTable">
                 <thead>
@@ -370,13 +359,16 @@
                   </tr>
                 </tbody>
               </table>
-              <div class="apiExample">For example, using the BigDataOcean API, your app can search for  geographical coverage "W=-17.12 E=36.20 S=30 N=45.98": <a href="/api/v1/dataset/searchGeoCoverage?W=-17.12&E=36.20&S=30&N=45.98" target="_blank">http://localhost:5000/api/v1/dataset/searchGeoCoverage?W=-17.12&E=36.20&S=30&N=45.98</a></div>
+              <div class="apiExample">For example, using the BigDataOcean Harmonization Tool API, your app can search for  geographical coverage "W=-17.12 E=36.20 S=30 N=45.98": <a href="/api/v2/filedataset/searchGeoCoverage?W=-17.12&E=36.20&S=30&N=45.98" target="_blank">http://localhost:5000/api/v2/filedataset/searchGeoCoverage?W=-17.12&E=36.20&S=30&N=45.98</a></div>
             </div>
             <h2>
               <span class="apiHttpMethod">get</span>
-              <span class="apiPath">/api/v1/dataset/searchVerticalCoverage</span>
+              <span class="apiPath">/api/v2/filedataset/searchVerticalCoverage</span>
             </h2>
             <div>
+              <div class="apiDesc">
+                The Search Vertical Coverage File Dataset API allows a user to search over the BigDataOcean Harmonization Tool for a file dataset metadata based on its vertical coverage.
+              </div>
               <h4 data-sw-translate="">Parameters</h4>
               <table class="apiTable">
                 <thead>
@@ -418,13 +410,16 @@
                   </tr>
                 </tbody>
               </table>
-              <div class="apiExample">For example, using the BigDataOcean API, your app can search for vertical coverage "from=0 to=0": <a href="/api/v1/dataset/searchVerticalCoverage?from=0&to=0" target="_blank">http://localhost:5000/api/v1/dataset/searchVerticalCoverage?from=0&to=0</a></div>
+              <div class="apiExample">For example, using the BigDataOcean Harmonization Tool API, your app can search for vertical coverage "from=0 to=0": <a href="/api/v2/filedataset/searchVerticalCoverage?from=0&to=0" target="_blank">http://localhost:5000/api/v2/filedataset/searchVerticalCoverage?from=0&to=0</a></div>
             </div>
             <h2>
               <span class="apiHttpMethod">get</span>
-              <span class="apiPath">/api/v1/dataset/searchTemporalCoverage</span>
+              <span class="apiPath">/api/v2/filedataset/searchTemporalCoverage</span>
             </h2>
             <div>
+              <div class="apiDesc">
+                The Search Temporal Coverage File Dataset API allows a user to search over the BigDataOcean Harmonization Tool for a file dataset metadata based on its temporal coverage.
+              </div>
               <h4 data-sw-translate="">Parameters</h4>
               <table class="apiTable">
                 <thead>
@@ -466,7 +461,7 @@
                   </tr>
                 </tbody>
               </table>
-              <div class="apiExample">For example, using the BigDataOcean API, your app can search for temporal coverage "begin=2016-08-01T00:00:00 end=": <a href="/api/v1/dataset/searchTemporalCoverage?begin=2016-08-01T00:00:00&end=" target="_blank">http://localhost:5000/api/v1/dataset/searchTemporalCoverage?begin=2016-08-01T00:00:00&end=</a></div>
+              <div class="apiExample">For example, using the BigDataOcean Harmonization Tool API, your app can search for temporal coverage "begin=2016-08-01T00:00:00 end=": <a href="/api/v2/filedataset/searchTemporalCoverage?begin=2016-08-01T00:00:00&end=" target="_blank">http://localhost:5000/api/v2/filedataset/searchTemporalCoverage?begin=2016-08-01T00:00:00&end=</a></div>
             </div>
           </div>
 
@@ -474,9 +469,12 @@
           <div class="col-md-10 metadata-info" id="accordion2">
             <h2>
               <span class="apiHttpMethod">get</span>
-              <span class="apiPath">/api/v1/dataset/listVariables</span>
+              <span class="apiPath">/api/v2/variable/list</span>
             </h2>
             <div>
+              <div class="apiDesc">
+                The List Variables File Dataset API allows a user to list the variables based on its metadata ID of a file dataset over the BigDataOcean Harmonization Tool.
+              </div>
               <h4 data-sw-translate="">Parameters</h4>
               <table class="apiTable">
                 <thead>
@@ -499,18 +497,21 @@
                       <label>String</label>
                     </td>
                     <td>
-                      <label>Metadata ID of a dataset e.g (“MEDSEA_ANALYSIS_FORECAST_WAV_006_011”)</label>
+                      <label>Metadata ID of a file dataset e.g (“MEDSEA_ANALYSIS_FORECAST_WAV_006_011”)</label>
                     </td>
                   </tr>
                 </tbody>
               </table>
-              <div class="apiExample">For example, using the BigDataOcean API, your app can list the variables of a specific dataset "MEDSEA_ANALYSIS_FORECAST_WAV_006_011": <a href="/api/v1/dataset/listVariables?search=MEDSEA_ANALYSIS_FORECAST_WAV_006_011" target="_blank">http://localhost:5000/api/v1/dataset/listVariables?search=MEDSEA_ANALYSIS_FORECAST_WAV_006_011</a></div>
+              <div class="apiExample">For example, using the BigDataOcean Harmonization Tool API, your app can list the variables of a specific file dataset "MEDSEA_ANALYSIS_FORECAST_WAV_006_011": <a href="/api/v2/variable/list?search=MEDSEA_ANALYSIS_FORECAST_WAV_006_011" target="_blank">http://localhost:5000/api/v2/variable/list?search=MEDSEA_ANALYSIS_FORECAST_WAV_006_011</a></div>
             </div>
             <h2>
               <span class="apiHttpMethod">get</span>
-              <span class="apiPath">/api/v1/dataset/searchVariable</span>
+              <span class="apiPath">/api/v2/variable/search</span>
             </h2>
             <div>
+              <div class="apiDesc">
+                The Search Variable File Dataset API allows a user to search over the BigDataOcean Harmonization Tool for a file dataset metadata based on its canonical variable.
+              </div>
               <h4 data-sw-translate="">Parameters</h4>
               <table class="apiTable">
                 <thead>
@@ -538,13 +539,131 @@
                   </tr>
                 </tbody>
               </table>
-              <div class="apiExample">For example, using the BigDataOcean API, your app can list datasets that has a canonical variable or a list of canonical variables "sea_surface_wave_significant_height,latitude": <a href="/api/v1/dataset/searchVariable?search=sea_surface_wave_significant_height,latitude" target="_blank">http://localhost:5000/api/v1/dataset/searchVariable?search=sea_surface_wave_significant_height,latitude</a></div>
+              <div class="apiExample">For example, using the BigDataOcean Harmonization Tool API, your app can list file datasets that has a canonical variable or a list of canonical variables "sea_surface_wave_significant_height,latitude": <a href="/api/v2/variable/search?search=sea_surface_wave_significant_height,latitude" target="_blank">http://localhost:5000/api/v2/variable/search?search=sea_surface_wave_significant_height,latitude</a></div>
+            </div>
+          </div>
+
+          <div class="apiGroupName">Search Dataset</div>
+          <div class="col-md-10 metadata-info" id="accordion3">
+            <h2>
+              <span class="apiHttpMethod">get</span>
+              <span class="apiPath">/api/v2/dataset/list</span>
+            </h2>
+            <div>
+              <div class="apiDesc">
+                The List Dataset API allows a user to list the datasets of the BigDataOcean Harmonization Tool.
+              </div>
+              <h4 data-sw-translate="">Parameters</h4>
+              <table class="apiTable">
+                <thead>
+                  <tr>
+                    <th style="width: 200px" data-sw-translate="">Name</th>
+                    <th style="width: 100px" data-sw-translate="">Required</th>
+                    <th style="width: 200px" data-sw-translate="">Type</th>
+                    <th style="width: 400px" data-sw-translate="">Description</th>
+                  </tr>
+                </thead>
+                <tbody class="operation-params">
+                  <tr>
+                    <td>
+                      <label>-</label>
+                    </td>
+                    <td>
+                      <label>-</label>
+                    </td>
+                    <td>
+                      <label>-</label>
+                    </td>
+                    <td>
+                      <label>-</label>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="apiExample">For example, using the BigDataOcean Harmonization Tool API, your app can list all datasets in BigDataOcean Harmonization<a href="/api/v2/dataset/list" target="_blank">http://localhost:5000/api/v2/dataset/list</a></div>
             </div>
             <h2>
               <span class="apiHttpMethod">get</span>
-              <span class="apiPath">/api/v1/dataset/searchVariableStorageTable</span>
+              <span class="apiPath">/api/v2/dataset/info</span>
             </h2>
             <div>
+              <div class="apiDesc">
+                The Info Dataset API allows a user to get details about one Dataset based on its storage table name over the BigDataOcean Harmonization Tool.
+              </div>
+              <h4 data-sw-translate="">Parameters</h4>
+              <table class="apiTable">
+                <thead>
+                  <tr>
+                    <th style="width: 200px" data-sw-translate="">Name</th>
+                    <th style="width: 100px" data-sw-translate="">Required</th>
+                    <th style="width: 200px" data-sw-translate="">Type</th>
+                    <th style="width: 400px" data-sw-translate="">Description</th>
+                  </tr>
+                </thead>
+                <tbody class="operation-params">
+                  <tr>
+                    <td>
+                      <label>search</label>
+                    </td>
+                    <td>
+                      <label>True</label>
+                    </td>
+                    <td>
+                      <label>String</label>
+                    </td>
+                    <td>
+                      <label>Filter query results based on their storage table name. e.g (“weather”)</label>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="apiExample">For example, using the BigDataOcean Harmonization Tool API, your app get the details about storage table name "weather": <a href="/api/v2/dataset/info?search=weather" target="_blank">http://localhost:5000/api/v2/dataset/info?search=weather</a></div>
+            </div>
+            <h2>
+              <span class="apiHttpMethod">get</span>
+              <span class="apiPath">/api/v2/dataset/listFileDatasets</span>
+            </h2>
+            <div>
+              <div class="apiDesc">
+                The List File Datasets of a Dataset API allows a user to list the file Datasets based on its storage table name over the BigDataOcean Harmonization Tool.
+              </div>
+              <h4 data-sw-translate="">Parameters</h4>
+              <table class="apiTable">
+                <thead>
+                  <tr>
+                    <th style="width: 200px" data-sw-translate="">Name</th>
+                    <th style="width: 100px" data-sw-translate="">Required</th>
+                    <th style="width: 200px" data-sw-translate="">Type</th>
+                    <th style="width: 400px" data-sw-translate="">Description</th>
+                  </tr>
+                </thead>
+                <tbody class="operation-params">
+                  <tr>
+                    <td>
+                      <label>search</label>
+                    </td>
+                    <td>
+                      <label>True</label>
+                    </td>
+                    <td>
+                      <label>String</label>
+                    </td>
+                    <td>
+                      <label>Filter query results based on their storage table name. e.g (“weather”)</label>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="apiExample">For example, using the BigDataOcean Harmonization Tool API, your app can list all the file datasets which have storage table name "weather": <a href="/api/v2/dataset/listFileDatasets?search=weather" target="_blank">http://localhost:5000/api/v2/dataset/listFileDatasets?search=weather</a></div>
+            </div>
+            <h2>
+              <span class="apiHttpMethod">get</span>
+              <span class="apiPath">/api/v2/dataset/listVariables</span>
+            </h2>
+            <div>
+              <div class="apiDesc">
+                The List Variables Dataset API allows a user to list the variables based on its storage table name over the BigDataOcean Harmonization Tool.
+              </div>
               <h4 data-sw-translate="">Parameters</h4>
               <table class="apiTable">
                 <thead>
@@ -572,8 +691,167 @@
                   </tr>
                 </tbody>
               </table>
-              <div class="apiExample">For example, using the BigDataOcean API, your app can list datasets that has a storage table "weather": <a href="/api/v1/dataset/searchVariableStorageTable?search=weather" target="_blank">http://localhost:5000/api/v1/dataset/searchVariableStorageTable?search=weather</a></div>
+              <div class="apiExample">For example, using the BigDataOcean Harmonization Tool API, your app can list the variables that has a dataset based on the storage table name "weather": <a href="/api/v2/dataset/listVariables?search=weather" target="_blank">http://localhost:5000/api/v2/dataset/listVariables?search=weather</a></div>
             </div>
+          </div>
+
+          <div class="apiGroupName">Other</div>
+            <div class="col-md-10 metadata-info" id="accordion4">
+            <h2>
+              <span class="apiPostHttpMethod">post</span>
+              <span class="apiPath">/auth</span>
+            </h2>
+            <div>
+              <div class="apiDesc">
+                The Authentication API allows a user to create an authorization code to use the APIs.
+              </div>
+              <h4 data-sw-translate="">Parameters</h4>
+              <table class="apiTable">
+                <thead>
+                  <tr>
+                    <th style="width: 200px" data-sw-translate="">Name</th>
+                    <th style="width: 100px" data-sw-translate="">Required</th>
+                    <th style="width: 200px" data-sw-translate="">Type</th>
+                    <th style="width: 400px" data-sw-translate="">Description</th>
+                  </tr>
+                </thead>
+                <tbody class="operation-params">
+                  <tr>
+                    <td>
+                      <label>username</label>
+                    </td>
+                    <td>
+                      <label>True</label>
+                    </td>
+                    <td>
+                      <label>String</label>
+                    </td>
+                    <td>
+                      <label>User Name</label>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label>password</label>
+                    </td>
+                    <td>
+                      <label>True</label>
+                    </td>
+                    <td>
+                      <label>String</label>
+                    </td>
+                    <td>
+                      <label>Password</label>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="apiExample">For example, 
+                <pre class="prettyprint">
+                  curl -X POST \
+                  http://localhost:5000/auth \
+                  -H 'Content-Type: application/json' \
+                  -d '{
+                    "username": "put here username",
+                    "password": "put here password"
+                    }'
+                </pre>
+              </div>
+            </div>
+            {% if g.user %}
+              <h2>
+                <span class="apiPostHttpMethod">post</span>
+                <span class="apiPath">/api/v2/filedataset/insertAutomatic</span>
+              </h2>
+              <div>
+                <div class="apiDesc">
+                  The Insert Automatic API allows a user to add new file dataset metadata over the BigDataOcean Harmonization Tool.
+                </div>
+                <h4 data-sw-translate="">Parameters</h4>
+                <table class="apiTable">
+                  <thead>
+                    <tr>
+                      <th style="width: 200px" data-sw-translate="">Name</th>
+                      <th style="width: 100px" data-sw-translate="">Required</th>
+                      <th style="width: 200px" data-sw-translate="">Type</th>
+                      <th style="width: 400px" data-sw-translate="">Description</th>
+                    </tr>
+                  </thead>
+                  <tbody class="operation-params">
+                    <tr>
+                      <td>
+                        <label>fileName</label>
+                      </td>
+                      <td>
+                        <label>True</label>
+                      </td>
+                      <td>
+                        <label>String</label>
+                      </td>
+                      <td>
+                        <label>HDFS URL</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <label>idFile</label>
+                      </td>
+                      <td>
+                        <label>True</label>
+                      </td>
+                      <td>
+                        <label>String</label>
+                      </td>
+                      <td>
+                        <label>ID File</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <label>idProfile</label>
+                      </td>
+                      <td>
+                        <label>True</label>
+                      </td>
+                      <td>
+                        <label>String</label>
+                      </td>
+                      <td>
+                        <label>ID Profile</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <label>produce</label>
+                      </td>
+                      <td>
+                        <label>True</label>
+                      </td>
+                      <td>
+                        <label>Boolean</label>
+                      </td>
+                      <td>
+                        <label>Activate Kafka "Produce" operations</label>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div class="apiExample">For example, 
+                  <pre class="prettyprint">
+                    curl -X POST \
+                      http://localhost:5000/api/v2/filedataset/insertAutomatic \
+                      -H 'Authorization: put here JWT authorization code' \
+                      -H 'Content-Type: application/json' \
+                      -d '{ 
+                        "fileName": "put here URL HDFS dataset file",  
+                        "idFile":"put here ID file", 
+                        "idProfile":"put here ID profile", 
+                        "produce": "put here true or false"  
+                      }'
+                  </pre>
+                </div>
+              </div>
+            {% endif %}
           </div>
 
         </div>
@@ -608,4 +886,5 @@
   <script src="static/js/bootstrap-tokenfield.js"></script>
   <script src="static/js/typeahead.bundle.js"></script>
   <script src="static/js/jquery.easy-autocomplete.min.js"></script> 
+  <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
 {% endblock %}

@@ -240,7 +240,7 @@ public class BdoDatasetAnalyser {
 			result = extractDatesFileName(filename, result);
 			
 			//Delete the temporal file "file.nc"
-			hdfsSys.deleteFile(Constants.CONFIGFILEPATH+"/Backend/AddDatasets/file.nc");
+			Files.deleteIfExists(Paths.get(Constants.CONFIGFILEPATH+"/Backend/AddDatasets/file.nc"));
 			
 		} catch (IOException e) {
 			e.printStackTrace();

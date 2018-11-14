@@ -2,9 +2,14 @@ package org.unibonn.bdo.bdodatasets;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
+import org.joda.time.DateTime;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -209,12 +214,14 @@ public class BdoApiAnalyser {
 			node = solution.get("coorSys");
 			dataset.setCoordinateSystem(node.toString());
 		}
-
-		dataset = getSubject(searchParam, dataset);
-		dataset = getKeywords(searchParam, dataset);
-		dataset = getGeoLoc(searchParam, dataset);
-		dataset = getLanguage(searchParam, dataset);
-		dataset = getVariables(searchParam, dataset);
+		
+		if (results.getRowNumber() > 0) {
+			dataset = getSubject(searchParam, dataset);
+			dataset = getKeywords(searchParam, dataset);
+			dataset = getGeoLoc(searchParam, dataset);
+			dataset = getLanguage(searchParam, dataset);
+			dataset = getVariables(searchParam, dataset);
+		}
 		
 		return dataset;
 	}
@@ -910,6 +917,178 @@ public class BdoApiAnalyser {
 			dataset = getVariables("bdo:"+uri, dataset);
 			list.add(dataset);	
 		}
+		return list;
+	}
+	
+	public static DatasetApi apiSearchDatasetStorage (String searchParam) {
+		DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+		String uri = "";
+		List<DateTime> tCBegin = new ArrayList<>();
+		List<DateTime> tCEnd = new ArrayList<>();
+		String queryMetadata = "PREFIX dct: <http://purl.org/dc/terms/>\n" + 
+				"PREFIX dcat: <https://www.w3.org/TR/vocab-dcat/>\n" + 
+				"PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> \n" + 
+				"PREFIX ignf: <http://data.ign.fr/def/ignf#>\n" + 
+				"PREFIX foaf: <http://xmlns.com/foaf/0.1/>\n" + 
+				"PREFIX bdo: <http://bigdataocean.eu/bdo/>\n" + 
+				"PREFIX ids: <http://industrialdataspace/information-model/>\n" + 
+				"SELECT ?ident ?title ?desc ?standard ?format ?homep "
+				+ "?publi ?rights "
+				+ "?timeReso (STR(?verFrom) AS ?vFrom) (STR(?verTo) AS ?vTo) (STR(?west) AS ?spatialWest) "
+				+ "(STR(?east) AS ?spatialEast) (STR(?south) AS ?spatialSouth) (STR(?north) AS ?spatialNorth) "
+				+ "(STR(?tempCovB) AS ?timeCovBeg) (STR(?tempCovE) AS ?timeCovEnd) ?vLevel ?coorSys ?source "
+				+ "?observation \n" + 
+				"WHERE{ \n" + 
+				"  ?uri a dcat:Dataset ;\n" + 
+				"       dct:identifier ?ident ;\n" + 
+				"       dct:title ?title ;\n" + 
+				"       dct:description ?desc ;\n" + 
+				"       dcat:subject ?sub ;\n" + 
+				"       bdo:verticalCoverage ?vCov ;\n" + 
+				"       dcat:theme ?keyw ;\n" + 
+				"       dct:Standard ?standard ;\n" + 
+				"       dct:format ?format ;\n" + 
+				"       dct:language ?lang ;\n" + 
+				"       foaf:homepage ?homep ;\n" + 
+				"       dct:publisher ?publi ;\n" + 
+				"       dct:accessRights ?rights ;\n" + 
+				"       bdo:timeResolution ?timeReso ;\n" + 
+				"       bdo:GeographicalCoverage ?spatial ;\n" + 
+				"       dct:creator ?source ; \n" +
+				"       rdfs:comment ?observation ; \n" +
+				"       bdo:storageTable '"+searchParam+"' ; \n" +
+				"       bdo:verticalLevel ?vLevel ;\n" + 
+				"       dct:conformsTo ?coorSys ;\n" + 
+				"       bdo:timeCoverage ?temp .\n" + 
+				"  \n" + 
+				"  ?temp a bdo:TimeCoverage;\n" + 
+				"		 ids:beginning ?tempCovB ;\n" + 
+				"        ids:end ?tempCovE .\n" + 
+				"  \n" + 
+				"  ?spatial a ignf:GeographicBoundingBox ;\n" + 
+				"           ignf:westBoundLongitude ?west ;\n" + 
+				"           ignf:eastBoundLongitude ?east ;\n" + 
+				"           ignf:southBoundLatitude ?south ;\n" + 
+				"           ignf:northBoundLatitude ?north .\n" + 
+				"  \n" + 
+				"  ?vCov a  bdo:VerticalCoverage ;\n" + 
+				"        bdo:verticalFrom ?verFrom ;\n" + 
+				"        bdo:verticalTo ?verTo .\n" + 
+				"}";
+		
+		DatasetApi dataset = new DatasetApi();
+		dataset.setIdentifier(null);
+		RDFNode node;
+		// executes query on Jena Fueski to get Metadata
+		ResultSet results = QueryExecutor.selectQuery(queryMetadata);
+		try {
+			while(results.hasNext()){
+				QuerySolution solution = results.nextSolution();
+				uri = "bdo:" + solution.get("ident").toString();
+				node = solution.get("title");
+				dataset.setTitle(node.toString());
+				node = solution.get("desc");
+				dataset.setDescription(node.toString());
+				node = solution.get("standard");
+				dataset.setStandards(node.toString());
+				node = solution.get("format");
+				dataset.setFormats(node.toString());
+				node = solution.get("homep");
+				dataset.setHomepage(node.toString());
+				node = solution.get("publi");
+				dataset.setPublisher(node.toString());
+				node = solution.get("rights");
+				dataset.setAccessRights(node.toString());
+				node = solution.get("source");
+				dataset.setSource(node.toString());
+				node = solution.get("observation");
+				dataset.setObservations(node.toString());
+				dataset.setStorageTable(searchParam);
+				node = solution.get("vFrom");
+				dataset.setVerticalCoverageFrom(node.toString());
+				node = solution.get("vTo");
+				dataset.setVerticalCoverageTo(node.toString());
+				node = solution.get("timeReso");
+				dataset.setTimeResolution(node.toString());
+				node = solution.get("spatialWest");
+				dataset.setSpatialWest(node.toString());
+				node = solution.get("spatialEast");
+				dataset.setSpatialEast(node.toString());
+				node = solution.get("spatialNorth");
+				dataset.setSpatialNorth(node.toString());
+				node = solution.get("spatialSouth");
+				dataset.setSpatialSouth(node.toString());
+				node = solution.get("timeCovBeg");
+				if(!node.toString().equals("")) {
+					tCBegin.add(new DateTime(format.parse(node.toString())));
+				}
+				dataset.setTemporalCoverageBegin(node.toString());
+				node = solution.get("timeCovEnd");
+				if(!node.toString().equals("")) {
+					tCEnd.add(new DateTime(format.parse(node.toString())));
+				}
+				dataset.setTemporalCoverageEnd(node.toString());
+				node = solution.get("vLevel");
+				dataset.setVerticalLevel(node.toString());
+				node = solution.get("coorSys");
+				dataset.setCoordinateSystem(node.toString());
+			}
+
+			if (results.getRowNumber() > 0) {
+				// Search the real temporal coverage begin of the dataset
+				if(!tCBegin.isEmpty()) {
+					tCBegin = sortListDateTime(tCBegin);
+					dataset.setTemporalCoverageBegin(format.format(tCBegin.get(0).toDate()));
+				}
+				// Search the real temporal coverage end of the dataset
+				if(!tCEnd.isEmpty()) {
+					tCEnd = sortListDateTime(tCEnd);
+					int size = tCEnd.size() - 1;
+					dataset.setTemporalCoverageEnd(format.format(tCEnd.get(size).toDate()));
+				}
+				dataset = getSubject(uri, dataset);
+				dataset = getKeywords(uri, dataset);
+				dataset = getGeoLoc(uri, dataset);
+				dataset = getLanguage(uri, dataset);
+				dataset = getVariables(uri, dataset);
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return dataset;
+	}
+	
+	public static List<DatasetApi> apiListAllAggregatedDatasets (){
+		String pathFile = Constants.CONFIGFILEPATH+"/Frontend/Flask/static/json/storageTable.json";
+		JSONParser parser = new JSONParser();
+		List<DatasetApi> list = new ArrayList<>();
+		try {
+			JSONArray storageTable = (JSONArray) parser.parse(new FileReader(pathFile));
+			String storage = "";
+			for(int j=0; j<storageTable.size(); j++){
+				JSONObject tokenJson = (JSONObject) storageTable.get(j);
+				storage = tokenJson.get("tableName").toString();
+				DatasetApi dataset = new DatasetApi();
+				dataset = apiSearchDatasetStorage(storage);
+				if (dataset.getTitle() != null) {
+					list.add(dataset);
+				}
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	private static List<DateTime> sortListDateTime(List<DateTime> list) {
+		Collections.sort(list, new Comparator<DateTime>() {
+	        @Override
+	        public int compare(DateTime object1, DateTime object2) {
+	        	return (object1.compareTo(object2));
+	        }
+	    });
+		
 		return list;
 	}
 	

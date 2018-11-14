@@ -173,6 +173,24 @@ public class Api {
 					e.printStackTrace();
 				}
 				break;	
+			case 16:
+				try {
+					DatasetApi dataset = BdoApiAnalyser.apiSearchDatasetStorage(searchParam);
+					// Parse into JSON the Dataset instance with all metadata from a dataset
+					System.out.print(gson.toJson(dataset));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				break;		
+			case 17:
+				try {
+					list = BdoApiAnalyser.apiListAllAggregatedDatasets();
+					// Parse into JSON the Dataset instance with all metadata from a dataset
+					System.out.print(gson.toJson(list));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				break;	
 			default:
 				break;
 		}
