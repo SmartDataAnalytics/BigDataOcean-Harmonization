@@ -107,8 +107,8 @@ def index():
 		process = subprocess.check_output([command], shell="True")
 		# other column settings -> http://bootstrap-table.wenzhixin.net.cn/documentation/#column-options
 		columns = [{
-		"field": "identifier", # which is the field's name of data key 
-		"title": "Metadata ID", # display as the table header's name
+		"field": "storageTable", # which is the field's name of data key 
+		"title": "Storage Table", # display as the table header's name
 		"sortable": True,
 		},{
 		"field": "title", # which is the field's name of data key 
@@ -119,12 +119,6 @@ def index():
 		"field": "description",
 		"title": "Description",
 		"sortable": True,
-		},
-		{
-		"field": "storageTable",
-		"title": "Storage Table",
-		"sortable": True,
-		"visible": False,
 		},
 		{
 		"field": "formats",
@@ -523,8 +517,8 @@ def edit(identifier):
 	try:
 		extractDatafromParser()
 		if request.method == 'GET':
-			uri = "<http://bigdataocean.eu/bdo/"+identifier+"> \n"
-			comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/getDataset "%s"' %uri
+			uri = "bdo:"+identifier
+			comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/getFileDataset "%s"' %uri
 			try:
 				process = subprocess.check_output([comm], shell="True")
 			except subprocess.CalledProcessError as e:
@@ -671,9 +665,9 @@ def metadataInfo(identifier):
 			file = open(globalPath + '/Frontend/Flask/static/json/marineregions.json', 'r')
 			geoLocationJson = json.load(file)
 
-			uri = "<http://bigdataocean.eu/bdo/"+identifier+"> \n"
-			# Calls shel getDataset to obtain all metadata of a dataset from jena fuseki
-			comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/getDataset "%s"' %uri
+			uri = "bdo:"+identifier
+			# Calls shel getFileDataset to obtain all metadata of a dataset from jena fuseki
+			comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/getFileDataset "%s"' %uri
 			try:
 				process = subprocess.check_output([comm], shell="True")
 			except subprocess.CalledProcessError as e:
@@ -712,6 +706,91 @@ def nameURL(listElement, listJson):
 @app.route('/endpoint', methods=['GET', 'POST'])
 def endpoint():
 	return render_template('sparqlEndpoint.html')
+
+# Routing to see list of file dataset that are part of a specific storage table
+@app.route('/listFileDataset/<storage>')
+def indexFile(storage):
+	# Calls shell listDatasets to get all the datasets stored on jena fuseki
+	command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/listFileDatasets "%s"' %storage
+	try:
+		process = subprocess.check_output([command], shell="True")
+		# other column settings -> http://bootstrap-table.wenzhixin.net.cn/documentation/#column-options
+		columns = [{
+		"field": "identifier", # which is the field's name of data key 
+		"title": "Metadata ID", # display as the table header's name
+		"sortable": True,
+		},{
+		"field": "title", # which is the field's name of data key 
+		"title": "Title", # display as the table header's name
+		"sortable": True,
+		},
+		{
+		"field": "description",
+		"title": "Description",
+		"sortable": True,
+		},
+		{
+		"field": "storageTable",
+		"title": "Storage Table",
+		"sortable": True,
+		"visible": False,
+		},
+		{
+		"field": "formats",
+		"title": "Formats",
+		"sortable": True,
+		"visible": False,
+		}]
+		# print (process.decode('utf-8'))
+		parsed_output = json.loads(process.decode('utf-8'))
+		data = parsed_output
+		return render_template('indexFileMetadata.html',
+			data=data,
+			columns=columns)
+	except subprocess.CalledProcessError as e:
+		print(e)
+		return render_template('500.html')
+	except ValueError as e:  # includes simplejson.decoder.JSONDecodeError
+		print(e)
+		return render_template('500.html')
+
+# Routing to see metadata of an specific dataset based on storage table
+@app.route('/metadataDatasetInfo/<storage>', methods=['GET', 'POST'])
+def metadataDatasetInfo(storage):
+	try:
+		if request.method == 'GET':
+			extractDatafromParser()
+			# Extracting subject/keywords/marineregions.json
+			file = open(globalPath + '/Frontend/Flask/static/json/subject.json', 'r')
+			subjectJson = json.load(file)
+			file = open(globalPath + '/Frontend/Flask/static/json/keywords.json', 'r')
+			keywordsJson = json.load(file)
+			file = open(globalPath + '/Frontend/Flask/static/json/marineregions.json', 'r')
+			geoLocationJson = json.load(file)
+
+			# Calls shell getDataset to obtain all metadata of a dataset from jena fuseki
+			comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/getDataset "%s"' %storage
+			try:
+				process = subprocess.check_output([comm], shell="True")
+			except subprocess.CalledProcessError as e:
+				print(e)
+				return render_template('500.html')
+			# metadata parsed is converted into json class datasetInfo to be used inside the html form
+			parsed_output = json.loads(process.decode('utf-8'))
+			dataset = datasetInfo(**parsed_output)
+			
+			if dataset.identifier != "":
+				dataset.title = dataset.title.replace("_", " ")
+				# show the name -- url in subject/keywords/geoLocation
+				dataset.subject = nameURL(dataset.subject, subjectJson)
+				dataset.keywords = nameURL(dataset.keywords, keywordsJson)
+				dataset.geoLocation = nameURL(dataset.geoLocation, geoLocationJson)
+				return render_template('datasetMetadataInfo.html', dataset=dataset)
+			else:
+				return render_template('404.html', error='The metadata ID does not exist.')
+	except ValueError:  # includes simplejson.decoder.JSONDecodeError
+		print(e)
+		return render_template('500.html')
 
 #APIs
 @app.route('/api', methods=['GET', 'POST'])

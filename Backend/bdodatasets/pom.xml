@@ -243,7 +243,7 @@
             </program>
             <program>
               <mainClass>org.unibonn.bdo.bdodatasets.GetMetadata</mainClass>
-              <id>getDataset</id>
+              <id>getFileDataset</id>
               <jvmSettings>
                 <maxMemorySize>512m</maxMemorySize>
               </jvmSettings>
@@ -272,6 +272,20 @@
             <program>
               <mainClass>org.unibonn.bdo.bdodatasets.FetchJWTToken</mainClass>
               <id>fetchJWTToken</id>
+              <jvmSettings>
+                <maxMemorySize>512m</maxMemorySize>
+              </jvmSettings>
+            </program>
+            <program>
+              <mainClass>org.unibonn.bdo.bdodatasets.GetDatasetMetadata</mainClass>
+              <id>getDataset</id>
+              <jvmSettings>
+                <maxMemorySize>512m</maxMemorySize>
+              </jvmSettings>
+            </program>
+            <program>
+              <mainClass>org.unibonn.bdo.bdodatasets.ListFileDataset</mainClass>
+              <id>listFileDatasets</id>
               <jvmSettings>
                 <maxMemorySize>512m</maxMemorySize>
               </jvmSettings>

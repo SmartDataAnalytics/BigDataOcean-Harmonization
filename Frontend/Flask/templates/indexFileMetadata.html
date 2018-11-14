@@ -1,0 +1,68 @@
+{% extends "layout.html" %}
+
+{% block body %}
+  <div class="row content">
+    <div class="col-md-1">
+    </div>
+    <div class="col-md-10 field-title">
+      File Dataset List
+    </div>
+    <div class="col-md-1">
+    </div>
+  </div>
+  <div class="row content metadata-row" id="metadata">
+      <div class="col-md-1">
+      </div>
+      <div class="col-md-10 metadata-info">
+        <div id="toolbar">
+        </div>
+        <table id="tableDatasets" data-toggle="true"
+          data-toolbar="#toolbar"
+          data-search="true"
+          data-pagination="true"
+          data-show-columns="true"
+          data-page-list="[10, 25, 50, ALL]">
+          <thead>
+            <tr>
+                <th class="col-xs-1" data-field="identifier">Metadata ID</th>
+                <th class="col-xs-6" data-field="title">Title</th>
+                <th class="col-xs-4" data-field="description">Description</th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+      <div class="col-md-1">
+      </div>
+  </div>
+  
+  <div class="row content">
+  </div>
+{% endblock %}
+
+{% block extracssjs %}
+  <script
+    src="https://code.jquery.com/jquery-2.2.4.min.js"
+    integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+    crossorigin="anonymous"></script>
+  <script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="/static/css/style.css">
+  <link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.css">
+  <link rel="stylesheet" href="/static/css/jquery-confirm.css">
+  <script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
+  <script type='text/javascript' src="/static/js/indexScript.js"></script>
+  <script src="/static/js/jquery-confirm.js"></script>
+  <script type='text/javascript'>
+    //Show the data in the tableDatasets
+    $(window).load(function(){
+      var data = {{data|tojson}};
+      var columns = {{columns|tojson}};
+      $(function() {
+        $('#tableDatasets').bootstrapTable({ 
+          data: data,
+          columns: columns,
+        });
+      });
+    });
+  </script>
+{% endblock %}
