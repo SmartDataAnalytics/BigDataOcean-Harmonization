@@ -1081,7 +1081,7 @@ public class BdoApiAnalyser {
 		return list;
 	}
 	
-	private static List<DateTime> sortListDateTime(List<DateTime> list) {
+	public static List<DateTime> sortListDateTime(List<DateTime> list) {
 		Collections.sort(list, new Comparator<DateTime>() {
 	        @Override
 	        public int compare(DateTime object1, DateTime object2) {
