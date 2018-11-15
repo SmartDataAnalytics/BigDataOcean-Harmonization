@@ -188,41 +188,45 @@ def logout():
 # List of files that does not have metadata
 @app.route('/list')
 def list():
-	parsed_output = requests.get(GLOBALURLJWT + 'fileHandler/file/metadata/empty', headers={'Authorization': AUTHORIZATION})
-	columns = [{
-	"field": "id",
-	"title": "FileId",
-	"sortable": True,
-	},
-	{
-	"field": "fileName",
-	"title": "Title",
-	"sortable": True,
-	},
-	{
-	"field": "hdfsFullURI",
-	"title": "URI",
-	"sortable": True,
-	},
-	{
-	"field": "storedAt",
-	"title": "Stored Date",
-	"sortable": True,
-	}]
-	data = json.loads(parsed_output.content.decode('utf-8'))
-	if parsed_output.status_code == 200:
-		return render_template('listFiles.html',
-				data=data,
-				columns=columns)
-	else:
-		return render_template('500.html')
+	try:
+		parsed_output = requests.get(GLOBALURLJWT + 'fileHandler/file/metadata/empty', headers={'Authorization': AUTHORIZATION})
+		columns = [{
+		"field": "id",
+		"title": "FileId",
+		"sortable": True,
+		},
+		{
+		"field": "fileName",
+		"title": "Title",
+		"sortable": True,
+		},
+		{
+		"field": "hdfsFullURI",
+		"title": "URI",
+		"sortable": True,
+		},
+		{
+		"field": "storedAt",
+		"title": "Stored Date",
+		"sortable": True,
+		}]
+		data = json.loads(parsed_output.content.decode('utf-8'))
+		if parsed_output.status_code == 200:
+			return render_template('listFiles.html',
+					data=data,
+					columns=columns)
+		else:
+			return render_template('500.html')
+	except requests.exceptions.RequestException as e:
+		print(e)
+		return render_template('500.html', error='We could not connect with FileHandler')
 
 # Routing to addMetadata form
 @app.route('/addMetadata', methods=['GET', 'POST'])
 @login_required
 def parse():
 	try:
-		extractdatafromparser()
+		extractdatafromhandler()
 
 		if request.method == 'POST':
 			return render_template('addMetadata.html', dataset='', idFile='')
@@ -237,7 +241,7 @@ def parse():
 @login_required
 def addcopernicus():
 	try:
-		extractdatafromparser()
+		extractdatafromhandler()
 		if request.method == 'POST':
 			uri = request.form['uri']
 			# if adding a Copernicus dataset, the shell suggest is called to parse the xml file and get metadata
@@ -276,7 +280,7 @@ def addcopernicus():
 @login_required
 def addnetcdf():
 	try:
-		extractdatafromparser()
+		extractdatafromhandler()
 		if request.method == 'POST':
 			file = request.files['fileNetcdf']
 			if file.filename != '':
@@ -324,7 +328,7 @@ def addnetcdf():
 @login_required
 def addcsv():
 	try:
-		extractdatafromparser()
+		extractdatafromhandler()
 		if request.method == 'POST':
 			file = request.files['fileCsv']
 			if file.filename != '':
@@ -372,7 +376,7 @@ def addcsv():
 @login_required
 def addexcel():
 	try:
-		extractdatafromparser()
+		extractdatafromhandler()
 		if request.method == 'POST':
 			file = request.files['fileExcel']
 			if file.filename != '':
@@ -515,7 +519,7 @@ def save():
 @login_required
 def modify(identifier):
 	try:
-		extractdatafromparser()
+		extractdatafromhandler()
 		if request.method == 'GET':
 			uri = "bdo:"+identifier
 			comm = GLOBALPATH + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/getFileDataset "%s"' %uri
@@ -656,7 +660,6 @@ def delete(identifier):
 def metadatainfo(identifier):
 	try:
 		if request.method == 'GET':
-			extractdatafromparser()
 			# Extracting subject/keywords/marineregions.json
 			file = open(GLOBALPATH + '/Frontend/Flask/static/json/subject.json', 'r')
 			subjectjson = json.load(file)
@@ -759,7 +762,6 @@ def indexfile(storage):
 def metadatadatasetinfo(storage):
 	try:
 		if request.method == 'GET':
-			extractdatafromparser()
 			# Extracting subject/keywords/marineregions.json
 			file = open(GLOBALPATH + '/Frontend/Flask/static/json/subject.json', 'r')
 			subjectjson = json.load(file)
@@ -1083,19 +1085,22 @@ def insertautomatic():
 		} 
 		return jsonify({'result':result}), 500 
 
-def extractdatafromparser():
-	filestoragetablejson = open(GLOBALPATH + "/Frontend/Flask/static/json/storageTable.json", "w+")
-	jwt_output = requests.get(GLOBALURLJWT + 'fileHandler/table', headers={'Authorization': AUTHORIZATION})
-	if jwt_output.status_code == requests.codes.ok:
-		datastoragetable = jwt_output.content.decode('utf-8')
-		filestoragetablejson.write(str(datastoragetable))
-	filestoragetablejson.close()
-	filecanonicalmodeljson = open(GLOBALPATH + "/Frontend/Flask/static/json/canonicalModelMongo.json", "w+")
-	jwt_output1 = requests.get(GLOBALURLJWT + 'fileHandler/variable', headers={'Authorization': AUTHORIZATION})
-	if jwt_output1.status_code == requests.codes.ok:
-		datacanonicalmodel = jwt_output1.content.decode('utf-8')
-		filecanonicalmodeljson.write(str(datacanonicalmodel))
-	filecanonicalmodeljson.close()
+def extractdatafromhandler():
+	try:
+		jwt_output = requests.get(GLOBALURLJWT + 'fileHandler/table', headers={'Authorization': AUTHORIZATION})
+		if jwt_output.status_code == requests.codes.ok:
+			filestoragetablejson = open(GLOBALPATH + "/Frontend/Flask/static/json/storageTable.json", "w+")
+			datastoragetable = jwt_output.content.decode('utf-8')
+			filestoragetablejson.write(str(datastoragetable))
+			filestoragetablejson.close()
+		jwt_output1 = requests.get(GLOBALURLJWT + 'fileHandler/variable', headers={'Authorization': AUTHORIZATION})
+		if jwt_output1.status_code == requests.codes.ok:
+			filecanonicalmodeljson = open(GLOBALPATH + "/Frontend/Flask/static/json/canonicalModelMongo.json", "w+")
+			datacanonicalmodel = jwt_output1.content.decode('utf-8')
+			filecanonicalmodeljson.write(str(datacanonicalmodel))
+			filecanonicalmodeljson.close()
+	except requests.exceptions.RequestException as e:
+		print(e)
 
 # Class for datasets parsed on shell suggest
 class DatasetInfo(object):
