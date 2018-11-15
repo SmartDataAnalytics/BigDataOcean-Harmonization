@@ -1,5 +1,6 @@
 package org.unibonn.bdo.bdodatasets;
 
+import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,44 +36,47 @@ public class ListDatasets {
 		JSONParser parser = new JSONParser();
 		List<Dataset> listDatasets = new ArrayList<>();
 		try {
-			JSONArray storageTable = (JSONArray) parser.parse(new FileReader(pathFile));
-			String storage = "";
-			for(int j=0; j<storageTable.size(); j++){
-				JSONObject tokenJson = (JSONObject) storageTable.get(j);
-				storage = tokenJson.get("tableName").toString();
-				String query = "PREFIX bdo: <http://bigdataocean.eu/bdo/>\n" + 
-						"PREFIX dcat: <https://www.w3.org/TR/vocab-dcat/>\n" + 
-						"PREFIX ids: <http://industrialdataspace/information-model/>\n" + 
-						"PREFIX dct: <http://purl.org/dc/terms/>\n" + 
-						"SELECT ?identifier ?title ?description ?format\n" + 
-						"WHERE {\n" + 
-						"  ?uri a dcat:Dataset ;\n" + 
-						"       dct:title ?title ;\n" +
-						"       bdo:storageTable '" + storage + "';\n" + 
-						"       dct:format ?format;\n" + 
-						"       dct:description ?description.\n" + 
-						"}";
-				
-				RDFNode node;
-				// executes query on Jena Fueski to get identifier, title and description of all datasets
-				ResultSet results = QueryExecutor.selectQuery(query);
-				Dataset dataset = new Dataset();
-				while (results.hasNext()) {
-					QuerySolution solution = results.nextSolution();
-					node = solution.get("title");
-					dataset.setTitle("<a href=/metadataDatasetInfo/"+storage+">"+node.toString()+"</a>");
-					node = solution.get("description");
-					dataset.setStorageTable(storage);
-					dataset.setFormats(solution.get("format").toString());
-					// substring of only 300 characters of the description to avoid big table
-					if (node.toString().length()>=300) {
-						dataset.setDescription(node.toString().substring(0, 300)+"...");
-					}else {
-						dataset.setDescription(node.toString());
+			File file = new File(pathFile);
+			if(file.exists() && file.length() > 0) {
+				JSONArray storageTable = (JSONArray) parser.parse(new FileReader(pathFile));
+				String storage = "";
+				for(int j=0; j<storageTable.size(); j++){
+					JSONObject tokenJson = (JSONObject) storageTable.get(j);
+					storage = tokenJson.get("tableName").toString();
+					String query = "PREFIX bdo: <http://bigdataocean.eu/bdo/>\n" + 
+							"PREFIX dcat: <https://www.w3.org/TR/vocab-dcat/>\n" + 
+							"PREFIX ids: <http://industrialdataspace/information-model/>\n" + 
+							"PREFIX dct: <http://purl.org/dc/terms/>\n" + 
+							"SELECT ?identifier ?title ?description ?format\n" + 
+							"WHERE {\n" + 
+							"  ?uri a dcat:Dataset ;\n" + 
+							"       dct:title ?title ;\n" +
+							"       bdo:storageTable '" + storage + "';\n" + 
+							"       dct:format ?format;\n" + 
+							"       dct:description ?description.\n" + 
+							"}";
+					
+					RDFNode node;
+					// executes query on Jena Fueski to get identifier, title and description of all datasets
+					ResultSet results = QueryExecutor.selectQuery(query);
+					Dataset dataset = new Dataset();
+					while (results.hasNext()) {
+						QuerySolution solution = results.nextSolution();
+						node = solution.get("title");
+						dataset.setTitle("<a href=/metadataDatasetInfo/"+storage+">"+node.toString()+"</a>");
+						node = solution.get("description");
+						dataset.setStorageTable(storage);
+						dataset.setFormats(solution.get("format").toString());
+						// substring of only 300 characters of the description to avoid big table
+						if (node.toString().length()>=300) {
+							dataset.setDescription(node.toString().substring(0, 300)+"...");
+						}else {
+							dataset.setDescription(node.toString());
+						}
 					}
-				}
-				if (dataset.getTitle() != "") {
-					listDatasets.add(dataset);
+					if (dataset.getTitle() != "") {
+						listDatasets.add(dataset);
+					}
 				}
 			}
 			// Parse into JSON the list of datasets
