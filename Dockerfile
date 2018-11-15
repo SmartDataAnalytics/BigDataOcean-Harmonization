@@ -23,13 +23,6 @@ RUN mkdir /src
 RUN mkdir /logs
 RUN cd BigDataOcean-Harmonization/Backend/bdodatasets/ && mvn clean install -Dmaven.test.skip=true
 
-# Install fuseki
-RUN apt-get install -y ruby-full
-WORKDIR /
-RUN wget http://archive.apache.org/dist/jena/binaries/apache-jena-fuseki-3.4.0.zip
-RUN unzip apache-jena-fuseki-3.4.0.zip && rm apache-jena-fuseki-3.4.0.zip
-RUN chmod +x apache-jena-fuseki-3.4.0/bin/s-*
-
 # Create app-volume
 WORKDIR /
 RUN mkdir -p /dataHarmonization/ontologiesN3
