@@ -7,7 +7,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -74,9 +73,8 @@ public class InsertDatasetAutomatic {
     	Consumer<Long, String> consumer = ConsumerCreator.createConsumer();
         int noMessageFound = 0;
         while (true) {
-        	Duration timeout = Duration.ofMillis(1000);
         	// 1000 is the time in milliseconds consumer will wait if no record is found at broker.
-        	ConsumerRecords<Long, String> consumerRecords = consumer.poll(timeout);
+        	ConsumerRecords<Long, String> consumerRecords = consumer.poll(1000);
         	if (consumerRecords.count() == 0) {
         		noMessageFound++;
         		if (noMessageFound > Constants.MAX_NO_MESSAGE_FOUND_COUNT)

@@ -19,18 +19,18 @@ import atexit
 from apscheduler.scheduler import Scheduler
 
 # GLOBAL VARIABLES
-globalPath = "/BDOHarmonization/BigDataOcean-Harmonization"
+GLOBALPATH = "/BDOHarmonization/BigDataOcean-Harmonization"
 
-GlobalURLJWT = ""
-UPLOAD_FOLDER = globalPath+'/Backend/AddDatasets'
+GLOBALURLJWT = ""
+UPLOAD_FOLDER = GLOBALPATH+'/Backend/AddDatasets'
 ALLOWED_EXTENSIONS = set(['nc', 'csv', 'xlsx', 'xls'])
 
 #JWT authorization (parser and handler)
 # BDO.ini where JWT token is saved
 config = configparser.ConfigParser()
-config.read(globalPath + '/Backend/bdodatasets/bdo.ini')
+config.read(GLOBALPATH + '/Backend/bdodatasets/bdo.ini')
 
-Authorization = config['DEFAULT']['AUTHORIZATION_JWT']
+AUTHORIZATION = config['DEFAULT']['AUTHORIZATION_JWT']
 
 # Authentication JWT for APIs
 # Class for security authentication JWT
@@ -60,12 +60,12 @@ app.config['SECRET_KEY'] = 'super-secret'
 app.config['JWT_EXPIRATION_DELTA'] = timedelta(seconds = 3720) # Expiration time of JWT token is for 62 minutes
 
 # Function that sync JWT token of parser tool when flask runs
-def syncWhenRunFlask():
-	tokenCommand = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/fetchJWTToken'
-	print (subprocess.check_output([tokenCommand], shell="True"))
-	config.read(globalPath + '/Backend/bdodatasets/bdo.ini')
-	global Authorization
-	Authorization = config['DEFAULT']['AUTHORIZATION_JWT']
+def syncwhenrunflask():
+	tokencommand = GLOBALPATH + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/fetchJWTToken'
+	print (subprocess.check_output([tokencommand], shell="True"))
+	config.read(GLOBALPATH + '/Backend/bdodatasets/bdo.ini')
+	global AUTHORIZATION
+	AUTHORIZATION = config['DEFAULT']['AUTHORIZATION_JWT']
 
 # Thread in background to update every year the JWT Authorization Token (Parser tool)
 cron = Scheduler(daemon=True)
@@ -73,31 +73,31 @@ cron = Scheduler(daemon=True)
 cron.start()
 
 # when server runs for the first time, it checks if one of the vocabularies does not exist and do the extraction process
-if not os.path.exists(globalPath + '/Backend/AddDatasets/ontologiesN3/bdo.n3'):
-	bdo = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/extractVocabularies bdo'
+if not os.path.exists(GLOBALPATH + '/Backend/AddDatasets/ontologiesN3/bdo.n3'):
+	bdo = GLOBALPATH + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/extractVocabularies bdo'
 	print (subprocess.check_output([bdo], shell="True"))
-	geolocbdo = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/extractVocabularies geolocbdo'
+	geolocbdo = GLOBALPATH + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/extractVocabularies geolocbdo'
 	print (subprocess.check_output([geolocbdo], shell="True"))
-	inspire = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/extractVocabularies inspire'
+	inspire = GLOBALPATH + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/extractVocabularies inspire'
 	print (subprocess.check_output([inspire], shell="True"))
-	eionet = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/extractVocabularies eionet'
+	eionet = GLOBALPATH + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/extractVocabularies eionet'
 	print (subprocess.check_output([eionet], shell="True"))
 
 # Command = Thread in background to update every hour the JWT Authorization Token (Parser tool)
 @cron.interval_schedule(seconds=3600)
-def fetchEveryHour():
-	syncWhenRunFlask()
+def fetchtoken():
+	syncwhenrunflask()
 
 # bdo, geolocbdo, inspire, eionet = Thread in background to update every year the vocabularies (Vocabulary Repository)
 @cron.interval_schedule(seconds=31536000)
-def fetchEveryYear():
-	bdo = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/extractVocabularies bdo'
+def fetcheveryyear():
+	bdo = GLOBALPATH + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/extractVocabularies bdo'
 	print (subprocess.check_output([bdo], shell="True"))
-	geolocbdo = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/extractVocabularies geolocbdo'
+	geolocbdo = GLOBALPATH + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/extractVocabularies geolocbdo'
 	print (subprocess.check_output([geolocbdo], shell="True"))
-	inspire = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/extractVocabularies inspire'
+	inspire = GLOBALPATH + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/extractVocabularies inspire'
 	print (subprocess.check_output([inspire], shell="True"))
-	eionet = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/extractVocabularies eionet'
+	eionet = GLOBALPATH + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/extractVocabularies eionet'
 	print (subprocess.check_output([eionet], shell="True"))
 
 # Shutdown your cron thread if the web process is stopped
@@ -125,7 +125,7 @@ def allowed_file(filename):
 @app.route('/')
 def index():
 	# Calls shell listDatasets to get all the datasets stored on jena fuseki
-	command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/listDatasets'
+	command = GLOBALPATH + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/listDatasets'
 	try:
 		process = subprocess.check_output([command], shell="True")
 		# other column settings -> http://bootstrap-table.wenzhixin.net.cn/documentation/#column-options
@@ -185,11 +185,11 @@ def login():
 	error = None
 	flag = False
 	if request.method == 'POST':
-		Inputusername = request.form['username'] 
-		Inputpassword = request.form['password']
+		inputusername = request.form['username'] 
+		inputpassword = request.form['password']
 		for u in users:
-			if u.username == Inputusername:
-				hashed_password = hashlib.sha512(Inputpassword.encode('utf-8') + u.salt.encode('utf-8')).hexdigest()
+			if u.username == inputusername:
+				hashed_password = hashlib.sha512(inputpassword.encode('utf-8') + u.salt.encode('utf-8')).hexdigest()
 				if u.password == hashed_password:
 					flag = True
 					break
@@ -197,7 +197,7 @@ def login():
 		if flag == False:
 			error = 'Invalid Credentials. Please try again.'
 		else:
-			session['user_id'] = Inputusername
+			session['user_id'] = inputusername
 			flash('You are log in.')
 			return redirect('/')
 	return render_template('login.html', error=error)
@@ -211,7 +211,7 @@ def logout():
 # List of files that does not have metadata
 @app.route('/list')
 def list():
-	parsed_output = requests.get(GlobalURLJWT + 'fileHandler/file/metadata/empty', headers={'Authorization': Authorization})
+	parsed_output = requests.get(GLOBALURLJWT + 'fileHandler/file/metadata/empty', headers={'Authorization': AUTHORIZATION})
 	columns = [{
 	"field": "id",
 	"title": "FileId",
@@ -245,50 +245,50 @@ def list():
 @login_required
 def parse():
 	try:
-		extractDatafromParser()
+		extractdatafromparser()
 
 		if request.method == 'POST':
 			return render_template('addMetadata.html', dataset='', idFile='')
 		elif request.method == 'GET':
-			idFile = request.args['idFile']
-			return render_template('addMetadata.html', dataset='', idFile=idFile)
+			idfile = request.args['idFile']
+			return render_template('addMetadata.html', dataset='', idFile=idfile)
 	except ValueError as e:  # includes simplejson.decoder.JSONDecodeError
 		print(e)
 		return render_template('500.html')
 
 @app.route('/addMetadata/Copernicus', methods=['GET', 'POST'])
 @login_required
-def addCopernicus():
+def addcopernicus():
 	try:
-		extractDatafromParser()
+		extractdatafromparser()
 		if request.method == 'POST':
 			uri = request.form['uri']
 			# if adding a Copernicus dataset, the shell suggest is called to parse the xml file and get metadata
-			command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/suggest "%s" Coppernicus' %uri
+			command = GLOBALPATH + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/suggest "%s" Coppernicus' %uri
 			try:
 				process = subprocess.check_output([command], shell="True")
 			except subprocess.CalledProcessError as e:
 				print(e)
 				return render_template('500.html')
-			# metadata parsed is converted into json class datasetInfo to be used inside the html form
+			# metadata parsed is converted into json class DatasetInfo to be used inside the html form
 			parsed_output = json.loads(process.decode('utf-8'))
-			dataset = datasetInfo(**parsed_output)
+			dataset = DatasetInfo(**parsed_output)
 
 			return render_template('addMetadata.html', dataset=dataset, idFile='')
 		elif request.method == 'GET':
 			uri = request.args['uri']
 			print (uri)
 			# if adding a Copernicus dataset, the shell suggest is called to parse the xml file and get metadata
-			command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/suggest "%s" Coppernicus' %uri
+			command = GLOBALPATH + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/suggest "%s" Coppernicus' %uri
 			print (command)
 			try:
 				process = subprocess.check_output([command], shell="True")
 			except subprocess.CalledProcessError as e:
 				print(e)
 				return render_template('500.html')
-			# metadata parsed is converted into json class datasetInfo to be used inside the html form
+			# metadata parsed is converted into json class DatasetInfo to be used inside the html form
 			parsed_output = json.loads(process.decode('utf-8'))
-			dataset = datasetInfo(**parsed_output)
+			dataset = DatasetInfo(**parsed_output)
 
 			return render_template('addMetadata.html', dataset=dataset, idFile='')
 	except ValueError as e:  # includes simplejson.decoder.JSONDecodeError
@@ -297,9 +297,9 @@ def addCopernicus():
 
 @app.route('/addMetadata/NetCDF', methods=['GET', 'POST'])
 @login_required
-def addNetCDF():
+def addnetcdf():
 	try:
-		extractDatafromParser()
+		extractdatafromparser()
 		if request.method == 'POST':
 			file = request.files['fileNetcdf']
 			if file.filename != '':
@@ -309,24 +309,24 @@ def addNetCDF():
 					filename = file.filename
 					# Saving the file in the UPLOAD_FOLDER with the filename
 					file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-					path_fileNetcdf = UPLOAD_FOLDER + "/" + filename
-					# print (path_fileNetcdf)
-					command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/suggest "%s" FileNetcdf' %path_fileNetcdf
+					path_file_netcdf = UPLOAD_FOLDER + "/" + filename
+					# print (path_file_netcdf)
+					command = GLOBALPATH + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/suggest "%s" FileNetcdf' %path_file_netcdf
 					try:
 						process = subprocess.check_output([command], shell="True")
 					except subprocess.CalledProcessError as e:
 						print(e)
 						return render_template('500.html')
-					# metadata parsed is converted into json class datasetInfo to be used inside the html form
+					# metadata parsed is converted into json class DatasetInfo to be used inside the html form
 					parsed_output = json.loads(process.decode('utf-8'))
-					dataset = datasetInfo(**parsed_output)
+					dataset = DatasetInfo(**parsed_output)
 
 					return render_template('addMetadata.html', dataset=dataset, idFile='')
 
 		elif request.method == 'GET':
 			file = request.args['file']
-			idFile = request.args['idFile']
-			command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/suggest "%s" Netcdf' %file
+			idfile = request.args['idFile']
+			command = GLOBALPATH + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/suggest "%s" Netcdf' %file
 			try:
 				process = subprocess.check_output([command], shell="True")
 			except subprocess.CalledProcessError as e:
@@ -334,20 +334,20 @@ def addNetCDF():
 				return render_template('500.html')
 			# parsing output from maven script, to avoid log comments
 			process = process.split(b'\n')
-			# metadata parsed is converted into json class datasetInfo to be used inside the html form
+			# metadata parsed is converted into json class DatasetInfo to be used inside the html form
 			parsed_output = json.loads(process[1].decode('utf-8'))
-			dataset = datasetInfo(**parsed_output)
+			dataset = DatasetInfo(**parsed_output)
 
-			return render_template('addMetadata.html', dataset=dataset, idFile=idFile)
+			return render_template('addMetadata.html', dataset=dataset, idFile=idfile)
 	except ValueError as e:  # includes simplejson.decoder.JSONDecodeError
 		print(e)
 		return render_template('500.html')
 
 @app.route('/addMetadata/CSV', methods=['GET', 'POST'])
 @login_required
-def addCsv():
+def addcsv():
 	try:
-		extractDatafromParser()
+		extractdatafromparser()
 		if request.method == 'POST':
 			file = request.files['fileCsv']
 			if file.filename != '':
@@ -357,24 +357,24 @@ def addCsv():
 					filename = file.filename
 					# Saving the file in the UPLOAD_FOLDER with the filename
 					file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-					path_fileCsv = UPLOAD_FOLDER + "/" + filename
-					# print (path_fileNetcdf)
-					command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/suggest "%s" FileCSV' %path_fileCsv
+					path_file_csv = UPLOAD_FOLDER + "/" + filename
+					# print (path_file_netcdf)
+					command = GLOBALPATH + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/suggest "%s" FileCSV' %path_file_csv
 					try:
 						process = subprocess.check_output([command], shell="True")
 					except subprocess.CalledProcessError as e:
 						print(e)
 						return render_template('500.html')
-					# metadata parsed is converted into json class datasetInfo to be used inside the html form
+					# metadata parsed is converted into json class DatasetInfo to be used inside the html form
 					parsed_output = json.loads(process.decode('utf-8'))
-					dataset = datasetInfo(**parsed_output)
+					dataset = DatasetInfo(**parsed_output)
 
 					return render_template('addMetadata.html', dataset=dataset, idFile='')
 			
 		elif request.method == 'GET':
 			file = request.args['file']
-			idFile = request.args['idFile']
-			command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/suggest "%s" CSV' %file
+			idfile = request.args['idFile']
+			command = GLOBALPATH + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/suggest "%s" CSV' %file
 			try:
 				process = subprocess.check_output([command], shell="True")
 			except subprocess.CalledProcessError as e:
@@ -382,20 +382,20 @@ def addCsv():
 				return render_template('500.html')
 			# parsing output from maven script, to avoid log comments
 			process = process.split(b'\n')
-			# metadata parsed is converted into json class datasetInfo to be used inside the html form
+			# metadata parsed is converted into json class DatasetInfo to be used inside the html form
 			parsed_output = json.loads(process[1].decode('utf-8'))
-			dataset = datasetInfo(**parsed_output)
+			dataset = DatasetInfo(**parsed_output)
 
-			return render_template('addMetadata.html', dataset=dataset, idFile=idFile)
+			return render_template('addMetadata.html', dataset=dataset, idFile=idfile)
 	except ValueError as e:  # includes simplejson.decoder.JSONDecodeError
 		print(e)
 		return render_template('500.html')
 
 @app.route('/addMetadata/EXCEL', methods=['GET', 'POST'])
 @login_required
-def addExcel():
+def addexcel():
 	try:
-		extractDatafromParser()
+		extractdatafromparser()
 		if request.method == 'POST':
 			file = request.files['fileExcel']
 			if file.filename != '':
@@ -405,24 +405,24 @@ def addExcel():
 					filename = file.filename
 					# Saving the file in the UPLOAD_FOLDER with the filename
 					file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-					path_fileExcel = UPLOAD_FOLDER + "/" + filename
-					# print (path_fileExcel)
-					command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/suggest "%s" FileExcel' %path_fileExcel
+					path_file_excel = UPLOAD_FOLDER + "/" + filename
+					# print (path_file_excel)
+					command = GLOBALPATH + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/suggest "%s" FileExcel' %path_file_excel
 					try:
 						process = subprocess.check_output([command], shell="True")
 					except subprocess.CalledProcessError as e:
 						print(e)
 						return render_template('500.html')
-					# metadata parsed is converted into json class datasetInfo to be used inside the html form
+					# metadata parsed is converted into json class DatasetInfo to be used inside the html form
 					parsed_output = json.loads(process.decode('utf-8'))
-					dataset = datasetInfo(**parsed_output)
+					dataset = DatasetInfo(**parsed_output)
 
 					return render_template('addMetadata.html', dataset=dataset, idFile='')
 			
 		elif request.method == 'GET':
 			file = request.args['file']
-			idFile = request.args['idFile']
-			command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/suggest "%s" Excel' %file
+			idfile = request.args['idFile']
+			command = GLOBALPATH + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/suggest "%s" Excel' %file
 			try:
 				process = subprocess.check_output([command], shell="True")
 			except subprocess.CalledProcessError as e:
@@ -430,11 +430,11 @@ def addExcel():
 				return render_template('500.html')
 			# parsing output from maven script, to avoid log comments
 			process = process.split(b'\n')
-			# metadata parsed is converted into json class datasetInfo to be used inside the html form
+			# metadata parsed is converted into json class DatasetInfo to be used inside the html form
 			parsed_output = json.loads(process[1].decode('utf-8'))
-			dataset = datasetInfo(**parsed_output)
+			dataset = DatasetInfo(**parsed_output)
 
-			return render_template('addMetadata.html', dataset=dataset, idFile=idFile)
+			return render_template('addMetadata.html', dataset=dataset, idFile=idfile)
 	except ValueError as e:  # includes simplejson.decoder.JSONDecodeError
 		print(e)
 		return render_template('500.html')
@@ -446,7 +446,7 @@ def save():
 	try:
 		if request.method == 'POST':
 			identifier = request.form['identifier']
-			idFile = request.form['idFile']
+			idfile = request.form['idFile']
 			title = request.form['title']
 			description = request.form['description']
 			subject = request.form['tokenfield_subject']
@@ -458,22 +458,22 @@ def save():
 			publisher = request.form['publisher']
 			source = request.form['source']
 			observations = request.form['observations']
-			storageTable = request.form['storageTable']
-			accessRights = request.form['access_rights']
-			issuedDate = request.form['issued_date']
-			modifiedDate = request.form['modified_date']
-			geoLocation = request.form['tokenfield_geo_loc']
-			spatialWest = request.form['geo_coverageW']
-			spatialEast = request.form['geo_coverageE']
-			spatialSouth = request.form['geo_coverageS']
-			spatialNorth = request.form['geo_coverageN']
-			coordinateSystem = request.form['coordinate_sys']
-			verticalCoverageFrom = request.form['vert_coverage_from']
-			verticalCoverageTo = request.form['vert_coverage_to']
-			verticalLevel = request.form['vertical_level']
-			temporalCoverageBegin = request.form['temp_coverage_begin']
-			temporalCoverageEnd = request.form['temp_coverage_end']
-			timeResolution = request.form['time_reso']
+			storagetable = request.form['storageTable']
+			accessrights = request.form['access_rights']
+			issueddate = request.form['issued_date']
+			modifieddate = request.form['modified_date']
+			geolocation = request.form['tokenfield_geo_loc']
+			spatialwest = request.form['geo_coverageW']
+			spatialeast = request.form['geo_coverageE']
+			spatialsouth = request.form['geo_coverageS']
+			spatialnorth = request.form['geo_coverageN']
+			coordinatesystem = request.form['coordinate_sys']
+			verticalcoveragefrom = request.form['vert_coverage_from']
+			verticalcoverageto = request.form['vert_coverage_to']
+			verticallevel = request.form['vertical_level']
+			temporalcoveragebegin = request.form['temp_coverage_begin']
+			temporalcoverageend = request.form['temp_coverage_end']
+			timeresolution = request.form['time_reso']
 			parservariable = request.form.getlist('parser_variable')
 			jsonvariable = request.form.getlist('json_variable')
 			unitvariable = request.form.getlist('unit_variable')
@@ -487,32 +487,32 @@ def save():
 			for i in range(len(parserlist)):
 				variables.append(parserlist[i] + " -- " + unitvariable[i] + " -- " + jsonlist[i])
 
-			profileName = request.form['nameProfile']
+			profilename = request.form['nameProfile']
 
 			if identifier  != "":
-				check_existance = "<http://bigdataocean.eu/bdo/"+identifier+"> "+idFile
-				datasetType = ""	
+				check_existance = "<http://bigdataocean.eu/bdo/"+identifier+"> "+idfile
+				datasettype = ""	
 			else:
 				identifier = str(uuid.uuid4())
-				check_existance = title+">"+publisher+">"+issuedDate+">"+idFile
-				datasetType = "other"
+				check_existance = title+">"+publisher+">"+issueddate+">"+idfile
+				datasettype = "other"
 
-			# add the values to the datasetInfo class
-			dataset = datasetInfo (identifier, title, description, subject, keywords, standards, formats, language, homepage, publisher, 
-				source, observations, storageTable,
-				accessRights, issuedDate, modifiedDate, geoLocation, spatialWest, spatialEast, spatialSouth, spatialNorth, 
-				coordinateSystem, verticalCoverageFrom, verticalCoverageTo, verticalLevel, temporalCoverageBegin, 
-				temporalCoverageEnd, timeResolution, variables, profileName)
-			# create the json of the datasetInfo class
-			datasetJson = json.dumps(dataset.__dict__)
-			with open(globalPath+'/Backend/AddDatasets/jsonDataset.json','w') as file:
-				file.write(datasetJson)
+			# add the values to the DatasetInfo class
+			dataset = DatasetInfo (identifier, title, description, subject, keywords, standards, formats, language, homepage, publisher, 
+				source, observations, storagetable,
+				accessrights, issueddate, modifieddate, geolocation, spatialwest, spatialeast, spatialsouth, spatialnorth, 
+				coordinatesystem, verticalcoveragefrom, verticalcoverageto, verticallevel, temporalcoveragebegin, 
+				temporalcoverageend, timeresolution, variables, profilename)
+			# create the json of the DatasetInfo class
+			datasetjson = json.dumps(dataset.__dict__)
+			with open(GLOBALPATH+'/Backend/AddDatasets/jsonDataset.json','w') as file:
+				file.write(datasetjson)
 				file.close()
-			path2json = globalPath + "/Backend/AddDatasets/jsonDataset.json"
+			path2json = GLOBALPATH + "/Backend/AddDatasets/jsonDataset.json"
 
 				
 			# Calls shell insertDataset to connect to jena fuseki and add dataset via sparql query
-			command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/insertDataset "%s" "%s" "%s"' %(datasetType, check_existance, path2json)
+			command = GLOBALPATH + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/insertDataset "%s" "%s" "%s"' %(datasettype, check_existance, path2json)
 			# print(command)
 			try:
 				process = subprocess.check_output([command], shell="True")
@@ -522,7 +522,7 @@ def save():
 				return render_template('500.html')
 			# when the dataset is added to jena fuseki, redirects to the metadataInfo web page corresponding to the identifier
 			if b'Successful' in process and not b'Error' in process:
-				return redirect(url_for('metadataInfo', identifier=identifier))
+				return redirect(url_for('metadatainfo', identifier=identifier))
 			elif b'Error1' in process:
 				return render_template('404.html', error='Metadata has been added but API: Profile is not being added.')
 			elif b'Error2' in process:
@@ -536,20 +536,20 @@ def save():
 # Routing to modify a corresponding dataset
 @app.route('/modify/<identifier>', methods=['GET', 'POST'])
 @login_required
-def edit(identifier):
+def modify(identifier):
 	try:
-		extractDatafromParser()
+		extractdatafromparser()
 		if request.method == 'GET':
 			uri = "bdo:"+identifier
-			comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/getFileDataset "%s"' %uri
+			comm = GLOBALPATH + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/getFileDataset "%s"' %uri
 			try:
 				process = subprocess.check_output([comm], shell="True")
 			except subprocess.CalledProcessError as e:
 				print(e)
 				return render_template('500.html')
-			# metadata parsed is converted into json class datasetInfo to be used inside the html form
+			# metadata parsed is converted into json class DatasetInfo to be used inside the html form
 			parsed_output = json.loads(process.decode('utf-8'))
-			dataset = datasetInfo(**parsed_output)
+			dataset = DatasetInfo(**parsed_output)
 			return render_template('editMetadata.html', dataset=dataset)
 			
 	except ValueError as e:  # includes simplejson.decoder.JSONDecodeError
@@ -559,7 +559,7 @@ def edit(identifier):
 # Routing to save new dataset
 @app.route('/edit', methods=['GET','POST'])
 @login_required
-def editing():
+def edit():
 	try:
 		if request.method == 'POST':
 			identifier = request.form['identifier']
@@ -574,22 +574,22 @@ def editing():
 			publisher = request.form['publisher']
 			source = request.form['source']
 			observations = request.form['observations']
-			storageTable = request.form['storageTable']
-			accessRights = request.form['access_rights']
-			issuedDate = request.form['issued_date']
-			modifiedDate = request.form['modified_date']
-			geoLocation = request.form['tokenfield_geo_loc']
-			spatialWest = request.form['geo_coverageW']
-			spatialEast = request.form['geo_coverageE']
-			spatialSouth = request.form['geo_coverageS']
-			spatialNorth = request.form['geo_coverageN']
-			coordinateSystem = request.form['coordinate_sys']
-			verticalCoverageFrom = request.form['vert_coverage_from']
-			verticalCoverageTo = request.form['vert_coverage_to']
-			verticalLevel = request.form['vertical_level']
-			temporalCoverageBegin = request.form['temp_coverage_begin']
-			temporalCoverageEnd = request.form['temp_coverage_end']
-			timeResolution = request.form['time_reso']
+			storagetable = request.form['storageTable']
+			accessrights = request.form['access_rights']
+			issueddate = request.form['issued_date']
+			modifieddate = request.form['modified_date']
+			geolocation = request.form['tokenfield_geo_loc']
+			spatialwest = request.form['geo_coverageW']
+			spatialeast = request.form['geo_coverageE']
+			spatialsouth = request.form['geo_coverageS']
+			spatialnorth = request.form['geo_coverageN']
+			coordinatesystem = request.form['coordinate_sys']
+			verticalcoveragefrom = request.form['vert_coverage_from']
+			verticalcoverageto = request.form['vert_coverage_to']
+			verticallevel = request.form['vertical_level']
+			temporalcoveragebegin = request.form['temp_coverage_begin']
+			temporalcoverageend = request.form['temp_coverage_end']
+			timeresolution = request.form['time_reso']
 
 			parservariable = request.form.getlist('parser_variable')
 			jsonvariable = request.form.getlist('json_variable')
@@ -606,27 +606,27 @@ def editing():
 
 			if identifier  != "":
 				check_existance = "<http://bigdataocean.eu/bdo/"+identifier+"> "
-				datasetType = ""	
+				datasettype = ""	
 			else:
 				identifier = str(uuid.uuid4())
-				check_existance = title+">"+publisher+">"+issuedDate+">"
-				datasetType = "other"
+				check_existance = title+">"+publisher+">"+issueddate+">"
+				datasettype = "other"
 
-			# add the values to the datasetInfo class
-			dataset = datasetInfo (identifier, title, description, subject, keywords, standards, formats, language, homepage, publisher, 
-				source, observations, storageTable,
-				accessRights, issuedDate, modifiedDate, geoLocation, spatialWest, spatialEast, spatialSouth, spatialNorth, 
-				coordinateSystem, verticalCoverageFrom, verticalCoverageTo, verticalLevel, temporalCoverageBegin, temporalCoverageEnd, 
-				timeResolution, variables, "")
-			# create the json of the datasetInfo class
-			datasetJson = json.dumps(dataset.__dict__)
-			with open(globalPath+'/Backend/AddDatasets/jsonDataset.json','w') as file:
-				file.write(datasetJson)
+			# add the values to the DatasetInfo class
+			dataset = DatasetInfo (identifier, title, description, subject, keywords, standards, formats, language, homepage, publisher, 
+				source, observations, storagetable,
+				accessrights, issueddate, modifieddate, geolocation, spatialwest, spatialeast, spatialsouth, spatialnorth, 
+				coordinatesystem, verticalcoveragefrom, verticalcoverageto, verticallevel, temporalcoveragebegin, temporalcoverageend, 
+				timeresolution, variables, "")
+			# create the json of the DatasetInfo class
+			datasetjson = json.dumps(dataset.__dict__)
+			with open(GLOBALPATH+'/Backend/AddDatasets/jsonDataset.json','w') as file:
+				file.write(datasetjson)
 				file.close()
-			path2json = globalPath + "/Backend/AddDatasets/jsonDataset.json"
+			path2json = GLOBALPATH + "/Backend/AddDatasets/jsonDataset.json"
 
 			# Calls shell insertDataset to connect to jena fuseki and add dataset via sparql query
-			command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/deleteDataset "%s"' %identifier
+			command = GLOBALPATH + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/deleteDataset "%s"' %identifier
 			try:
 				process = subprocess.check_output([command], shell="True")
 				
@@ -636,7 +636,7 @@ def editing():
 			# when the dataset is added to jena fuseki, redirects to the metadataInfo web page corresponding to the identifier
 			if b'Successful' in process:
 				# Calls shell insertDataset to connect to jena fuseki and add dataset via sparql query
-				command2 = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/insertDataset "%s" "%s" "%s"' %(datasetType, check_existance, path2json)
+				command2 = GLOBALPATH + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/insertDataset "%s" "%s" "%s"' %(datasettype, check_existance, path2json)
 				# print(command)
 				try:
 					process = subprocess.check_output([command2], shell="True")
@@ -646,7 +646,7 @@ def editing():
 					return render_template('500.html')
 				# when the dataset is added to jena fuseki, redirects to the metadataInfo web page corresponding to the identifier
 				if b'Successful' in process:
-					return redirect(url_for('metadataInfo',identifier=identifier))
+					return redirect(url_for('metadatainfo',identifier=identifier))
 				else:
 					return render_template('404.html', error='URI already exists.')
 			else:
@@ -661,7 +661,7 @@ def editing():
 @login_required
 def delete(identifier):
 	# Calls shell insertDataset to connect to jena fuseki and add dataset via sparql query
-	command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/deleteDataset "%s"' %identifier
+	command = GLOBALPATH + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/deleteDataset "%s"' %identifier
 	try:
 		process = subprocess.check_output([command], shell="True")
 		
@@ -676,35 +676,35 @@ def delete(identifier):
 
 # Routing to see metadata of an specific dataset
 @app.route('/metadataInfo/<identifier>', methods=['GET', 'POST'])
-def metadataInfo(identifier):
+def metadatainfo(identifier):
 	try:
 		if request.method == 'GET':
-			extractDatafromParser()
+			extractdatafromparser()
 			# Extracting subject/keywords/marineregions.json
-			file = open(globalPath + '/Frontend/Flask/static/json/subject.json', 'r')
-			subjectJson = json.load(file)
-			file = open(globalPath + '/Frontend/Flask/static/json/keywords.json', 'r')
-			keywordsJson = json.load(file)
-			file = open(globalPath + '/Frontend/Flask/static/json/marineregions.json', 'r')
-			geoLocationJson = json.load(file)
+			file = open(GLOBALPATH + '/Frontend/Flask/static/json/subject.json', 'r')
+			subjectjson = json.load(file)
+			file = open(GLOBALPATH + '/Frontend/Flask/static/json/keywords.json', 'r')
+			keywordsjson = json.load(file)
+			file = open(GLOBALPATH + '/Frontend/Flask/static/json/marineregions.json', 'r')
+			geolocationjson = json.load(file)
 
 			uri = "bdo:"+identifier
 			# Calls shel getFileDataset to obtain all metadata of a dataset from jena fuseki
-			comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/getFileDataset "%s"' %uri
+			comm = GLOBALPATH + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/getFileDataset "%s"' %uri
 			try:
 				process = subprocess.check_output([comm], shell="True")
 			except subprocess.CalledProcessError as e:
 				print(e)
 				return render_template('500.html')
-			# metadata parsed is converted into json class datasetInfo to be used inside the html form
+			# metadata parsed is converted into json class DatasetInfo to be used inside the html form
 			parsed_output = json.loads(process.decode('utf-8'))
-			dataset = datasetInfo(**parsed_output)
+			dataset = DatasetInfo(**parsed_output)
 			if dataset.identifier != "":
 				dataset.title = dataset.title.replace("_", " ")
 				# show the name -- url in subject/keywords/geoLocation
-				dataset.subject = nameURL(dataset.subject, subjectJson)
-				dataset.keywords = nameURL(dataset.keywords, keywordsJson)
-				dataset.geoLocation = nameURL(dataset.geoLocation, geoLocationJson)
+				dataset.subject = nameurl(dataset.subject, subjectjson)
+				dataset.keywords = nameurl(dataset.keywords, keywordsjson)
+				dataset.geoLocation = nameurl(dataset.geoLocation, geolocationjson)
 				return render_template('metadataInfo.html', dataset=dataset)
 			else:
 				return render_template('404.html', error='The metadata ID does not exist.')
@@ -713,11 +713,11 @@ def metadataInfo(identifier):
 		return render_template('500.html')
 
 # show the name -- url in subject/keywords/geoLocation
-def nameURL(listElement, listJson):
-	token = listElement.split(", ")
+def nameurl(listelement, listjson):
+	token = listelement.split(", ")
 	l = ""
 	for t in token:
-		for s in listJson:
+		for s in listjson:
 			if s["value"] == t:
 				if l == "":
 					l = s["text"] + " -- " + t
@@ -732,9 +732,9 @@ def endpoint():
 
 # Routing to see list of file dataset that are part of a specific storage table
 @app.route('/listFileDataset/<storage>')
-def indexFile(storage):
+def indexfile(storage):
 	# Calls shell listDatasets to get all the datasets stored on jena fuseki
-	command = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/listFileDatasets "%s"' %storage
+	command = GLOBALPATH + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/listFileDatasets "%s"' %storage
 	try:
 		process = subprocess.check_output([command], shell="True")
 		# other column settings -> http://bootstrap-table.wenzhixin.net.cn/documentation/#column-options
@@ -779,35 +779,35 @@ def indexFile(storage):
 
 # Routing to see metadata of an specific dataset based on storage table
 @app.route('/metadataDatasetInfo/<storage>', methods=['GET', 'POST'])
-def metadataDatasetInfo(storage):
+def metadatadatasetinfo(storage):
 	try:
 		if request.method == 'GET':
-			extractDatafromParser()
+			extractdatafromparser()
 			# Extracting subject/keywords/marineregions.json
-			file = open(globalPath + '/Frontend/Flask/static/json/subject.json', 'r')
-			subjectJson = json.load(file)
-			file = open(globalPath + '/Frontend/Flask/static/json/keywords.json', 'r')
-			keywordsJson = json.load(file)
-			file = open(globalPath + '/Frontend/Flask/static/json/marineregions.json', 'r')
-			geoLocationJson = json.load(file)
+			file = open(GLOBALPATH + '/Frontend/Flask/static/json/subject.json', 'r')
+			subjectjson = json.load(file)
+			file = open(GLOBALPATH + '/Frontend/Flask/static/json/keywords.json', 'r')
+			keywordsjson = json.load(file)
+			file = open(GLOBALPATH + '/Frontend/Flask/static/json/marineregions.json', 'r')
+			geolocationjson = json.load(file)
 
 			# Calls shell getDataset to obtain all metadata of a dataset from jena fuseki
-			comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/getDataset "%s"' %storage
+			comm = GLOBALPATH + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/getDataset "%s"' %storage
 			try:
 				process = subprocess.check_output([comm], shell="True")
 			except subprocess.CalledProcessError as e:
 				print(e)
 				return render_template('500.html')
-			# metadata parsed is converted into json class datasetInfo to be used inside the html form
+			# metadata parsed is converted into json class DatasetInfo to be used inside the html form
 			parsed_output = json.loads(process.decode('utf-8'))
-			dataset = datasetInfo(**parsed_output)
+			dataset = DatasetInfo(**parsed_output)
 			
 			if dataset.identifier != "":
 				dataset.title = dataset.title.replace("_", " ")
 				# show the name -- url in subject/keywords/geoLocation
-				dataset.subject = nameURL(dataset.subject, subjectJson)
-				dataset.keywords = nameURL(dataset.keywords, keywordsJson)
-				dataset.geoLocation = nameURL(dataset.geoLocation, geoLocationJson)
+				dataset.subject = nameurl(dataset.subject, subjectjson)
+				dataset.keywords = nameurl(dataset.keywords, keywordsjson)
+				dataset.geoLocation = nameurl(dataset.geoLocation, geolocationjson)
 				return render_template('datasetMetadataInfo.html', dataset=dataset)
 			else:
 				return render_template('404.html', error='The metadata ID does not exist.')
@@ -818,251 +818,250 @@ def metadataDatasetInfo(storage):
 #APIs
 @app.route('/api', methods=['GET', 'POST'])
 def api():
-	extractDatafromParser()
 	return render_template('api.html')
 
 @app.route('/api/v2/filedataset/list', methods=['GET'])
 @jwt_required()
-def listFileDataset():
+def listfiledataset():
 	if request.method == 'GET':
 		# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
-		comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("1", "")
+		comm = GLOBALPATH + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("1", "")
 		try:
 			process = subprocess.check_output([comm], shell="True")
 		except subprocess.CalledProcessError as e:
 			print(e)
 			return render_template('500.html')
-		# metadata parsed is converted into json class datasetInfo to be used inside the html form
+		# metadata parsed is converted into json class DatasetInfo to be used inside the html form
 		parsed_output = json.loads(process.decode('utf-8'))
 		return jsonify(parsed_output)
 
 @app.route('/api/v2/filedataset/info', methods=['GET'])
 @jwt_required()
-def infoFileDataset():
+def infofiledataset():
 	if request.method == 'GET':
 		# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
 		param = 'bdo:'+request.args['id']
 		print(param)
-		comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("2", param)
+		comm = GLOBALPATH + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("2", param)
 		try:
 			process = subprocess.check_output([comm], shell="True")
 		except subprocess.CalledProcessError as e:
 			print(e)
 			return render_template('500.html')
-		# metadata parsed is converted into json class datasetInfo to be used inside the html form
+		# metadata parsed is converted into json class DatasetInfo to be used inside the html form
 		parsed_output = json.loads(process.decode('utf-8'))
 		return jsonify(parsed_output)
 
 @app.route('/api/v2/filedataset/searchSubject', methods=['GET'])
 @jwt_required()
-def searchSubject():
+def searchsubject():
 	if request.method == 'GET':
 		# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
-		comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("3", request.args['q'])
+		comm = GLOBALPATH + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("3", request.args['q'])
 		try:
 			process = subprocess.check_output([comm], shell="True")
 		except subprocess.CalledProcessError as e:
 			print(e)
 			return render_template('500.html')
-		# metadata parsed is converted into json class datasetInfo to be used inside the html form
+		# metadata parsed is converted into json class DatasetInfo to be used inside the html form
 		parsed_output = json.loads(process.decode('utf-8'))
 		return jsonify(parsed_output)
 
 @app.route('/api/v2/filedataset/searchKeyword', methods=['GET'])
 @jwt_required()
-def searchKeyword():
+def searchkeyword():
 	if request.method == 'GET':
 		# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
-		comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("4", request.args['q'])
+		comm = GLOBALPATH + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("4", request.args['q'])
 		try:
 			process = subprocess.check_output([comm], shell="True")
 		except subprocess.CalledProcessError as e:
 			print(e)
 			return render_template('500.html')
-		# metadata parsed is converted into json class datasetInfo to be used inside the html form
+		# metadata parsed is converted into json class DatasetInfo to be used inside the html form
 		parsed_output = json.loads(process.decode('utf-8'))
 		return jsonify(parsed_output)	
 
 @app.route('/api/v2/filedataset/searchGeoLocation', methods=['GET'])
 @jwt_required()
-def searchGeoLocation():
+def searchgeolocation():
 	if request.method == 'GET':
 		# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
-		comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("5", request.args['q'])
+		comm = GLOBALPATH + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("5", request.args['q'])
 		try:
 			process = subprocess.check_output([comm], shell="True")
 		except subprocess.CalledProcessError as e:
 			print(e)
 			return render_template('500.html')
-		# metadata parsed is converted into json class datasetInfo to be used inside the html form
+		# metadata parsed is converted into json class DatasetInfo to be used inside the html form
 		parsed_output = json.loads(process.decode('utf-8'))
 		return jsonify(parsed_output)	
 
 @app.route('/api/v2/filedataset/searchGeoCoverage', methods=['GET'])
 @jwt_required()
-def searchGeoCoverage():
+def searchgeocoverage():
 	if request.method == 'GET':
 		# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
 		param = request.args['W']+','+request.args['E']+','+request.args['S']+','+request.args['N']
-		comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("6", param)
+		comm = GLOBALPATH + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("6", param)
 		try:
 			process = subprocess.check_output([comm], shell="True")
 		except subprocess.CalledProcessError as e:
 			print(e)
 			return render_template('500.html')
-		# metadata parsed is converted into json class datasetInfo to be used inside the html form
+		# metadata parsed is converted into json class DatasetInfo to be used inside the html form
 		parsed_output = json.loads(process.decode('utf-8'))
 		return jsonify(parsed_output)		
 
 @app.route('/api/v2/filedataset/searchVerticalCoverage', methods=['GET'])
 @jwt_required()
-def searchVerticalCoverage():
+def searchverticalcoverage():
 	if request.method == 'GET':
 		# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
 		param = request.args['from']+','+request.args['to']
-		comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("7", param)
+		comm = GLOBALPATH + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("7", param)
 		try:
 			process = subprocess.check_output([comm], shell="True")
 		except subprocess.CalledProcessError as e:
 			print(e)
 			return render_template('500.html')
-		# metadata parsed is converted into json class datasetInfo to be used inside the html form
+		# metadata parsed is converted into json class DatasetInfo to be used inside the html form
 		parsed_output = json.loads(process.decode('utf-8'))
 		return jsonify(parsed_output)
 
 @app.route('/api/v2/filedataset/searchTemporalCoverage', methods=['GET'])
 @jwt_required()
-def searchTemporalCoverage():
+def searchtemporalcoverage():
 	if request.method == 'GET':
 		# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
 		param = request.args['begin']+','+request.args['end']
-		comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("8", param)
+		comm = GLOBALPATH + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("8", param)
 		try:
 			process = subprocess.check_output([comm], shell="True")
 		except subprocess.CalledProcessError as e:
 			print(e)
 			return render_template('500.html')
-		# metadata parsed is converted into json class datasetInfo to be used inside the html form
+		# metadata parsed is converted into json class DatasetInfo to be used inside the html form
 		parsed_output = json.loads(process.decode('utf-8'))
 		return jsonify(parsed_output)
 
 @app.route('/api/v2/variable/list', methods=['GET'])
 @jwt_required()
-def listVariable():
+def listvariable():
 	if request.method == 'GET':
 		# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
-		comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("9", request.args['id'])
+		comm = GLOBALPATH + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("9", request.args['id'])
 		try:
 			process = subprocess.check_output([comm], shell="True")
 		except subprocess.CalledProcessError as e:
 			print(e)
 			return render_template('500.html')
-		# metadata parsed is converted into json class datasetInfo to be used inside the html form
+		# metadata parsed is converted into json class DatasetInfo to be used inside the html form
 		parsed_output = json.loads(process.decode('utf-8'))
 		return jsonify(parsed_output)
 
 @app.route('/api/v2/variable/search', methods=['GET'])
 @jwt_required()
-def searchVariable():
+def searchvariable():
 	if request.method == 'GET':
 		# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
-		comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("10", request.args['q'])
+		comm = GLOBALPATH + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("10", request.args['q'])
 		try:
 			process = subprocess.check_output([comm], shell="True")
 		except subprocess.CalledProcessError as e:
 			print(e)
 			return render_template('500.html')
-		# metadata parsed is converted into json class datasetInfo to be used inside the html form
+		# metadata parsed is converted into json class DatasetInfo to be used inside the html form
 		parsed_output = json.loads(process.decode('utf-8'))
 		return jsonify(parsed_output)
 
 @app.route('/api/v2/dataset/listVariables', methods=['GET'])
 @jwt_required()
-def listDatasetVariable():
+def listdatasetvariable():
 	if request.method == 'GET':
 		# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
-		comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("12", request.args['table'])
+		comm = GLOBALPATH + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("12", request.args['table'])
 		try:
 			process = subprocess.check_output([comm], shell="True")
 		except subprocess.CalledProcessError as e:
 			print(e)
 			return render_template('500.html')
-		# metadata parsed is converted into json class datasetInfo to be used inside the html form
+		# metadata parsed is converted into json class DatasetInfo to be used inside the html form
 		parsed_output = json.loads(process.decode('utf-8'))
 		return jsonify(parsed_output)
 
 @app.route('/api/v2/dataset/listFileDatasets', methods=['GET'])
 @jwt_required()
-def listFileDatasetDataset():
+def listfiledatasetdataset():
 	if request.method == 'GET':
 		# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
-		comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("13", request.args['table'])
+		comm = GLOBALPATH + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("13", request.args['table'])
 		try:
 			process = subprocess.check_output([comm], shell="True")
 		except subprocess.CalledProcessError as e:
 			print(e)
 			return render_template('500.html')
-		# metadata parsed is converted into json class datasetInfo to be used inside the html form
+		# metadata parsed is converted into json class DatasetInfo to be used inside the html form
 		parsed_output = json.loads(process.decode('utf-8'))
 		return jsonify(parsed_output)
 
 @app.route('/api/v2/filedataset/searchTitle', methods=['GET'])
 @jwt_required()
-def searchTitle():
+def searchtitle():
 	if request.method == 'GET':
 		# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
-		comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("14", request.args['q'])
+		comm = GLOBALPATH + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("14", request.args['q'])
 		try:
 			process = subprocess.check_output([comm], shell="True")
 		except subprocess.CalledProcessError as e:
 			print(e)
 			return render_template('500.html')
-		# metadata parsed is converted into json class datasetInfo to be used inside the html form
+		# metadata parsed is converted into json class DatasetInfo to be used inside the html form
 		parsed_output = json.loads(process.decode('utf-8'))
 		return jsonify(parsed_output)
 
 @app.route('/api/v2/filedataset/searchDescription', methods=['GET'])
 @jwt_required()
-def searchDescription():
+def searchdescription():
 	if request.method == 'GET':
 		# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
-		comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("15", request.args['q'])
+		comm = GLOBALPATH + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("15", request.args['q'])
 		try:
 			process = subprocess.check_output([comm], shell="True")
 		except subprocess.CalledProcessError as e:
 			print(e)
 			return render_template('500.html')
-		# metadata parsed is converted into json class datasetInfo to be used inside the html form
+		# metadata parsed is converted into json class DatasetInfo to be used inside the html form
 		parsed_output = json.loads(process.decode('utf-8'))
 		return jsonify(parsed_output)
 
 @app.route('/api/v2/dataset/info', methods=['GET'])
 @jwt_required()
-def infoDataset():
+def infodataset():
 	if request.method == 'GET':
 		# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
-		comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("16", request.args['table'])
+		comm = GLOBALPATH + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("16", request.args['table'])
 		try:
 			process = subprocess.check_output([comm], shell="True")
 		except subprocess.CalledProcessError as e:
 			print(e)
 			return render_template('500.html')
-		# metadata parsed is converted into json class datasetInfo to be used inside the html form
+		# metadata parsed is converted into json class DatasetInfo to be used inside the html form
 		parsed_output = json.loads(process.decode('utf-8'))
 		return jsonify(parsed_output)
 
 @app.route('/api/v2/dataset/list', methods=['GET'])
 @jwt_required()
-def listDataset():
+def listdataset():
 	if request.method == 'GET':
 		# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
-		comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("17", "")
+		comm = GLOBALPATH + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("17", "")
 		try:
 			process = subprocess.check_output([comm], shell="True")
 		except subprocess.CalledProcessError as e:
 			print(e)
 			return render_template('500.html')
-		# metadata parsed is converted into json class datasetInfo to be used inside the html form
+		# metadata parsed is converted into json class DatasetInfo to be used inside the html form
 		parsed_output = json.loads(process.decode('utf-8'))
 		return jsonify(parsed_output)
 
@@ -1070,27 +1069,27 @@ def listDataset():
 # Parameters: filename,idfile,idprofile in json 
 @app.route('/api/v2/filedataset/insertAutomatic', methods=['POST'])
 @jwt_required()
-def insertAutomatic():
+def insertautomatic():
 	if not request.json or not 'fileName' in request.json:
 		abort(400)
 	filename = request.json['fileName']
-	idFile = request.json['idFile']
-	idProfile = request.json['idProfile']
+	idfile = request.json['idFile']
+	idprofile = request.json['idProfile']
 	produce = request.json['produce']
-	param = filename + "," + idFile + "," + idProfile + "," + str(produce)
+	param = filename + "," + idfile + "," + idprofile + "," + str(produce)
 	# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
-	comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("11", param)
+	comm = GLOBALPATH + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("11", param)
 	try:
 		process = subprocess.check_output([comm], shell="True")
 	except subprocess.CalledProcessError as e:
 		return (500)
-	# metadata parsed is converted into json class datasetInfo to be used inside the html form
+	# metadata parsed is converted into json class DatasetInfo to be used inside the html form
 	# return sucess 200 or error 500
 	if b'Successful' and not b'Error' in process: 
 		result = { 
 			'fileName' : filename,  
-			'idFile' : idFile,  
-			'idProfile' : idProfile,  
+			'idFile' : idfile,  
+			'idProfile' : idprofile,  
 			'produce' : produce,  
 			'done' : True,  
 			'message' :  'Successful!  Metadata has been added correctly' 
@@ -1099,33 +1098,32 @@ def insertAutomatic():
 	else: 
 		result = { 
 			'fileName' : filename,  
-			'idFile' : idFile,  
-			'idProfile' : idProfile,  
+			'idFile' : idfile,  
+			'idProfile' : idprofile,  
 			'produce' : produce,  
 			'done' : False,  
 			'message' : 'Error!   URI already exists'  
 		} 
 		return jsonify({'result':result}), 500 
 
-def extractDatafromParser():
-	fileStorageTableJson = open(globalPath + "/Frontend/Flask/static/json/storageTable.json", "w+")
-	JWT_output = requests.get(GlobalURLJWT + 'fileHandler/table', headers={'Authorization': Authorization})
-	if JWT_output.status_code == requests.codes.ok:
-		dataStorageTable = JWT_output.content.decode('utf-8')
-		fileStorageTableJson.write(str(dataStorageTable))
-	fileStorageTableJson.close()
-	fileCanonicalModelJson = open(globalPath + "/Frontend/Flask/static/json/canonicalModelMongo.json", "w+")
-	JWT_output1 = requests.get(GlobalURLJWT + 'fileHandler/variable', headers={'Authorization': Authorization})
-	if JWT_output1.status_code == requests.codes.ok:
-		dataCanonicalModel = JWT_output1.content.decode('utf-8')
-		fileCanonicalModelJson.write(str(dataCanonicalModel))
-	fileCanonicalModelJson.close()
+def extractdatafromparser():
+	filestoragetablejson = open(GLOBALPATH + "/Frontend/Flask/static/json/storageTable.json", "w+")
+	jwt_output = requests.get(GLOBALURLJWT + 'fileHandler/table', headers={'Authorization': AUTHORIZATION})
+	if jwt_output.status_code == requests.codes.ok:
+		datastoragetable = jwt_output.content.decode('utf-8')
+		filestoragetablejson.write(str(datastoragetable))
+	filestoragetablejson.close()
+	filecanonicalmodeljson = open(GLOBALPATH + "/Frontend/Flask/static/json/canonicalModelMongo.json", "w+")
+	jwt_output1 = requests.get(GLOBALURLJWT + 'fileHandler/variable', headers={'Authorization': AUTHORIZATION})
+	if jwt_output1.status_code == requests.codes.ok:
+		datacanonicalmodel = jwt_output1.content.decode('utf-8')
+		filecanonicalmodeljson.write(str(datacanonicalmodel))
+	filecanonicalmodeljson.close()
 
 # Class for datasets parsed on shell suggest
-class datasetInfo(object):
+class DatasetInfo(object):
 	def __init__(self, identifier, title, description, subject, keywords, standards, formats, language, homepage, publisher, 
-		source, observations, storageTable,
-		accessRights, issuedDate, modifiedDate, geoLocation, spatialWest, spatialEast, spatialSouth, spatialNorth, 
+		source, observations, storageTable, accessRights, issuedDate, modifiedDate, geoLocation, spatialWest, spatialEast, spatialSouth, spatialNorth, 
 		coordinateSystem, verticalCoverageFrom, verticalCoverageTo, verticalLevel, temporalCoverageBegin, temporalCoverageEnd, 
 		timeResolution, variable, profileName):
 		self.identifier = identifier
@@ -1160,5 +1158,5 @@ class datasetInfo(object):
 		self.profileName = profileName
 
 if __name__ == '__main__':
-	syncWhenRunFlask()
+	syncwhenrunflask()
 	app.run(host='0.0.0.0')
