@@ -818,7 +818,7 @@ def listFileDataset():
 def infoFileDataset():
 	if request.method == 'GET':
 		# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
-		param = 'bdo:'+request.args['search']
+		param = 'bdo:'+request.args['id']
 		print(param)
 		comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("2", param)
 		try:
@@ -835,7 +835,7 @@ def infoFileDataset():
 def searchSubject():
 	if request.method == 'GET':
 		# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
-		comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("3", request.args['search'])
+		comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("3", request.args['q'])
 		try:
 			process = subprocess.check_output([comm], shell="True")
 		except subprocess.CalledProcessError as e:
@@ -850,7 +850,7 @@ def searchSubject():
 def searchKeyword():
 	if request.method == 'GET':
 		# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
-		comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("4", request.args['search'])
+		comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("4", request.args['q'])
 		try:
 			process = subprocess.check_output([comm], shell="True")
 		except subprocess.CalledProcessError as e:
@@ -865,7 +865,7 @@ def searchKeyword():
 def searchGeoLocation():
 	if request.method == 'GET':
 		# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
-		comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("5", request.args['search'])
+		comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("5", request.args['q'])
 		try:
 			process = subprocess.check_output([comm], shell="True")
 		except subprocess.CalledProcessError as e:
@@ -928,7 +928,7 @@ def searchTemporalCoverage():
 def listVariable():
 	if request.method == 'GET':
 		# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
-		comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("9", request.args['search'])
+		comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("9", request.args['id'])
 		try:
 			process = subprocess.check_output([comm], shell="True")
 		except subprocess.CalledProcessError as e:
@@ -943,7 +943,7 @@ def listVariable():
 def searchVariable():
 	if request.method == 'GET':
 		# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
-		comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("10", request.args['search'])
+		comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("10", request.args['q'])
 		try:
 			process = subprocess.check_output([comm], shell="True")
 		except subprocess.CalledProcessError as e:
@@ -958,7 +958,7 @@ def searchVariable():
 def listDatasetVariable():
 	if request.method == 'GET':
 		# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
-		comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("12", request.args['search'])
+		comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("12", request.args['table'])
 		try:
 			process = subprocess.check_output([comm], shell="True")
 		except subprocess.CalledProcessError as e:
@@ -973,7 +973,7 @@ def listDatasetVariable():
 def listFileDatasetDataset():
 	if request.method == 'GET':
 		# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
-		comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("13", request.args['search'])
+		comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("13", request.args['table'])
 		try:
 			process = subprocess.check_output([comm], shell="True")
 		except subprocess.CalledProcessError as e:
@@ -988,7 +988,7 @@ def listFileDatasetDataset():
 def searchTitle():
 	if request.method == 'GET':
 		# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
-		comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("14", request.args['search'])
+		comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("14", request.args['q'])
 		try:
 			process = subprocess.check_output([comm], shell="True")
 		except subprocess.CalledProcessError as e:
@@ -1003,7 +1003,7 @@ def searchTitle():
 def searchDescription():
 	if request.method == 'GET':
 		# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
-		comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("15", request.args['search'])
+		comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("15", request.args['q'])
 		try:
 			process = subprocess.check_output([comm], shell="True")
 		except subprocess.CalledProcessError as e:
@@ -1018,7 +1018,7 @@ def searchDescription():
 def infoDataset():
 	if request.method == 'GET':
 		# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
-		comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("16", request.args['search'])
+		comm = globalPath + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("16", request.args['table'])
 		try:
 			process = subprocess.check_output([comm], shell="True")
 		except subprocess.CalledProcessError as e:
