@@ -28,17 +28,32 @@ public class ListFileDataset {
 	}
 	
 	public static void exec(String storage) {
-		String query = "PREFIX bdo: <http://bigdataocean.eu/bdo/>\n" + 
-				"PREFIX ids: <http://industrialdataspace/information-model/>\n" + 
-				"PREFIX dct: <http://purl.org/dc/terms/>\n" + 
-				"SELECT DISTINCT ?uri ?identifier ?title ?description ?format\n" + 
-				"WHERE {\n" + 
-				"  ?uri dct:identifier ?identifier;\n" + 
-				"       dct:title ?title;\n" + 
-				"       bdo:storageTable '" + storage + "';\n" + 
-				"       dct:format ?format;\n" + 
-				"       dct:description ?description.\n" + 
-				"}";
+		String query = "";
+		if(!storage.equalsIgnoreCase("all_files")) {
+			query = "PREFIX bdo: <http://bigdataocean.eu/bdo/>\n" + 
+					"PREFIX ids: <http://industrialdataspace/information-model/>\n" + 
+					"PREFIX dct: <http://purl.org/dc/terms/>\n" + 
+					"SELECT DISTINCT ?uri ?identifier ?title ?description ?format\n" + 
+					"WHERE {\n" + 
+					"  ?uri dct:identifier ?identifier;\n" + 
+					"       dct:title ?title;\n" + 
+					"       bdo:storageTable '" + storage + "';\n" + 
+					"       dct:format ?format;\n" + 
+					"       dct:description ?description.\n" + 
+					"}";
+		} else {
+			query = "PREFIX bdo: <http://bigdataocean.eu/bdo/>\n" + 
+					"PREFIX ids: <http://industrialdataspace/information-model/>\n" + 
+					"PREFIX dct: <http://purl.org/dc/terms/>\n" + 
+					"SELECT DISTINCT ?uri ?identifier ?title ?description ?format ?storage\n" + 
+					"WHERE {\n" + 
+					"  ?uri dct:identifier ?identifier;\n" + 
+					"       dct:title ?title;\n" + 
+					"       bdo:storageTable ?storage;\n" + 
+					"       dct:format ?format;\n" + 
+					"       dct:description ?description.\n" + 
+					"}";
+		}
 		
 		List<Dataset> listDatasets = new ArrayList<>() ;
 		RDFNode node;
@@ -55,7 +70,11 @@ public class ListFileDataset {
 			node = solution.get("title");
 			list.setTitle("<a href=/metadataInfo/"+ident+">"+node.toString()+"</a>");
 			node = solution.get("description");
-			list.setStorageTable(storage);
+			if(!storage.equalsIgnoreCase("all_files")) {
+				list.setStorageTable(storage);
+			}else {
+				list.setStorageTable(solution.get("storage").toString());
+			}
 			list.setFormats(solution.get("format").toString());
 			// substring of only 300 characters of the description to avoid big table
 			if (node.toString().length()>=300) {
