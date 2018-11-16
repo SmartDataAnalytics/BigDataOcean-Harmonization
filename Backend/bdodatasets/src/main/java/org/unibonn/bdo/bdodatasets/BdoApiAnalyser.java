@@ -62,8 +62,8 @@ public class BdoApiAnalyser {
 				"        ids:end ?tempCovE .\n" +
 				"  ?variable a bdo:BDOVariable;\n" + 
 				"      dct:identifier ?nameVariable;\n" +
-				"      skos:prefLabel ?label.\n" + 
-				"  OPTIONAL { ?variable bdocm:canonicalUnit ?unit } \n" +
+				"      skos:prefLabel ?label;\n" + 
+				"      bdocm:canonicalUnit ?unit. \n" +
 				"}" + 
 				"ORDER BY ?uri";
 		RDFNode node;
@@ -117,7 +117,7 @@ public class BdoApiAnalyser {
 				+ "?timeReso (STR(?verFrom) AS ?vFrom) (STR(?verTo) AS ?vTo) (STR(?west) AS ?spatialWest) "
 				+ "(STR(?east) AS ?spatialEast) (STR(?south) AS ?spatialSouth) (STR(?north) AS ?spatialNorth) "
 				+ "(STR(?tempCovB) AS ?timeCovBeg) (STR(?tempCovE) AS ?timeCovEnd) ?vLevel ?coorSys ?source "
-				+ "?observation ?storageTable\n" + 
+				+ "?observation ?storageTable ?license\n" + 
 				"WHERE{ \n" + 
 				"  "+searchParam+" a dcat:Dataset ;\n" + 
 				"       dct:identifier ?ident ;\n" + 
@@ -131,6 +131,7 @@ public class BdoApiAnalyser {
 				"       dct:language ?lang ;\n" + 
 				"       foaf:homepage ?homep ;\n" + 
 				"       dct:publisher ?publi ;\n" + 
+				"       dct:license ?license ; \n" + 
 				"       dct:accessRights ?rights ;\n" + 
 				"       dct:issued ?issued ;\n" + 
 				"       dct:modified ?modified ;\n" + 
@@ -179,6 +180,8 @@ public class BdoApiAnalyser {
 			dataset.setHomepage(node.toString());
 			node = solution.get("publi");
 			dataset.setPublisher(node.toString());
+			node = solution.get("license");
+			dataset.setLicense(node.toString());
 			node = solution.get("rights");
 			dataset.setAccessRights(node.toString());
 			node = solution.get("issuedDate");
@@ -541,8 +544,8 @@ public class BdoApiAnalyser {
 				"       dct:title ?title.\n" + 
 				"  ?variable a bdo:BDOVariable;\n" + 
 				"      dct:identifier ?nameVariable;\n" +
-				"      skos:prefLabel ?label.\n" + 
-				"  OPTIONAL { ?variable bdocm:canonicalUnit ?unit } \n" +
+				"      skos:prefLabel ?label;\n" + 
+				"      bdocm:canonicalUnit ?unit. \n" +
 				"}";
 		RDFNode node;
 		ResultSet results = QueryExecutor.selectQuery(apiQuery);
@@ -576,8 +579,8 @@ public class BdoApiAnalyser {
 				"       bdo:storageTable '"+searchParam+"'.\n" + 
 				"  ?variable a bdo:BDOVariable;\n" + 
 				"      dct:identifier ?nameVariable;\n" +
-				"      skos:prefLabel ?label.\n" + 
-				"  OPTIONAL { ?variable bdocm:canonicalUnit ?unit } \n" +
+				"      skos:prefLabel ?label;\n" + 
+				"      bdocm:canonicalUnit ?unit. \n" +
 				"}" +
 				"ORDER BY ?uri";
 		ResultSet results = QueryExecutor.selectQuery(apiQuery);
@@ -622,8 +625,8 @@ public class BdoApiAnalyser {
 				"WHERE {\n" + 
 				"  ?uriVar a bdo:BDOVariable;\n" + 
 				"      dct:identifier ?nameVariable;\n "+
-				"      skos:prefLabel ?var.\n" + 
-				"  OPTIONAL { ?uriVar bdocm:canonicalUnit ?unit } \n" +
+				"      skos:prefLabel ?var;\n" + 
+				"      bdocm:canonicalUnit ?unit. \n" +
 				values + 
 				"  ?uri disco:variable ?uriVar;\n" + 
 				"       dct:title ?title.\n" + 
@@ -675,12 +678,13 @@ public class BdoApiAnalyser {
 				"PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" + 
 				"PREFIX ids: <http://industrialdataspace/information-model/>\n" + 
 				"PREFIX ignf: <http://data.ign.fr/def/ignf#>\n" + 
-				"SELECT ?uri ?title ?desc ?publi ?rights ?timeReso (STR(?verFrom) AS ?vFrom) (STR(?verTo) AS ?vTo) (STR(?west) AS ?spatialWest) (STR(?east) AS ?spatialEast) (STR(?south) AS ?spatialSouth) (STR(?north) AS ?spatialNorth) (STR(?tempCovB) AS ?timeCovBeg) (STR(?tempCovE) AS ?timeCovEnd) ?vLevel ?coorSys ?nameVariable (STR (?label) as ?canonicalVariable) ?unit \n" + 
+				"SELECT ?uri ?title ?desc ?publi ?rights ?timeReso ?license (STR(?verFrom) AS ?vFrom) (STR(?verTo) AS ?vTo) (STR(?west) AS ?spatialWest) (STR(?east) AS ?spatialEast) (STR(?south) AS ?spatialSouth) (STR(?north) AS ?spatialNorth) (STR(?tempCovB) AS ?timeCovBeg) (STR(?tempCovE) AS ?timeCovEnd) ?vLevel ?coorSys ?nameVariable (STR (?label) as ?canonicalVariable) ?unit \n" + 
 				"WHERE { \n" + 
 				"  ?uri a dcat:Dataset; \n" + 
 				"       dct:title ?title; \n" + 
 				"       dct:description ?desc ;\n" + 
 				"       dct:publisher ?publi ;\n" + 
+				"       dct:license ?license ; \n" + 
 				"       bdo:storageTable '"+searchParam+"' ;\n" + 
 				"       dct:accessRights ?rights ; \n" + 
 				"       bdo:timeResolution ?timeReso ;\n" + 
@@ -704,8 +708,8 @@ public class BdoApiAnalyser {
 				"        bdo:verticalTo ?verTo .\n" + 
 				"  ?variable a bdo:BDOVariable; \n" + 
 				"      dct:identifier ?nameVariable;\n" + 
-				"      skos:prefLabel ?label. \n" + 
-				"  OPTIONAL { ?variable bdocm:canonicalUnit ?unit } \n" + 
+				"      skos:prefLabel ?label; \n" + 
+				"      bdocm:canonicalUnit ?unit. \n" + 
 				"}" +
 				"ORDER BY ?uri";
 		RDFNode node;
@@ -726,6 +730,7 @@ public class BdoApiAnalyser {
 				dataset.setTitle(node.toString());
 				dataset.setDescription(solution.get("desc").toString());
 				dataset.setPublisher(solution.get("publi").toString());
+				dataset.setLicense(solution.get("license").toString());
 				dataset.setAccessRights(solution.get("rights").toString());
 				dataset.setStorageTable(searchParam);
 				node = solution.get("timeReso");
@@ -774,13 +779,14 @@ public class BdoApiAnalyser {
 				"PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" + 
 				"PREFIX ids: <http://industrialdataspace/information-model/>\n" + 
 				"PREFIX ignf: <http://data.ign.fr/def/ignf#>\n" + 
-				"SELECT DISTINCT ?uri ?ident ?title ?desc ?publi ?rights ?timeReso ?storage (STR(?verFrom) AS ?vFrom) (STR(?verTo) AS ?vTo) (STR(?west) AS ?spatialWest) (STR(?east) AS ?spatialEast) (STR(?south) AS ?spatialSouth) (STR(?north) AS ?spatialNorth) (STR(?tempCovB) AS ?timeCovBeg) (STR(?tempCovE) AS ?timeCovEnd) ?vLevel ?coorSys \n" + 
+				"SELECT DISTINCT ?uri ?ident ?title ?desc ?publi ?license ?rights ?timeReso ?storage (STR(?verFrom) AS ?vFrom) (STR(?verTo) AS ?vTo) (STR(?west) AS ?spatialWest) (STR(?east) AS ?spatialEast) (STR(?south) AS ?spatialSouth) (STR(?north) AS ?spatialNorth) (STR(?tempCovB) AS ?timeCovBeg) (STR(?tempCovE) AS ?timeCovEnd) ?vLevel ?coorSys \n" + 
 				"WHERE { \n" + 
 				"  ?uri a dcat:Dataset; \n" + 
 				"       dct:identifier ?ident ;\n" + 
 				"       dct:title ?title; \n" + 
 				"       dct:description ?desc ;\n" + 
 				"       dct:publisher ?publi ;\n" + 
+				"       dct:license ?license ; \n" + 
 				"       bdo:storageTable ?storage ;\n" + 
 				"       dct:accessRights ?rights ; \n" + 
 				"       bdo:timeResolution ?timeReso ;\n" + 
@@ -815,6 +821,7 @@ public class BdoApiAnalyser {
 			dataset.setTitle(node.toString());
 			dataset.setDescription(solution.get("desc").toString());
 			dataset.setPublisher(solution.get("publi").toString());
+			dataset.setLicense(solution.get("license").toString());
 			dataset.setAccessRights(solution.get("rights").toString());
 			dataset.setStorageTable(searchParam);
 			node = solution.get("timeReso");
@@ -853,13 +860,14 @@ public class BdoApiAnalyser {
 				"PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" + 
 				"PREFIX ids: <http://industrialdataspace/information-model/>\n" + 
 				"PREFIX ignf: <http://data.ign.fr/def/ignf#>\n" + 
-				"SELECT ?uri ?ident ?title ?desc ?publi ?rights ?timeReso ?storage (STR(?verFrom) AS ?vFrom) (STR(?verTo) AS ?vTo) (STR(?west) AS ?spatialWest) (STR(?east) AS ?spatialEast) (STR(?south) AS ?spatialSouth) (STR(?north) AS ?spatialNorth) (STR(?tempCovB) AS ?timeCovBeg) (STR(?tempCovE) AS ?timeCovEnd) ?vLevel ?coorSys \n" + 
+				"SELECT ?uri ?ident ?title ?desc ?publi ?license ?rights ?timeReso ?storage (STR(?verFrom) AS ?vFrom) (STR(?verTo) AS ?vTo) (STR(?west) AS ?spatialWest) (STR(?east) AS ?spatialEast) (STR(?south) AS ?spatialSouth) (STR(?north) AS ?spatialNorth) (STR(?tempCovB) AS ?timeCovBeg) (STR(?tempCovE) AS ?timeCovEnd) ?vLevel ?coorSys \n" + 
 				"WHERE { \n" + 
 				"  ?uri a dcat:Dataset; \n" + 
 				"       dct:identifier ?ident ;\n" + 
 				"       dct:title ?title; \n" + 
 				"       dct:description ?desc ;\n" + 
 				"       dct:publisher ?publi ;\n" + 
+				"       dct:license ?license ; \n" + 
 				"       bdo:storageTable ?storage ;\n" + 
 				"       dct:accessRights ?rights ; \n" + 
 				"       bdo:timeResolution ?timeReso ;\n" + 
@@ -894,6 +902,7 @@ public class BdoApiAnalyser {
 			dataset.setTitle(node.toString());
 			dataset.setDescription(solution.get("desc").toString());
 			dataset.setPublisher(solution.get("publi").toString());
+			dataset.setLicense(solution.get("license").toString());
 			dataset.setAccessRights(solution.get("rights").toString());
 			dataset.setStorageTable(searchParam);
 			node = solution.get("timeReso");
@@ -933,7 +942,7 @@ public class BdoApiAnalyser {
 				"PREFIX bdo: <http://bigdataocean.eu/bdo/>\n" + 
 				"PREFIX ids: <http://industrialdataspace/information-model/>\n" + 
 				"SELECT ?ident ?title ?desc ?standard ?format ?homep "
-				+ "?publi ?rights "
+				+ "?publi ?rights ?license "
 				+ "?timeReso (STR(?verFrom) AS ?vFrom) (STR(?verTo) AS ?vTo) (STR(?west) AS ?spatialWest) "
 				+ "(STR(?east) AS ?spatialEast) (STR(?south) AS ?spatialSouth) (STR(?north) AS ?spatialNorth) "
 				+ "(STR(?tempCovB) AS ?timeCovBeg) (STR(?tempCovE) AS ?timeCovEnd) ?vLevel ?coorSys ?source "
@@ -951,6 +960,7 @@ public class BdoApiAnalyser {
 				"       dct:language ?lang ;\n" + 
 				"       foaf:homepage ?homep ;\n" + 
 				"       dct:publisher ?publi ;\n" + 
+				"       dct:license ?license ; \n" + 
 				"       dct:accessRights ?rights ;\n" + 
 				"       bdo:timeResolution ?timeReso ;\n" + 
 				"       bdo:GeographicalCoverage ?spatial ;\n" + 
@@ -997,6 +1007,8 @@ public class BdoApiAnalyser {
 				dataset.setHomepage(node.toString());
 				node = solution.get("publi");
 				dataset.setPublisher(node.toString());
+				node = solution.get("license");
+				dataset.setLicense(node.toString());
 				node = solution.get("rights");
 				dataset.setAccessRights(node.toString());
 				node = solution.get("source");
@@ -1256,8 +1268,8 @@ public class BdoApiAnalyser {
 				"  "+uri+" disco:variable ?variable.\n" + 
 				"  ?variable a bdo:BDOVariable;\n" + 
 				"      dct:identifier ?nameVariable;\n" +
-				"      skos:prefLabel ?label.\n" + 
-				"  OPTIONAL { ?variable bdocm:canonicalUnit ?unit } \n" +
+				"      skos:prefLabel ?label;\n" + 
+				"      bdocm:canonicalUnit ?unit. \n" +
 				"  FILTER(lang(?label) = \"en\")\n" + 
 				"}";
 		

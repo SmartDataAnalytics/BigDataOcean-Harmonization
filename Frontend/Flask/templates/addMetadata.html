@@ -31,7 +31,7 @@
                 <td>
                   <label class="label-table" for="identifier">Identifier:</label>
                 </td>
-                <td colspan="4">
+                <td>
                   <input type="text" class="form-control" id="identifier" name="identifier" value="{{dataset.identifier}}">
                 </td>
               </tr>
@@ -39,7 +39,7 @@
                 <td>
                   <label class="label-table" for="idFile">Identifier File:</label>
                 </td>
-                <td colspan="4">
+                <td>
                   <input type="text" class="form-control" id="idFile" name="idFile" value="{{idFile}}">
                 </td>
               </tr>
@@ -48,7 +48,7 @@
                   <label class="label-table-mandatory">* </label>
                   <label class="label-table" for="title">Title:</label>
                 </td>
-                <td colspan="4">
+                <td>
                   <input type="text" class="form-control" id="title" name="title" required value="{{ dataset.title }}">
                 </td>
               </tr>
@@ -57,7 +57,7 @@
                   <label class="label-table-mandatory">* </label>
                   <label class="label-table" for="description">Description:</label>
                 </td>
-                <td colspan="4">
+                <td>
                   <textarea class="form-control" rows="2" id="description" name="description" required>{{dataset.description}}</textarea>
                 </td>
               </tr>
@@ -66,7 +66,7 @@
                   <label class="label-table-mandatory">* </label>
                   <label class="label-table" for="subject">Subject:</label>
                 </td>
-                <td colspan="4">   
+                <td>   
                   {%if dataset.keywords|default("") != ""%}                           
                     <input type="text" class="form-control" id="tokenfield_subject" name="tokenfield_subject" required value="{{ dataset.subject }}">
                   {%else%}
@@ -79,7 +79,7 @@
                   <label class="label-table-mandatory">* </label>
                   <label class="label-table" for="keywords">Keywords:</label>
                 </td>
-                <td colspan="4"> 
+                <td> 
                   {%if dataset.keywords|default("") != ""%}                           
                     <input type="text" class="form-control" id="tokenfield_keywords" name="tokenfield_keywords" required value="{{ dataset.keywords }}">
                   {%else%}
@@ -91,7 +91,7 @@
                 <td>
                   <label class="label-table" for="standards">Standards:</label>
                 </td>
-                <td colspan="4">                            
+                <td>                            
                   <input type="text" class="form-control" id="standards" name="standards" value="{{ dataset.standards }}">
                 </td>
               </tr>
@@ -99,7 +99,7 @@
                 <td>
                   <label class="label-table " for="data_format">Data Format:</label>
                 </td>
-                <td colspan="4">                            
+                <td>                            
                   <input type="text" class="form-control" id="tokenfield_format" name="tokenfield_format" value="{{ dataset.formats }}">
                 </td>
               </tr>
@@ -108,7 +108,7 @@
                   <label class="label-table-mandatory">* </label>
                   <label class="label-table" for="language">Language:</label>
                 </td>
-                <td colspan="4">
+                <td>
                   <input type="text" class="form-control" id="tokenfield_language" name="tokenfield_language" required value="{{dataset.language}}">
                 </td>
               </tr>
@@ -116,7 +116,7 @@
                 <td>
                   <label class="label-table" for="homepage">Homepage:</label>
                 </td>
-                <td colspan="4">
+                <td>
                   <input type="url" class="form-control" id="homepage" name="homepage" value="{{dataset.homepage}}">
                 </td>
               </tr>
@@ -125,7 +125,7 @@
                   <label class="label-table-mandatory">* </label>
                   <label class="label-table" for="publisher">Publisher:</label>
                 </td>
-                <td colspan="4">
+                <td>
                   <input type="text" class="form-control" id="publisher" name="publisher" required value="{{dataset.publisher}}">
                 </td>
               </tr>
@@ -133,7 +133,7 @@
                 <td>
                   <label class="label-table" for="source">Source:</label>
                 </td>
-                <td colspan="4">
+                <td>
                   <input type="text" class="form-control" id="source" name="source" value="{{dataset.source}}">
                 </td>
               </tr>
@@ -141,7 +141,7 @@
                 <td>
                   <label class="label-table" for="observations">Observations:</label>
                 </td>
-                <td colspan="4">
+                <td>
                   <input type="text" class="form-control" id="observations" name="observations" value="{{dataset.observations}}">
                 </td>
               </tr>
@@ -150,15 +150,15 @@
                   <label class="label-table-mandatory">* </label>
                   <label class="label-table" for="storageTable">Storage Table:</label>
                 </td>
-                <td colspan="4">
+                <td>
                   <input type="text" class="form-control-autocomplete-storage" id="storageTable" name="storageTable" required value="{{dataset.storageTable}}">
                 </td>
               </tr>
               <tr>
                 <td>
-                  <label class="label-table " for="access_rights">Access rights:</label>
+                  <label class="label-table " for="access_rights">Access Rights:</label>
                 </td>
-                <td colspan="4">
+                <td>
                   {% if dataset.accessRights == "Private" %}
                     <label class="label-table"><input type="radio" name="access_rights" value="Public">Public</label>
                     <label class="label-table"><input type="radio" name="access_rights" checked value="Private">Private</label>
@@ -171,18 +171,27 @@
               <tr>
                 <td>
                   <label class="label-table-mandatory">* </label>
-                  <label class="label-table " for="issued_date">Issued date:</label>
+                  <label class="label-table" for="license">License:</label>
                 </td>
-                <td colspan="4">
+                <td>
+                  <input type="text" class="form-control" id="license" name="license" required value="{{dataset.license}}">
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label class="label-table-mandatory">* </label>
+                  <label class="label-table " for="issued_date">Issued Date:</label>
+                </td>
+                <td>
                   <input type="datetime-local" step="1" class="form-control" id="issued_date" name="issued_date" required value="{{ dataset.issuedDate }}">
                 </td>
               </tr>
               <tr>
                 <td>
                   <label class="label-table-mandatory">* </label>
-                  <label class="label-table " for="modified_date">Modified date:</label>
+                  <label class="label-table " for="modified_date">Modified Date:</label>
                 </td>
-                <td colspan="4">
+                <td>
                   <input type="datetime-local" step="1" class="form-control" id="modified_date" name="modified_date" required value="{{ dataset.modifiedDate }}">
                 </td>
               </tr>
@@ -243,7 +252,7 @@
               </tr>
               <tr>
                 <td>
-                  <label class="label-table " for="coordinate_sys">Coordinate reference system:</label>
+                  <label class="label-table " for="coordinate_sys">Coordinate Reference System:</label>
                 </td>
                 <td colspan="4">
                   <input type="text" class="form-control" id="coordinate_sys" name="coordinate_sys" value="{{dataset.coordinateSystem}}">
@@ -426,7 +435,7 @@
                 <td>
                   <label class="label-table" for="identifier">Identifier:</label>
                 </td>
-                <td colspan="4">
+                <td>
                   <input type="text" class="form-control" id="identifier" name="identifier">
                 </td>
               </tr>
@@ -434,7 +443,7 @@
                 <td>
                   <label class="label-table" for="idFile">Identifier File:</label>
                 </td>
-                <td colspan="4">
+                <td>
                   <input type="text" class="form-control" id="idFile" name="idFile" value="{{idFile}}">
                 </td>
               </tr>
@@ -443,7 +452,7 @@
                   <label class="label-table-mandatory">* </label>
                   <label class="label-table" for="title">Title:</label>
                 </td>
-                <td colspan="4">
+                <td>
                   <input type="text" class="form-control" id="title" name="title" required>
                 </td>
               </tr>
@@ -452,7 +461,7 @@
                   <label class="label-table-mandatory">* </label>
                   <label class="label-table" for="description">Description:</label>
                 </td>
-                <td colspan="4">
+                <td>
                   <textarea class="form-control" rows="2" id="description" name="description" required></textarea>
                 </td>
               </tr>
@@ -461,7 +470,7 @@
                   <label class="label-table-mandatory">* </label>
                   <label class="label-table" for="subject">Subject:</label>
                 </td>
-                <td colspan="4">                            
+                <td>                            
                   <input type="text" class="form-control" id="tokenfield_subject" name="tokenfield_subject" required>
                 </td>
               </tr>
@@ -470,7 +479,7 @@
                   <label class="label-table-mandatory">* </label>
                   <label class="label-table" for="keywords">Keywords:</label>
                 </td>
-                <td colspan="4">                            
+                <td>                            
                   <input type="text" class="form-control" id="tokenfield_keywords" name="tokenfield_keywords" required>
                 </td>
               </tr>
@@ -478,7 +487,7 @@
                 <td>
                   <label class="label-table" for="standards">Standards:</label>
                 </td>
-                <td colspan="4">                            
+                <td>                            
                   <input type="text" class="form-control" id="standards" name="standards">
                 </td>
               </tr>
@@ -486,7 +495,7 @@
                 <td>
                   <label class="label-table " for="data_format">Data Format:</label>
                 </td>
-                <td colspan="4">                            
+                <td>                            
                   <input type="text" class="form-control" id="tokenfield_format" name="tokenfield_format">
                 </td>
               </tr>
@@ -495,7 +504,7 @@
                   <label class="label-table-mandatory">* </label>
                   <label class="label-table" for="language">Language:</label>
                 </td>
-                <td colspan="4">
+                <td>
                   <input type="text" class="form-control" id="tokenfield_language" name="tokenfield_language" value="eng" required>
                 </td>
               </tr>
@@ -503,7 +512,7 @@
                 <td>
                   <label class="label-table" for="homepage">Homepage:</label>
                 </td>
-                <td colspan="4">
+                <td>
                   <input type="url" class="form-control" id="homepage" name="homepage">
                 </td>
               </tr>
@@ -512,7 +521,7 @@
                   <label class="label-table-mandatory">* </label>
                   <label class="label-table" for="publisher">Publisher:</label>
                 </td>
-                <td colspan="4">
+                <td>
                   <input type="text" class="form-control" id="publisher" name="publisher" required>
                 </td>
               </tr>
@@ -520,7 +529,7 @@
                 <td>
                   <label class="label-table" for="source">Source:</label>
                 </td>
-                <td colspan="4">
+                <td>
                   <input type="text" class="form-control" id="source" name="source">
                 </td>
               </tr>
@@ -528,7 +537,7 @@
                 <td>
                   <label class="label-table" for="observations">Observations:</label>
                 </td>
-                <td colspan="4">
+                <td>
                   <input type="text" class="form-control" id="observations" name="observations">
                 </td>
               </tr>
@@ -537,15 +546,15 @@
                   <label class="label-table-mandatory">* </label>
                   <label class="label-table" for="storageTable">Storage Table:</label>
                 </td>
-                <td colspan="4">
+                <td>
                   <input type="text" class="form-control-autocomplete-storage" id="storageTable" name="storageTable" required>
                 </td>
               </tr>
               <tr>
                 <td>
-                  <label class="label-table " for="access_rights">Access rights:</label>
+                  <label class="label-table " for="access_rights">Access Rights:</label>
                 </td>
-                <td colspan="4">
+                <td>
                   <label class="label-table"><input type="radio" name="access_rights" checked value="Public">Public</label>
                   <label class="label-table"><input type="radio" name="access_rights" value="Private">Private</label>
                 </td>
@@ -553,18 +562,27 @@
               <tr>
                 <td>
                   <label class="label-table-mandatory">* </label>
-                  <label class="label-table " for="issued_date">Issued date:</label>
+                  <label class="label-table" for="license">License:</label>
                 </td>
-                <td colspan="4">
+                <td>
+                  <input type="text" class="form-control" id="license" name="license" required value="{{dataset.license}}">
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label class="label-table-mandatory">* </label>
+                  <label class="label-table " for="issued_date">Issued Date:</label>
+                </td>
+                <td>
                   <input type="datetime-local" step="1" class="form-control" id="issued_date" name="issued_date" required>
                 </td>
               </tr>
               <tr>
                 <td>
                   <label class="label-table-mandatory">* </label>
-                  <label class="label-table " for="modified_date">Modified date:</label>
+                  <label class="label-table " for="modified_date">Modified Date:</label>
                 </td>
-                <td colspan="4">
+                <td>
                   <input type="datetime-local" step="1" class="form-control" id="modified_date" name="modified_date" required>
                 </td>
               </tr>
@@ -625,7 +643,7 @@
               </tr>
               <tr>
                 <td>
-                  <label class="label-table " for="coordinate_sys">Coordinate reference system:</label>
+                  <label class="label-table " for="coordinate_sys">Coordinate Reference System:</label>
                 </td>
                 <td colspan="4">
                   <input type="text" class="form-control" id="coordinate_sys" name="coordinate_sys">

@@ -38,7 +38,7 @@ public class GetMetadata {
 					"PREFIX foaf: <http://xmlns.com/foaf/0.1/>\n" + 
 					"PREFIX bdo: <http://bigdataocean.eu/bdo/>\n" + 
 					"PREFIX ids: <http://industrialdataspace/information-model/>\n" + 
-					"SELECT ?ident ?title ?desc ?standard ?format ?homep "
+					"SELECT ?ident ?title ?desc ?standard ?format ?homep ?license "
 					+ "?publi ?rights (STR(?issued) AS ?issuedDate)  (STR(?modified) AS ?modifiedDate) "
 					+ "?timeReso (STR(?verFrom) AS ?vFrom) (STR(?verTo) AS ?vTo) (STR(?west) AS ?spatialWest) "
 					+ "(STR(?east) AS ?spatialEast) (STR(?south) AS ?spatialSouth) (STR(?north) AS ?spatialNorth) "
@@ -57,6 +57,7 @@ public class GetMetadata {
 					"       dct:language ?lang ;\n" + 
 					"       foaf:homepage ?homep ;\n" + 
 					"       dct:publisher ?publi ;\n" + 
+					"       dct:license ?license ; \n" + 
 					"       dct:accessRights ?rights ;\n" + 
 					"       dct:issued ?issued ;\n" + 
 					"       dct:modified ?modified ;\n" + 
@@ -96,6 +97,7 @@ public class GetMetadata {
 				dataset.setFormats(solution.get("format").toString());
 				dataset.setHomepage(solution.get("homep").toString());
 				dataset.setPublisher(solution.get("publi").toString());
+				dataset.setLicense(solution.get("license").toString());
 				dataset.setAccessRights(solution.get("rights").toString());
 				dataset.setIssuedDate(solution.get("issuedDate").toString());
 				dataset.setModifiedDate(solution.get("modifiedDate").toString());
@@ -261,8 +263,8 @@ public class GetMetadata {
 				"  ?object a bdo:BDOVariable ;\n" + 
 				"        dct:identifier ?identifierVariable ;\n" + 
 				"        owl:sameAs ?url ;\n" + 
-				"        skos:prefLabel ?prefLabel .\n" + 
-				"  OPTIONAL { ?object bdocm:canonicalUnit ?unit } \n" + 
+				"        skos:prefLabel ?prefLabel ;\n" + 
+				"        bdocm:canonicalUnit ?unit . \n" + 
 				"  FILTER(lang(?prefLabel) = \"en\")\n" + 
 				"}";
 		

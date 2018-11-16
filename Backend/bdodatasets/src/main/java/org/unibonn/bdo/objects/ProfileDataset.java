@@ -25,6 +25,7 @@ public class ProfileDataset implements Serializable {
 	private String language; //tokenField_language
 	private String homepage; //URI of Dataset
 	private String publisher; //publisher of Dataset
+	private String license; //license of Dataset
 	private String source; //source of the Dataset (HCMR, ANEX, XMILE...)
 	private String observation; //Comments of the Dataset (Insitu, Timeseries...)
 	private String storageTable; //TableName used by parser tool
@@ -51,7 +52,7 @@ public class ProfileDataset implements Serializable {
 	
 	public ProfileDataset(String profileName, String title, String description, String subject, String keywords,
 			String standards, String formats, String language, String homepage, String publisher, 
-			String source, String observation, String storageTable, 
+			String source, String observation, String storageTable, String license,
 			String accessRights, String geoLocation, String spatialWest, String spatialEast,
 			String spatialSouth, String spatialNorth, String coordinateSystem, String verticalCoverageFrom,
 			String verticalCoverageTo, String verticalLevel, String temporalCoverageBegin, String temporalCoverageEnd,
@@ -66,6 +67,7 @@ public class ProfileDataset implements Serializable {
 		this.language = language;
 		this.homepage = homepage;
 		this.publisher = publisher;
+		this.license = license;
 		this.source = source;
 		this.observation = observation;
 		this.storageTable = storageTable;
@@ -309,6 +311,14 @@ public class ProfileDataset implements Serializable {
 	public void setId(String id) {
 		this.id = id;
 	}
+
+	public String getLicense() {
+		return license;
+	}
+
+	public void setLicense(String license) {
+		this.license = license;
+	}	
 	
 }
 

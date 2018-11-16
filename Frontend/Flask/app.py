@@ -437,6 +437,7 @@ def save():
 			language = request.form['tokenfield_language']
 			homepage = request.form['homepage']
 			publisher = request.form['publisher']
+			license = request.form['license']
 			source = request.form['source']
 			observations = request.form['observations']
 			storagetable = request.form['storageTable']
@@ -480,7 +481,7 @@ def save():
 
 			# add the values to the DatasetInfo class
 			dataset = DatasetInfo (identifier, title, description, subject, keywords, standards, formats, language, homepage, publisher, 
-				source, observations, storagetable,
+				license, source, observations, storagetable,
 				accessrights, issueddate, modifieddate, geolocation, spatialwest, spatialeast, spatialsouth, spatialnorth, 
 				coordinatesystem, verticalcoveragefrom, verticalcoverageto, verticallevel, temporalcoveragebegin, 
 				temporalcoverageend, timeresolution, variables, profilename)
@@ -509,7 +510,7 @@ def save():
 			elif b'Error2' in process:
 				return render_template('404.html', error='Metadata has been added but API: Identifier is not being added to idfile.')
 			elif b'Error3' in process:
-				return render_template('404.html', error='URI already exists.')
+				return render_template('404.html', error='Metadata ID \'%s\' already exists.' %identifier)
 	except ValueError as e:  # includes simplejson.decoder.JSONDecodeError
 		print(e)
 		return render_template('500.html')
@@ -553,6 +554,7 @@ def edit():
 			language = request.form['tokenfield_language']
 			homepage = request.form['homepage']
 			publisher = request.form['publisher']
+			license = request.form['license']
 			source = request.form['source']
 			observations = request.form['observations']
 			storagetable = request.form['storageTable']
@@ -595,7 +597,7 @@ def edit():
 
 			# add the values to the DatasetInfo class
 			dataset = DatasetInfo (identifier, title, description, subject, keywords, standards, formats, language, homepage, publisher, 
-				source, observations, storagetable,
+				license, source, observations, storagetable,
 				accessrights, issueddate, modifieddate, geolocation, spatialwest, spatialeast, spatialsouth, spatialnorth, 
 				coordinatesystem, verticalcoveragefrom, verticalcoverageto, verticallevel, temporalcoveragebegin, temporalcoverageend, 
 				timeresolution, variables, "")
@@ -629,7 +631,7 @@ def edit():
 				if b'Successful' in process:
 					return redirect(url_for('metadatainfo',identifier=identifier))
 				else:
-					return render_template('404.html', error='URI already exists.')
+					return render_template('404.html', error='Metadata ID \'%s\' already exists.' %identifier)
 			else:
 				return render_template('404.html', error='There was an error while modifying the dataset.')
 
@@ -687,7 +689,7 @@ def metadatainfo(identifier):
 				dataset.geoLocation = nameurl(dataset.geoLocation, geolocationjson)
 				return render_template('metadataInfo.html', dataset=dataset)
 			else:
-				return render_template('404.html', error='The metadata ID does not exist.')
+				return render_template('404.html', error='The metadata ID \'%s\' does not exist.' %identifier)
 	except ValueError:  # includes simplejson.decoder.JSONDecodeError
 		print(e)
 		return render_template('500.html')
@@ -781,7 +783,7 @@ def metadatadatasetinfo(storage):
 			parsed_output = json.loads(process.decode('utf-8'))
 			dataset = DatasetInfo(**parsed_output)
 			
-			if dataset.identifier != "":
+			if dataset.storageTable != "":
 				dataset.title = dataset.title.replace("_", " ")
 				# show the name -- url in subject/keywords/geoLocation
 				dataset.subject = nameurl(dataset.subject, subjectjson)
@@ -789,7 +791,7 @@ def metadatadatasetinfo(storage):
 				dataset.geoLocation = nameurl(dataset.geoLocation, geolocationjson)
 				return render_template('datasetMetadataInfo.html', dataset=dataset)
 			else:
-				return render_template('404.html', error='The metadata ID does not exist.')
+				return render_template('404.html', error='The storage table \'%s\' does not exist.' %storage)
 	except ValueError:  # includes simplejson.decoder.JSONDecodeError
 		print(e)
 		return render_template('500.html')
@@ -1081,7 +1083,7 @@ def insertautomatic():
 			'idProfile' : idprofile,  
 			'produce' : produce,  
 			'done' : False,  
-			'message' : 'Error!   URI already exists'  
+			'message' : 'Error!   Metadata ID already exists'  
 		} 
 		return jsonify({'result':result}), 500 
 
@@ -1104,7 +1106,7 @@ def extractdatafromhandler():
 
 # Class for datasets parsed on shell suggest
 class DatasetInfo(object):
-	def __init__(self, identifier, title, description, subject, keywords, standards, formats, language, homepage, publisher, 
+	def __init__(self, identifier, title, description, subject, keywords, standards, formats, language, homepage, publisher, license, 
 		source, observations, storageTable, accessRights, issuedDate, modifiedDate, geoLocation, spatialWest, spatialEast, spatialSouth, spatialNorth, 
 		coordinateSystem, verticalCoverageFrom, verticalCoverageTo, verticalLevel, temporalCoverageBegin, temporalCoverageEnd, 
 		timeResolution, variable, profileName):
@@ -1118,6 +1120,7 @@ class DatasetInfo(object):
 		self.language = language
 		self.homepage = homepage
 		self.publisher = publisher
+		self.license = license
 		self.source = source
 		self.observations = observations
 		self.storageTable = storageTable

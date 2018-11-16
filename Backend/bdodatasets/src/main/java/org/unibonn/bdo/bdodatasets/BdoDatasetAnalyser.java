@@ -464,6 +464,9 @@ public class BdoDatasetAnalyser {
 				if(attr.getShortName().equalsIgnoreCase("naming_authority")) {
 					result.setPublisher(attr.getStringValue());
 				}
+				if(attr.getShortName().equalsIgnoreCase("licence") || attr.getShortName().equalsIgnoreCase("license")) {
+					result.setLicense(attr.getStringValue());
+				}
 				if(attr.getShortName().equalsIgnoreCase("geospatial_lon_min") || attr.getShortName().equalsIgnoreCase("longitude_min")) {
 					result.setSpatialWest(attr.getValues().toString().replace(" ", EMPTY_FIELD));
 				}
@@ -648,23 +651,30 @@ public class BdoDatasetAnalyser {
 		JSONParser parser = new JSONParser();
 		JSONArray variablesCM;
 		try {
-			variablesCM = (JSONArray) parser.parse(new FileReader(Constants.CONFIGFILEPATH+"/Frontend/Flask/static/json/canonicalModelMongo.json"));
-			for(int j=0; j<variables.size(); j++) {
-				
-				boolean flag = false;
-				for(int i=0; i<variablesCM.size(); i++){
-		        	JSONObject keyword = (JSONObject) variablesCM.get(i);
-		        	String canonicalName = keyword.get("canonicalName").toString();
-		            String name = keyword.get("name").toString();
-		            String rawName = variables.get(j).split(" -- ")[0];
-		            if(canonicalName.equalsIgnoreCase(rawName) || name.equalsIgnoreCase(rawName)) {
-		            	listVariables.add(variables.get(j) + " -- "+ keyword.get("canonicalName"));
-		            	flag = true;
-		            	break;
-		            }		            	
-		        }
-				
-				if(!flag) {
+			File file = new File(Constants.CONFIGFILEPATH+"/Frontend/Flask/static/json/canonicalModelMongo.json");
+			if(file.exists() && file.length() > 0) {
+				variablesCM = (JSONArray) parser.parse(new FileReader(Constants.CONFIGFILEPATH+"/Frontend/Flask/static/json/canonicalModelMongo.json"));
+				for(int j=0; j<variables.size(); j++) {
+					
+					boolean flag = false;
+					for(int i=0; i<variablesCM.size(); i++){
+			        	JSONObject keyword = (JSONObject) variablesCM.get(i);
+			        	String canonicalName = keyword.get("canonicalName").toString();
+			            String name = keyword.get("name").toString();
+			            String rawName = variables.get(j).split(" -- ")[0];
+			            if(canonicalName.equalsIgnoreCase(rawName) || name.equalsIgnoreCase(rawName)) {
+			            	listVariables.add(variables.get(j) + " -- "+ keyword.get("canonicalName"));
+			            	flag = true;
+			            	break;
+			            }		            	
+			        }
+					
+					if(!flag) {
+						listVariables.add(variables.get(j) + " -- "+ EMPTY_FIELD);
+					}
+				}
+			} else {
+				for(int j=0; j<variables.size(); j++) {
 					listVariables.add(variables.get(j) + " -- "+ EMPTY_FIELD);
 				}
 			}
