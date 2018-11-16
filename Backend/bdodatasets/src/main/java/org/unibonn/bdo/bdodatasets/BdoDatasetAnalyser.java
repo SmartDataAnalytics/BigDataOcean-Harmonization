@@ -65,6 +65,7 @@ public class BdoDatasetAnalyser {
 		String identifier;
 		String issued;
 		String language;
+		String license;
 		String coordinateSystem;
 		String spatialWestBoundLongitude;
 		String spatialEastBoundLongitude;
@@ -138,6 +139,8 @@ public class BdoDatasetAnalyser {
 		if(temporalCoverageEnd.length()>0) {
 			temporalCoverageEnd += "T00:00:00";
 		}
+		
+		license = item.getElementsByTag("gmd:useLimitation").text();
 
 		verticalCoverage = item.getElementsByTag("gmd:EX_VerticalExtent").text();
 
@@ -198,6 +201,7 @@ public class BdoDatasetAnalyser {
 		result.setIssuedDate(issued);
 		result.setModifiedDate(issued);
 		result.setLanguage(language);
+		result.setLicense(license);
 		result.setFormats("XML");
 		result.setObservations(observations);
 		result.setCoordinateSystem(coordinateSystem);
