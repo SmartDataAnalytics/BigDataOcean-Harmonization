@@ -1,0 +1,99 @@
+<http://bigdataocean.eu/bdo/617e8e01-2f93-4ff0-9233-a87b76ac3eae_TC>
+        a       <http://bigdataocean.eu/bdo/TimeCoverage> ;
+        <http://industrialdataspace/information-model/beginning>
+                "2018-11-16T00:00:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> ;
+        <http://industrialdataspace/information-model/end>
+                "2018-11-16T23:00:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+
+<http://bigdataocean.eu/bdo/617e8e01-2f93-4ff0-9233-a87b76ac3eae_VC>
+        a       <http://bigdataocean.eu/bdo/VerticalCoverage> ;
+        <http://bigdataocean.eu/bdo/verticalFrom>
+                "0"^^<http://www.w3.org/2001/XMLSchema#double> ;
+        <http://bigdataocean.eu/bdo/verticalTo>
+                "0"^^<http://www.w3.org/2001/XMLSchema#double> .
+
+<http://bigdataocean.eu/bdo/617e8e01-2f93-4ff0-9233-a87b76ac3eae_GC>
+        a       <http://data.ign.fr/def/ignf#GeographicBoundingBox> ;
+        <http://data.ign.fr/def/ignf#eastBoundLongitude>
+                "7.102764"^^<http://www.w3.org/2001/XMLSchema#double> ;
+        <http://data.ign.fr/def/ignf#northBoundLatitude>
+                "50.733526"^^<http://www.w3.org/2001/XMLSchema#double> ;
+        <http://data.ign.fr/def/ignf#southBoundLatitude>
+                "50.733526"^^<http://www.w3.org/2001/XMLSchema#double> ;
+        <http://data.ign.fr/def/ignf#westBoundLongitude>
+                "7.102764"^^<http://www.w3.org/2001/XMLSchema#double> .
+
+<http://bigdataocean.eu/bdo/617e8e01-2f93-4ff0-9233-a87b76ac3eae>
+        a       <https://www.w3.org/TR/vocab-dcat/Dataset> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "Time-series" ;
+        <http://bigdataocean.eu/bdo/GeographicalCoverage>
+                <http://bigdataocean.eu/bdo/617e8e01-2f93-4ff0-9233-a87b76ac3eae_GC> ;
+        <http://bigdataocean.eu/bdo/storageTable>
+                "weather" ;
+        <http://bigdataocean.eu/bdo/timeCoverage>
+                <http://bigdataocean.eu/bdo/617e8e01-2f93-4ff0-9233-a87b76ac3eae_TC> ;
+        <http://bigdataocean.eu/bdo/timeResolution>
+                "daily" ;
+        <http://bigdataocean.eu/bdo/verticalCoverage>
+                <http://bigdataocean.eu/bdo/617e8e01-2f93-4ff0-9233-a87b76ac3eae_VC> ;
+        <http://bigdataocean.eu/bdo/verticalLevel>
+                "0" ;
+        <http://purl.org/dc/terms/Standard>
+                "CF-1.6" ;
+        <http://purl.org/dc/terms/accessRights>
+                "Public" ;
+        <http://purl.org/dc/terms/conformsTo>
+                "WGS 84 (EPSG 4326)" ;
+        <http://purl.org/dc/terms/creator>
+                "none" ;
+        <http://purl.org/dc/terms/description>
+                "This is an example of how the Dataset is saved in Jena Fuseki Triple Store." ;
+        <http://purl.org/dc/terms/format>
+                "NetCDF" ;
+        <http://purl.org/dc/terms/identifier>
+                "617e8e01-2f93-4ff0-9233-a87b76ac3eae" ;
+        <http://purl.org/dc/terms/issued>
+                "2018-11-16T17:34:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> ;
+        <http://purl.org/dc/terms/language>
+                "eng" ;
+        <http://purl.org/dc/terms/license>
+                "https://creativecommons.org/licenses/by/3.0/" ;
+        <http://purl.org/dc/terms/modified>
+                "2018-11-16T17:34:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> ;
+        <http://purl.org/dc/terms/publisher>
+                "Bonn University" ;
+        <http://purl.org/dc/terms/spatial>
+                <http://marineregions.org/mrgid/2350> ;
+        <http://purl.org/dc/terms/title>
+                "Example File Dataset" ;
+        <http://rdf-vocabulary.ddialliance.org/discovery#variable>
+                <http://bigdataocean.eu/bdo/617e8e01-2f93-4ff0-9233-a87b76ac3eae_LATITUDE> , <http://bigdataocean.eu/bdo/617e8e01-2f93-4ff0-9233-a87b76ac3eae_longitude> ;
+        <http://xmlns.com/foaf/0.1/homepage>
+                "http://www.bigdataocean.eu/" ;
+        <https://www.w3.org/TR/vocab-dcat/subject>
+                <http://inspire.ec.europa.eu/metadata-codelist/TopicCategory> ;
+        <https://www.w3.org/TR/vocab-dcat/theme>
+                <https://www.eionet.europa.eu/gemet/en/concept/7410> .
+
+<http://bigdataocean.eu/bdo/617e8e01-2f93-4ff0-9233-a87b76ac3eae_LATITUDE>
+        a       <http://bigdataocean.eu/bdo/BDOVariable> ;
+        <http://purl.org/dc/terms/identifier>
+                "LATITUDE" ;
+        <http://www.bigdataocean.eu/standards/canonicalmodel#canonicalUnit>
+                "degree_north" ;
+        <http://www.w3.org/2002/07/owl#sameAs>
+                <http://www.bigdataocean.eu/standards/canonicalmodel#latitude> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>
+                "latitude"@en .
+
+<http://bigdataocean.eu/bdo/617e8e01-2f93-4ff0-9233-a87b76ac3eae_longitude>
+        a       <http://bigdataocean.eu/bdo/BDOVariable> ;
+        <http://purl.org/dc/terms/identifier>
+                "longitude" ;
+        <http://www.bigdataocean.eu/standards/canonicalmodel#canonicalUnit>
+                "degrees_east" ;
+        <http://www.w3.org/2002/07/owl#sameAs>
+                <http://www.bigdataocean.eu/standards/canonicalmodel#longitude> ;
+        <http://www.w3.org/2004/02/skos/core#prefLabel>
+                "longitude"@en .

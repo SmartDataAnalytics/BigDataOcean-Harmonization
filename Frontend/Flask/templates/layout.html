@@ -53,35 +53,42 @@
     {% block body %}{% endblock %}
   </div>
 
-  <footer class="container-fluid text-center">
-    <div class="wrpl"><a href="http://www.bigdataocean.eu/site/">
-        <dl>
-          <dt><img class="BDO_logo" src="/static/img/logoaccount.png"></dt>
-          <dd><strong>Big Data Ocean</strong></dd>
-        </dl></a></div>
-    <div class="wrpl"><br>
-      <div class="bookmarks"><b>Documentation</b>
-        <ul>
-          <li><a href="/api" title="API documentation">API documentation</a></li>
-          <li><a href="https://github.com/SmartDataAnalytics/BigDataOcean-Harmonization" title="Source in GitHub" target="_blank">Source code</a></li>
-        </ul>
+  <footer class="footer-bs">
+    <div class="row">
+      <div class="col-md-3 footer-brand animated fadeInLeft"  style="padding-left: 125px; padding-top: 30px;">
+       <a href="http://www.bigdataocean.eu/site/">
+          <img class="BDO_logo" src="/static/img/logoaccount.png">
+        </a>
       </div>
-      <div class="bookmarks"><b>Publication</b>
-        <ul>
-          <li><a href="https://doi.org/10.5281/zenodo.833359" title="IEEE '17" target="_blank">IEEE '17</a></li>
-        </ul>
+      <div class="col-md-6 footer-nav animated fadeInUp">
+        <div class="col-md-4">
+          <h5 class="footer-title">Documentation</h5>
+            <ul class="list">
+              <li><a href="/api" title="API documentation">API documentation</a></li>
+              <li><a href="https://github.com/SmartDataAnalytics/BigDataOcean-Harmonization" title="Source in GitHub" target="_blank">Source code</a></li>
+            </ul>
+        </div>
+        <div class="col-md-4">
+          <h5 class="footer-title">Publication</h5>
+            <ul class="list">
+              <li><a href="https://doi.org/10.5281/zenodo.833359" title="IEEE '17" target="_blank">IEEE '17</a></li>
+            </ul>
+        </div>
+        <div class="col-md-4">
+          <h5 class="footer-title">BDO Platform</h5>
+            <ul class="list">
+              <li><a href="http://bdo-dev.epu.ntua.gr/bdo" title="BigDataOcean Platform" target="_blank">BigDataOcean Platform</a></li>
+              <li><a href="http://localhost:3333/dataset/bdo" title="Vocabulary Repository" target="_blank">Vocabulary Repository</a></li>
+            </ul>
+        </div>
       </div>
-      <div class="bookmarks"><b>BDO Platform</b>
-        <ul>
-          <li><a href="http://bdo-dev.epu.ntua.gr/bdo" title="BigDataOcean Platform" target="_blank">BigDataOcean Platform</a></li>
-          <li><a href="http://localhost:3333/dataset/bdo" title="Vocabulary Repository" target="_blank">Vocabulary Repository</a></li>
-        </ul>
+      <div class="col-md-2 footer-social animated fadeInDown" style="padding-top: 90px; padding-bottom: 0px;">
+        <p>
+          © <script>document.write(new Date().getFullYear())</script> <a href="http://bigdataocean.eu/">Big Data Ocean</a>
+        </p>
       </div>
-      <p class="copyright pull-right">
-        © <script>document.write(new Date().getFullYear())</script> <a href="http://bigdataocean.eu/">Big Data Ocean</a>
-      </p>
     </div>
-  </footer>
+</footer>
 </body>
 {% block extracssjs %}{% endblock %}
 

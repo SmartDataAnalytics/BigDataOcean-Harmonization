@@ -49,6 +49,10 @@ public class InsertNewDataset {
 
 	private static void exec(String flag, String parameter, String jsonDataset) throws IOException, ParseException {
 		Dataset newDataset = convertToObjectDataset(jsonDataset);
+		newDataset.setIssuedDate(dateVerification(newDataset.getIssuedDate()));
+		newDataset.setModifiedDate(dateVerification(newDataset.getModifiedDate()));
+		newDataset.setTemporalCoverageBegin(dateVerification(newDataset.getTemporalCoverageBegin()));
+		newDataset.setTemporalCoverageEnd(dateVerification(newDataset.getTemporalCoverageEnd()));
 		insertDataset(flag, parameter, newDataset);
 	}
 	
@@ -383,6 +387,15 @@ public class InsertNewDataset {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	private static String dateVerification(String date) {
+		if(date.length() > 16) {
+			return date;
+		} else if(date.length() == 16){
+			return date + ":00";
+		}
+		return date;
 	}
 	
 }

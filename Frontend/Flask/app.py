@@ -635,7 +635,7 @@ def edit():
 			else:
 				return render_template('404.html', error='There was an error while modifying the dataset.')
 
-	except ValueError:  # includes simplejson.decoder.JSONDecodeError
+	except ValueError as e:  # includes simplejson.decoder.JSONDecodeError
 		print(e)
 		return render_template('500.html')
 
@@ -690,7 +690,7 @@ def metadatainfo(identifier):
 				return render_template('metadataInfo.html', dataset=dataset)
 			else:
 				return render_template('404.html', error='The metadata ID \'%s\' does not exist.' %identifier)
-	except ValueError:  # includes simplejson.decoder.JSONDecodeError
+	except ValueError as e:  # includes simplejson.decoder.JSONDecodeError
 		print(e)
 		return render_template('500.html')
 
@@ -792,7 +792,7 @@ def metadatadatasetinfo(storage):
 				return render_template('datasetMetadataInfo.html', dataset=dataset)
 			else:
 				return render_template('404.html', error='The storage table \'%s\' does not exist.' %storage)
-	except ValueError:  # includes simplejson.decoder.JSONDecodeError
+	except ValueError as e:  # includes simplejson.decoder.JSONDecodeError
 		print(e)
 		return render_template('500.html')
 
