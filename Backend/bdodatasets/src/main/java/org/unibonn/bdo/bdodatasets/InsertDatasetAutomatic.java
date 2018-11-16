@@ -269,7 +269,7 @@ public class InsertDatasetAutomatic {
 		return new Dataset("", datasetProfile.getTitle(), datasetProfile.getDescription(), 
 				subject, keywords, datasetProfile.getStandards(), datasetProfile.getFormats(), datasetProfile.getLanguage(), 
 				datasetProfile.getHomepage(), datasetProfile.getPublisher(), datasetProfile.getSource(), datasetProfile.getObservation(), datasetProfile.getStorageTable(), 
-				datasetProfile.getAccessRights(), "", "", geoLoc, datasetProfile.getSpatialWest(), datasetProfile.getSpatialEast(),
+				datasetProfile.getLicense(), datasetProfile.getAccessRights(), "", "", geoLoc, datasetProfile.getSpatialWest(), datasetProfile.getSpatialEast(),
 				datasetProfile.getSpatialSouth(), datasetProfile.getSpatialNorth(), datasetProfile.getCoordinateSystem(), datasetProfile.getVerticalCoverageFrom(),
 				datasetProfile.getVerticalCoverageTo(), datasetProfile.getVerticalLevel(), datasetProfile.getTemporalCoverageBegin(), datasetProfile.getTemporalCoverageEnd(),
 				datasetProfile.getTimeResolution(), variables, "");

@@ -159,10 +159,22 @@
             </tr>
             <tr>
               <td>
-                <label class="label-tableInfo" for="access_rights">Access rights:</label>
+                <label class="label-tableInfo" for="access_rights">Access Rights:</label>
               </td>
               <td colspan="4">
                 {{ dataset.accessRights }}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label class="label-tableInfo" for="license">License:</label>
+              </td>
+              <td colspan="4">
+                {% if dataset.license.startswith( 'http://' ) %}
+                  <a href="{{ dataset.license }}" target="_blank">License Link</a>
+                {% else %}
+                  {{ dataset.license }}
+                {% endif %}
               </td>
             </tr>
           </tbody>
@@ -234,7 +246,7 @@
             </tr>
             <tr>
               <td>
-                <label class="label-tableInfo" for="coordinate_sys">Coordinate reference system:</label>
+                <label class="label-tableInfo" for="coordinate_sys">Coordinate Reference System:</label>
               </td>
               <td colspan="4">
                 {{ dataset.coordinateSystem }}

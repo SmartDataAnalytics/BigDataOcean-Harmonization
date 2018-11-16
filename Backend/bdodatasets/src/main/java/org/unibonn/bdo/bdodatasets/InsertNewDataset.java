@@ -68,7 +68,6 @@ public class InsertNewDataset {
 					"PREFIX bdocm: <http://www.bigdataocean.eu/standards/canonicalmodel#> \n" +
 					"PREFIX ids: <http://industrialdataspace/information-model/> \n" + 
 					"PREFIX qudt: <http://qudt.org/schema/qudt/> \n" + 
-					"PREFIX unit: <http://qudt.org/vocab/unit/> \n" + 
 					"PREFIX ignf: <http://data.ign.fr/def/ignf#> \n" + 
 					"PREFIX skos: <http://www.w3.org/2004/02/skos/core#> \n" + 
 					"\n" + 
@@ -101,7 +100,7 @@ public class InsertNewDataset {
 					"    dct:format \""+newDataset.getFormats()+"\" ; \n" +  
 					"    foaf:homepage \""+newDataset.getHomepage()+"\" ; \n" + 
 					"    dct:publisher \""+newDataset.getPublisher()+"\" ; \n" + 
-									
+					"    dct:license \""+newDataset.getLicense()+"\" ; \n" + 
 					"    dct:creator \""+newDataset.getSource()+"\" ; \n" + 
 					"    rdfs:comment \""+newDataset.getObservations()+"\" ; \n" + 
 					"    bdo:storageTable \""+newDataset.getStorageTable()+"\" ; \n" + 
@@ -285,7 +284,7 @@ public class InsertNewDataset {
 		ProfileDataset datasetProfile = new ProfileDataset(dataset.getProfileName(), dataset.getTitle(), dataset.getDescription(), 
 				subject, keywords, dataset.getStandards(), dataset.getFormats(), dataset.getLanguage(), 
 				dataset.getHomepage(), dataset.getPublisher(), dataset.getSource(), dataset.getObservations(), dataset.getStorageTable(), 
-				dataset.getAccessRights(), geoLoc, dataset.getSpatialWest(), dataset.getSpatialEast(),
+				dataset.getLicense(), dataset.getAccessRights(), geoLoc, dataset.getSpatialWest(), dataset.getSpatialEast(),
 				dataset.getSpatialSouth(), dataset.getSpatialNorth(), dataset.getCoordinateSystem(), dataset.getVerticalCoverageFrom(),
 				dataset.getVerticalCoverageTo(), dataset.getVerticalLevel(), dataset.getTemporalCoverageBegin(), dataset.getTemporalCoverageEnd(),
 				dataset.getTimeResolution(), variablesList, null);

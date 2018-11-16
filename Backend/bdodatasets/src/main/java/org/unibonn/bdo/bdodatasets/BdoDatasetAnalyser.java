@@ -554,6 +554,9 @@ public class BdoDatasetAnalyser {
 				if(attr.getShortName().equalsIgnoreCase("naming_authority")) {
 					result.setPublisher(attr.getStringValue());
 				}
+				if(attr.getShortName().equalsIgnoreCase("licence") || attr.getShortName().equalsIgnoreCase("license")) {
+					result.setLicense(attr.getStringValue());
+				}
 				if(attr.getShortName().equalsIgnoreCase("geospatial_lon_min") || attr.getShortName().equalsIgnoreCase("longitude_min")) {
 					result.setSpatialWest(attr.getValues().toString().replace(" ", EMPTY_FIELD));
 				}

@@ -26,6 +26,7 @@ public class Dataset  implements Serializable {
 	private String language; //tokenField_language
 	private String homepage; //URI of Dataset
 	private String publisher; //publisher of Dataset
+	private String license; //license of Dataset
 	private String source; //source of the Dataset (HCMR, ANEX, XMILE...)
 	private String observations; //Comments of the Dataset (Insitu, Timeseries...)
 	private String storageTable; //TableName used by parser tool
@@ -58,6 +59,7 @@ public class Dataset  implements Serializable {
 		this.language = "eng";
 		this.homepage = "";
 		this.publisher = "";
+		this.license = "";
 		this.source = "";
 		this.observations = "";
 		this.storageTable = "";
@@ -82,7 +84,7 @@ public class Dataset  implements Serializable {
 	//Dataset constructor for List<String> variable
 	public Dataset(String identifier, String title, String description, String subject, String keywords,
 			String standards, String formats, String language, String homepage, String publisher, 
-			String source, String observations, String storageTable, 
+			String source, String observations, String storageTable, String license,
 			String accessRights, String issuedDate, String modifiedDate, String geoLocation, String spatialWest, String spatialEast,
 			String spatialSouth, String spatialNorth, String coordinateSystem, String verticalCoverageFrom,
 			String verticalCoverageTo, String verticalLevel, String temporalCoverageBegin, String temporalCoverageEnd,
@@ -97,6 +99,7 @@ public class Dataset  implements Serializable {
 		this.language = language;
 		this.homepage = homepage;
 		this.publisher = publisher;
+		this.license = license;
 		this.source = source;
 		this.observations = observations;
 		this.storageTable = storageTable;
@@ -357,6 +360,14 @@ public class Dataset  implements Serializable {
 
 	public void setProfileName(String profileName) {
 		this.profileName = profileName;
+	}
+
+	public String getLicense() {
+		return license;
+	}
+
+	public void setLicense(String license) {
+		this.license = license;
 	}	
 	
 }
