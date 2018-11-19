@@ -111,17 +111,6 @@
               <i class="glyphicon glyphicon-plus"></i> Add
             </button>
           {% endif %}
-            <button id="showDiv" class="btn btn-default" onclick="location.href = '/endpoint';" >
-              <i class="glyphicon glyphicon-search"></i> SPARQL
-            </button>
-          {% if g.user %}
-            <button id="showDiv" class="btn btn-default" onclick="location.href = '/list';" >
-              <i class="glyphicon glyphicon-th-list"></i> Pending Datasets
-            </button>
-          {% endif %}
-          <button id="showDiv" class="btn btn-default" onclick="location.href = 'listFileDataset/all_files';" >
-            <i class="glyphicon glyphicon-th-list"></i> All File Datasets
-          </button>
         </div>
         <table id="tableDatasets" data-toggle="true"
           data-toolbar="#toolbar"

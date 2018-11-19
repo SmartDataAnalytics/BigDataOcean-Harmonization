@@ -27,8 +27,26 @@
         </ul>
       </div>
     </div>
+    <div class="container">
+      <header>
+        {% if g.user %}
+          <nav style="margin-left: 90px;">
+        {% else %}
+          <nav style="margin-left: 145px;">
+        {% endif %}
+          <ul>
+            <li class="wrpl"><a href="/">Datasets</a></li>
+            <li class="wrpl"><a href="listFileDataset/all_files">File Datasets</a></li>
+            {% if g.user %}
+              <li class="wrpl"><a href="/list">Pending Datasets</a></li>
+            {% endif %}
+            <li class="wrpl"><a href="/endpoint">SPARQL/Dump</a></li>
+          </ul>
+        </nav>
+      </header>
+    </div>
   </nav>
-  <div class="container text-center" style="margin-top:90px">
+  <div class="container text-center" style="margin-top:160px">
     {% with messages = get_flashed_messages() %}
       {% if messages %}
         {% for message in messages %}
