@@ -67,7 +67,7 @@ public class ExtractVocabulary {
 				log.info("Successful!  Response API getInfoVocabPrefix");
 				JsonObject vocabObject = new Gson().fromJson(response.getBody(), JsonObject.class); //Convert the response into JsonObject
 				JsonArray jarray = (JsonArray) vocabObject.get("versions"); // Get only the versions
-				JsonElement latestsVersion = jarray.get(0); //Get the last version available
+				JsonElement latestsVersion = jarray.get(jarray.size() - 1); //Get the last version available
 				JsonObject jobj = new Gson().fromJson(latestsVersion, JsonObject.class); //Convert the latest version into JsonObject
 				String result = jobj.get("fileURL").getAsString(); // Get the fileURL
 				getRDFVocabPrefix(result, vocabPrefix); 

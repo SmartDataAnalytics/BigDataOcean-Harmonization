@@ -197,6 +197,8 @@ public class InsertNewDataset {
 		            }
 		        }
 				String varKey = variablesTokens[0].replaceAll("[^a-zA-Z0-9_]", "");
+				// % character does not create the metadata in fuseki
+				String varUnit = variablesTokens[1].replaceAll("%", "percentage");
 				// If the value of the attribute sameAs is empty or does not exist
 		        if(!flagText) {
 		        	sameAs = "http://www.bigdataocean.eu/standards/canonicalmodel#" + varKey;
@@ -204,7 +206,7 @@ public class InsertNewDataset {
 				insertQuery += " bdo:"+newDataset.getIdentifier()+"_"+varKey+" a bdo:BDOVariable ; \n" + 
 						"    dct:identifier \""+variablesTokens[0]+"\" ; \n" +
 						"    skos:prefLabel \""+variablesTokens[2]+"\"@en ; \n" +
-						"    bdocm:canonicalUnit \""+variablesTokens[1]+"\" ; \n" +
+						"    bdocm:canonicalUnit \""+varUnit+"\" ; \n" +
 						"    owl:sameAs <"+sameAs+"> . \n" +
 						"    \n" ;
 			}
