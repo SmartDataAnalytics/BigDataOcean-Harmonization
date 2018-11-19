@@ -5,9 +5,10 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FSDataInputStream;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import java.io.*;
-import java.net.URI;
 
 /**
  * 
@@ -16,30 +17,33 @@ import java.net.URI;
  */
 
 public class HDFSFileSystem {
+	
+	private static final Logger log = LoggerFactory.getLogger(HDFSFileSystem.class);
 
     private FileSystem fileSystem;
 
     public HDFSFileSystem(String hdfsURI) {
-
-        try {
+    	
+    	try {
+            // Init HDFS file system object
             Configuration conf = new Configuration();
 
             // Set FileSystem URI
             conf.set("fs.defaultFS", hdfsURI);
+            conf.setBoolean("dfs.support.append", true);
 
             // Because of Maven
-            conf.set("fs.hdfs.impl", org.apache.hadoop.hdfs.DistributedFileSystem.class.getName());
-            conf.set("fs.file.impl", org.apache.hadoop.fs.LocalFileSystem.class.getName());
+            conf.set("fs.AbstractFileSystem.file.impl", org.apache.hadoop.fs.local.LocalFs.class.getName());
+            conf.set("fs.AbstractFileSystem.hdfs.impl", org.apache.hadoop.fs.Hdfs.class.getName());
 
             // Set HADOOP user
-            System.setProperty("HADOOP_USER_NAME", "ubuntu");
+            System.setProperty("HADOOP_USER_NAME", "hdfs");
+            System.setProperty("hadoop.home.dir", "/");
 
-            FileSystem fs = FileSystem.get(URI.create(hdfsURI), conf);
-
-            this.fileSystem = fs;
-
+            // Get the filesystem - HDFS
+            this.fileSystem = FileSystem.get(conf);
         } catch (IOException e) {
-        	e.printStackTrace();
+        	log.error(e.getMessage());
         }
     }
 
@@ -51,15 +55,15 @@ public class HDFSFileSystem {
             // Init input stream
             inputStream = fileSystem.open(hdfsreadpath);
             
-            return new BufferedReader(new InputStreamReader(inputStream));
+            return new BufferedReader(new InputStreamReader(inputStream.getWrappedStream()));
 
         } catch (Exception e) {
-        	e.printStackTrace();
+        	log.error(e.getMessage());
             if (null != inputStream) {
                 try {
                     inputStream.close();
                 } catch (IOException e1) {
-                	e.printStackTrace();
+                	log.error(e.getMessage());
                 }
             }
         }
@@ -77,12 +81,12 @@ public class HDFSFileSystem {
 
             return IOUtils.toByteArray(inputStream);
         } catch (Exception e) {
-        	e.printStackTrace();
+        	log.error(e.getMessage());
             if (null != inputStream) {
                 try {
                     inputStream.close();
                 } catch (IOException e1) {
-                	e.printStackTrace();
+                	log.error(e1.getMessage());
                 }
             }
         }
@@ -97,7 +101,7 @@ public class HDFSFileSystem {
 			fileSystem.copyToLocalFile(hdfsFilePath, localPath);
 			fileSystem.close();
 		} catch (IOException e) {
-			e.printStackTrace();
+			log.error(e.getMessage());
 		}
     	
     	return localPath;
@@ -106,10 +110,12 @@ public class HDFSFileSystem {
     public void deleteFile(String path) {
     	Path hdfsFilePath = new Path(path);
     	try {
-			fileSystem.delete(hdfsFilePath, true);
-			fileSystem.close();
+    		if (fileSystem.exists(hdfsFilePath)) {
+				fileSystem.delete(hdfsFilePath, true);
+				fileSystem.close();
+    		}
 		} catch (IOException e) {
-			e.printStackTrace();
+			log.error(e.getMessage());
 		}
     }
 }
