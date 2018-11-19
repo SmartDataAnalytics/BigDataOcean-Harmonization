@@ -95,9 +95,9 @@ public class LinkedDiscoveryData {
 		if(resultLimes.size() > 0) {
 			for (Map.Entry<String, String> entry : resultLimes.entrySet()){
 				if(result.isEmpty()) {
-					result = entry.getValue();
+					result = entry.getValue().replace("http://www.eionet.europa.eu/concept/", "https://www.eionet.europa.eu/gemet/en/concept/");
 				}else {
-					result = result + "," + entry.getValue();
+					result = result + "," + entry.getValue().replace("http://www.eionet.europa.eu/concept/", "https://www.eionet.europa.eu/gemet/en/concept/");
 				}
 			}
 			keywordsLinked.add(result);
@@ -129,8 +129,11 @@ public class LinkedDiscoveryData {
 		if(resultLimes.size() > 0) {
 			for(Ontology tempOnto : listOntology) {
 				if(resultLimes.get(tempOnto.getLabel().toLowerCase()) != null) {
-					result = tempOnto.getUrl();
-					break;
+					if(result.isEmpty()) {
+						result = tempOnto.getUrl();
+					}else {
+						result = result + "," + tempOnto.getUrl();
+					}
 				}
 			}
 			geoLocLinked.add(result);

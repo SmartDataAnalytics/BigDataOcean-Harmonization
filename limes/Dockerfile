@@ -18,4 +18,4 @@ WORKDIR /LIMES-1.5.0
 COPY --from=builder /LIMES-1.5.0/limes-core/target/limes-core-1.5.0.jar limes-core-1.5.0.jar
 
 # assign start command
-CMD ["java", "-jar", "limes-core-1.5.0.jar", "-s"]
+CMD ["java", "-jar", "limes-core-1.5.0.jar", "-s", "-p 8081"]

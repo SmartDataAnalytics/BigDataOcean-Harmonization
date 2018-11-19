@@ -9,7 +9,7 @@ public class Constants {
     public static final String INSPIRE_ONTOLOGY_N3 = CONFIGVOLUMEPATH + "/ontologiesN3/inspire.n3";
     public static final String EIONET_ONTOLOGY_N3 = CONFIGVOLUMEPATH + "/ontologiesN3/eionet.n3";
     public static final String HTTPJWT = "";
-    public static final String HTTPLIMES = "http://localhost:8080/";
+    public static final String HTTPLIMES = "http://localhost:8081/";
 	public static final String HTTPFUSEKI = "http://localhost:3031/bdoHarmonization/";
 	public static final String API_GET_INFO_VOCAB_REPO = "http://localhost:3333/dataset/bdo/api/v2/vocabulary/info?vocab=";
     public static final String KAFKA_BROKERS = "localhost:9092";
