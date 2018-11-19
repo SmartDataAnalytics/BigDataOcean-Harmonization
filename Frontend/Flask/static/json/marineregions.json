@@ -12,12 +12,12 @@
     "text": "Sea of Okhotsk"
   },
   {
-    "value": "http://marineregions.org/mrgid/1912",
-    "text": "North Atlantic Ocean"
-  },
-  {
     "value": "http://marineregions.org/mrgid/4264",
     "text": "Red Sea"
+  },
+  {
+    "value": "http://marineregions.org/mrgid/1912",
+    "text": "North Atlantic Ocean"
   },
   {
     "value": "http://marineregions.org/mrgid/4266",
@@ -44,12 +44,12 @@
     "text": "Mediterranean Sea - Western Basin"
   },
   {
-    "value": "http://marineregions.org/mrgid/4244",
-    "text": "East Siberian Sea"
-  },
-  {
     "value": "http://marineregions.org/mrgid/4256",
     "text": "Beaufort Sea"
+  },
+  {
+    "value": "http://marineregions.org/mrgid/4244",
+    "text": "East Siberian Sea"
   },
   {
     "value": "http://marineregions.org/mrgid/4300",
@@ -58,6 +58,10 @@
   {
     "value": "http://marineregions.org/mrgid/4248",
     "text": "White Sea"
+  },
+  {
+    "value": "http://marineregions.org/mrgid/1901",
+    "text": "Global Ocean"
   },
   {
     "value": "http://marineregions.org/mrgid/49716",
@@ -94,6 +98,10 @@
   {
     "value": "http://marineregions.org/mrgid/4280",
     "text": "Mediterranean Sea - Eastern Basin"
+  },
+  {
+    "value": "http://marineregions.org/mrgid/17812",
+    "text": "Portuguese Coast"
   },
   {
     "value": "http://marineregions.org/mrgid/4303",
@@ -136,12 +144,12 @@
     "text": "Strait of Gibraltar"
   },
   {
-    "value": "http://marineregions.org/mrgid/2356",
-    "text": "Greenland Sea"
-  },
-  {
     "value": "http://marineregions.org/mrgid/2374",
     "text": "Kattegat"
+  },
+  {
+    "value": "http://marineregions.org/mrgid/2356",
+    "text": "Greenland Sea"
   },
   {
     "value": "http://marineregions.org/mrgid/2409",
@@ -160,12 +168,12 @@
     "text": "Bay of Bengal"
   },
   {
-    "value": "http://marineregions.org/mrgid/4250",
-    "text": "Davis Strait"
-  },
-  {
     "value": "http://marineregions.org/mrgid/3319",
     "text": "Black Sea"
+  },
+  {
+    "value": "http://marineregions.org/mrgid/4250",
+    "text": "Davis Strait"
   },
   {
     "value": "http://marineregions.org/mrgid/2379",
@@ -176,12 +184,12 @@
     "text": "Adriatic Sea"
   },
   {
-    "value": "http://marineregions.org/mrgid/1904",
-    "text": "Indian Ocean"
-  },
-  {
     "value": "http://marineregions.org/mrgid/4246",
     "text": "Kara Sea"
+  },
+  {
+    "value": "http://marineregions.org/mrgid/1904",
+    "text": "Indian Ocean"
   },
   {
     "value": "http://marineregions.org/mrgid/1906",
@@ -196,28 +204,28 @@
     "text": "North Sea"
   },
   {
-    "value": "http://marineregions.org/mrgid/4247",
-    "text": "Barentsz Sea"
-  },
-  {
     "value": "http://marineregions.org/mrgid/4289",
     "text": "Bay of Fundy"
   },
   {
-    "value": "http://marineregions.org/mrgid/3351",
-    "text": "Ionian Sea"
+    "value": "http://marineregions.org/mrgid/4247",
+    "text": "Barentsz Sea"
   },
   {
     "value": "http://marineregions.org/mrgid/4251",
     "text": "Hudson Strait"
   },
   {
-    "value": "http://marineregions.org/mrgid/2401",
-    "text": "Baltic Sea"
+    "value": "http://marineregions.org/mrgid/3351",
+    "text": "Ionian Sea"
   },
   {
     "value": "http://marineregions.org/mrgid/4364",
     "text": "Coral Sea"
+  },
+  {
+    "value": "http://marineregions.org/mrgid/2401",
+    "text": "Baltic Sea"
   },
   {
     "value": "http://marineregions.org/mrgid/2357",
@@ -236,12 +244,12 @@
     "text": "Sea of Marmara"
   },
   {
-    "value": "http://marineregions.org/mrgid/4262",
-    "text": "Gulf of Suez"
-  },
-  {
     "value": "http://marineregions.org/mrgid/4274",
     "text": "Andaman Sea"
+  },
+  {
+    "value": "http://marineregions.org/mrgid/4262",
+    "text": "Gulf of Suez"
   },
   {
     "value": "http://marineregions.org/mrgid/4276",
@@ -292,8 +300,8 @@
     "text": "Labrador Sea"
   },
   {
-    "value": "http://marineregions.org/mrgid/3322",
-    "text": "Balearic Sea"
+    "value": "http://marineregions.org/mrgid/4332",
+    "text": "South China Sea"
   },
   {
     "value": "http://marineregions.org/mrgid/4286",
@@ -308,8 +316,8 @@
     "text": "North Pacific Ocean"
   },
   {
-    "value": "http://marineregions.org/mrgid/4332",
-    "text": "South China Sea"
+    "value": "http://marineregions.org/mrgid/3322",
+    "text": "Balearic Sea"
   },
   {
     "value": "http://marineregions.org/mrgid/4314",
