@@ -186,7 +186,12 @@ public class LimesAnalyser {
 				String[] tokenTab = token1.split("\t");
 				String tokenKey =tokenTab[1].replaceAll("<", "").replaceAll(">", "");
 				String tokenValue =tokenTab[0].replaceAll("<", "").replaceAll(">", "");
-				result.put(tokenKey, tokenValue);
+				if(result.containsKey(tokenKey)){
+					result.put(tokenKey, result.get(tokenKey) + "," + tokenValue);
+			    }else{
+			    	result.put(tokenKey, tokenValue);
+			    }
+				
 			}
 		}else {
 			result = null;
@@ -243,15 +248,15 @@ public class LimesAnalyser {
 						"		<TYPE>N3</TYPE>\n" + 
 						"	</SOURCE>\n" + targetconfig;
 				config = config + "	<METRIC>\n" + 
-						"		Cosine(x.http://xmlns.com/foaf/0.1/name, y.rdfs:label)\n" + 
+						"		Jaccard(x.http://xmlns.com/foaf/0.1/name, y.rdfs:label)\n" + 
 						"	</METRIC>\n";
 				config = config + "	<ACCEPTANCE>\n" + 
-			    		"		<THRESHOLD>0.8</THRESHOLD>\n" + 
+			    		"		<THRESHOLD>0.95</THRESHOLD>\n" + 
 			    		"		<FILE>accepted.txt</FILE>\n" + 
 			    		"		<RELATION>owl:sameAs</RELATION>\n" + 
 			    		"	</ACCEPTANCE>\n" + 
 			    		"	<REVIEW>\n" + 
-			    		"		<THRESHOLD>0.77</THRESHOLD>\n" + 
+			    		"		<THRESHOLD>0.8</THRESHOLD>\n" + 
 			    		"		<FILE>reviewme.txt</FILE>\n" + 
 			    		"		<RELATION>owl:sameAs</RELATION>\n" + 
 			    		"	</REVIEW>";
@@ -267,15 +272,15 @@ public class LimesAnalyser {
 						"		<TYPE>N3</TYPE>\n" + 
 						"	</SOURCE>\n" + targetconfig;
 				config = config + "	<METRIC>\n" + 
-						"		Cosine(x.http://xmlns.com/foaf/0.1/name, y.skos:prefLabel)\n" + 
+						"		Jaccard(x.http://xmlns.com/foaf/0.1/name, y.skos:prefLabel)\n" + 
 						"	</METRIC>\n";
 				config = config + "	<ACCEPTANCE>\n" + 
-			    		"		<THRESHOLD>0.8</THRESHOLD>\n" + 
+			    		"		<THRESHOLD>0.95</THRESHOLD>\n" + 
 			    		"		<FILE>accepted.txt</FILE>\n" + 
 			    		"		<RELATION>owl:sameAs</RELATION>\n" + 
 			    		"	</ACCEPTANCE>\n" + 
 			    		"	<REVIEW>\n" + 
-			    		"		<THRESHOLD>0.77</THRESHOLD>\n" + 
+			    		"		<THRESHOLD>0.8</THRESHOLD>\n" + 
 			    		"		<FILE>reviewme.txt</FILE>\n" + 
 			    		"		<RELATION>owl:sameAs</RELATION>\n" + 
 			    		"	</REVIEW>";
@@ -291,15 +296,15 @@ public class LimesAnalyser {
 						"		<TYPE>N3</TYPE>\n" + 
 						"	</SOURCE>\n" + targetconfig;
 				config = config + "	<METRIC>\n" + 
-						"		Cosine(x.http://xmlns.com/foaf/0.1/name, y.dct:title)\n" + 
+						"		Qgrams(x.http://xmlns.com/foaf/0.1/name, y.dct:title)\n" + 
 						"	</METRIC>\n";
 				config = config + "	<ACCEPTANCE>\n" + 
-			    		"		<THRESHOLD>0.77</THRESHOLD>\n" + 
+			    		"		<THRESHOLD>0.74</THRESHOLD>\n" + 
 			    		"		<FILE>accepted.txt</FILE>\n" + 
 			    		"		<RELATION>owl:sameAs</RELATION>\n" + 
 			    		"	</ACCEPTANCE>\n" + 
 			    		"	<REVIEW>\n" + 
-			    		"		<THRESHOLD>0.7</THRESHOLD>\n" + 
+			    		"		<THRESHOLD>0.3</THRESHOLD>\n" + 
 			    		"		<FILE>reviewme.txt</FILE>\n" + 
 			    		"		<RELATION>owl:sameAs</RELATION>\n" + 
 			    		"	</REVIEW>";

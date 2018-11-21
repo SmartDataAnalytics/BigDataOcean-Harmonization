@@ -351,6 +351,9 @@
                 <input type="text" class="form-control" id="parser_variable" name="parser_variable">
                </td>
                <td>
+                <div class="fieldSuggestions">
+                  
+                </div>
                 <input type="text" class="form-control-autocomplete" id="json_variable" name="json_variable">
                </td>
                <td>
@@ -404,6 +407,7 @@
         </div>
       </div>
     </form>
+    <div class="fieldSug" id="fieldSug" style='display: none;'><span title="Variables suggested by LIMES" class="fieldSugLabel" id="labelvar"></span><span class="fieldSugValue" id="namevar"></span><img src="/static/img/validate.png" title="use this value" class="fieldSugActionInput"></div>
 
   {%else%}
     <form id="metadataForm" name="metadataForm" class="form-style" method="POST" action="/save" onsubmit="return requireFields();">
@@ -833,4 +837,12 @@
   <script src="../static/js/jquery.easy-autocomplete.min.js"></script> 
   <script src="../static/js/jquery-confirm.js"></script>
   <script type="text/javascript" src="../static/js/metadatascript.js"></script>
+
+  <script type="text/javascript">
+     $('.fieldSugActionInput').click(function() {  //on click 
+            var txt =$(this).prev('.fieldSugValue').text();
+            $(this).parent().parent().parent().children('div').children('input').val(txt);
+        });
+
+  </script>
 {% endblock %}

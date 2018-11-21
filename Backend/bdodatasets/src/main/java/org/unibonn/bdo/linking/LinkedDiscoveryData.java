@@ -57,14 +57,21 @@ public class LinkedDiscoveryData {
 		if(resultLimes.size() > 0) {
 			for (String rawVar : rawVariables) {
 				String name = rawVar.split(" -- ")[0];
+				String canonicalName = "";
 				if (resultLimes.get(name) != null) {
-					for(Ontology tempOnto : listOntology) {
-						if(tempOnto.getUri().equals(resultLimes.get(name))) {
-							variablesLinked.add(rawVar + " -- " + tempOnto.getCanonicalName());
-							break;
+					if(resultLimes.get(name).contains(",")) {
+						String[] token = resultLimes.get(name).split(",");
+						for (String t : token) {
+							if(canonicalName.equals("")) {
+								canonicalName = findCanonicalName(listOntology, t, true);
+							} else {
+								canonicalName = canonicalName + "**" + findCanonicalName(listOntology, t, true);
+							}
 						}
+						variablesLinked.add(rawVar + " -- " + canonicalName);
+					} else {
+						variablesLinked.add(rawVar + " -- " + findCanonicalName(listOntology, resultLimes.get(name), false));
 					}
-					
 				} else {
 					variablesLinked.add(rawVar + " -- ");
 				}
@@ -76,6 +83,19 @@ public class LinkedDiscoveryData {
 		}
 		
 		return variablesLinked;
+	}
+	
+	private static String findCanonicalName(List<Ontology> listOntology, String valueMap, boolean flag) {
+		for(Ontology tempOnto : listOntology) {
+			if(tempOnto.getUri().equals(valueMap)) {
+				if(flag) {
+					return tempOnto.getLabel() + ":" + tempOnto.getCanonicalName();
+				}else {
+					return tempOnto.getCanonicalName();
+				}
+			}
+		}
+		return "";
 	}
 	
 	// if there is no match variables in Limes return only the raw variables

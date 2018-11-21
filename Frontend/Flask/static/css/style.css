@@ -968,3 +968,37 @@ header nav li {
 nav li {
     list-style-type: none;
 }
+
+
+.fieldSuggestions{
+  padding: .3em 0em .3em 1em;
+  font-size:90%;
+  color:#5E9B9B;
+}
+.fieldSuggestions .fieldSug .fieldSugLabel{
+  font-style: italic;
+}
+.fieldSuggestions .fieldSug .fieldSugValue{
+  
+}
+.fieldSuggestions .fieldSug .fieldSugActionInput{
+  padding-left:.5em;
+  cursor:pointer;
+  height:1em;
+}
+.fieldSuggestions .fieldSug .fieldSugLang{
+  color:#426C6C;
+}
+.fieldWithLangAddAction, .fieldSugActionTextareaLangDescription, .fieldSugActionTextareaLangTitle, .fieldAgentAddAction, .fieldReviewAddAction, .fieldTagsAddAction, .fieldSugActionAgentComplete{
+  height:1em;
+  width:1em;
+  cursor:pointer;
+  padding-left:.5em;
+}
+.fieldSugHidden{
+  display:none;
+}
+.fieldPrecision{
+  color:#9E9E9E;
+  font-size:90%;
+}

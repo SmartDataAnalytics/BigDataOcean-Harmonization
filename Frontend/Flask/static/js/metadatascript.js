@@ -331,8 +331,23 @@ $.each(response, function(i, item) {
   element = content.clone();
   element.attr('id', 'rec-'+size);
   element.find('#parser_variable').attr('value', variable[0]);
-  element.find('#json_variable').attr('id', 'json_variable-'+size);
-  element.find('#json_variable-'+size).attr('value', variable[2]);
+  if (variable[2].includes("**")){
+    var token = variable[2].split("**");
+    for (i = 0; i < token.length; i++) { 
+      var element1 = $('#fieldSug').clone();
+      element.find('.fieldSuggestions').prepend(element1);
+      element.find('#fieldSug').css("display","block");
+      element.find('#fieldSug').attr('id', 'fieldSug-'+i);
+      var vartoken = token[i].split(":");
+      element.find('#fieldSug-'+i+' >#labelvar').text(vartoken[0] + ": ");
+      element.find('#fieldSug-'+i+' >#namevar').text(vartoken[1]);
+      element.find('#json_variable').attr('id', 'json_variable-'+size);
+    }
+  } else {
+    element.find('.fieldSuggestions').css("display","none");
+    element.find('#json_variable').attr('id', 'json_variable-'+size);
+    element.find('#json_variable-'+size).attr('value', variable[2]);
+  }
   element.find('#unit_variable').attr('value', variable[1]);
   element.find('.delete-record').attr('data-id', size);
   element.appendTo('#tbl_posts_body');

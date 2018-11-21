@@ -67,15 +67,22 @@ public class NERDiscovery {
 			String fileContents = IOUtils.slurpFile(fileTxt);
 			List<Triple<String, Integer, Integer>> list = classifier.classifyToCharacterOffsets(fileContents);
 			for (Triple<String, Integer, Integer> item : list) {
-				responseList.add(fileContents.substring(item.second(), item.third()).toLowerCase());
+				String text = fileContents.substring(item.second(), item.third()).toLowerCase();
+				if(text.split(" ").length >= 3) {
+					for(String m : text.split(" ")) {
+						responseList.add(m);
+					}
+				}else {
+					responseList.add(fileContents.substring(item.second(), item.third()).toLowerCase());
+				}
 			}
-			
 			responseList = removeDuplicates(responseList);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return responseList;
 	}
+	
 	
 	// Delete duplicate entities
 	private static List<String> removeDuplicates(List<String> list) {
