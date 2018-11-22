@@ -43,12 +43,9 @@ public class InsertNewDataset {
 	public static void main(String[] args) throws IOException, ParseException {
 		Ini config = new Ini(new File(Constants.INITFILEPATH));
 		tokenAuthorization = config.get("DEFAULT", "AUTHORIZATION_JWT");
-//		String flag = args[0];
-//		String parameter = args[1];
-//		String jsonDataset = args[2];
-		String flag = "other";
-		String parameter = "bla";
-		String jsonDataset = "/home/eis/Dropbox/BDO/BigDataOcean-Harmonization/Backend/AddDatasets/jsonDataset.json";
+		String flag = args[0];
+		String parameter = args[1];
+		String jsonDataset = args[2];
 		exec(flag, parameter, jsonDataset);
 	}
 
