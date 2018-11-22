@@ -101,6 +101,7 @@ def allowed_file(filename):
 # Routing to index
 @app.route('/')
 def index():
+	extractdatafromhandler()
 	# Calls shell listDatasets to get all the datasets stored on jena fuseki
 	command = GLOBALPATH + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/listDatasets'
 	try:
@@ -476,11 +477,11 @@ def save():
 				datasettype = ""	
 			else:
 				identifier = str(uuid.uuid4())
-				check_existance = title+">"+publisher+">"+issueddate+">"+idfile
+				check_existance = idfile
 				datasettype = "other"
 
 			# add the values to the DatasetInfo class
-			dataset = DatasetInfo (identifier, title, description, subject, keywords, standards, formats, language, homepage, publisher, 
+			dataset = DatasetInfo (identifier, idfile, title, description, subject, keywords, standards, formats, language, homepage, publisher, 
 				license, source, observations, storagetable,
 				accessrights, issueddate, modifieddate, geolocation, spatialwest, spatialeast, spatialsouth, spatialnorth, 
 				coordinatesystem, verticalcoveragefrom, verticalcoverageto, verticallevel, temporalcoveragebegin, 
@@ -511,6 +512,10 @@ def save():
 				return render_template('404.html', error='Metadata has been added but API: Identifier is not being added to idfile.')
 			elif b'Error3' in process:
 				return render_template('404.html', error='Metadata ID \'%s\' already exists.' %identifier)
+			elif b'Error4' in process:
+				return render_template('404.html', error='An error occurred inserting the metadata in Fuseki')
+			else:
+				return render_template('404.html', error='Sorry, a not identified error has appeared')
 	except ValueError as e:  # includes simplejson.decoder.JSONDecodeError
 		print(e)
 		return render_template('500.html')
@@ -545,6 +550,7 @@ def edit():
 	try:
 		if request.method == 'POST':
 			identifier = request.form['identifier']
+			idfile = request.form['idFile']
 			title = request.form['title']
 			description = request.form['description']
 			subject = request.form['tokenfield_subject']
@@ -588,15 +594,15 @@ def edit():
 				variables.append(parserlist[i] + " -- " + unitvariable[i] + " -- " + jsonlist[i])
 
 			if identifier  != "":
-				check_existance = "<http://bigdataocean.eu/bdo/"+identifier+"> "
+				check_existance = "<http://bigdataocean.eu/bdo/"+identifier+"> "+idfile
 				datasettype = ""	
 			else:
 				identifier = str(uuid.uuid4())
-				check_existance = title+">"+publisher+">"+issueddate+">"
+				check_existance = idfile
 				datasettype = "other"
 
 			# add the values to the DatasetInfo class
-			dataset = DatasetInfo (identifier, title, description, subject, keywords, standards, formats, language, homepage, publisher, 
+			dataset = DatasetInfo (identifier, idfile, title, description, subject, keywords, standards, formats, language, homepage, publisher, 
 				license, source, observations, storagetable,
 				accessrights, issueddate, modifieddate, geolocation, spatialwest, spatialeast, spatialsouth, spatialnorth, 
 				coordinatesystem, verticalcoveragefrom, verticalcoverageto, verticallevel, temporalcoveragebegin, temporalcoverageend, 
@@ -609,7 +615,7 @@ def edit():
 			path2json = GLOBALPATH + "/Backend/AddDatasets/jsonDataset.json"
 
 			# Calls shell insertDataset to connect to jena fuseki and add dataset via sparql query
-			command = GLOBALPATH + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/deleteDataset "%s"' %identifier
+			command = GLOBALPATH + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/deleteDataset "%s" "%s"' %(identifier, True)
 			try:
 				process = subprocess.check_output([command], shell="True")
 				
@@ -644,7 +650,7 @@ def edit():
 @login_required
 def delete(identifier):
 	# Calls shell insertDataset to connect to jena fuseki and add dataset via sparql query
-	command = GLOBALPATH + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/deleteDataset "%s"' %identifier
+	command = GLOBALPATH + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/deleteDataset "%s" "%s"' %(identifier, True)
 	try:
 		process = subprocess.check_output([command], shell="True")
 		
@@ -656,6 +662,24 @@ def delete(identifier):
 		return redirect(url_for('index'))
 	else:
 		return render_template('404.html', error='There was an error while deleting the dataset.')
+
+# Routing to delete a corresponding dataset by storagetable
+@app.route('/deleteDataset/<storage>', methods=['GET', 'POST'])
+@login_required
+def deleteDataset(storage):
+	# Calls shell insertDataset to connect to jena fuseki and add dataset via sparql query
+	command = GLOBALPATH + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/deleteDataset "%s" "%s"' %(storage, False)
+	try:
+		process = subprocess.check_output([command], shell="True")
+		
+	except subprocess.CalledProcessError as e:
+		print(e)
+		return render_template('500.html')
+	# when the dataset is added to jena fuseki, redirects to the metadataInfo web page corresponding to the identifier
+	if b'Successful' in process:
+		return redirect(url_for('index'))
+	else:
+		return render_template('404.html', error='There was an error while deleting the dataset with storage table "%s".' %(storage, False))
 
 # Routing to see metadata of an specific dataset
 @app.route('/metadataInfo/<identifier>', methods=['GET', 'POST'])
@@ -1106,11 +1130,12 @@ def extractdatafromhandler():
 
 # Class for datasets parsed on shell suggest
 class DatasetInfo(object):
-	def __init__(self, identifier, title, description, subject, keywords, standards, formats, language, homepage, publisher, license, 
+	def __init__(self, identifier, idFile, title, description, subject, keywords, standards, formats, language, homepage, publisher, license, 
 		source, observations, storageTable, accessRights, issuedDate, modifiedDate, geoLocation, spatialWest, spatialEast, spatialSouth, spatialNorth, 
 		coordinateSystem, verticalCoverageFrom, verticalCoverageTo, verticalLevel, temporalCoverageBegin, temporalCoverageEnd, 
 		timeResolution, variable, profileName):
 		self.identifier = identifier
+		self.idFile = idFile
 		self.title = title
 		self.description = description
 		self.subject = subject

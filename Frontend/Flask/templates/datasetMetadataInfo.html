@@ -9,6 +9,11 @@
         <button type="submit" class="btn btn-default">
           <i class="glyphicon glyphicon-th-list"></i> File Datasets
         </button>
+        {% if g.user %}
+          <button type="button" class="btn btn-danger" onclick="deleteDatasetButton()">
+            <i class="glyphicon glyphicon-trash"></i> Delete
+          </button>
+        {% endif %}
       </div>
     </div>
     <div class="row content">
@@ -30,6 +35,14 @@
             <th class="info-table"></th>
           </thead>
           <tbody>
+            <tr style='display: none;'>
+              <td>
+                <label class="label-tableInfo" for="storage">Storage Table:</label>
+              </td>
+              <td colspan="4">
+                <input type="text" class="form-control" id="storage" name="storage" value="{{dataset.storageTable}}">
+              </td>
+            </tr>
             <tr>
               <td>
                 <label class="label-tableInfo" for="description">Description:</label>
@@ -378,6 +391,11 @@
         <button type="submit" class="btn btn-default">
           <i class="glyphicon glyphicon-th-list"></i> File Datasets
         </button>
+        {% if g.user %}
+          <button type="button" class="btn btn-danger" onclick="deleteDatasetButton()">
+            <i class="glyphicon glyphicon-trash"></i> Delete
+          </button>
+        {% endif %}
       </div>
     </div>
   </form>

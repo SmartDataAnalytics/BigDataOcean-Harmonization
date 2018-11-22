@@ -43,7 +43,7 @@ public class GetMetadata {
 					+ "?timeReso (STR(?verFrom) AS ?vFrom) (STR(?verTo) AS ?vTo) (STR(?west) AS ?spatialWest) "
 					+ "(STR(?east) AS ?spatialEast) (STR(?south) AS ?spatialSouth) (STR(?north) AS ?spatialNorth) "
 					+ "(STR(?tempCovB) AS ?timeCovBeg) (STR(?tempCovE) AS ?timeCovEnd) ?vLevel ?coorSys ?source "
-					+ "?observation ?storageTable\n" + 
+					+ "?observation ?storageTable ?idFile \n" + 
 					"WHERE{ \n" + 
 					"  "+uri+" a dcat:Dataset ;\n" + 
 					"       dct:identifier ?ident ;\n" + 
@@ -69,6 +69,7 @@ public class GetMetadata {
 					"       bdo:verticalLevel ?vLevel ;\n" + 
 					"       dct:conformsTo ?coorSys ;\n" + 
 					"       bdo:timeCoverage ?temp .\n" + 
+					"       OPTIONAL {"+uri+" bdo:idFile ?idFile }\n" + 
 					"  \n" + 
 					"  ?temp a bdo:TimeCoverage;\n" + 
 					"		 ids:beginning ?tempCovB ;\n" + 
@@ -91,6 +92,11 @@ public class GetMetadata {
 			while(results.hasNext()){
 				QuerySolution solution = results.nextSolution();
 				dataset.setIdentifier(solution.get("ident").toString());
+				if(solution.get("idFile") != null) {
+					dataset.setIdFile(solution.get("idFile").toString());
+				} else {
+					dataset.setIdFile("");
+				}
 				dataset.setTitle(solution.get("title").toString());
 				dataset.setDescription(solution.get("desc").toString());
 				dataset.setStandards(solution.get("standard").toString());
