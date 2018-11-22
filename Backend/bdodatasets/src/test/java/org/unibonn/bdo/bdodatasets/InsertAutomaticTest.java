@@ -47,7 +47,7 @@ public class InsertAutomaticTest {
 	@Test
 	public void test2(){
 		log.info("Start testing if convert correctly the jsonprofile into Dataset object");
-		Dataset data = InsertDatasetAutomatic.convertProfileToDataset(jsonProfile);
+		Dataset data = InsertDatasetAutomatic.convertProfileToDataset(jsonProfile, idFile);
 		if (data != null) {
 			if (data.getTitle().equals("Med Sea - NRT in situ Observations")) {
 				flag = true;

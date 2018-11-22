@@ -71,6 +71,7 @@ public class InsertDatasetAutomatic {
     
     private static void runConsumer() {
     	Consumer<Long, String> consumer = ConsumerCreator.createConsumer();
+    	Producer<Long, String> producer = ProducerCreator.createProducer();
         int noMessageFound = 0;
         while (true) {
         	// 1000 is the time in milliseconds consumer will wait if no record is found at broker.
@@ -94,7 +95,7 @@ public class InsertDatasetAutomatic {
 					flag = analyseInsertDatasetAutomatic(filename,idFile,idProfile);
 					if(flag) {
 						System.out.println("Successful!  Metadata has been added correctly");
-						runProducer(idFile);
+						runProducer(producer, idFile);
 					}else {
 						System.out.println("Error!  There was an error adding the metadata");
 					}
@@ -108,8 +109,7 @@ public class InsertDatasetAutomatic {
         consumer.close();
     }
     
-    public static void runProducer(String idFile) {
-    	Producer<Long, String> producer = ProducerCreator.createProducer();
+    public static void runProducer(Producer<Long, String> producer, String idFile) {
     	// Send a message to TOPIC2 with the idFile
     	ProducerRecord<Long, String> record = new ProducerRecord<>(Constants.TOPIC_NAME2, idFile);
     	try {
@@ -154,7 +154,7 @@ public class InsertDatasetAutomatic {
 		}
 		
 		//Convert json into Dataset
-		result = convertProfileToDataset(jsonProfile);
+		result = convertProfileToDataset(jsonProfile, idFile);
 		
 		//Set the identifier to the dataset
 		String identifier = UUID.randomUUID().toString();
@@ -174,7 +174,7 @@ public class InsertDatasetAutomatic {
 		}
 		
 		// Parameters to check if metadata already exist in Fuseki
-		parameter = result.getTitle()+">"+result.getPublisher()+">"+result.getIssuedDate();
+		parameter = result.getIdFile();
 		
 		// insert metadata into the system
 		resultInsert = InsertNewDataset.insertDataset("other", parameter, result);
@@ -248,7 +248,7 @@ public class InsertDatasetAutomatic {
 	}
     
     // Convert the jsonProfile into a ProfileDataset then to a Dataset
-    public static Dataset convertProfileToDataset(String jsonProfileDataset) {
+    public static Dataset convertProfileToDataset(String jsonProfileDataset, String idFile) {
     	List<VariableDataset> variablesList = new ArrayList<>();
     	List<String> variables = new ArrayList<>();
 		
@@ -266,7 +266,7 @@ public class InsertDatasetAutomatic {
 		String geoLoc = convertWordToLink(datasetProfile.getGeoLocation(), "marineregions");
 		
 		//Import all the metadata into the Dataset except identifier, issuedDate and modifiedDate
-		return new Dataset("", datasetProfile.getTitle(), datasetProfile.getDescription(), 
+		return new Dataset("", idFile, datasetProfile.getTitle(), datasetProfile.getDescription(), 
 				subject, keywords, datasetProfile.getStandards(), datasetProfile.getFormats(), datasetProfile.getLanguage(), 
 				datasetProfile.getHomepage(), datasetProfile.getPublisher(), datasetProfile.getSource(), datasetProfile.getObservation(), datasetProfile.getStorageTable(), 
 				datasetProfile.getLicense(), datasetProfile.getAccessRights(), "", "", geoLoc, datasetProfile.getSpatialWest(), datasetProfile.getSpatialEast(),

@@ -17,6 +17,7 @@ public class Dataset  implements Serializable {
 	private static final long serialVersionUID = 2130077493645125759L;
 
 	private String identifier; //identifier of Dataset
+	private String idFile; //idFile from BDO Backbone
 	private String title; //title of Dataset
 	private String description; //description of Dataset
 	private String subject; //tokenField_subject
@@ -50,6 +51,7 @@ public class Dataset  implements Serializable {
 	
 	public Dataset(){
 		this.identifier = "";
+		this.idFile = "";
 		this.title = "";
 		this.description = "";
 		this.subject = "";
@@ -82,7 +84,7 @@ public class Dataset  implements Serializable {
 	}
 	
 	//Dataset constructor for List<String> variable
-	public Dataset(String identifier, String title, String description, String subject, String keywords,
+	public Dataset(String identifier, String idFile, String title, String description, String subject, String keywords,
 			String standards, String formats, String language, String homepage, String publisher, 
 			String source, String observations, String storageTable, String license,
 			String accessRights, String issuedDate, String modifiedDate, String geoLocation, String spatialWest, String spatialEast,
@@ -90,6 +92,7 @@ public class Dataset  implements Serializable {
 			String verticalCoverageTo, String verticalLevel, String temporalCoverageBegin, String temporalCoverageEnd,
 			String timeResolution, List<String> variable, String profileName) {
 		this.identifier = identifier;
+		this.idFile = idFile;
 		this.title = title;
 		this.description = description;
 		this.subject = subject;
@@ -368,6 +371,14 @@ public class Dataset  implements Serializable {
 
 	public void setLicense(String license) {
 		this.license = license;
+	}
+
+	public String getIdFile() {
+		return idFile;
+	}
+
+	public void setIdFile(String idFile) {
+		this.idFile = idFile;
 	}	
 	
 }

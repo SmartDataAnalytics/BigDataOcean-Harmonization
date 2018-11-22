@@ -7,11 +7,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.kafka.clients.producer.Producer;
 import org.ini4j.Ini;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.unibonn.bdo.connections.ProducerCreator;
 import org.unibonn.bdo.connections.QueryExecutor;
 import org.unibonn.bdo.objects.Dataset;
 import org.unibonn.bdo.objects.ProfileDataset;
@@ -41,9 +43,12 @@ public class InsertNewDataset {
 	public static void main(String[] args) throws IOException, ParseException {
 		Ini config = new Ini(new File(Constants.INITFILEPATH));
 		tokenAuthorization = config.get("DEFAULT", "AUTHORIZATION_JWT");
-		String flag = args[0];
-		String parameter = args[1];
-		String jsonDataset = args[2];
+//		String flag = args[0];
+//		String parameter = args[1];
+//		String jsonDataset = args[2];
+		String flag = "other";
+		String parameter = "bla";
+		String jsonDataset = "/home/eis/Dropbox/BDO/BigDataOcean-Harmonization/Backend/AddDatasets/jsonDataset.json";
 		exec(flag, parameter, jsonDataset);
 	}
 
@@ -98,6 +103,7 @@ public class InsertNewDataset {
 					"  \n" + 
 					"  bdo:"+newDataset.getIdentifier()+" a dcat:Dataset ; \n" + 
 					"    dct:identifier \""+newDataset.getIdentifier()+"\" ; \n" + 
+					"    bdo:idFile \""+newDataset.getIdFile()+"\" ; \n" + 
 					"    dct:title \""+newDataset.getTitle()+"\" ; \n" + 
 					"    dct:description \""+newDataset.getDescription()+"\" ; \n" + 
 					"    dct:Standard \""+newDataset.getStandards()+"\" ; \n" + 
@@ -166,7 +172,7 @@ public class InsertNewDataset {
 			List<String> variables = newDataset.getVariable();
 			for(int i = 0; i < variables.size(); i++) {
 				String name = variables.get(i).split(" -- ")[0];
-				String varKey = name.replaceAll("[^a-zA-Z0-9]_", "");
+				String varKey = name.replaceAll("[^a-zA-Z0-9_]", "");
 				if(i == variables.size()-1) {
 					insertQuery += "bdo:"+newDataset.getIdentifier()+"_"+varKey+" . \n ";
 				}else {
@@ -226,39 +232,43 @@ public class InsertNewDataset {
 					resultFlag = true;
 					System.out.print("Successful");
 					//Request API post and put
-					requestAPIJWT(newDataset, param);
+					requestAPIJWT(newDataset);
 				}else{
 					resultFlag = false;
 					System.out.print("Error3!   URI already exists.");
 				}
-			//if not, queries by a selection of parameters: title, publisher and issued date
+			//if not, queries by a selection of parameter idFile
 			}else if(flag.equals("other")) {
-				String []param = parameter.split(">");
-	
-				String query = "PREFIX dct: <http://purl.org/dc/terms/>\n" +
-					"PREFIX bdo: <http://bigdataocean.eu/bdo/>\n" +
-					"PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n "+
-					"ASK {?uri dct:title \""+param[0]+"\" ;\n" +
-					"dct:publisher \""+param[1]+"\" ;\n" +
-					"dct:issued \""+param[2]+"\"^^xsd:dateTime }\n" ;
-	
-				//Query Jena Fueski to see if the URI to be added already exists
-				boolean results = QueryExecutor.askQuery(query); 
-				// if the dataset does not exists
-				if(!results){
+				if(!parameter.isEmpty()) {
+					String query = "PREFIX dcat: <https://www.w3.org/TR/vocab-dcat/>\n" +
+						"PREFIX bdo: <http://bigdataocean.eu/bdo/>\n" +
+						"ASK {?uri a dcat:Dataset ;\n" +
+						"bdo:idFile \""+parameter+"\" }\n" ;
+		
+					//Query Jena Fueski to see if the URI to be added already exists
+					boolean results = QueryExecutor.askQuery(query); 
+					// if the dataset does not exists
+					if(!results){
+						//Add the dataset to Jena Fueski
+						QueryExecutor.insertQuery(insertQuery);
+						resultFlag = true;
+						System.out.print("Successful");
+						//Request API post and put
+						requestAPIJWT(newDataset);
+					}else{
+						resultFlag = false;
+						System.out.print("Error3!   URI already exists.");
+					}
+				} else {
 					//Add the dataset to Jena Fueski
 					QueryExecutor.insertQuery(insertQuery);
 					resultFlag = true;
 					System.out.print("Successful");
-					//Request API post and put
-					requestAPIJWT(newDataset, param);
-				}else{
-					resultFlag = false;
-					System.out.print("Error3!   URI already exists.");
 				}
 			}
 		}catch (Exception e) {
-			e.fillInStackTrace();
+			e.printStackTrace();
+			System.out.print("Error4!   An error occurred inserting the metadata in Fuseki.");
 		}
 		return resultFlag;
 	}
@@ -328,7 +338,7 @@ public class InsertNewDataset {
 	}
 
 	//Request API post and put
-	private static void requestAPIJWT(Dataset newDataset, String []param) {
+	private static void requestAPIJWT(Dataset newDataset) {
 		HttpResponse<String> response; //Post the profile
 		HttpResponse<String> response1; //Put the identifier to an idFile
 		if(!newDataset.getProfileName().equals("")) {
@@ -347,9 +357,9 @@ public class InsertNewDataset {
 				e.printStackTrace();
 			}
 		}
-		// This is for InsertNewDataset with flag = "" (URI idFile)
-		if(param.length == 2) {
-			String idFile = param[1];
+		if(!newDataset.getIdFile().equals("")) {
+			String idFile = newDataset.getIdFile();
+	    	Producer<Long, String> producer = ProducerCreator.createProducer();
 			try {
 				response1 = Unirest.put(Constants.HTTPJWT + "fileHandler/file/" + idFile + 
 						"/metadata/" + newDataset.getIdentifier())
@@ -360,28 +370,7 @@ public class InsertNewDataset {
 					System.out.println("Successful!	Identifier is being added");
 					
 					//Send to the kafka producer the idFile TOPIC2
-					InsertDatasetAutomatic.runProducer(idFile);
-				} else {
-					System.out.println("Error2!   Identifier is not being added.");
-				}
-			} catch (UnirestException e) {
-				e.printStackTrace();
-			}
-		}
-		// This is for InsertNewDataset with flag = "other" (title>publisher>issuedDate>idFile)
-		else if(param.length == 4) {
-			String idFile = param[3];
-			try {
-				response1 = Unirest.put(Constants.HTTPJWT + "fileHandler/file/" + idFile + 
-						"/metadata/" + newDataset.getIdentifier())
-						.header("Content-Type", "application/json")
-						.header("Authorization", tokenAuthorization)
-						.asString();
-				if(response1.getStatus() == 200) {
-					System.out.println("Successful!	Identifier is being added");
-					
-					//Send to the kafka producer the idFile TOPIC2
-					InsertDatasetAutomatic.runProducer(idFile);
+					InsertDatasetAutomatic.runProducer(producer, idFile);
 				} else {
 					System.out.println("Error2!   Identifier is not being added.");
 				}
