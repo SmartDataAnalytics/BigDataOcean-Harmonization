@@ -55,10 +55,10 @@ public class InsertNewDataset {
 		newDataset.setModifiedDate(dateVerification(newDataset.getModifiedDate()));
 		newDataset.setTemporalCoverageBegin(dateVerification(newDataset.getTemporalCoverageBegin()));
 		newDataset.setTemporalCoverageEnd(dateVerification(newDataset.getTemporalCoverageEnd()));
-		insertDataset(flag, parameter, newDataset);
+		insertDataset(flag, parameter, newDataset, true);
 	}
 	
-	public static boolean insertDataset (String flag, String parameter, Dataset newDataset) throws IOException, ParseException {
+	public static boolean insertDataset (String flag, String parameter, Dataset newDataset, boolean flagProducer) throws IOException, ParseException {
 		boolean resultFlag = false;
 		try {
 			//construct the SPARQL query to insert dataset
@@ -229,7 +229,7 @@ public class InsertNewDataset {
 					resultFlag = true;
 					System.out.print("Successful");
 					//Request API post and put
-					requestAPIJWT(newDataset);
+					requestAPIJWT(newDataset, flagProducer);
 				}else{
 					resultFlag = false;
 					System.out.print("Error3!   URI already exists.");
@@ -251,7 +251,7 @@ public class InsertNewDataset {
 						resultFlag = true;
 						System.out.print("Successful");
 						//Request API post and put
-						requestAPIJWT(newDataset);
+						requestAPIJWT(newDataset, flagProducer);
 					}else{
 						resultFlag = false;
 						System.out.print("Error3!   URI already exists.");
@@ -335,7 +335,16 @@ public class InsertNewDataset {
 	}
 
 	//Request API post and put
-	private static void requestAPIJWT(Dataset newDataset) {
+	private static void requestAPIJWT(Dataset newDataset, boolean flagProducer) {
+		try {
+			if(tokenAuthorization.isEmpty()) {
+				Ini config = new Ini(new File(Constants.INITFILEPATH));
+				tokenAuthorization = config.get("DEFAULT", "AUTHORIZATION_JWT");
+			}
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		
 		HttpResponse<String> response; //Post the profile
 		HttpResponse<String> response1; //Put the identifier to an idFile
 		if(!newDataset.getProfileName().equals("")) {
@@ -364,12 +373,13 @@ public class InsertNewDataset {
 						.header("Authorization", tokenAuthorization)
 						.asString();
 				if(response1.getStatus() == 200) {
-					System.out.println("Successful!	Identifier is being added");
-					
-					//Send to the kafka producer the idFile TOPIC2
-					InsertDatasetAutomatic.runProducer(producer, idFile);
+					System.out.println("Successful!	MetadataID is being added");
+					if(flagProducer) {
+						//Send to the kafka producer the idFile TOPIC2
+						InsertDatasetAutomatic.runProducer(producer, idFile);
+					}
 				} else {
-					System.out.println("Error2!   Identifier is not being added.");
+					System.out.println("Error2!   fileHandler/file/{idFile}/metadata/{metadataID} returns status code = " + response1.getStatus());
 				}
 			} catch (UnirestException e) {
 				e.printStackTrace();

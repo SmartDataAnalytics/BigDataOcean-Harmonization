@@ -26,7 +26,6 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.unibonn.bdo.connections.ConsumerCreator;
 import org.unibonn.bdo.connections.HDFSFileSystem;
-import org.unibonn.bdo.connections.ProducerCreator;
 import org.unibonn.bdo.objects.Dataset;
 import org.unibonn.bdo.objects.ProfileDataset;
 import org.unibonn.bdo.objects.VariableDataset;
@@ -71,7 +70,7 @@ public class InsertDatasetAutomatic {
     
     private static void runConsumer() {
     	Consumer<Long, String> consumer = ConsumerCreator.createConsumer();
-    	Producer<Long, String> producer = ProducerCreator.createProducer();
+    	//Producer<Long, String> producer = ProducerCreator.createProducer();
         int noMessageFound = 0;
         while (true) {
         	// 1000 is the time in milliseconds consumer will wait if no record is found at broker.
@@ -92,10 +91,10 @@ public class InsertDatasetAutomatic {
 				boolean flag = false;
 				// if metadata has been inserted in Fuseki then send a message with idFile to the TOPIC2
 				try {
-					flag = analyseInsertDatasetAutomatic(filename,idFile,idProfile);
+					flag = analyseInsertDatasetAutomatic(filename,idFile,idProfile, true);
 					if(flag) {
 						System.out.println("Successful!  Metadata has been added correctly");
-						runProducer(producer, idFile);
+						//runProducer(producer, idFile);
 					}else {
 						System.out.println("Error!  There was an error adding the metadata");
 					}
@@ -125,15 +124,14 @@ public class InsertDatasetAutomatic {
     }
     
     // API: Create the metadata to an specific dataset with help of the profile.
-    public static boolean analyseInsertDatasetAutomatic(String filename, String idFile, String idProfile) 
+    public static boolean analyseInsertDatasetAutomatic(String filename, String idFile, String idProfile, boolean flagProducer) 
     		throws IOException, ParseException, UnirestException {
 		Dataset result = new Dataset();
 		boolean resultInsert = false;
 		boolean resultFlag = true;
 		String parameter;
 		HttpResponse<JsonNode> response; //Get the profileJson
-		HttpResponse<String> response1; //Put the identifier to an idFile
-		HttpResponse<String> response2; //Update the profile
+		HttpResponse<String> response1; //Update the profile
 		String jsonProfile = "";
 		
 		//If Harmonization is using only API then tokenAuthorization is empty
@@ -177,32 +175,23 @@ public class InsertDatasetAutomatic {
 		parameter = result.getIdFile();
 		
 		// insert metadata into the system
-		resultInsert = InsertNewDataset.insertDataset("other", parameter, result);
+		resultInsert = InsertNewDataset.insertDataset("other", parameter, result, flagProducer);
 		
 		// if metadata is successful added in Fuseki then send the identifier(API)
 		if (resultInsert) {
-			response1 = Unirest.put(Constants.HTTPJWT + "fileHandler/file/" + idFile + 
-					"/metadata/" + result.getIdentifier())
+			
+			// Update profile TemporalCoverageBegin/End
+			String updatedProfile = updateProfile(result, jsonProfile);
+			response1 = Unirest.post(Constants.HTTPJWT + "fileHandler/metadataProfile/")
 					.header("Content-Type", "application/json")
 					.header("Authorization", tokenAuthorization)
+					.body(updatedProfile)
 					.asString();
 			if(response1.getStatus() == 200) {
-				// Update profile TemporalCoverageBegin/End
-				String updatedProfile = updateProfile(result, jsonProfile);
-				response2 = Unirest.post(Constants.HTTPJWT + "fileHandler/metadataProfile/")
-						.header("Content-Type", "application/json")
-						.header("Authorization", tokenAuthorization)
-						.body(updatedProfile)
-						.asString();
-				if(response2.getStatus() == 200) {
-					System.out.println("Successful!	Profile is being updated");
-					resultFlag = true;
-				} else {
-					System.out.println("Error1!   Profile is not being updated.");
-				}
-			}else {
-				System.out.println(" Error!  fileHandler/file/{idFile}/metadata/{identifier} returns status code = " + response.getStatus());
-				resultFlag = false;
+				System.out.println("Successful!	Profile is being updated");
+				resultFlag = true;
+			} else {
+				System.out.println("Error1!   Profile is not being updated.");
 			}
 		}else {
 			System.out.println(" Error!  insertDataset method has return false");
