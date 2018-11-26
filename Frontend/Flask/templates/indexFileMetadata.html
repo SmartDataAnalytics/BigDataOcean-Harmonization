@@ -10,11 +10,107 @@
     <div class="col-md-1">
     </div>
   </div>
+  <div class="row content">
+    <div class="col-md-1">
+    </div>
+    <div class="col-md-10 field-uri" id='div_typeuri' style='display: none;'>
+      <div class="col-md-12">
+        <label class="label-table" for="sel1">Select the type of dataset you want to add:</label>
+      </div>
+      <div class="col-md-12">
+        <select class="form-control" id="sel1" onchange="selectType()">
+          <option selected disabled hidden></option>
+          <option>Copernicus Dataset</option>
+          <option>NetCDF Dataset File</option>
+          <option>CSV Dataset File</option>
+          <option>Excel Dataset File</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <!--COPERNICUS URL-->
+      <div id='copernicusDiv' class="col-md-12" style='display: none;'>
+        <form id="uriForm" name="uriForm" class="form-style" method='post' action="/addMetadata/Copernicus" onsubmit="return requireUri();"> <!--enctype=multipart/form-data>-->
+          <div class="col-md-2">
+            <label class="label-table" for="uri">URI:</label>
+          </div>
+          <div class="col-md-10">
+            <input type="url" class="form-control" id="uri" name="uri">
+          </div>
+          <div class="col-md-12" style="padding-right: auto;">
+            <button type="submit" class="btn btn-default"><i class="glyphicon glyphicon-plus"></i> Add
+            </button>
+          </div>
+        </form>
+      </div>
+      <!--OTHER-->
+      <div id='otherDiv' class="col-md-12" style="padding-right: auto; display: none;">
+        <form id="uriForm" name="uriForm" class="form-style" method='post' action="/addMetadata" onsubmit="return requireUri();">
+          <div class="col-md-10" style='display: none;'>
+            <input type="url" class="form-control" id="uri" name="uri">
+          </div>
+          <button type="submit" class="btn btn-default"><i class="glyphicon glyphicon-plus"></i> Add
+          </button>
+        </form>
+      </div>
+      <!--NETCDF FILE-->
+      <div id='netcdfDiv' class="col-md-10" style='display: none;'>
+        <form id="uriForm" name="uriForm" class="form-style" method='post' action="/addMetadata/NetCDF" onsubmit="return requireUri();" enctype="multipart/form-data">
+          <div class="col-md-2">
+            <label class="label-table" for="uri">File:</label>
+          </div>
+          <div class="col-md-10">
+            <input name="fileNetcdf" id="fileNetcdf" type="file" class="form-control" accept='.nc'>
+          </div>
+          <div class="col-md-12" style="padding-right: auto;">
+            <button type="submit" class="btn btn-default"><i class="glyphicon glyphicon-plus"></i> Add
+            </button>
+          </div>
+        </form>
+      </div>
+      <!--CSV FILE-->
+      <div id='csvDiv' class="col-md-10" style='display: none;'>
+        <form id="uriForm" name="uriForm" class="form-style" method='post' action="/addMetadata/CSV" onsubmit="return requireUri();" enctype="multipart/form-data">
+          <div class="col-md-2">
+            <label class="label-table" for="uri">File:</label>
+          </div>
+          <div class="col-md-10">
+            <input name="fileCsv" id="fileCsv" type="file" class="form-control" accept='.csv'>
+          </div>
+          <div class="col-md-12" style="padding-right: auto;">
+            <button type="submit" class="btn btn-default"><i class="glyphicon glyphicon-plus"></i> Add
+            </button>
+          </div>
+        </form>
+      </div>
+      <!--EXCEL FILE-->
+      <div id='excelDiv' class="col-md-10" style='display: none;'>
+        <form id="uriForm" name="uriForm" class="form-style" method='post' action="/addMetadata/EXCEL" onsubmit="return requireUri();" enctype="multipart/form-data">
+          <div class="col-md-2">
+            <label class="label-table" for="uri">File:</label>
+          </div>
+          <div class="col-md-10">
+            <input name="fileExcel" id="fileExcel" type="file" class="form-control" accept='.xls, .xlsx'>
+          </div>
+          <div class="col-md-12" style="padding-right: auto;">
+            <button type="submit" class="btn btn-default"><i class="glyphicon glyphicon-plus"></i> Add
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="col-md-1">
+    </div>
+  </div>
   <div class="row content metadata-row" id="metadata">
       <div class="col-md-1">
       </div>
       <div class="col-md-10 metadata-info">
         <div id="toolbar">
+          {% if g.user %}
+            <button id="showDiv" class="btn btn-default" onclick="this.disabled=true; toggleLayer( 'div_typeuri' )" >
+              <i class="glyphicon glyphicon-plus"></i> Add
+            </button>
+          {% endif %}
         </div>
         <table id="tableDatasets" data-toggle="true"
           data-toolbar="#toolbar"

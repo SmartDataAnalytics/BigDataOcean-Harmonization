@@ -32,7 +32,7 @@ public class InsertAutomaticTest {
 	public void test1() {
 		try {
 			log.info("Start testing if insert metadata with filename, idFile and idProfile into harmonization tool");
-			Boolean response = InsertDatasetAutomatic.analyseInsertDatasetAutomatic(filename, idFile, idProfile);
+			Boolean response = InsertDatasetAutomatic.analyseInsertDatasetAutomatic(filename, idFile, idProfile, true);
 			if (response) {
 				flag = true;
 			}
