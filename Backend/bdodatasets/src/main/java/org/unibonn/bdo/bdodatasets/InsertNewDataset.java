@@ -13,7 +13,6 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import org.unibonn.bdo.connections.ProducerCreator;
 import org.unibonn.bdo.connections.QueryExecutor;
 import org.unibonn.bdo.objects.Dataset;
 import org.unibonn.bdo.objects.ProfileDataset;
@@ -55,10 +54,10 @@ public class InsertNewDataset {
 		newDataset.setModifiedDate(dateVerification(newDataset.getModifiedDate()));
 		newDataset.setTemporalCoverageBegin(dateVerification(newDataset.getTemporalCoverageBegin()));
 		newDataset.setTemporalCoverageEnd(dateVerification(newDataset.getTemporalCoverageEnd()));
-		insertDataset(flag, parameter, newDataset, true);
+		insertDataset(flag, parameter, newDataset, null);
 	}
 	
-	public static boolean insertDataset (String flag, String parameter, Dataset newDataset, boolean flagProducer) throws IOException, ParseException {
+	public static boolean insertDataset (String flag, String parameter, Dataset newDataset, Producer<Long, String> producer) throws IOException, ParseException {
 		boolean resultFlag = false;
 		try {
 			//construct the SPARQL query to insert dataset
@@ -229,7 +228,7 @@ public class InsertNewDataset {
 					resultFlag = true;
 					System.out.print("Successful");
 					//Request API post and put
-					requestAPIJWT(newDataset, flagProducer);
+					requestAPIJWT(newDataset, producer);
 				}else{
 					resultFlag = false;
 					System.out.print("Error3!   URI already exists.");
@@ -251,7 +250,7 @@ public class InsertNewDataset {
 						resultFlag = true;
 						System.out.print("Successful");
 						//Request API post and put
-						requestAPIJWT(newDataset, flagProducer);
+						requestAPIJWT(newDataset, producer);
 					}else{
 						resultFlag = false;
 						System.out.print("Error3!   URI already exists.");
@@ -335,7 +334,7 @@ public class InsertNewDataset {
 	}
 
 	//Request API post and put
-	private static void requestAPIJWT(Dataset newDataset, boolean flagProducer) {
+	private static void requestAPIJWT(Dataset newDataset, Producer<Long, String> producer) {
 		try {
 			if(tokenAuthorization.isEmpty()) {
 				Ini config = new Ini(new File(Constants.INITFILEPATH));
@@ -365,7 +364,6 @@ public class InsertNewDataset {
 		}
 		if(!newDataset.getIdFile().equals("")) {
 			String idFile = newDataset.getIdFile();
-	    	Producer<Long, String> producer = ProducerCreator.createProducer();
 			try {
 				response1 = Unirest.put(Constants.HTTPJWT + "fileHandler/file/" + idFile + 
 						"/metadata/" + newDataset.getIdentifier())
@@ -374,7 +372,7 @@ public class InsertNewDataset {
 						.asString();
 				if(response1.getStatus() == 200) {
 					System.out.println("Successful!	MetadataID is being added");
-					if(flagProducer) {
+					if(producer != null) {
 						//Send to the kafka producer the idFile TOPIC2
 						InsertDatasetAutomatic.runProducer(producer, idFile);
 					}

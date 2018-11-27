@@ -248,7 +248,7 @@ public class LimesAnalyser {
 						"		<TYPE>N3</TYPE>\n" + 
 						"	</SOURCE>\n" + targetconfig;
 				config = config + "	<METRIC>\n" + 
-						"		Jaccard(x.http://xmlns.com/foaf/0.1/name, y.rdfs:label)\n" + 
+						"		Cosine(x.http://xmlns.com/foaf/0.1/name, y.rdfs:label)\n" + 
 						"	</METRIC>\n";
 				config = config + "	<ACCEPTANCE>\n" + 
 			    		"		<THRESHOLD>0.95</THRESHOLD>\n" + 
@@ -272,7 +272,7 @@ public class LimesAnalyser {
 						"		<TYPE>N3</TYPE>\n" + 
 						"	</SOURCE>\n" + targetconfig;
 				config = config + "	<METRIC>\n" + 
-						"		Jaccard(x.http://xmlns.com/foaf/0.1/name, y.skos:prefLabel)\n" + 
+						"		Cosine(x.http://xmlns.com/foaf/0.1/name, y.skos:prefLabel)\n" + 
 						"	</METRIC>\n";
 				config = config + "	<ACCEPTANCE>\n" + 
 			    		"		<THRESHOLD>0.95</THRESHOLD>\n" + 
@@ -304,7 +304,7 @@ public class LimesAnalyser {
 			    		"		<RELATION>owl:sameAs</RELATION>\n" + 
 			    		"	</ACCEPTANCE>\n" + 
 			    		"	<REVIEW>\n" + 
-			    		"		<THRESHOLD>0.3</THRESHOLD>\n" + 
+			    		"		<THRESHOLD>0.7</THRESHOLD>\n" + 
 			    		"		<FILE>reviewme.txt</FILE>\n" + 
 			    		"		<RELATION>owl:sameAs</RELATION>\n" + 
 			    		"	</REVIEW>";

@@ -537,9 +537,11 @@ public class BdoDatasetAnalyser {
 					result.setTitle(title);
 				}
 				if(attr.getShortName().equalsIgnoreCase("summary") || attr.getShortName().equalsIgnoreCase("comment")) {
-					description = attr.getStringValue();
-					result.setDescription(description);
-					if (description.length() == 1) {
+					if(!attr.getStringValue().equalsIgnoreCase("none")) {
+						description = attr.getStringValue();
+						result.setDescription(description);
+					}
+					if (description.length() == 1 ) {
 						result.setDescription(EMPTY_FIELD);
 					}
 				}

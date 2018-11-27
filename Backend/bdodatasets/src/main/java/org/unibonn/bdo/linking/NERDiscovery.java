@@ -69,11 +69,27 @@ public class NERDiscovery {
 			for (Triple<String, Integer, Integer> item : list) {
 				String text = fileContents.substring(item.second(), item.third()).toLowerCase();
 				if(text.split(" ").length >= 3) {
-					for(String m : text.split(" ")) {
-						responseList.add(m);
+					responseList.add(text);
+					String[] token = text.split(" ");
+					for (int i = 0; i<token.length; i++) {
+						if (i + 1 ==token.length) {
+							responseList.add(token[i]);
+						}else {
+							responseList.add(token[i] + " " + token[i+1]);
+						}
 					}
 				}else {
 					responseList.add(fileContents.substring(item.second(), item.third()).toLowerCase());
+				}
+			}
+			for (Triple<String, Integer, Integer> item : list) {
+				String text = fileContents.substring(item.second(), item.third()).toLowerCase();
+				for(String m : text.split(" ")) {
+					if(m.equals("situ")) {
+						responseList.add("in "+ m);
+					}else {
+						responseList.add(m);
+					}
 				}
 			}
 			responseList = removeDuplicates(responseList);
