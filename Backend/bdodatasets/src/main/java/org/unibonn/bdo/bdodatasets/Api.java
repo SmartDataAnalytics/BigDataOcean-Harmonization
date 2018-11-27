@@ -3,7 +3,9 @@ package org.unibonn.bdo.bdodatasets;
 import java.io.IOException;
 import java.util.List;
 
+import org.apache.kafka.clients.producer.Producer;
 import org.json.simple.parser.ParseException;
+import org.unibonn.bdo.connections.ProducerCreator;
 import org.unibonn.bdo.objects.DatasetApi;
 
 import com.google.gson.Gson;
@@ -127,8 +129,12 @@ public class Api {
 					String filename = parameters[0];
 					String idFile = parameters[1];
 					String idProfile = parameters[2];
-					Boolean produce = Boolean.parseBoolean(parameters[3]);
-					InsertDatasetAutomatic.analyseInsertDatasetAutomatic(filename, idFile, idProfile, produce);
+					Boolean flagProduce = Boolean.parseBoolean(parameters[3]);
+					Producer<Long, String> producer = null;
+					if(flagProduce) {
+						producer = ProducerCreator.createProducer();
+					}
+					InsertDatasetAutomatic.analyseInsertDatasetAutomatic(filename, idFile, idProfile, producer);
 				} catch (IOException | ParseException | UnirestException e) {
 					e.printStackTrace();
 				}

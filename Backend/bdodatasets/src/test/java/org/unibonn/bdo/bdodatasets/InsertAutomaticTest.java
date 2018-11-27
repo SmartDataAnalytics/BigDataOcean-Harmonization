@@ -4,10 +4,12 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 
+import org.apache.kafka.clients.producer.Producer;
 import org.json.simple.parser.ParseException;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.unibonn.bdo.connections.ProducerCreator;
 import org.unibonn.bdo.objects.Dataset;
 
 import com.mashape.unirest.http.exceptions.UnirestException;
@@ -25,6 +27,7 @@ public class InsertAutomaticTest {
 	String idFile = "";
 	String idProfile = "";
 	String jsonProfile = "";
+	Producer<Long, String> producer = ProducerCreator.createProducer();
 	private boolean flag = false;
 	
 	//Testing if insert metadata with filename, idFile and idProfile into harmonization tool
@@ -32,7 +35,7 @@ public class InsertAutomaticTest {
 	public void test1() {
 		try {
 			log.info("Start testing if insert metadata with filename, idFile and idProfile into harmonization tool");
-			Boolean response = InsertDatasetAutomatic.analyseInsertDatasetAutomatic(filename, idFile, idProfile, true);
+			Boolean response = InsertDatasetAutomatic.analyseInsertDatasetAutomatic(filename, idFile, idProfile, producer);
 			if (response) {
 				flag = true;
 			}
