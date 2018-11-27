@@ -135,6 +135,9 @@ public class Api {
 						producer = ProducerCreator.createProducer();
 					}
 					InsertDatasetAutomatic.analyseInsertDatasetAutomatic(filename, idFile, idProfile, producer);
+			        if(producer != null) {
+			        	producer.close();
+			        }
 				} catch (IOException | ParseException | UnirestException e) {
 					e.printStackTrace();
 				}

@@ -13,6 +13,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.unibonn.bdo.connections.ProducerCreator;
 import org.unibonn.bdo.connections.QueryExecutor;
 import org.unibonn.bdo.objects.Dataset;
 import org.unibonn.bdo.objects.ProfileDataset;
@@ -54,7 +55,10 @@ public class InsertNewDataset {
 		newDataset.setModifiedDate(dateVerification(newDataset.getModifiedDate()));
 		newDataset.setTemporalCoverageBegin(dateVerification(newDataset.getTemporalCoverageBegin()));
 		newDataset.setTemporalCoverageEnd(dateVerification(newDataset.getTemporalCoverageEnd()));
-		insertDataset(flag, parameter, newDataset, null);
+		Producer<Long, String> producer = ProducerCreator.createProducer();
+		insertDataset(flag, parameter, newDataset, producer);
+        producer.close();
+		
 	}
 	
 	public static boolean insertDataset (String flag, String parameter, Dataset newDataset, Producer<Long, String> producer) throws IOException, ParseException {
