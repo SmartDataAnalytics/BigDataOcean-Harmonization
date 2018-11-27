@@ -53,7 +53,8 @@ public class ExtractVocabulary {
 			default:
 			    break;
 		}
-		convertOntologyintoJsonVocabulary (listDataOntology, vocabPrefix);
+		if(!vocabPrefix.equals("bdo"))
+			convertOntologyintoJsonVocabulary (listDataOntology, vocabPrefix);
 	}
 	
 	//Request API get Vocabulary Info 
