@@ -126,11 +126,10 @@ public class LimesAnalyser {
 						responseObject = new Gson().fromJson(response.getBody(), JsonObject.class);
 						JsonElement availableFiles = responseObject.get("availableFiles");
 						if(availableFiles.getAsJsonArray().size()>0) {
-							response = Unirest.get(Constants.HTTPLIMES + "result/" + requestId + "/accepted.txt")
-									.asString();
-							if(response.getStatus() == 200) {
-								String resultLimes = response.getBody();
-								resultLimesMap = stringintoMap(resultLimes);
+							resultLimesMap = extractLinkedLimesfromFile(requestId, "accepted.txt");
+							// if there is no links in accepted file then take what is inside reviewme file
+							if(resultLimesMap == null) {
+								resultLimesMap = extractLinkedLimesfromFile(requestId, "reviewme.txt");
 							}
 						} else {
 							resultLimesMap = null;
@@ -146,6 +145,21 @@ public class LimesAnalyser {
 			e.printStackTrace();
 		}
 		return resultLimesMap;
+	}
+	
+	private static Map<String, String> extractLinkedLimesfromFile(String requestId, String fileName) {
+		HttpResponse<String> response; 
+		try {
+			response = Unirest.get(Constants.HTTPLIMES + "result/" + requestId + "/" + fileName)
+					.asString();
+			if(response.getStatus() == 200) {
+				String resultLimes = response.getBody();
+				return stringintoMap(resultLimes);
+			}
+		} catch (UnirestException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	// Recursive function to wait until the process of Limes has finished (status code = 2)
