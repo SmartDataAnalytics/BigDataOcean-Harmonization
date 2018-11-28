@@ -50,10 +50,6 @@ import org.unibonn.bdo.connections.HDFSFileSystem;
 public class BdoDatasetAnalyser {
 	
 	private static final String EMPTY_FIELD = "";
-	
-	private BdoDatasetAnalyser() {
-		throw new IllegalStateException("BdoDatasetAnalyser class");
-	}
 
 	public static Dataset analyseDatasetURI(String datasetURI) throws IOException {
 		Dataset result = new Dataset();
@@ -357,11 +353,18 @@ public class BdoDatasetAnalyser {
 		result.setFormats("Excel");
 		
 		InputStream inp = null;
-		inp = new FileInputStream(filename);
+		Workbook wb = null;
 		try {
-			Workbook wb = WorkbookFactory.create(inp);
+			if(filename.endsWith(".xls")) {
+				wb = WorkbookFactory.create(new File(filename));
+			} else {
+				inp = new FileInputStream(filename);
+				wb = WorkbookFactory.create(inp);
+			}
 	        listExcelVariables = extractVariablesExcel(wb.getSheetAt(0));
-	        inp.close();
+	        if (inp != null) {
+	        	inp.close();
+	        }
 	        for(String attr : listExcelVariables) {
 	        	listVariables.add(attr + " -- " + EMPTY_FIELD);
 	        }
@@ -538,115 +541,58 @@ public class BdoDatasetAnalyser {
 	
 	// Extract issued, modified, temporalCoverage begin and end dates
 	public static Dataset netcdfMetadataDatesExtractor(Attribute attr, Dataset result) {
-		String issuedDate = "";
-		String modifiedDate = "";
-		String temporalCoverageBegin = "";
-		String temporalCoverageEnd = "";
 		if(attr.getShortName().equalsIgnoreCase("history") || attr.getShortName().equalsIgnoreCase("date_created")) {
-			if(attr.getStringValue().length() > 1) {
-				if (attr.getStringValue().contains("Z")) { // 2017-05-04T00:20:02Z
-					issuedDate = attr.getStringValue().split("Z")[0];
-				}else if (attr.getStringValue().contains(" ")){ // 2016/07/20 08:25:14
-					issuedDate = attr.getStringValue().split(" ")[0] + "T" + attr.getStringValue().split(" ")[1];
-				}else {
-					issuedDate = attr.getStringValue();
-				}
-				if(issuedDate.length() > 16) {
-					if(issuedDate.substring(4,5).equals("-") && issuedDate.substring(7,8).equals("-") && issuedDate.substring(10,11).equals("T") && issuedDate.substring(13,14).equals(":") && issuedDate.substring(16,17).equals(":")) {
-						result.setIssuedDate(issuedDate);
-					} else if(issuedDate.substring(4,5).equals("/") && issuedDate.substring(7,8).equals("/") && issuedDate.substring(10,11).equals("T") && issuedDate.substring(13,14).equals(":") && issuedDate.substring(16,17).equals(":")) {
-						issuedDate = issuedDate.replaceAll("/", "-");
-						result.setIssuedDate(issuedDate);
-					} else if(issuedDate.substring(8,9).equals("-") && issuedDate.substring(11,12).equals(":") && issuedDate.substring(14,15).equals(":")) {
-						issuedDate = issuedDate.replaceAll("-", "T");
-						issuedDate = convertDateTime(issuedDate);
-						result.setIssuedDate(issuedDate);
-					} else {
-						result.setIssuedDate(EMPTY_FIELD);
-					}
-				} else {
-					result.setIssuedDate(EMPTY_FIELD);
-				}
-			} else {
-				result.setIssuedDate(EMPTY_FIELD);
+			if(result.getIssuedDate().isEmpty()) {
+				result.setIssuedDate(returnCorrectDateFormat(attr.getStringValue()));
 			}
 		}
 		if(attr.getShortName().equalsIgnoreCase("date_update")) {
-			if(attr.getStringValue().length() > 1) {
-				if (attr.getStringValue().contains("Z")) {
-					modifiedDate = attr.getStringValue().split("Z")[0];
-				} else if (attr.getStringValue().contains(" ")) {
-					modifiedDate = attr.getStringValue().split(" ")[0] + "T" + attr.getStringValue().split(" ")[1];
-				} else {
-					modifiedDate = attr.getStringValue();
-				}
-				if(modifiedDate.substring(4,5).equals("-") && modifiedDate.substring(7,8).equals("-") && modifiedDate.substring(10,11).equals("T") && modifiedDate.substring(13,14).equals(":") && modifiedDate.substring(16,17).equals(":")) {
-					result.setModifiedDate(modifiedDate);
-				} else if(modifiedDate.substring(4,5).equals("/") && modifiedDate.substring(7,8).equals("/") && modifiedDate.substring(10,11).equals("T") && modifiedDate.substring(13,14).equals(":") && modifiedDate.substring(16,17).equals(":")) {
-					modifiedDate = modifiedDate.replaceAll("/", "-");
-					result.setModifiedDate(modifiedDate);
-				} else if(modifiedDate.substring(8,9).equals("-") && modifiedDate.substring(11,12).equals(":") && modifiedDate.substring(14,15).equals(":")) {
-					modifiedDate = modifiedDate.replaceAll("-", "T");
-					modifiedDate = convertDateTime(modifiedDate);
-					result.setModifiedDate(modifiedDate);
-				} else {
-					result.setModifiedDate(EMPTY_FIELD);
-				}
-			} else {
-				result.setModifiedDate(EMPTY_FIELD);
+			if(result.getModifiedDate().isEmpty()) {
+				result.setModifiedDate(returnCorrectDateFormat(attr.getStringValue()));
 			}
 		}
-		if(attr.getShortName().equalsIgnoreCase("time_coverage_start")) {
-			if(attr.getStringValue().length() > 1) {
-				if (attr.getStringValue().contains("Z")) {
-					temporalCoverageBegin = attr.getStringValue().split("Z")[0];
-				} else if (attr.getStringValue().contains(" ")) {
-					temporalCoverageBegin = attr.getStringValue().split(" ")[0] + "T" + attr.getStringValue().split(" ")[1];
-				} else {
-					temporalCoverageBegin = attr.getStringValue();
-				}
-				if(temporalCoverageBegin.substring(4,5).equals("-") && temporalCoverageBegin.substring(7,8).equals("-") && temporalCoverageBegin.substring(10,11).equals("T") && temporalCoverageBegin.substring(13,14).equals(":") && temporalCoverageBegin.substring(16,17).equals(":")) {
-					result.setTemporalCoverageBegin(temporalCoverageBegin);
-				} else if(temporalCoverageBegin.substring(4,5).equals("/") && temporalCoverageBegin.substring(7,8).equals("/") && temporalCoverageBegin.substring(10,11).equals("T") && temporalCoverageBegin.substring(13,14).equals(":") && temporalCoverageBegin.substring(16,17).equals(":")) {
-					temporalCoverageBegin = temporalCoverageBegin.replaceAll("/", "-");
-					result.setTemporalCoverageBegin(temporalCoverageBegin);
-				} else if(temporalCoverageBegin.substring(8,9).equals("-") && temporalCoverageBegin.substring(11,12).equals(":") && temporalCoverageBegin.substring(14,15).equals(":")) {
-					temporalCoverageBegin = temporalCoverageBegin.replaceAll("-", "T");
-					temporalCoverageBegin = convertDateTime(temporalCoverageBegin);
-					result.setTemporalCoverageBegin(temporalCoverageBegin);
-				} else {
-					result.setTemporalCoverageBegin(EMPTY_FIELD);
-				}
-			} else {
-				result.setTemporalCoverageBegin(EMPTY_FIELD);
+		if(attr.getShortName().equalsIgnoreCase("time_coverage_start") || attr.getShortName().equalsIgnoreCase("field_date")) {
+			result.setTemporalCoverageBegin(returnCorrectDateFormat(attr.getStringValue()));
+			if(attr.getShortName().equalsIgnoreCase("field_date")) {
+				result.setIssuedDate(returnCorrectDateFormat(attr.getStringValue()));
 			}
 		}
-		if(attr.getShortName().equalsIgnoreCase("time_coverage_end")) {
-			if(attr.getStringValue().length() > 1) {
-				if (attr.getStringValue().contains("Z")) {
-					temporalCoverageEnd = attr.getStringValue().split("Z")[0];
-				} else if (attr.getStringValue().contains(" ")) {
-					temporalCoverageEnd = attr.getStringValue().split(" ")[0] + "T" + attr.getStringValue().split(" ")[1];
-				} else {
-					temporalCoverageEnd = attr.getStringValue();
-				}
-				if(temporalCoverageEnd.substring(4,5).equals("-") && temporalCoverageEnd.substring(7,8).equals("-") && temporalCoverageEnd.substring(10,11).equals("T") && temporalCoverageEnd.substring(13,14).equals(":") && temporalCoverageEnd.substring(16,17).equals(":")) {
-					result.setTemporalCoverageEnd(temporalCoverageEnd);
-				} else if(temporalCoverageEnd.substring(4,5).equals("/") && temporalCoverageEnd.substring(7,8).equals("/") && temporalCoverageEnd.substring(10,11).equals("T") && temporalCoverageEnd.substring(13,14).equals(":") && temporalCoverageEnd.substring(16,17).equals(":")) {
-					temporalCoverageEnd = temporalCoverageEnd.replaceAll("/", "-");
-					result.setTemporalCoverageEnd(temporalCoverageEnd);
-				} else if(temporalCoverageEnd.substring(8,9).equals("-") && temporalCoverageEnd.substring(11,12).equals(":") && temporalCoverageEnd.substring(14,15).equals(":")) {
-					temporalCoverageEnd = temporalCoverageEnd.replaceAll("-", "T");
-					temporalCoverageEnd = convertDateTime(temporalCoverageEnd);
-					result.setTemporalCoverageEnd(temporalCoverageEnd);
-				} else {
-					result.setTemporalCoverageEnd(EMPTY_FIELD);
-				}
-			} else {
-				result.setTemporalCoverageEnd(EMPTY_FIELD);
+		if(attr.getShortName().equalsIgnoreCase("time_coverage_end") || attr.getShortName().equalsIgnoreCase("bulletin_date")) {
+			result.setTemporalCoverageEnd(returnCorrectDateFormat(attr.getStringValue()));
+			if(attr.getShortName().equalsIgnoreCase("bulletin_date")) {
+				result.setModifiedDate(returnCorrectDateFormat(attr.getStringValue()));
 			}
 		}
 		return result;
+	}
+	
+	private static String returnCorrectDateFormat(String value) {
+		String date = "";
+		if(value.length() > 1) {
+			if (value.contains("Z")) { // 2017-05-04T00:20:02Z
+				date = value.split("Z")[0];
+			}else if (value.contains(" ")){ // 2016/07/20 08:25:14
+				date = value.split(" ")[0] + "T" + value.split(" ")[1];
+			}else {
+				date = value;
+			}
+			if(date.length() > 16) {
+				if(date.substring(4,5).equals("-") && date.substring(7,8).equals("-") && date.substring(10,11).equals("T") && date.substring(13,14).equals(":") && date.substring(16,17).equals(":")) {
+					return date;
+				} else if(date.substring(4,5).equals("/") && date.substring(7,8).equals("/") && date.substring(10,11).equals("T") && date.substring(13,14).equals(":") && date.substring(16,17).equals(":")) {
+					return date.replaceAll("/", "-");
+				} else if(date.substring(8,9).equals("-") && date.substring(11,12).equals(":") && date.substring(14,15).equals(":")) {
+					date = date.replaceAll("-", "T");
+					return convertDateTime(date);
+				} else {
+					return EMPTY_FIELD;
+				}
+			} else {
+				return EMPTY_FIELD;
+			}
+		} else {
+			return EMPTY_FIELD;
+		}
 	}
 	
 	private static List<String> parserDatasetVariables (List<String> variables) {
