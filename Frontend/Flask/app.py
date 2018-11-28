@@ -1169,4 +1169,5 @@ class DatasetInfo(object):
 
 if __name__ == '__main__':
 	syncwhenrunflask()
+	extractdatafromhandler()
 	app.run(host='0.0.0.0')
