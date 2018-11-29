@@ -126,6 +126,20 @@
                       <label>Filter query results based on their title.</label>
                     </td>
                   </tr>
+                  <tr>
+                    <td>
+                      <label>limit</label>
+                    </td>
+                    <td>
+                      <label>False</label>
+                    </td>
+                    <td>
+                      <label>Integer</label>
+                    </td>
+                    <td>
+                      <label>Maximum number of results to return (default: 10).</label>
+                    </td>
+                  </tr>
                 </tbody>
               </table>
               <div class="apiExample">For example, using the BigDataOcean Harmonization Tool API, your app can search for a (similar) title: <a href="/api/v2/filedataset/searchTitle?q=med" target="_blank">http://localhost:5000/api/v2/filedataset/searchTitle?q=med</a></div>
@@ -161,6 +175,20 @@
                     </td>
                     <td>
                       <label>Filter query results based on their description.</label>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label>limit</label>
+                    </td>
+                    <td>
+                      <label>False</label>
+                    </td>
+                    <td>
+                      <label>Integer</label>
+                    </td>
+                    <td>
+                      <label>Maximum number of results to return (default: 10).</label>
                     </td>
                   </tr>
                 </tbody>
@@ -200,6 +228,20 @@
                       <label>Filter query results based on their subject. e.g (“Oceans”)</label>
                     </td>
                   </tr>
+                  <tr>
+                    <td>
+                      <label>limit</label>
+                    </td>
+                    <td>
+                      <label>False</label>
+                    </td>
+                    <td>
+                      <label>Integer</label>
+                    </td>
+                    <td>
+                      <label>Maximum number of results to return (default: 10).</label>
+                    </td>
+                  </tr>
                 </tbody>
               </table>
               <div class="apiExample">For example, using the BigDataOcean Harmonization Tool API, your app can search for a subject or a list of subjects "Oceans": <a href="/api/v2/filedataset/searchSubject?q=Oceans" target="_blank">http://localhost:5000/api/v2/filedataset/searchSubject?q=Oceans</a></div>
@@ -235,6 +277,20 @@
                     </td>
                     <td>
                       <label>Filter query results based on their keywords. e.g (“seashore”)</label>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label>limit</label>
+                    </td>
+                    <td>
+                      <label>False</label>
+                    </td>
+                    <td>
+                      <label>Integer</label>
+                    </td>
+                    <td>
+                      <label>Maximum number of results to return (default: 10).</label>
                     </td>
                   </tr>
                 </tbody>
@@ -276,6 +332,20 @@
                     </td>
                     <td>
                       <label>Filter query results based on their geographic location. e.g (“Mediterranean Sea”)</label>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label>limit</label>
+                    </td>
+                    <td>
+                      <label>False</label>
+                    </td>
+                    <td>
+                      <label>Integer</label>
+                    </td>
+                    <td>
+                      <label>Maximum number of results to return (default: 10).</label>
                     </td>
                   </tr>
                 </tbody>
@@ -357,6 +427,20 @@
                       <label>Filter query results based on their geographic coverage = North</label>
                     </td>
                   </tr>
+                  <tr>
+                    <td>
+                      <label>limit</label>
+                    </td>
+                    <td>
+                      <label>False</label>
+                    </td>
+                    <td>
+                      <label>Integer</label>
+                    </td>
+                    <td>
+                      <label>Maximum number of results to return (default: 10).</label>
+                    </td>
+                  </tr>
                 </tbody>
               </table>
               <div class="apiExample">For example, using the BigDataOcean Harmonization Tool API, your app can search for  geographical coverage "W=-17.12 E=36.20 S=30 N=45.98": <a href="/api/v2/filedataset/searchGeoCoverage?W=-17.12&E=36.20&S=30&N=45.98" target="_blank">http://localhost:5000/api/v2/filedataset/searchGeoCoverage?W=-17.12&E=36.20&S=30&N=45.98</a></div>
@@ -406,6 +490,20 @@
                     </td>
                     <td>
                       <label>Filter query results based on their vertical coverage = to</label>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label>limit</label>
+                    </td>
+                    <td>
+                      <label>False</label>
+                    </td>
+                    <td>
+                      <label>Integer</label>
+                    </td>
+                    <td>
+                      <label>Maximum number of results to return (default: 10).</label>
                     </td>
                   </tr>
                 </tbody>
@@ -459,9 +557,23 @@
                       <label>Filter query results based on their temporal coverage = end</label>
                     </td>
                   </tr>
+                  <tr>
+                    <td>
+                      <label>limit</label>
+                    </td>
+                    <td>
+                      <label>False</label>
+                    </td>
+                    <td>
+                      <label>Integer</label>
+                    </td>
+                    <td>
+                      <label>Maximum number of results to return (default: 10).</label>
+                    </td>
+                  </tr>
                 </tbody>
               </table>
-              <div class="apiExample">For example, using the BigDataOcean Harmonization Tool API, your app can search for temporal coverage "begin=2016-08-01T00:00:00 end=": <a href="/api/v2/filedataset/searchTemporalCoverage?begin=2016-08-01T00:00:00&end=" target="_blank">http://localhost:5000/api/v2/filedataset/searchTemporalCoverage?begin=2016-08-01T00:00:00&end=</a></div>
+              <div class="apiExample">For example, using the BigDataOcean Harmonization Tool API, your app can search for temporal coverage "begin=2016-08-01T00:00:00": <a href="/api/v2/filedataset/searchTemporalCoverage?begin=2016-08-01T00:00:00" target="_blank">http://localhost:5000/api/v2/filedataset/searchTemporalCoverage?begin=2016-08-01T00:00:00</a></div>
             </div>
           </div>
 
@@ -535,6 +647,20 @@
                     </td>
                     <td>
                       <label>Filter query results based on their canonical variables</label>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label>limit</label>
+                    </td>
+                    <td>
+                      <label>False</label>
+                    </td>
+                    <td>
+                      <label>Integer</label>
+                    </td>
+                    <td>
+                      <label>Maximum number of results to return (default: 10).</label>
                     </td>
                   </tr>
                 </tbody>
@@ -650,6 +776,20 @@
                     </td>
                     <td>
                       <label>Filter query results based on their storage table name. e.g (“weather”)</label>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label>limit</label>
+                    </td>
+                    <td>
+                      <label>False</label>
+                    </td>
+                    <td>
+                      <label>Integer</label>
+                    </td>
+                    <td>
+                      <label>Maximum number of results to return (default: 10).</label>
                     </td>
                   </tr>
                 </tbody>

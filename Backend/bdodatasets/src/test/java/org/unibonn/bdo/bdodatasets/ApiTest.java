@@ -73,7 +73,7 @@ public class ApiTest {
 	@Test
 	public void test1() {
 		log.info("Start testing API # 1");
-		testList = BdoApiAnalyser.apiListAllDatasets();
+		testList = BdoApiAnalyser.apiListAllFileDatasets();
 		if (testList != null) {
 			flag = true;
 		}
@@ -84,7 +84,7 @@ public class ApiTest {
 	@Test
 	public void test2() {
 		log.info("Start testing API # 2");
-		datasetTest = BdoApiAnalyser.apiSearchDataset("bdo:MEDSEA_ANALYSIS_FORECAST_WAV_006_011");
+		datasetTest = BdoApiAnalyser.apiInfoFileDataset("bdo:MEDSEA_ANALYSIS_FORECAST_WAV_006_011");
 		assertEquals("MEDSEA_ANALYSIS_FORECAST_WAV_006_011", datasetTest.getIdentifier());
 		log.info("End!");
 	}
@@ -92,7 +92,7 @@ public class ApiTest {
 	@Test
 	public void test3() {
 		log.info("Start testing API # 3");
-		testList = BdoApiAnalyser.apiSearchSubjects("Oceans");
+		testList = BdoApiAnalyser.apiSearchSubjects("Oceans -- 10");
 		if (testList != null) {
 			flag = true;
 		}
@@ -103,7 +103,7 @@ public class ApiTest {
 	@Test
 	public void test4() {
 		log.info("Start testing API # 4");
-		testList = BdoApiAnalyser.apiSearchKeywords("Mediterranean Sea");
+		testList = BdoApiAnalyser.apiSearchKeywords("Mediterranean Sea -- 10");
 		if (testList != null) {
 			flag = true;
 		}
@@ -114,7 +114,7 @@ public class ApiTest {
 	@Test
 	public void test5() {
 		log.info("Start testing API # 5");
-		testList = BdoApiAnalyser.apiSearchGeoLoc("Mediterranean Sea");
+		testList = BdoApiAnalyser.apiSearchGeoLoc("Mediterranean Sea -- 10");
 		if (testList != null) {
 			flag = true;
 		}
@@ -125,7 +125,7 @@ public class ApiTest {
 	@Test
 	public void test6() {
 		log.info("Start testing API # 6");
-		testList = BdoApiAnalyser.apisearchGeoCoverage("-17.1,36.2,30,45.98");
+		testList = BdoApiAnalyser.apiSearchGeoCoverage("-17.1,36.2,30,45.98 -- 10");
 		if (testList != null) {
 			flag = true;
 		}
@@ -136,7 +136,7 @@ public class ApiTest {
 	@Test
 	public void test7() {
 		log.info("Start testing API # 7");
-		testList = BdoApiAnalyser.apiListDatasetByVertCov("-6000,0");
+		testList = BdoApiAnalyser.apiSearchVerticalCoverage("-6000,0 -- 10");
 		if (testList != null) {
 			flag = true;
 		}
@@ -147,7 +147,7 @@ public class ApiTest {
 	@Test
 	public void test8() {
 		log.info("Start testing API # 8");
-		testList = BdoApiAnalyser.apiListDatasetByTimeCov("2016-08-01T00:00:00,");
+		testList = BdoApiAnalyser.apiSearchTemporalCoverage("2016-08-01T00:00:00 -- 10");
 		if (testList != null) {
 			flag = true;
 		}
@@ -158,7 +158,7 @@ public class ApiTest {
 	@Test
 	public void test9() {
 		log.info("Start testing API # 9");
-		datasetTest = BdoApiAnalyser.apiListVarOfDataset("MEDSEA_ANALYSIS_FORECAST_WAV_006_011");
+		datasetTest = BdoApiAnalyser.apiListFileDatasetVariables("MEDSEA_ANALYSIS_FORECAST_WAV_006_011");
 		List<VariableDataset> varData = datasetTest.getVariables();
 		assertEquals(listVar.get(0).getCanonicalName(), varData.get(0).getCanonicalName());		
 	}
@@ -166,7 +166,7 @@ public class ApiTest {
 	@Test
 	public void test10() {
 		log.info("Start testing API # 10");
-		testList = BdoApiAnalyser.apiListDatasetsByVar("longitude,latitude");
+		testList = BdoApiAnalyser.apiSearchVariable("longitude,latitude -- 10");
 		if (testList != null) {
 			flag = true;
 		}
