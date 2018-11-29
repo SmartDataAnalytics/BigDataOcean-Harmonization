@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import org.joda.time.DateTime;
@@ -1062,13 +1060,7 @@ public class BdoApiAnalyser {
 	}
 	
 	public static List<DateTime> sortListDateTime(List<DateTime> list) {
-		Collections.sort(list, new Comparator<DateTime>() {
-	        @Override
-	        public int compare(DateTime object1, DateTime object2) {
-	        	return (object1.compareTo(object2));
-	        }
-	    });
-		
+		list.sort((o1,o2) -> o1.compareTo(o2));
 		return list;
 	}
 	
