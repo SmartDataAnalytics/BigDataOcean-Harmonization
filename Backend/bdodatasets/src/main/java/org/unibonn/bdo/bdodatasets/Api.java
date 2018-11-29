@@ -35,6 +35,7 @@ public class Api {
 		Gson gson  = new GsonBuilder().setPrettyPrinting().create();
 		switch(apiNumber) {
 			case 1:
+				// filedataset/list
 				try {
 					list = BdoApiAnalyser.apiListAllDatasets();
 					// Parse into JSON the Dataset instance with all metadata from a dataset
@@ -45,6 +46,7 @@ public class Api {
 				break;
 				
 			case 2:
+				// filedataset/info
 				try {
 					DatasetApi dataset = BdoApiAnalyser.apiSearchDataset(searchParam);
 					// Parse into JSON the Dataset instance with all metadata from a dataset
@@ -55,6 +57,7 @@ public class Api {
 				break;
 				
 			case 3:
+				// filedataset/searchSubject
 				try {
 					list = BdoApiAnalyser.apiSearchSubjects(searchParam);
 					// Parse into JSON the Dataset instance with all metadata from a dataset
@@ -65,6 +68,7 @@ public class Api {
 				break;
 			
 			case 4:
+				// filedataset/searchKeyword
 				try {
 					list = BdoApiAnalyser.apiSearchKeywords(searchParam);
 					// Parse into JSON the Dataset instance with all metadata from a dataset
@@ -75,6 +79,7 @@ public class Api {
 				break;
 				
 			case 5:
+				// filedataset/searchGeoLocation
 				try {
 					list = BdoApiAnalyser.apiSearchGeoLoc(searchParam);
 					// Parse into JSON the Dataset instance with all metadata from a dataset
@@ -85,6 +90,7 @@ public class Api {
 				break;
 			
 			case 6:
+				// filedataset/searchGeoCoverage
 				try {
 					list = BdoApiAnalyser.apisearchGeoCoverage(searchParam);
 					// Parse into JSON the Dataset instance with all metadata from a dataset
@@ -95,18 +101,21 @@ public class Api {
 				break;
 			
 			case 7:
+				// filedataset/searchVerticalCoverage
 				list = BdoApiAnalyser.apiListDatasetByVertCov(searchParam);
 				// Parse into JSON the Dataset instance with all metadata from a dataset
 				System.out.print(gson.toJson(list));
 				break;
 			
-			case 8:				
+			case 8:			
+				// filedataset/searchTemporalCoverage
 				list = BdoApiAnalyser.apiListDatasetByTimeCov(searchParam);
 				// Parse into JSON the Dataset instance with all metadata from a dataset
 				System.out.print(gson.toJson(list));
 				break;	
 			
 			case 9:
+				// variable/list
 				try {
 					DatasetApi dataset = BdoApiAnalyser.apiListVarOfDataset(searchParam);
 					// Parse into JSON the Dataset instance with all metadata from a dataset
@@ -117,12 +126,14 @@ public class Api {
 				break;
 				
 			case 10:
+				// variable/search
 				list = BdoApiAnalyser.apiListDatasetsByVar(searchParam);
 				// Parse into JSON the Dataset instance with all metadata from a dataset
 				System.out.print(gson.toJson(list));
 				break;	
 				
 			case 11:
+				// filedataset/insertAutomatic
 				try {
 					// Insert Dataset's metadata automatically
 					String[] parameters = searchParam.split(",");
@@ -143,6 +154,7 @@ public class Api {
 				}
 				break;	
 			case 12:
+				// dataset/listVariables
 				try {
 					DatasetApi dataset = BdoApiAnalyser.apiListVarOfDatasetStorage(searchParam);
 					// Parse into JSON the Dataset instance with all metadata from a dataset
@@ -152,6 +164,7 @@ public class Api {
 				}
 				break;	
 			case 13:
+				// dataset/listFileDatasets
 				try {
 					list = BdoApiAnalyser.apiSearchStorageTable(searchParam);
 					// Parse into JSON the Dataset instance with all metadata from a dataset
@@ -161,6 +174,7 @@ public class Api {
 				}
 				break;	
 			case 14:
+				// filedataset/searchTitle
 				try {
 					list = BdoApiAnalyser.apiSearchTitle(searchParam);
 					// Parse into JSON the Dataset instance with all metadata from a dataset
@@ -170,6 +184,7 @@ public class Api {
 				}
 				break;	
 			case 15:
+				// filedataset/searchDescription
 				try {
 					list = BdoApiAnalyser.apiSearchDescription(searchParam);
 					// Parse into JSON the Dataset instance with all metadata from a dataset
@@ -179,6 +194,7 @@ public class Api {
 				}
 				break;	
 			case 16:
+				// dataset/info
 				try {
 					DatasetApi dataset = BdoApiAnalyser.apiSearchDatasetStorage(searchParam);
 					// Parse into JSON the Dataset instance with all metadata from a dataset
@@ -188,6 +204,7 @@ public class Api {
 				}
 				break;		
 			case 17:
+				// dataset/list
 				try {
 					list = BdoApiAnalyser.apiListAllAggregatedDatasets();
 					// Parse into JSON the Dataset instance with all metadata from a dataset
