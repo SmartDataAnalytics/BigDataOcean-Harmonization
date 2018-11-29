@@ -883,8 +883,11 @@ def infofiledataset():
 @jwt_required()
 def searchsubject():
 	if request.method == 'GET':
+		query = request.args['q']
+		limit = request.args.get('limit', '10')
+		argument = query + " -- " + limit
 		# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
-		comm = GLOBALPATH + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("3", request.args['q'])
+		comm = GLOBALPATH + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("3", argument)
 		try:
 			process = subprocess.check_output([comm], shell="True")
 		except subprocess.CalledProcessError as e:
@@ -898,8 +901,11 @@ def searchsubject():
 @jwt_required()
 def searchkeyword():
 	if request.method == 'GET':
+		query = request.args['q']
+		limit = request.args.get('limit', '10')
+		argument = query + " -- " + limit
 		# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
-		comm = GLOBALPATH + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("4", request.args['q'])
+		comm = GLOBALPATH + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("4", argument)
 		try:
 			process = subprocess.check_output([comm], shell="True")
 		except subprocess.CalledProcessError as e:
@@ -913,8 +919,11 @@ def searchkeyword():
 @jwt_required()
 def searchgeolocation():
 	if request.method == 'GET':
+		query = request.args['q']
+		limit = request.args.get('limit', '10')
+		argument = query + " -- " + limit
 		# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
-		comm = GLOBALPATH + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("5", request.args['q'])
+		comm = GLOBALPATH + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("5", argument)
 		try:
 			process = subprocess.check_output([comm], shell="True")
 		except subprocess.CalledProcessError as e:
@@ -928,9 +937,11 @@ def searchgeolocation():
 @jwt_required()
 def searchgeocoverage():
 	if request.method == 'GET':
-		# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
 		param = request.args['W']+','+request.args['E']+','+request.args['S']+','+request.args['N']
-		comm = GLOBALPATH + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("6", param)
+		limit = request.args.get('limit', '10')
+		argument = param + " -- " + limit
+		# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
+		comm = GLOBALPATH + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("6", argument)
 		try:
 			process = subprocess.check_output([comm], shell="True")
 		except subprocess.CalledProcessError as e:
@@ -944,9 +955,11 @@ def searchgeocoverage():
 @jwt_required()
 def searchverticalcoverage():
 	if request.method == 'GET':
-		# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
 		param = request.args['from']+','+request.args['to']
-		comm = GLOBALPATH + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("7", param)
+		limit = request.args.get('limit', '10')
+		argument = param + " -- " + limit
+		# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
+		comm = GLOBALPATH + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("7", argument)
 		try:
 			process = subprocess.check_output([comm], shell="True")
 		except subprocess.CalledProcessError as e:
@@ -960,9 +973,11 @@ def searchverticalcoverage():
 @jwt_required()
 def searchtemporalcoverage():
 	if request.method == 'GET':
+		param = request.args['begin']+','+request.args.get('end', '')
+		limit = request.args.get('limit', '10')
+		argument = param + " -- " + limit
 		# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
-		param = request.args['begin']+','+request.args['end']
-		comm = GLOBALPATH + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("8", param)
+		comm = GLOBALPATH + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("8", argument)
 		try:
 			process = subprocess.check_output([comm], shell="True")
 		except subprocess.CalledProcessError as e:
@@ -991,8 +1006,11 @@ def listvariable():
 @jwt_required()
 def searchvariable():
 	if request.method == 'GET':
+		query = request.args['q']
+		limit = request.args.get('limit', '10')
+		argument = query + " -- " + limit
 		# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
-		comm = GLOBALPATH + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("10", request.args['q'])
+		comm = GLOBALPATH + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("10", argument)
 		try:
 			process = subprocess.check_output([comm], shell="True")
 		except subprocess.CalledProcessError as e:
@@ -1021,8 +1039,11 @@ def listdatasetvariable():
 @jwt_required()
 def listfiledatasetdataset():
 	if request.method == 'GET':
+		query = request.args['table']
+		limit = request.args.get('limit', '10')
+		argument = query + " -- " + limit
 		# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
-		comm = GLOBALPATH + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("13", request.args['table'])
+		comm = GLOBALPATH + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("13", argument)
 		try:
 			process = subprocess.check_output([comm], shell="True")
 		except subprocess.CalledProcessError as e:
@@ -1036,8 +1057,11 @@ def listfiledatasetdataset():
 @jwt_required()
 def searchtitle():
 	if request.method == 'GET':
+		query = request.args['q']
+		limit = request.args.get('limit', '10')
+		argument = query + " -- " + limit
 		# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
-		comm = GLOBALPATH + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("14", request.args['q'])
+		comm = GLOBALPATH + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("14", argument)
 		try:
 			process = subprocess.check_output([comm], shell="True")
 		except subprocess.CalledProcessError as e:
@@ -1051,8 +1075,11 @@ def searchtitle():
 @jwt_required()
 def searchdescription():
 	if request.method == 'GET':
+		query = request.args['q']
+		limit = request.args.get('limit', '10')
+		argument = query + " -- " + limit
 		# Calls shell apiListDatasetByVariable to obtain the list of datasets that contains the variables
-		comm = GLOBALPATH + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("15", request.args['q'])
+		comm = GLOBALPATH + '/Backend/bdodatasets/target/BDODatasets-bdodatasets/BDODatasets/bin/api "%s" "%s"' %("15", argument)
 		try:
 			process = subprocess.check_output([comm], shell="True")
 		except subprocess.CalledProcessError as e:

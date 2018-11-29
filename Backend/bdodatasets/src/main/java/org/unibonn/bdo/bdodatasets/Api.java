@@ -37,7 +37,7 @@ public class Api {
 			case 1:
 				// filedataset/list
 				try {
-					list = BdoApiAnalyser.apiListAllDatasets();
+					list = BdoApiAnalyser.apiListAllFileDatasets();
 					// Parse into JSON the Dataset instance with all metadata from a dataset
 					System.out.print(gson.toJson(list));
 				} catch (Exception e) {
@@ -48,7 +48,7 @@ public class Api {
 			case 2:
 				// filedataset/info
 				try {
-					DatasetApi dataset = BdoApiAnalyser.apiSearchDataset(searchParam);
+					DatasetApi dataset = BdoApiAnalyser.apiInfoFileDataset(searchParam);
 					// Parse into JSON the Dataset instance with all metadata from a dataset
 					System.out.print(gson.toJson(dataset));
 				} catch (Exception e) {
@@ -92,7 +92,7 @@ public class Api {
 			case 6:
 				// filedataset/searchGeoCoverage
 				try {
-					list = BdoApiAnalyser.apisearchGeoCoverage(searchParam);
+					list = BdoApiAnalyser.apiSearchGeoCoverage(searchParam);
 					// Parse into JSON the Dataset instance with all metadata from a dataset
 					System.out.print(gson.toJson(list));
 				} catch (Exception e) {
@@ -102,14 +102,14 @@ public class Api {
 			
 			case 7:
 				// filedataset/searchVerticalCoverage
-				list = BdoApiAnalyser.apiListDatasetByVertCov(searchParam);
+				list = BdoApiAnalyser.apiSearchVerticalCoverage(searchParam);
 				// Parse into JSON the Dataset instance with all metadata from a dataset
 				System.out.print(gson.toJson(list));
 				break;
 			
 			case 8:			
 				// filedataset/searchTemporalCoverage
-				list = BdoApiAnalyser.apiListDatasetByTimeCov(searchParam);
+				list = BdoApiAnalyser.apiSearchTemporalCoverage(searchParam);
 				// Parse into JSON the Dataset instance with all metadata from a dataset
 				System.out.print(gson.toJson(list));
 				break;	
@@ -117,7 +117,7 @@ public class Api {
 			case 9:
 				// variable/list
 				try {
-					DatasetApi dataset = BdoApiAnalyser.apiListVarOfDataset(searchParam);
+					DatasetApi dataset = BdoApiAnalyser.apiListFileDatasetVariables(searchParam);
 					// Parse into JSON the Dataset instance with all metadata from a dataset
 					System.out.print(gson.toJson(dataset));
 				} catch (Exception e) {
@@ -127,7 +127,7 @@ public class Api {
 				
 			case 10:
 				// variable/search
-				list = BdoApiAnalyser.apiListDatasetsByVar(searchParam);
+				list = BdoApiAnalyser.apiSearchVariable(searchParam);
 				// Parse into JSON the Dataset instance with all metadata from a dataset
 				System.out.print(gson.toJson(list));
 				break;	
@@ -156,7 +156,7 @@ public class Api {
 			case 12:
 				// dataset/listVariables
 				try {
-					DatasetApi dataset = BdoApiAnalyser.apiListVarOfDatasetStorage(searchParam);
+					DatasetApi dataset = BdoApiAnalyser.apiListDatasetVariables(searchParam);
 					// Parse into JSON the Dataset instance with all metadata from a dataset
 					System.out.print(gson.toJson(dataset));
 				} catch (Exception e) {
@@ -166,7 +166,7 @@ public class Api {
 			case 13:
 				// dataset/listFileDatasets
 				try {
-					list = BdoApiAnalyser.apiSearchStorageTable(searchParam);
+					list = BdoApiAnalyser.apiListFileDatasetofDataset(searchParam);
 					// Parse into JSON the Dataset instance with all metadata from a dataset
 					System.out.print(gson.toJson(list));
 				} catch (Exception e) {
@@ -196,7 +196,7 @@ public class Api {
 			case 16:
 				// dataset/info
 				try {
-					DatasetApi dataset = BdoApiAnalyser.apiSearchDatasetStorage(searchParam);
+					DatasetApi dataset = BdoApiAnalyser.apiInfoDataset(searchParam);
 					// Parse into JSON the Dataset instance with all metadata from a dataset
 					System.out.print(gson.toJson(dataset));
 				} catch (Exception e) {
@@ -206,7 +206,7 @@ public class Api {
 			case 17:
 				// dataset/list
 				try {
-					list = BdoApiAnalyser.apiListAllAggregatedDatasets();
+					list = BdoApiAnalyser.apiListAllDatasets();
 					// Parse into JSON the Dataset instance with all metadata from a dataset
 					System.out.print(gson.toJson(list));
 				} catch (Exception e) {
