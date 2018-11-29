@@ -123,12 +123,9 @@ public class BdoApiAnalyser {
 				"       dct:identifier ?ident ;\n" + 
 				"       dct:title ?title ;\n" + 
 				"       dct:description ?desc ;\n" + 
-				"       dcat:subject ?sub ;\n" + 
 				"       bdo:verticalCoverage ?vCov ;\n" + 
-				"       dcat:theme ?keyw ;\n" + 
 				"       dct:Standard ?standard ;\n" + 
 				"       dct:format ?format ;\n" + 
-				"       dct:language ?lang ;\n" + 
 				"       foaf:homepage ?homep ;\n" + 
 				"       dct:publisher ?publi ;\n" + 
 				"       dct:license ?license ; \n" + 
@@ -930,10 +927,7 @@ public class BdoApiAnalyser {
 	}
 	
 	public static DatasetApi apiSearchDatasetStorage (String searchParam) {
-		DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 		String uri = "";
-		List<DateTime> tCBegin = new ArrayList<>();
-		List<DateTime> tCEnd = new ArrayList<>();
 		String queryMetadata = "PREFIX dct: <http://purl.org/dc/terms/>\n" + 
 				"PREFIX dcat: <https://www.w3.org/TR/vocab-dcat/>\n" + 
 				"PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> \n" + 
@@ -941,12 +935,10 @@ public class BdoApiAnalyser {
 				"PREFIX foaf: <http://xmlns.com/foaf/0.1/>\n" + 
 				"PREFIX bdo: <http://bigdataocean.eu/bdo/>\n" + 
 				"PREFIX ids: <http://industrialdataspace/information-model/>\n" + 
-				"SELECT ?ident ?title ?desc ?standard ?format ?homep "
-				+ "?publi ?rights ?license "
+				"SELECT ?ident ?title ?desc ?standard ?format ?homep ?publi ?rights ?license "
 				+ "?timeReso (STR(?verFrom) AS ?vFrom) (STR(?verTo) AS ?vTo) (STR(?west) AS ?spatialWest) "
 				+ "(STR(?east) AS ?spatialEast) (STR(?south) AS ?spatialSouth) (STR(?north) AS ?spatialNorth) "
-				+ "(STR(?tempCovB) AS ?timeCovBeg) (STR(?tempCovE) AS ?timeCovEnd) ?vLevel ?coorSys ?source "
-				+ "?observation \n" + 
+				+ "?vLevel ?coorSys ?source ?observation \n" + 
 				"WHERE{ \n" + 
 				"  ?uri a dcat:Dataset ;\n" + 
 				"       dct:identifier ?ident ;\n" + 
@@ -968,12 +960,7 @@ public class BdoApiAnalyser {
 				"       rdfs:comment ?observation ; \n" +
 				"       bdo:storageTable '"+searchParam+"' ; \n" +
 				"       bdo:verticalLevel ?vLevel ;\n" + 
-				"       dct:conformsTo ?coorSys ;\n" + 
-				"       bdo:timeCoverage ?temp .\n" + 
-				"  \n" + 
-				"  ?temp a bdo:TimeCoverage;\n" + 
-				"		 ids:beginning ?tempCovB ;\n" + 
-				"        ids:end ?tempCovE .\n" + 
+				"       dct:conformsTo ?coorSys .\n" + 
 				"  \n" + 
 				"  ?spatial a ignf:GeographicBoundingBox ;\n" + 
 				"           ignf:westBoundLongitude ?west ;\n" + 
@@ -984,7 +971,8 @@ public class BdoApiAnalyser {
 				"  ?vCov a  bdo:VerticalCoverage ;\n" + 
 				"        bdo:verticalFrom ?verFrom ;\n" + 
 				"        bdo:verticalTo ?verTo .\n" + 
-				"}";
+				"}" + 
+				"LIMIT 1";
 		
 		DatasetApi dataset = new DatasetApi();
 		dataset.setIdentifier(null);
@@ -1030,16 +1018,6 @@ public class BdoApiAnalyser {
 				dataset.setSpatialNorth(node.toString());
 				node = solution.get("spatialSouth");
 				dataset.setSpatialSouth(node.toString());
-				node = solution.get("timeCovBeg");
-				if(!node.toString().equals("")) {
-					tCBegin.add(new DateTime(format.parse(node.toString())));
-				}
-				dataset.setTemporalCoverageBegin(node.toString());
-				node = solution.get("timeCovEnd");
-				if(!node.toString().equals("")) {
-					tCEnd.add(new DateTime(format.parse(node.toString())));
-				}
-				dataset.setTemporalCoverageEnd(node.toString());
 				node = solution.get("vLevel");
 				dataset.setVerticalLevel(node.toString());
 				node = solution.get("coorSys");
@@ -1047,17 +1025,7 @@ public class BdoApiAnalyser {
 			}
 
 			if (results.getRowNumber() > 0) {
-				// Search the real temporal coverage begin of the dataset
-				if(!tCBegin.isEmpty()) {
-					tCBegin = sortListDateTime(tCBegin);
-					dataset.setTemporalCoverageBegin(format.format(tCBegin.get(0).toDate()));
-				}
-				// Search the real temporal coverage end of the dataset
-				if(!tCEnd.isEmpty()) {
-					tCEnd = sortListDateTime(tCEnd);
-					int size = tCEnd.size() - 1;
-					dataset.setTemporalCoverageEnd(format.format(tCEnd.get(size).toDate()));
-				}
+				dataset = getTemporalCoverage(searchParam, dataset);
 				dataset = getSubject(uri, dataset);
 				dataset = getKeywords(uri, dataset);
 				dataset = getGeoLoc(uri, dataset);
@@ -1251,6 +1219,54 @@ public class BdoApiAnalyser {
 			}else {
 				dataset.setLanguage(solution.get("lang").toString());
 			}
+		}
+		return dataset;
+	}
+	
+	private static DatasetApi getTemporalCoverage(String storage, DatasetApi dataset) {
+		DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+		List<DateTime> tCBegin = new ArrayList<>();
+		List<DateTime> tCEnd = new ArrayList<>();
+		try {
+			String query = "PREFIX bdo: <http://bigdataocean.eu/bdo/>\n" + 
+					"PREFIX ids: <http://industrialdataspace/information-model/>\n" + 
+					"PREFIX dcat: <https://www.w3.org/TR/vocab-dcat/>\n" + 
+					"SELECT (STR(?tempCovB) AS ?timeCovBeg) (STR(?tempCovE) AS ?timeCovEnd)\n" + 
+					"WHERE {\n" + 
+					"  ?uri a dcat:Dataset ;\n" + 
+					"       bdo:storageTable '" + storage + "' ; \n" + 
+					"  	   bdo:timeCoverage ?temp .\n" + 
+					"  ?temp a bdo:TimeCoverage;\n" + 
+					"		ids:beginning ?tempCovB ;\n" + 
+					"       ids:end ?tempCovE .\n" + 
+					"}";
+			ResultSet results = QueryExecutor.selectQuery(query);
+			while(results.hasNext()){
+				QuerySolution solution = results.nextSolution();
+				dataset.setTemporalCoverageBegin(solution.get("timeCovBeg").toString());
+				if(!solution.get("timeCovBeg").toString().equals("")) {
+					tCBegin.add(new DateTime(format.parse(solution.get("timeCovBeg").toString())));
+				}
+				if(!solution.get("timeCovEnd").toString().equals("")) {
+					tCEnd.add(new DateTime(format.parse(solution.get("timeCovEnd").toString())));
+				}
+				dataset.setTemporalCoverageEnd(solution.get("timeCovEnd").toString());
+			}
+			if (results.getRowNumber() > 0) {
+				// Search the real temporal coverage begin of the dataset
+				if(!tCBegin.isEmpty()) {
+					tCBegin = BdoApiAnalyser.sortListDateTime(tCBegin);
+					dataset.setTemporalCoverageBegin(format.format(tCBegin.get(0).toDate()));
+				}
+				// Search the real temporal coverage end of the dataset
+				if(!tCEnd.isEmpty()) {
+					tCEnd = BdoApiAnalyser.sortListDateTime(tCEnd);
+					int size = tCEnd.size() - 1;
+					dataset.setTemporalCoverageEnd(format.format(tCEnd.get(size).toDate()));
+				}
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
 		}
 		return dataset;
 	}

@@ -47,14 +47,15 @@ public class ListDatasets {
 							"PREFIX dcat: <https://www.w3.org/TR/vocab-dcat/>\n" + 
 							"PREFIX ids: <http://industrialdataspace/information-model/>\n" + 
 							"PREFIX dct: <http://purl.org/dc/terms/>\n" + 
-							"SELECT ?identifier ?title ?description ?format\n" + 
+							"SELECT ?title ?description ?format\n" + 
 							"WHERE {\n" + 
 							"  ?uri a dcat:Dataset ;\n" + 
 							"       dct:title ?title ;\n" +
 							"       bdo:storageTable '" + storage + "';\n" + 
 							"       dct:format ?format;\n" + 
 							"       dct:description ?description.\n" + 
-							"}";
+							"}" +
+							"LIMIT 1";
 					
 					RDFNode node;
 					// executes query on Jena Fueski to get identifier, title and description of all datasets

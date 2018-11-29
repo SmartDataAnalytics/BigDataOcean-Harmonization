@@ -49,12 +49,9 @@ public class GetMetadata {
 					"       dct:identifier ?ident ;\n" + 
 					"       dct:title ?title ;\n" + 
 					"       dct:description ?desc ;\n" + 
-					"       dcat:subject ?sub ;\n" + 
 					"       bdo:verticalCoverage ?vCov ;\n" + 
-					"       dcat:theme ?keyw ;\n" + 
 					"       dct:Standard ?standard ;\n" + 
 					"       dct:format ?format ;\n" + 
-					"       dct:language ?lang ;\n" + 
 					"       foaf:homepage ?homep ;\n" + 
 					"       dct:publisher ?publi ;\n" + 
 					"       dct:license ?license ; \n" + 
@@ -263,9 +260,10 @@ public class GetMetadata {
 				"PREFIX bdocm: <http://www.bigdataocean.eu/standards/canonicalmodel#>\n" +
 				"PREFIX skos: <http://www.w3.org/2004/02/skos/core#>\n" +
 				"PREFIX owl: <http://www.w3.org/2002/07/owl#> \n" + 
+				"PREFIX disco: <http://rdf-vocabulary.ddialliance.org/discovery#> \n" + 
 				"SELECT ?uri ?identifierVariable (STR(?prefLabel) AS ?label) ?unit ?url\n" + 
 				"WHERE {\n" + 
-				"  "+uri+" ?predicate ?object .\n" + 
+				"  "+uri+" disco:variable ?object .\n" + 
 				"  ?object a bdo:BDOVariable ;\n" + 
 				"        dct:identifier ?identifierVariable ;\n" + 
 				"        owl:sameAs ?url ;\n" + 
