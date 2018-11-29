@@ -418,8 +418,6 @@ public class BdoDatasetAnalyser {
 						}
 					}
 				}
-				
-				
 			}
 		}
 		return result;
@@ -535,6 +533,9 @@ public class BdoDatasetAnalyser {
 			variables.addAll(hs);
 			result.setVariable(variables);
 		}
+		if(result.getModifiedDate().isEmpty()) {
+			result.setModifiedDate(result.getTemporalCoverageEnd());
+		}
 		return result;
 		
 	}
@@ -584,15 +585,10 @@ public class BdoDatasetAnalyser {
 				} else if(date.substring(8,9).equals("-") && date.substring(11,12).equals(":") && date.substring(14,15).equals(":")) {
 					date = date.replaceAll("-", "T");
 					return convertDateTime(date);
-				} else {
-					return EMPTY_FIELD;
 				}
-			} else {
-				return EMPTY_FIELD;
 			}
-		} else {
-			return EMPTY_FIELD;
 		}
+		return EMPTY_FIELD;
 	}
 	
 	private static List<String> parserDatasetVariables (List<String> variables) {
