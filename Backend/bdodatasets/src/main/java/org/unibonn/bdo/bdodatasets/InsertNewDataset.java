@@ -126,7 +126,7 @@ public class InsertNewDataset {
 					"    bdo:timeResolution \""+newDataset.getTimeResolution()+"\" ; \n" +
 					"    dcat:subject " ;
 			//lists the subjects
-			String[] listSubject = newDataset.getSubject().split(", ");
+			String[] listSubject = dividebyCharacter(newDataset.getSubject());
 			for(int i = 0; i < listSubject.length; i++) {
 				if(i == listSubject.length-1) {
 					insertQuery += "<"+listSubject[i]+"> ; \n" ;
@@ -136,7 +136,7 @@ public class InsertNewDataset {
 			}
 			insertQuery += "    dcat:theme ";
 			//lists the keywords
-			String[] listKeywords = newDataset.getKeywords().split(", ");
+			String[] listKeywords = dividebyCharacter(newDataset.getKeywords());
 			for(int i = 0; i < listKeywords.length; i++) {
 				if(i == listKeywords.length-1) {
 					insertQuery += "<"+listKeywords[i]+"> ; \n" ;
@@ -146,7 +146,7 @@ public class InsertNewDataset {
 			}
 			insertQuery +="    dct:language ";
 			//lists the languages
-			String[] listLang = newDataset.getLanguage().split(", ");
+			String[] listLang = dividebyCharacter(newDataset.getLanguage());
 			for(int i = 0; i < listLang.length; i++) {
 				if(i == listLang.length-1) {
 					insertQuery += "\""+listLang[i]+"\" ; \n" ;
@@ -155,7 +155,7 @@ public class InsertNewDataset {
 				}
 			}
 			//lists the geographical locations
-			String[] listGeoLoc = newDataset.getGeoLocation().split(", ");
+			String[] listGeoLoc = dividebyCharacter(newDataset.getGeoLocation());
 			//if the first item of the list is not empty then insert the property...
 			if(!listGeoLoc[0].equals("")) { 
 				insertQuery +="    dct:spatial ";
@@ -273,6 +273,14 @@ public class InsertNewDataset {
 		return resultFlag;
 	}
 
+	private static String[] dividebyCharacter(String value) {
+		if (value.contains(", ")) {
+			return value.split(", ");
+		}else {
+			return value.split(",");
+		}
+	}
+	
 	public static Dataset convertToObjectDataset(String jsonDataset) throws FileNotFoundException {
 		// Parse into JSON the Dataset instance with all metadata from a dataset
 		JsonReader reader = new JsonReader(new FileReader(jsonDataset));
