@@ -203,7 +203,7 @@ public class BdoApiAnalyser {
 				"PREFIX bdo: <http://bigdataocean.eu/bdo/>\n" + 
 				"PREFIX ids: <http://industrialdataspace/information-model/>\n" + 
 				"PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" + 
-				"SELECT DISTINCT ?uri ?ident ?title ?subject ?storage\n" + 
+				"SELECT ?uri ?ident ?title ?subject ?storage\n" + 
 				"WHERE {  \n" + 
 				"  ?uri dct:title ?title;\n" + 
 				"       dct:identifier ?ident ;\n" + 
@@ -257,7 +257,7 @@ public class BdoApiAnalyser {
 				"PREFIX ids: <http://industrialdataspace/information-model/>\n" + 
 				"PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" + 
 				"\n" + 
-				"SELECT DISTINCT ?uri ?ident ?title ?keywords ?storage \n" + 
+				"SELECT ?uri ?ident ?title ?keywords ?storage \n" + 
 				"WHERE {  \n" + 
 				"  ?uri dct:title ?title;\n" + 
 				"       dct:identifier ?ident ;\n" + 
@@ -311,7 +311,7 @@ public class BdoApiAnalyser {
 				"PREFIX ids: <http://industrialdataspace/information-model/>\n" + 
 				"PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" + 
 				"\n" + 
-				"SELECT DISTINCT ?uri ?ident ?title ?geo_loc ?storage \n" + 
+				"SELECT ?uri ?ident ?title ?geo_loc ?storage \n" + 
 				"WHERE {  \n" + 
 				"  ?uri dct:title ?title;\n" + 
 				"       dct:identifier ?ident ;\n" + 
@@ -367,7 +367,7 @@ public class BdoApiAnalyser {
 				"PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" + 
 				"PREFIX ignf: <http://data.ign.fr/def/ignf#>\n" + 
 				"\n" + 
-				"SELECT DISTINCT ?uri ?ident ?title (STR(?east) AS ?streast) (STR(?west) AS ?strwest) "
+				"SELECT ?uri ?ident ?title (STR(?east) AS ?streast) (STR(?west) AS ?strwest) "
 				+ "(STR(?south) AS ?strsouth) (STR(?north) AS ?strnorth) ?storage\n" + 
 				"WHERE { \n" + 
 				"  	?uri dct:title ?title;\n" + 
@@ -412,7 +412,7 @@ public class BdoApiAnalyser {
 				"PREFIX ids: <http://industrialdataspace/information-model/>\n" + 
 				"PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" + 
 				"\n" + 
-				"SELECT distinct ?uri ?ident ?title (STR (?vertC_from) AS ?from) (STR (?vertC_to) AS ?to) ?storage \n" + 
+				"SELECT ?uri ?ident ?title (STR (?vertC_from) AS ?from) (STR (?vertC_to) AS ?to) ?storage \n" + 
 				"WHERE {  \n" + 
 				"  ?uri dct:title ?title;\n" + 
 				"       dct:identifier ?ident ;\n" + 
@@ -455,7 +455,7 @@ public class BdoApiAnalyser {
 					"PREFIX ids: <http://industrialdataspace/information-model/>\n" + 
 					"PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" + 
 					"\n" + 
-					"SELECT distinct ?uri ?ident ?title (STR (?timeC_start) AS ?start) (STR (?timeC_end) AS ?end) ?storage \n" + 
+					"SELECT ?uri ?ident ?title (STR (?timeC_start) AS ?start) (STR (?timeC_end) AS ?end) ?storage \n" + 
 					"WHERE {  \n" + 
 					"  ?uri dct:title ?title;\n" +  
 					"       dct:identifier ?ident ;\n" + 
@@ -478,7 +478,7 @@ public class BdoApiAnalyser {
 					"PREFIX ids: <http://industrialdataspace/information-model/>\n" + 
 					"PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" + 
 					"\n" + 
-					"SELECT distinct ?uri ?ident ?title (STR (?timeC_start) AS ?start) (STR (?timeC_end) AS ?end) ?storage \n" + 
+					"SELECT ?uri ?ident ?title (STR (?timeC_start) AS ?start) (STR (?timeC_end) AS ?end) ?storage \n" + 
 					"WHERE {  \n" + 
 					"  ?uri dct:title ?title;\n" + 
 					"       dct:identifier ?ident ;\n" + 
@@ -517,7 +517,7 @@ public class BdoApiAnalyser {
 				"PREFIX bdocm: <http://www.bigdataocean.eu/standards/canonicalmodel#>\n" +
 				"\n" + 
 				"\n" + 
-				"SELECT distinct ?uri ?ident ?title ?nameVariable (STR(?label) AS ?canonicalVariable) ?unit ?storage \n" + 
+				"SELECT ?uri ?ident ?title ?nameVariable (STR(?label) AS ?canonicalVariable) ?unit ?storage \n" + 
 				"WHERE {  \n" + 
 				"  bdo:"+searchParam+" disco:variable ?variable;\n" + 
 				"       dct:identifier ?ident ;\n" + 
@@ -626,7 +626,7 @@ public class BdoApiAnalyser {
 				"PREFIX bdocm: <http://www.bigdataocean.eu/standards/canonicalmodel#>\n" +
 				"\n" + 
 				"\n" + 
-				"SELECT distinct ?uri ?ident ?title ?nameVariable (STR(?var) AS ?canonicalVariable) ?unit ?storage \n" + 
+				"SELECT ?uri ?ident ?title ?nameVariable (STR(?var) AS ?canonicalVariable) ?unit ?storage \n" + 
 				"WHERE {\n" + 
 				"  ?uriVar a bdo:BDOVariable;\n" + 
 				"      dct:identifier ?nameVariable;\n "+
@@ -722,7 +722,7 @@ public class BdoApiAnalyser {
 				"PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" + 
 				"PREFIX ids: <http://industrialdataspace/information-model/>\n" + 
 				"PREFIX ignf: <http://data.ign.fr/def/ignf#>\n" + 
-				"SELECT DISTINCT ?uri ?ident ?title ?desc ?storage  \n" + 
+				"SELECT ?uri ?ident ?title ?desc ?storage  \n" + 
 				"WHERE { \n" + 
 				"  ?uri a dcat:Dataset; \n" + 
 				"       dct:identifier ?ident ;\n" + 

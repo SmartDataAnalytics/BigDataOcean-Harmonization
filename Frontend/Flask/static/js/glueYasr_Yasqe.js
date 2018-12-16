@@ -1,9 +1,9 @@
 var yasqe = YASQE(document.getElementById('yasqe'), {
 	sparql: {
-		endpoint: 'http://localhost:3031/bdoHarmonization/sparql',
+		endpoint: 'http://localhost:3030/bdoHarmonization/sparql',
 		showQueryButton: true
 	},
-	value: 'PREFIX dct: <http://purl.org/dc/terms/>\nPREFIX dcat: <https://www.w3.org/TR/vocab-dcat/>\nSELECT ?dataset ?identifier \nWHERE {\n?dataset dct:identifier ?identifier;\n a dcat:Dataset.\n}'
+	value: 'PREFIX dct: <http://purl.org/dc/terms/>\nPREFIX dcat: <https://www.w3.org/TR/vocab-dcat/>\nSELECT ?dataset ?identifier \nWHERE {\n?dataset dct:identifier ?identifier;\n a dcat:Dataset.\n}\nLIMIT 10'
 });
 
 YASR.defaults.outputPlugins = ["error", "boolean", "rawResponse", "table"]
