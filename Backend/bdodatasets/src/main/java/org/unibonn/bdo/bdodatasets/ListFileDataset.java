@@ -33,7 +33,7 @@ public class ListFileDataset {
 			query = "PREFIX bdo: <http://bigdataocean.eu/bdo/>\n" + 
 					"PREFIX ids: <http://industrialdataspace/information-model/>\n" + 
 					"PREFIX dct: <http://purl.org/dc/terms/>\n" + 
-					"SELECT DISTINCT ?uri ?identifier ?title ?description ?format\n" + 
+					"SELECT ?uri ?identifier ?title ?description ?format\n" + 
 					"WHERE {\n" + 
 					"  ?uri dct:identifier ?identifier;\n" + 
 					"       dct:title ?title;\n" + 
@@ -45,7 +45,7 @@ public class ListFileDataset {
 			query = "PREFIX bdo: <http://bigdataocean.eu/bdo/>\n" + 
 					"PREFIX ids: <http://industrialdataspace/information-model/>\n" + 
 					"PREFIX dct: <http://purl.org/dc/terms/>\n" + 
-					"SELECT DISTINCT ?uri ?identifier ?title ?description ?format ?storage\n" + 
+					"SELECT ?uri ?identifier ?title ?description ?format ?storage\n" + 
 					"WHERE {\n" + 
 					"  ?uri dct:identifier ?identifier;\n" + 
 					"       dct:title ?title;\n" + 
