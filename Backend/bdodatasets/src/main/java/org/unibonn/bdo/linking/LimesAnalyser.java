@@ -270,7 +270,7 @@ public class LimesAnalyser {
 			    		"		<RELATION>owl:sameAs</RELATION>\n" + 
 			    		"	</ACCEPTANCE>\n" + 
 			    		"	<REVIEW>\n" + 
-			    		"		<THRESHOLD>0.8</THRESHOLD>\n" + 
+			    		"		<THRESHOLD>0.7</THRESHOLD>\n" + 
 			    		"		<FILE>reviewme.txt</FILE>\n" + 
 			    		"		<RELATION>owl:sameAs</RELATION>\n" + 
 			    		"	</REVIEW>";
@@ -294,7 +294,7 @@ public class LimesAnalyser {
 			    		"		<RELATION>owl:sameAs</RELATION>\n" + 
 			    		"	</ACCEPTANCE>\n" + 
 			    		"	<REVIEW>\n" + 
-			    		"		<THRESHOLD>0.8</THRESHOLD>\n" + 
+			    		"		<THRESHOLD>0.7</THRESHOLD>\n" + 
 			    		"		<FILE>reviewme.txt</FILE>\n" + 
 			    		"		<RELATION>owl:sameAs</RELATION>\n" + 
 			    		"	</REVIEW>";
