@@ -36,11 +36,12 @@
         {% endif %}
           <ul>
             <li class="wrpl"><a href="/">Datasets</a></li>
-            <li class="wrpl"><a href="/listFileDataset/all_files">File Datasets</a></li>
+            <!--<li class="wrpl"><a href="/listFileDataset/all_files">File Datasets</a></li> -->
             {% if g.user %}
               <li class="wrpl"><a href="/list">Pending Datasets</a></li>
             {% endif %}
             <li class="wrpl"><a href="/endpoint">SPARQL/Dump</a></li>
+            <li class="wrpl"><a href="/api">API documentation</a></li>
           </ul>
         </nav>
       </header>
@@ -96,7 +97,7 @@
           <h5 class="footer-title">BDO Platform</h5>
             <ul class="list">
               <li><a href="http://bdo-dev.epu.ntua.gr/bdo" title="BigDataOcean Platform" target="_blank">BigDataOcean Platform</a></li>
-              <li><a href="http://localhost:3333/dataset/bdo" title="Vocabulary Repository" target="_blank">Vocabulary Repository</a></li>
+              <li><a href="http://212.101.173.48:3333/dataset/bdo" title="Vocabulary Repository" target="_blank">Vocabulary Repository</a></li>
             </ul>
         </div>
       </div>
