@@ -169,11 +169,9 @@ public class InsertDatasetAutomatic {
 			result = BdoDatasetAnalyser.extractDatesFileName(filename, result);
 		}else if(tokens[1].equals("nc")) {
 			result = extractionDatesNetcdf(result, filename);
-			if(result.getModifiedDate().equals("")) {
-				result.setTemporalCoverageBegin(EMPTY_FIELD);
-				result.setTemporalCoverageEnd(EMPTY_FIELD);
-				result = BdoDatasetAnalyser.extractDatesFileName(filename, result);
-			}
+			result.setTemporalCoverageBegin(EMPTY_FIELD);
+			result.setTemporalCoverageEnd(EMPTY_FIELD);
+			result = BdoDatasetAnalyser.extractDatesFileName(filename, result);
 		}
 		
 		// Parameters to check if metadata already exist in Fuseki
