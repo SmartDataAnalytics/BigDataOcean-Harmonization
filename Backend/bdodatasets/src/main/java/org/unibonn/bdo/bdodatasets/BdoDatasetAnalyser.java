@@ -539,7 +539,7 @@ public class BdoDatasetAnalyser {
 					title = attr.getStringValue().replace("_", " ");
 					result.setTitle(title);
 				}
-				if(attr.getShortName().equalsIgnoreCase("summary") || attr.getShortName().equalsIgnoreCase("comment")) {
+				if(attr.getShortName().equalsIgnoreCase("summary") || attr.getShortName().equalsIgnoreCase("comment") || attr.getShortName().equalsIgnoreCase("abstract")) {
 					if(!attr.getStringValue().equalsIgnoreCase("none")) {
 						description = attr.getStringValue();
 						result.setDescription(description);
@@ -570,16 +570,16 @@ public class BdoDatasetAnalyser {
 				if(attr.getShortName().equalsIgnoreCase("licence") || attr.getShortName().equalsIgnoreCase("license")) {
 					result.setLicense(attr.getStringValue());
 				}
-				if(attr.getShortName().equalsIgnoreCase("geospatial_lon_min") || attr.getShortName().equalsIgnoreCase("longitude_min")) {
+				if(attr.getShortName().equalsIgnoreCase("geospatial_lon_min") || attr.getShortName().equalsIgnoreCase("longitude_min") || attr.getShortName().equalsIgnoreCase("westernmost_longitude")) {
 					result.setSpatialWest(attr.getValues().toString().replace(" ", EMPTY_FIELD));
 				}
-				if(attr.getShortName().equalsIgnoreCase("geospatial_lon_max") || attr.getShortName().equalsIgnoreCase("longitude_max")) {
+				if(attr.getShortName().equalsIgnoreCase("geospatial_lon_max") || attr.getShortName().equalsIgnoreCase("longitude_max") || attr.getShortName().equalsIgnoreCase("easternmost_longitude")) {
 					result.setSpatialEast(attr.getValues().toString().replace(" ", EMPTY_FIELD));
 				}
-				if(attr.getShortName().equalsIgnoreCase("geospatial_lat_min") || attr.getShortName().equalsIgnoreCase("latitude_min")) {
+				if(attr.getShortName().equalsIgnoreCase("geospatial_lat_min") || attr.getShortName().equalsIgnoreCase("latitude_min") || attr.getShortName().equalsIgnoreCase("southernmost_latitude")) {
 					result.setSpatialSouth(attr.getValues().toString().replace(" ", EMPTY_FIELD));
 				}
-				if(attr.getShortName().equalsIgnoreCase("geospatial_lat_max") || attr.getShortName().equalsIgnoreCase("latitude_max")) {
+				if(attr.getShortName().equalsIgnoreCase("geospatial_lat_max") || attr.getShortName().equalsIgnoreCase("latitude_max") || attr.getShortName().equalsIgnoreCase("northernmost_latitude")) {
 					result.setSpatialNorth(attr.getValues().toString().replace(" ", EMPTY_FIELD));
 				}
 				if(attr.getShortName().equalsIgnoreCase("geospatial_vertical_min")) {
@@ -662,23 +662,23 @@ public class BdoDatasetAnalyser {
 	
 	// Extract issued, modified, temporalCoverage begin and end dates
 	public static Dataset netcdfMetadataDatesExtractor(Attribute attr, Dataset result) {
-		if(attr.getShortName().equalsIgnoreCase("history") || attr.getShortName().equalsIgnoreCase("date_created")) {
+		if(attr.getShortName().equalsIgnoreCase("history") || attr.getShortName().equalsIgnoreCase("date_created") || attr.getShortName().equalsIgnoreCase("creation_date")) {
 			if(result.getIssuedDate().isEmpty()) {
 				result.setIssuedDate(returnCorrectDateFormat(attr.getStringValue()));
 			}
 		}
-		if(attr.getShortName().equalsIgnoreCase("date_update")) {
+		if(attr.getShortName().equalsIgnoreCase("date_update") || attr.getShortName().equalsIgnoreCase("creation_date")) {
 			if(result.getModifiedDate().isEmpty()) {
 				result.setModifiedDate(returnCorrectDateFormat(attr.getStringValue()));
 			}
 		}
-		if(attr.getShortName().equalsIgnoreCase("time_coverage_start") || attr.getShortName().equalsIgnoreCase("field_date")) {
+		if(attr.getShortName().equalsIgnoreCase("time_coverage_start") || attr.getShortName().equalsIgnoreCase("field_date") || attr.getShortName().equalsIgnoreCase("start_date")) {
 			result.setTemporalCoverageBegin(returnCorrectDateFormat(attr.getStringValue()));
 			if(attr.getShortName().equalsIgnoreCase("field_date")) {
 				result.setIssuedDate(returnCorrectDateFormat(attr.getStringValue()));
 			}
 		}
-		if(attr.getShortName().equalsIgnoreCase("time_coverage_end") || attr.getShortName().equalsIgnoreCase("bulletin_date")) {
+		if(attr.getShortName().equalsIgnoreCase("time_coverage_end") || attr.getShortName().equalsIgnoreCase("bulletin_date") || attr.getShortName().equalsIgnoreCase("start_date")) {
 			result.setTemporalCoverageEnd(returnCorrectDateFormat(attr.getStringValue()));
 			if(attr.getShortName().equalsIgnoreCase("bulletin_date")) {
 				result.setModifiedDate(returnCorrectDateFormat(attr.getStringValue()));
