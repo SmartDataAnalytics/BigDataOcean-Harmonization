@@ -1,4 +1,4 @@
-FROM java:8
+FROM openjdk:8-jdk-stretch
 
 RUN apt-get update \
   && apt-get install -y maven unzip build-essential
@@ -34,4 +34,3 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 WORKDIR /BDOHarmonization/BigDataOcean-Harmonization/Frontend/Flask/
 ENTRYPOINT ["python"]
 CMD ["app.py"]
-

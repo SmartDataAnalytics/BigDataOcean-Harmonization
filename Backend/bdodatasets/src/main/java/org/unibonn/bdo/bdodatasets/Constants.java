@@ -22,6 +22,7 @@ public class Constants {
     public static final String OFFSET_RESET_LATEST="latest";
     public static final String OFFSET_RESET_EARLIER="earliest";
     public static final Integer MAX_POLL_RECORDS=1;
+    public static final String YANDEX_API_KEY="";
     
     public static final String HEADER_CONFIG_LIMES_FILE = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + 
             "<!DOCTYPE LIMES SYSTEM \"limes.dtd\">\n" + 

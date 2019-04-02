@@ -7,7 +7,7 @@ RUN unzip 1.5.0.zip && rm 1.5.0.zip
 WORKDIR /LIMES-1.5.0/limes-core
 RUN mvn clean package shade:shade -Dmaven.test.skip=true
 
-FROM openjdk:8-jdk
+FROM openjdk:8-jdk-stretch
 
 # set app-volume
 WORKDIR /

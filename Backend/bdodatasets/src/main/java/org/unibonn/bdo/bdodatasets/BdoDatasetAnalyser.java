@@ -19,12 +19,17 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.parser.Parser;
 import org.jsoup.select.Elements;
 import org.unibonn.bdo.objects.Dataset;
+import org.unibonn.bdo.yandex.*;
 
 import au.com.bytecode.opencsv.CSVReader;
 import ucar.nc2.Attribute;
@@ -99,6 +104,9 @@ public class BdoDatasetAnalyser {
 		description = tokens[2];
 		
 		rawDescription = title + " " + totaldescription;
+		
+		rawDescription = translateMetadata(rawDescription);
+		
 		if (rawDescription.length() > 2) {
 			listNER = NERDiscovery.exec(rawDescription);
 			if(listNER.size() > 0) {
@@ -174,6 +182,8 @@ public class BdoDatasetAnalyser {
 		delims = tokens[0];
 		String[] list = delims.split(",");
 		
+		list = translateVariables(list);
+		
 		//obtaining the corresponding variable name from the standard CF
 		List<String> listVariables = new ArrayList<>();
 		for (String itemVariable : list) {
@@ -192,11 +202,14 @@ public class BdoDatasetAnalyser {
 
 		result.setTitle(title);
 		result.setDescription(description);
+		result.setLanguage(language);
+		
+		result = translateDataset(result);
+		
 		result.setHomepage(datasetURI);
 		result.setIdentifier(identifier);
 		result.setIssuedDate(issued);
 		result.setModifiedDate(issued);
-		result.setLanguage(language);
 		result.setLicense(license);
 		result.setFormats("XML");
 		result.setObservations(observations);
@@ -232,7 +245,12 @@ public class BdoDatasetAnalyser {
 			
 			result = netcdMetadatExtractor(nc);
 			
+			result = translateDataset(result);
+			
 			listVariables = result.getVariable();
+			
+			listVariables = translateVariables(listVariables);
+			
 			//obtaining the corresponding variable name from the standard CF
 			result.setVariable(LinkedDiscoveryData.parseListNames(listVariables, "variables"));
 			
@@ -268,7 +286,12 @@ public class BdoDatasetAnalyser {
 			
 			result = netcdMetadatExtractor(nc);
 			
+			result = translateDataset(result);
+			
 			listVariables = result.getVariable();
+			
+			listVariables = translateVariables(listVariables);
+			
 			//obtaining the corresponding variable name from the standard CF
 			result.setVariable(LinkedDiscoveryData.parseListNames(listVariables, "variables"));
 			
@@ -319,6 +342,8 @@ public class BdoDatasetAnalyser {
 		nameExtension = new File(filename).getName();
 		result = extractDatesFileName(filename, result);
 		
+		result = translateDataset(result);
+		
 		String name = result.getTitle();
 		if (name.length() > 2) {
 			listNER = NERDiscovery.exec(name);
@@ -362,6 +387,8 @@ public class BdoDatasetAnalyser {
 		    	listVariables.add(var + " -- " + EMPTY_FIELD);
 		    }
 		    reader.close();
+		    
+		    listVariables = translateVariables(listVariables);
 
 			//obtaining the corresponding variable name from the standard CF
 			result.setVariable(LinkedDiscoveryData.parseListNames(listVariables, "variables"));
@@ -403,6 +430,8 @@ public class BdoDatasetAnalyser {
 		//Get the name of the file with extension
 		nameExtension = new File(filename).getName();
 		result = extractDatesFileName(filename, result);
+		
+		result = translateDataset(result);
 		
 		String name = result.getTitle();
 		
@@ -448,6 +477,8 @@ public class BdoDatasetAnalyser {
 		} catch (InvalidFormatException e) {
 			e.printStackTrace();
 		}
+		
+		listVariables = translateVariables(listVariables);
 		
 		//obtaining the corresponding variable name from the standard CF
 		result.setVariable(LinkedDiscoveryData.parseListNames(listVariables, "variables"));
@@ -609,6 +640,9 @@ public class BdoDatasetAnalyser {
 			}
 			
 			rawDescription = title + " " + description + " " + geoLocation;
+			
+			rawDescription = translateMetadata(rawDescription);
+			
 			if (rawDescription.length() > 2) {
 				listNER = NERDiscovery.exec(rawDescription);
 				if(listNER.size() > 0) {
@@ -759,6 +793,126 @@ public class BdoDatasetAnalyser {
             s = s.substring(1);
         }
         return s;
+    }
+    
+    // Translate title and description for do the Automated Link Discovery process
+    private static String translateMetadata(String s) {
+    	Language l = languageText(s);
+    	if(l != Language.ENGLISH) {
+    		return translateYandex(s, l);
+    	} else {
+    		return s;
+    	}
+    }
+    
+    // Translate title and description of Dataset if different as English 
+    private static Dataset translateDataset(Dataset result) {
+    	Language l = languageText(result.getTitle());
+    	if(l != Language.ENGLISH) {
+    		String title = result.getTitle();
+    		String description = result.getDescription();
+    		String keywords = result.getKeywords();
+    		String lang = result.getLanguage();
+    		result.setTitle(translateYandex(title, l));
+    		result.setDescription(translateYandex(description, l));
+    		if(!keywords.isEmpty()) {
+    			result.setKeywords(translateYandex(keywords, l));
+    		}
+    		if (lang.isEmpty()) {
+    			result.setLanguage(alpha2ToLanguage(l.toString()));
+    		} else {
+    			result.setLanguage(lang + "," + alpha2ToLanguage(l.toString()));
+    		}
+    	}
+    	
+    	return result;
+    }
+
+    // Convert the language in Yandex in ISO 639-2
+    private static String alpha2ToLanguage(String l) {
+    	JSONParser parser = new JSONParser();
+    	String language = "";
+    	try {
+			JSONArray languagejson = (JSONArray) parser.parse(new FileReader(Constants.CONFIGFILEPATH+"/Frontend/Flask/static/json/language.json"));
+			for(int i=0; i<languagejson.size(); i++){
+	        	JSONObject k = (JSONObject) languagejson.get(i);
+	        	String alpah2 = k.get("alpha2").toString();
+	        	if(l.equalsIgnoreCase(alpah2)){
+	        		language = k.get("value").toString();
+	        	}
+			}
+    	} catch (IOException | ParseException e) {
+			e.printStackTrace();
+		}
+    	return language;
+    }
+    
+    private static String[] translateVariables(String[] variables) {
+    	Language l = languageText(variables[0].replaceAll("_", " "));
+    	String translation;
+    	if(l != Language.ENGLISH) {
+    		for (String s: variables) {
+    			if(s.contains("_")) {
+    				translation = translateYandex(s.replaceAll("_", " "), l);
+    				s = translation.replaceAll(" ", "_");
+    			} else {
+    				s = translateYandex(s, l);
+    			}
+            }
+    	}
+    	return variables;
+    	
+    }
+    
+    private static List<String> translateVariables(List<String> variables) {
+    	List<String> listVariables = new ArrayList<>() ;
+    	Language l = languageText(variables.get(0).replaceAll("_", " ").split(" -- ")[0]);
+    	String translation;
+    	if(l != Language.ENGLISH) {
+    		for(int j=0; j<variables.size(); j++) {
+    			String[] v = variables.get(j).split(" -- ");
+    			int size = v.length;
+    			if(variables.get(j).contains("_")) {
+    				translation = translateYandex(v[0].replaceAll("_", " "), l);
+    				translation = translation.replaceAll(" ", "_");
+    			} else {
+    				translation = translateYandex(v[0], l);
+    			}
+    			if(size > 1) {
+    				listVariables.add(translation + " -- " + v[1]);
+    			} else {
+    				listVariables.add(translation + " -- " + EMPTY_FIELD);
+    			}
+				
+            }
+    	} else {
+    		return variables;
+    	}
+    	return listVariables;
+    	
+    }
+    
+    // Detect the language of the text
+    private static Language languageText(String s) {
+    	//default is english
+    	Language language = Language.ENGLISH;
+    	try {
+			language = Detect.execute(s);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return language;
+    }
+    
+    // If the language is different as English then translate it to english
+    private static String translateYandex(String s, Language l) {
+    	String translatedText = "";
+    	try {
+    		translatedText = Translate.execute(s, l, Language.ENGLISH);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    	return translatedText;
     }
 
 }

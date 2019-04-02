@@ -1,5 +1,5 @@
-# BigDataOcean Harmonization Tool
-Tool for harmonization of datasets in BigDataOcean
+# BigDataOcean Harmonization Tool with Automated Link Discovery Process
+Tool for harmonization of datasets in BigDataOcean and Automated Link Discovery Process developed in the master thesis by Jaime Manuel Trillos Ujueta.
 
 ## Start BDOHarmonization Docker
 - Start BDOHarmonization using docker-compose:
