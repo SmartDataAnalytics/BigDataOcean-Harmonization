@@ -15,4 +15,5 @@ public class Constants {
     public static final String OFFSET_RESET_LATEST="latest";
     public static final String OFFSET_RESET_EARLIER="earliest";
     public static final Integer MAX_POLL_RECORDS=1;
+    public static final String YANDEX_API_KEY="";
 }

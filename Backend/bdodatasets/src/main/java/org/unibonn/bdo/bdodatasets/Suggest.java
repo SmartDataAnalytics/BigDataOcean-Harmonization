@@ -1,6 +1,7 @@
 package org.unibonn.bdo.bdodatasets;
 
 import org.unibonn.bdo.objects.Dataset;
+import org.unibonn.bdo.yandex.*;
 
 import com.google.gson.Gson;
 
@@ -18,6 +19,7 @@ import com.google.gson.Gson;
 public class Suggest {
 
 	public static void main(String[] args) {
+		Translate.setKey(Constants.YANDEX_API_KEY);
 		String uriFile = args[0];
 		String type = args[1];
 		exec(uriFile, type);
