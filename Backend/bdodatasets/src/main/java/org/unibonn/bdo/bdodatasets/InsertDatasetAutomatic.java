@@ -168,9 +168,9 @@ public class InsertDatasetAutomatic {
 			result.setTemporalCoverageEnd(EMPTY_FIELD);
 			result = BdoDatasetAnalyser.extractDatesFileName(filename, result);
 		}else if(tokens[1].equals("nc")) {
-			result = extractionDatesNetcdf(result, filename);
 			result.setTemporalCoverageBegin(EMPTY_FIELD);
 			result.setTemporalCoverageEnd(EMPTY_FIELD);
+			result = extractionDatesNetcdf(result, filename);
 			result = BdoDatasetAnalyser.extractDatesFileName(filename, result);
 		}
 		
