@@ -602,25 +602,25 @@ public class BdoDatasetAnalyser {
 					result.setLicense(attr.getStringValue());
 				}
 				if(attr.getShortName().equalsIgnoreCase("geospatial_lon_min") || attr.getShortName().equalsIgnoreCase("longitude_min") || attr.getShortName().equalsIgnoreCase("westernmost_longitude")) {
-					result.setSpatialWest(attr.getValues().toString().replace(" ", EMPTY_FIELD));
+					result.setSpatialWest(attr.getValues().toString().replace(" ", EMPTY_FIELD).replace(".f", ".0").replace("f", ""));
 				}
 				if(attr.getShortName().equalsIgnoreCase("geospatial_lon_max") || attr.getShortName().equalsIgnoreCase("longitude_max") || attr.getShortName().equalsIgnoreCase("easternmost_longitude")) {
-					result.setSpatialEast(attr.getValues().toString().replace(" ", EMPTY_FIELD));
+					result.setSpatialEast(attr.getValues().toString().replace(" ", EMPTY_FIELD).replace(".f", ".0").replace("f", ""));
 				}
 				if(attr.getShortName().equalsIgnoreCase("geospatial_lat_min") || attr.getShortName().equalsIgnoreCase("latitude_min") || attr.getShortName().equalsIgnoreCase("southernmost_latitude")) {
-					result.setSpatialSouth(attr.getValues().toString().replace(" ", EMPTY_FIELD));
+					result.setSpatialSouth(attr.getValues().toString().replace(" ", EMPTY_FIELD).replace(".f", ".0").replace("f", ""));
 				}
 				if(attr.getShortName().equalsIgnoreCase("geospatial_lat_max") || attr.getShortName().equalsIgnoreCase("latitude_max") || attr.getShortName().equalsIgnoreCase("northernmost_latitude")) {
-					result.setSpatialNorth(attr.getValues().toString().replace(" ", EMPTY_FIELD));
+					result.setSpatialNorth(attr.getValues().toString().replace(" ", EMPTY_FIELD).replace(".f", ".0").replace("f", ""));
 				}
-				if(attr.getShortName().equalsIgnoreCase("geospatial_vertical_min")) {
-					result.setVerticalCoverageFrom(attr.getStringValue());
+				if(attr.getShortName().equalsIgnoreCase("geospatial_vertical_min") || attr.getShortName().equalsIgnoreCase("z_min")) {
+					result.setVerticalCoverageFrom(attr.getStringValue().replace(".f", ".0").replace("f", ""));
 					if (result.getVerticalCoverageFrom().equals(" ")) {
 						result.setVerticalCoverageFrom(EMPTY_FIELD);
 					}
 				}				
-				if(attr.getShortName().equalsIgnoreCase("geospatial_vertical_max")) {
-					result.setVerticalCoverageTo(attr.getStringValue());
+				if(attr.getShortName().equalsIgnoreCase("geospatial_vertical_max") || attr.getShortName().equalsIgnoreCase("z_max")) {
+					result.setVerticalCoverageTo(attr.getStringValue().replace(".f", ".0").replace("f", ""));
 					if (result.getVerticalCoverageTo().equals(" ")) {
 						result.setVerticalCoverageTo(EMPTY_FIELD);
 					}
@@ -740,6 +740,11 @@ public class BdoDatasetAnalyser {
 					date = date.replaceAll("-", "T");
 					return convertDateTime(date);
 				} 
+			} else if(date.length() == 8) {
+				date = date + "T00:00:00";
+				return convertDateTime(date);
+			} else if(date.length() == 10) {
+				return date + "T00:00:00";
 			}
 		}
 		return EMPTY_FIELD;
